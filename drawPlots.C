@@ -264,6 +264,7 @@ TString drawSingleTH1(ConfigParser *conf){
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
+  TString sample_name=conf->get("sample_name");
   TString xlabel=conf->get("xlabel");
   TString ylabel=conf->get("ylabel");
   TString save_dir=conf->get("save_dir");
