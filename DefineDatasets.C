@@ -4,7 +4,7 @@
 //====================================
 // DY
 //====================================
-TChain * getZJetsChain(TString data_set){
+TChain * getZJetsChain(TString data_set) {
   TChain *ch_Zjets = new TChain("t");
 
   if (data_set.Contains("inclusive")){

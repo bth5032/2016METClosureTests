@@ -284,10 +284,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_t->Fill(phys.nBJetTight(), weight);
 
 
-    // Clean Up
-    delete tree;
-    file.Close();
+      // Clean Up
+      delete tree;
+      file.Close();
+    }
   }
+
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }

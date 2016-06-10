@@ -3,7 +3,7 @@
 #include "DefineDatasets.C"
 #include "ConfigParser.C"
 
-void doAll(TString config_name, TString config_file="run_modes.conf") {
+void doAll ( TString config_name, TString config_file="run_modes.conf" ) {
 
   cout<<"Using Histogram Directory: "<<histo_dir<<endl;
 
@@ -19,6 +19,7 @@ void doAll(TString config_name, TString config_file="run_modes.conf") {
       ScanChain(getDYChain(conf->get("data_set")), "gjets", conf);  
     }
     exit(0);
+  
   }
 
   else{
