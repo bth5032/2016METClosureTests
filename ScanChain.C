@@ -268,7 +268,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       double weight = getWeight();
       if ( isDuplicate() ) continue; // check for duplicates
       if (! passBaseCut()) continue; // Base Cut
-      if (config->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
+      if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
@@ -277,7 +277,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
       if (phys.ht() != 0) ht->Fill(phys.ht(), weight);
-      if (phys.vpt() != 0) vpt->Fill(bosonPt(sampleName), weight);
+      if (bosonPt() != 0) vpt->Fill(bosonPt(), weight);
       njets->Fill(phys.njets(), weight);
       nbtags_m->Fill(phys.nBJetMedium(), weight);
       nbtags_l->Fill(phys.nBJetLoose(), weight);
