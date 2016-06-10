@@ -9,11 +9,11 @@ void doAll(TString config_name, TString config_file="run_modes.conf"){
   ConfigParser *conf = new ConfigParser(config_file);
   if ( conf->loadConfig(config_name) ){
     if (conf["zjets"] == "true"){
-      ScanChain(getDataChain(conf["data_set"]), "zjets"); 
+      ScanChain(getDataChain(conf["data_set"]), "zjets", conf); 
     }
     
     if (conf["gjets"] == "true"){
-      ScanChain(getDYChain(conf["data_set"]), "gjets");  
+      ScanChain(getDYChain(conf["data_set"]), "gjets", conf);  
     }
     exit(0);
   }

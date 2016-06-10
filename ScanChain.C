@@ -114,6 +114,16 @@ bool hasGoodPhoton(){
   return true;  
 }
 
+double bosonPt(){
+  // Returns boson Pt, determines whether sample is gjets or zjets first.
+  if (g_sample_name == "zjets") {
+    return phys.dilpt();
+  }
+  else{
+    return phys.gamma_pt().at(0);
+  }
+}
+
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
@@ -140,17 +150,7 @@ bool isDuplicate(){
   return false;
 }
 
-double bosonPt(){
-  // Returns boson Pt, determines whether sample is gjets or zjets first.
-  if (sample_name == "zjets") {
-    return phys.dilpt();
-  }
-  else{
-    return phys.gamma_pt();
-  }
-}
-
-int ScanChain( TChain* chain, TString sampleName, bool fast = true, int nEvents = -1) {
+int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration; bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
@@ -162,8 +162,10 @@ int ScanChain( TChain* chain, TString sampleName, bool fast = true, int nEvents 
   */  
 
   //Set Global Vars
-  sample_name=sampleName;
-
+  g_sample_name=sampleName;
+  conf=configuration;
+  TString savePath = conf["histo_output_dir"];
+  TString mode = conf["mode"];
 
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -218,9 +220,6 @@ int ScanChain( TChain* chain, TString sampleName, bool fast = true, int nEvents 
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
-
-  // Set Up Configuration
-  conf = new ConfigParser("run_modes.conf");
 
   //Set up manual vertex reweighting.  
   if( conf["vpt_reweight"] == "true" ){
