@@ -364,7 +364,7 @@ TString drawSingleTH1(ConfigParser *conf){
   
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  p_hist->Draw("E1 SAME");
+  p_hist->Draw("HIST SAME");
   
   fullpad->RedrawAxis();
   
