@@ -398,7 +398,7 @@ void drawPlots(TString config_file)
   vector<TString> plot_names;
   TString errors="";
   
-  ConfigParser *singleplot_configs=new ConfigParser(config_file);
+  ConfigParser *singleplot_configs=new ConfigParser(config_file.Data());
   
   while(singleplot_configs->loadNextConfig()) {
     drawSingleTH1(singleplot_configs);
