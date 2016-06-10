@@ -12,11 +12,11 @@ void doAll ( TString config_name, TString config_file="run_modes.conf" ) {
   if ( conf->loadConfig(config_name) ){
     
     if (conf->get("zjets") == "true") {
-      ScanChain(getDataChain(conf->get("data_set")), "zjets", conf); 
+      ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
     }
     
     if (conf->get("gjets") == "true") {
-      ScanChain(getDYChain(conf->get("data_set")), "gjets", conf);  
+      ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
     }
     exit(0);
   
