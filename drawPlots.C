@@ -314,8 +314,8 @@ TString drawSingleTH1(ConfigParser *conf){
   // SET MC COLORS
   //===========================
   
-  
-  p_hist->SetMarkerStyle(20);
+  p_hist->SetFillColor(kAzure+5);
+  p_hist->SetFillStyle(1001);
 
   //===========================
   // Find Plot Maxima
@@ -368,16 +368,6 @@ TString drawSingleTH1(ConfigParser *conf){
   
   fullpad->RedrawAxis();
   
-  TLegend *l1;
-  l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
-  
-  l1->SetLineColor(kWhite);  
-  l1->SetShadowColor(kWhite);
-  l1->SetFillColor(kWhite);
-  l1->AddEntry(p_hist, hist_name, "p");
-  
-  l1->Draw("same");
- 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
