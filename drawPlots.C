@@ -19,21 +19,21 @@ TString drawTwoWithResidual(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
   TString errors="";
 
-  TFile* f_primary = new TFile(conf["primary_path"]);
-  TFile* f_secondary = new TFile(conf["secondary_path"]);
+  TFile* f_primary = new TFile(conf->get("primary_path"));
+  TFile* f_secondary = new TFile(conf->get("secondary_path"));
 
   cout << "Found files "<<endl;
 
-  TString plot_name = conf["plot_name"];
-  double xmax = stod(conf["xmax"]);
-  double xmin = stod(conf["xmin"]);
-  double bin_size = stod(conf["bin_size"]);
-  TString hist_name=conf["hist_name"];
-  TString p_name=conf["primary_name"];
-  TString s_name=conf["secondary_name"];
-  TString xlabel=conf["xlabel"];
-  TString ylabel=conf["ylabel"];
-  TString plot_title=conf["title"];
+  TString plot_name = conf->get("plot_name");
+  double xmax = stod(conf->get("xmax"));
+  double xmin = stod(conf->get("xmin"));
+  double bin_size = stod(conf->get("bin_size"));
+  TString hist_name=conf->get("hist_name");
+  TString p_name=conf->get("primary_name");
+  TString s_name=conf->get("secondary_name");
+  TString xlabel=conf->get("xlabel");
+  TString ylabel=conf->get("ylabel");
+  TString plot_title=conf->get("title");
 
 
   cout << "Making Plots for: "<<plot_name<<endl;
@@ -63,7 +63,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
   
   plotpad->SetRightMargin(0.05);
-  if (conf["ExtraRightMargin"] == "true")
+  if (conf->get("ExtraRightMargin") == "true")
   {
     plotpad->SetRightMargin(0.08);
   }
@@ -72,7 +72,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   plotpad->Draw();
   plotpad->cd();
   
-  if (conf["logy"] == "true")
+  if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
     plotpad->SetLogy();
@@ -137,7 +137,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
-  if (conf["overflow"]=="true"){
+  if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
     double n_bins = p_hist->GetNbinsX();
     
@@ -277,18 +277,18 @@ TString drawSingleTH1(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
   TString errors="";
 
-  TFile* f_primary = new TFile(conf["histogram_path"]);
+  TFile* f_primary = new TFile(conf->get("histogram_path"));
 
   cout << "Found files "<<endl;
 
-  TString plot_name = conf["plot_name"];
-  double xmax = stod(conf["xmax"]);
-  double xmin = stod(conf["xmin"]);
-  double bin_size = stod(conf["bin_size"]);
-  TString hist_name=conf["hist_name"];
-  TString xlabel=conf["xlabel"];
-  TString ylabel=conf["ylabel"];
-  TString save_dir=conf["save_dir"];
+  TString plot_name = conf->get("plot_name");
+  double xmax = stod(conf->get("xmax"));
+  double xmin = stod(conf->get("xmin"));
+  double bin_size = stod(conf->get("bin_size"));
+  TString hist_name=conf->get("hist_name");
+  TString xlabel=conf->get("xlabel");
+  TString ylabel=conf->get("ylabel");
+  TString save_dir=conf->get("save_dir");
 
 
   cout << "Making Plots for: "<<plot_name<<endl;
@@ -318,7 +318,7 @@ TString drawSingleTH1(ConfigParser *conf){
   TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
   
   plotpad->SetRightMargin(0.05);
-  if (conf["ExtraRightMargin"] == "true")
+  if (conf->get("ExtraRightMargin") == "true")
   {
     plotpad->SetRightMargin(0.08);
   }
@@ -327,7 +327,7 @@ TString drawSingleTH1(ConfigParser *conf){
   plotpad->Draw();
   plotpad->cd();
   
-  if (conf["logy"] == "true")
+  if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
     plotpad->SetLogy();
@@ -392,7 +392,7 @@ TString drawSingleTH1(ConfigParser *conf){
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
-  if (conf["overflow"]=="true"){
+  if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
     double n_bins = p_hist->GetNbinsX();
     

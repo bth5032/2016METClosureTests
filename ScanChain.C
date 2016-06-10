@@ -133,7 +133,7 @@ double getWeight(){
     weight *= phys.evt_scale1fb();
   }
 
-  if ( conf["vpt_reweight"] == "true" ) {
+  if ( conf->get("vpt_reweight") == "true" ) {
     weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
   }
   return weight;
@@ -150,7 +150,7 @@ bool isDuplicate(){
   return false;
 }
 
-int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration, bool fast = true, int nEvents = -1) {
+int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
@@ -164,8 +164,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration, b
   //Set Global Vars
   g_sample_name=sampleName;
   conf=configuration;
-  TString savePath = conf["histo_output_dir"];
-  TString mode = conf["mode"];
+  TString savePath = conf->get("histo_output_dir");
+  TString mode = conf->get("mode");
 
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -222,7 +222,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration, b
 
 
   //Set up manual vertex reweighting.  
-  if( conf["vpt_reweight"] == "true" ){
+  if( conf->get("vpt_reweight") == "true" ){
     g_weight_hist_file = TFile::Open(savePath+"vpt_ratio.root","READ");
     g_vpt_weight_hist = (TH1F*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
     g_vpt_weight_hist->SetDirectory(rootdir);
@@ -268,7 +268,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration, b
       double weight = getWeight();
       if ( isDuplicate() ) continue; // check for duplicates
       if (! passBaseCut()) continue; // Base Cut
-      if (config["do_MET_filters"] == "true" && (! passMETFilters())) continue; ///met filters
+      if (config->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
