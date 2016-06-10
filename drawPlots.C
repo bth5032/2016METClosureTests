@@ -272,7 +272,7 @@ TString drawSingleTH1(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(hist_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
 
