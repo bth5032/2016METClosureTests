@@ -288,10 +288,10 @@ cout<<__LINE__<<endl;
       nbtags_t->Fill(phys.nBJetTight(), weight);
 
 cout<<__LINE__<<endl;
-      // Clean Up
-      delete tree;
-      file.Close();
     }
+    // Clean Up
+    delete tree;
+    file.Close();
   }
 
   if ( nEventsChain != nEventsTotal ) {
