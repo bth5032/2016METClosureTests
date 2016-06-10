@@ -7,9 +7,9 @@ void doAll ( TString config_name, TString config_file="run_modes.conf" ) {
 
   cout<<"Using Histogram Directory: "<<histo_dir<<endl;
 
-  ConfigParser *conf = new ConfigParser(config_file);
+  ConfigParser *conf = new ConfigParser(config_file.Data());
 
-  if ( conf->loadConfig(config_name) ){
+  if ( conf->loadConfig(config_name.Data()) ){
     
     if (conf->get("zjets") == "true") {
       ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
