@@ -11,7 +11,7 @@
 #include "TCut.h"
 #include "TH1F.h"
 
-#include "DefineHistograms.C"
+#include "ConfigParser.C"
 
 using namespace std;
 

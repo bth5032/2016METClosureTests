@@ -24,7 +24,7 @@
 #include "dorky.cc"
 
 // Configuration parsing
-#include "ConfigParser/ConfigParser.C"
+#include "ConfigParser.C"
 
 
 using namespace std;
