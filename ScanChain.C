@@ -123,6 +123,8 @@ double bosonPt(){
     if (phys.evt_type() == 2 && phys.ngamma() > 0){
       return phys.gamma_pt().at(0);
     }
+    else
+      return 0;
   }
 }
 
