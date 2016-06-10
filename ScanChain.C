@@ -129,11 +129,11 @@ double getWeight(){
   double weight=1;
 
   // If we don't have data use scale to 1 fb^-1. 
-  if ( ! ( phys.isData() ) ){
+  if ( ! ( phys.isData() ) ) {
     weight *= phys.evt_scale1fb();
   }
 
-  if (conf["vpt_reweight"] == "true"){
+  if ( conf["vpt_reweight"] == "true" ) {
     weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
   }
   return weight;
