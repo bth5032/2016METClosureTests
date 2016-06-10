@@ -34,6 +34,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   TString xlabel=conf->get("xlabel");
   TString ylabel=conf->get("ylabel");
   TString plot_title=conf->get("title");
+  TString save_dir=conf->get("save_dir");
 
 
   cout << "Making Plots for: "<<plot_name<<endl;
@@ -145,7 +146,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double overflow_secondary = s_hist->GetBinContent(n_bins + 1);
 
     double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
-    double max_secondary = s_hist->Integral(data->FindBin(xmax) - 1, n_bins);
+    double max_secondary = s_hist->Integral(s_hist->FindBin(xmax) - 1, n_bins);
 
     p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
     s_hist->SetBinContent(s_hist->FindBin(xmax) - 1, max_secondary+overflow_secondary);
@@ -160,9 +161,9 @@ TString drawTwoWithResidual(ConfigParser *conf){
   
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  stack->Draw("HIST SAME");
-  data->Draw("E1 SAME");
-  
+  s_hist->Draw("HIST SAME");
+  p_hist->Draw("E1 SAME");
+
   plotpad->RedrawAxis();
   
   TLegend *l1;
@@ -191,8 +192,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   ratiopad->Draw();
   ratiopad->cd();
   
-  TH1F* residual = (TH1F*) data->Clone("residual");
-  residual->Divide(mc_sum);
+  TH1F* residual = (TH1F*) p_hist->Clone("residual");
+  residual->Divide(s_hist);
   
   /*cout<<"Fixing error bars"<<endl;
   for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
@@ -253,11 +254,12 @@ TString drawSingleTH1(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
   TString errors="";
 
-  TFile* f_primary = new TFile(conf->get("histogram_path"));
+  TFile* f_primary = new TFile(TString(conf->get("histogram_path")));
 
   cout << "Found files "<<endl;
 
   TString plot_name = conf->get("plot_name");
+  TString plot_title = conf->get("title");
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
@@ -269,7 +271,7 @@ TString drawSingleTH1(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(hist_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
 
