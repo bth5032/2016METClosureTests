@@ -375,7 +375,6 @@ TString drawSingleTH1(ConfigParser *conf){
   //c->SaveAs(save_dir+plot_name+TString(".C"));
   
   cout<<"Cleaning up plot variables"<<endl;
-  delete l1;
   delete p_hist;
   delete fullpad;
   delete c;
