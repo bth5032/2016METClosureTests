@@ -19,8 +19,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
   TString errors="";
 
-  TFile* f_primary = new TFile(conf->get("primary_path"));
-  TFile* f_secondary = new TFile(conf->get("secondary_path"));
+  TFile* f_primary = new TFile(TString(conf->get("primary_path")));
+  TFile* f_secondary = new TFile(TString(conf->get("secondary_path")));
 
   cout << "Found files "<<endl;
 
@@ -29,8 +29,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
-  TString p_name=conf->get("primary_name");
-  TString s_name=conf->get("secondary_name");
+  TString primary_name=conf->get("primary_name");
+  TString secondary_name=conf->get("secondary_name");
   TString xlabel=conf->get("xlabel");
   TString ylabel=conf->get("ylabel");
   TString plot_title=conf->get("title");
