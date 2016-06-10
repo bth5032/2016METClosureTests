@@ -233,43 +233,19 @@ TString drawTwoWithResidual(ConfigParser *conf){
   
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
-  delete mc_sum;
-  delete stack;
-  delete zjets;
-  delete fsbkg;
-  //delete extra;
-  delete data;
+  delete p_hist;
+  delete s_hist;
   delete residual;
   delete ratiopad;
   delete plotpad;
   delete fullpad;
   delete c;
   
-  cout<<"next sample...\n"<<endl;
-  
-  cout<<"Cleaning up file variables"<<endl;
-  f_DY->Close();
-  f_TTbar->Close();
-  if (do_extra) {
-    f_ST->Close();
-  f_VVV->Close();
-  f_WW->Close();
-  f_WZ->Close();
-  f_ZZ->Close();
-  }
-  delete f_DY;
-  delete f_TTbar;
-  
-  if (do_extra) {
-  delete f_ST;
-  delete f_VVV;
-  delete f_WW;
-  delete f_WZ;
-  delete f_ZZ;
-  }
+  f_primary->Close();
+  delete f_primary;
+  f_secondary->Close();
+  delete f_secondary;
 
-  f_data->Close();
-  delete f_data;
   return errors;
 }
 
@@ -296,8 +272,6 @@ TString drawSingleTH1(ConfigParser *conf){
   TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
-  TH1F* s_hist = (TH1F*) ((TH1F*) f_secondary->Get(secondary_name+"_"+hist_name))->Clone("shist_"+plot_name);
-  cout<<hist_name<<" found in "<<f_secondary->GetName()<<endl;
 
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
@@ -314,43 +288,29 @@ TString drawSingleTH1(ConfigParser *conf){
   
   fullpad->Draw();
   fullpad->cd();
-  
-  TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
-  
-  plotpad->SetRightMargin(0.05);
+    
+  fullpad->SetRightMargin(0.05);
   if (conf->get("ExtraRightMargin") == "true")
   {
-    plotpad->SetRightMargin(0.08);
+    fullpad->SetRightMargin(0.08);
   }
-  plotpad->SetBottomMargin(0.12);
+  fullpad->SetBottomMargin(0.12);
   
-  plotpad->Draw();
-  plotpad->cd();
+  fullpad->Draw();
+  fullpad->cd();
   
   if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
-    plotpad->SetLogy();
+    fullpad->SetLogy();
   }
   
   p_hist->Rebin(bin_size);
-  s_hist->Rebin(bin_size);
-  
-  //===========================
-  // Normalize MC
-  //===========================
-  double numEventsData = p_hist->Integral(0,-1);
-  double numEventsMC = s_hist->Integral(0,-1);
-  double scaleFactor = ((double) numEventsData/numEventsMC);
-  
-  s_hist->Scale(scaleFactor);
   
   //===========================
   // SET MC COLORS
   //===========================
   
-  s_hist->SetFillColor(kAzure+5);
-  s_hist->SetFillStyle(1001);
   
   p_hist->SetMarkerStyle(20);
 
@@ -359,21 +319,10 @@ TString drawSingleTH1(ConfigParser *conf){
   //===========================
   
   double ymax = 0;
-  TH1F* clonedSecondary = (TH1F*) s_hist->Clone("clonedSecondary_forReweight_"+plot_name);
-  TH1F* clonedPrimary = (TH1F*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
+
+  ymax = 1.2*p_hist->GetMaximum();
+
   
-  clonedSecondary->GetXaxis()->SetRangeUser(xmin, xmax);
-  clonedPrimary->GetXaxis()->SetRangeUser(xmin,xmax);
-  
-  if (clonedSecondary->GetMaximum() < clonedPrimary->GetMaximum()){
-      ymax = 1.2*clonedPrimary->GetMaximum();
-  }
-  else {
-      ymax = 1.2*clonedSecondary->GetMaximum();   
-  }
-  
-  delete clonedSecondary;
-  delete clonedPrimary;
   
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
@@ -397,28 +346,24 @@ TString drawSingleTH1(ConfigParser *conf){
     double n_bins = p_hist->GetNbinsX();
     
     double overflow_primary = p_hist->GetBinContent(n_bins + 1);
-    double overflow_secondary = s_hist->GetBinContent(n_bins + 1);
 
     double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
-    double max_secondary = s_hist->Integral(data->FindBin(xmax) - 1, n_bins);
 
-    zjets->SetBinContent(zjets->FindBin(xmax) - 1, max_zjets+overflow_zjets);
-    gjets->SetBinContent(data->FindBin(xmax) - 1, max_data+overflow_data);
+    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
   }
   
       
   
-  plotpad->SetLeftMargin(0.15);
+  fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
   h_axes->GetYaxis()->SetLabelSize(0.04);
   
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  stack->Draw("HIST SAME");
-  data->Draw("E1 SAME");
+  p_hist->Draw("E1 SAME");
   
-  plotpad->RedrawAxis();
+  fullpad->RedrawAxis();
   
   TLegend *l1;
   l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
@@ -426,60 +371,10 @@ TString drawSingleTH1(ConfigParser *conf){
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->AddEntry(p_hist, primary_name, "p");
-  l1->AddEntry(s_hist, secondary_name, "f");
+  l1->AddEntry(p_hist, hist_name, "p");
   
   l1->Draw("same");
-  
-  //--------------------------
-  // Fill in Residual Plot
-  //--------------------------
-  
-  cout<<"Getting ready for residual plots"<<endl;
-  fullpad->cd();
-  TPad *ratiopad = new TPad("ratiopad", "ratiopad" ,0.,0.,1,0.21);
-  ratiopad->SetTopMargin(0.05);
-  ratiopad->SetLeftMargin(0.15);
-  ratiopad->SetBottomMargin(0.1);
-  ratiopad->SetRightMargin(0.05);
-  ratiopad->SetGridy();  // doesn't actually appear for some reason..
-  ratiopad->Draw();
-  ratiopad->cd();
-  
-  TH1F* residual = (TH1F*) data->Clone("residual");
-  residual->Divide(mc_sum);
-  
-  /*cout<<"Fixing error bars"<<endl;
-  for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
-    double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
-    residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
-  }*/
-  
-  cout<<"Building axes"<<endl;
-  TH1F* h_axis_ratio = new TH1F(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
-  
-  h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
-  h_axis_ratio->GetYaxis()->SetTitleSize(0.18);
-  h_axis_ratio->GetYaxis()->SetNdivisions(5);
-  h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
-  //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
-  h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
-  h_axis_ratio->GetYaxis()->SetTitle("Data/MC");
-  h_axis_ratio->GetXaxis()->SetTickLength(0.07);
-  h_axis_ratio->GetXaxis()->SetTitleSize(0.);
-  h_axis_ratio->GetXaxis()->SetLabelSize(0.);
-  
-  TLine* line1 = new TLine(xmin,1,xmax,1);
-  line1->SetLineStyle(2);
-  
-  cout<<"Drawing ratio plot"<<endl;
-  h_axis_ratio->Draw("axis");
-  line1->Draw("same");
-  residual->Draw("same");
-  
-  c->Update();
-  c->cd();
-  
+ 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
@@ -488,43 +383,13 @@ TString drawSingleTH1(ConfigParser *conf){
   
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
-  delete mc_sum;
-  delete stack;
-  delete zjets;
-  delete fsbkg;
-  //delete extra;
-  delete data;
-  delete residual;
-  delete ratiopad;
-  delete plotpad;
+  delete p_hist;
   delete fullpad;
   delete c;
-  
-  cout<<"next sample...\n"<<endl;
-  
-  cout<<"Cleaning up file variables"<<endl;
-  f_DY->Close();
-  f_TTbar->Close();
-  if (do_extra) {
-    f_ST->Close();
-  f_VVV->Close();
-  f_WW->Close();
-  f_WZ->Close();
-  f_ZZ->Close();
-  }
-  delete f_DY;
-  delete f_TTbar;
-  
-  if (do_extra) {
-  delete f_ST;
-  delete f_VVV;
-  delete f_WW;
-  delete f_WZ;
-  delete f_ZZ;
-  }
 
-  f_data->Close();
-  delete f_data;
+  f_primary->Close();
+  delete f_primary;
+
   return errors;
 }
 
