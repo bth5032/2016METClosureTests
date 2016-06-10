@@ -150,7 +150,7 @@ bool isDuplicate(){
   return false;
 }
 
-int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration; bool fast = true, int nEvents = -1) {
+int ScanChain( TChain* chain, TString sampleName, ConfigParser* configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
