@@ -120,7 +120,9 @@ double bosonPt(){
     return phys.dilpt();
   }
   else{
-    return phys.gamma_pt().at(0);
+    if (phys.evt_type() == 2 && phys.ngamma() > 0){
+      return phys.gamma_pt().at(0);
+    }
   }
 }
 
