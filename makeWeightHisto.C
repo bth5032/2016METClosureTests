@@ -39,6 +39,8 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
   h_primary->Write();
   h_secondary->Write();
   file->Close();
+
+  cout<<"Reweight histogram succesfully made at "<<output_dir+hist_name+"_ratio.root"<<endl;
   
   exit(0);
 }
