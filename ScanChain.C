@@ -109,26 +109,32 @@ bool hasGoodZ(){
     pass= false; // require at least 2 good leptons
     numEvents->Fill(10);
   }
+cout<<__LINE__<<endl;      
+  
   
   if( phys.lep_pt().at(0) < 20        ) {
     pass = false; // leading lep pT > 20 GeV
     numEvents->Fill(11); 
   }
+cout<<__LINE__<<endl;      
   
   if( phys.lep_pt().at(1)                < 20        ) {
     pass = false; // tailing lep pT > 20 GeV
     numEvents->Fill(12); 
   }
+cout<<__LINE__<<endl;      
   
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     pass = false; // eta < 2.4
     numEvents->Fill(13); 
   }
+cout<<__LINE__<<endl;      
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     pass = false; // eta < 2.4
     numEvents->Fill(14); 
   }
+cout<<__LINE__<<endl;      
   
   /*
   //This is the augmented cut selection.
@@ -149,36 +155,43 @@ bool hasGoodZ(){
     pass = false;
     numEvents->Fill(17);
   }
+cout<<__LINE__<<endl;      
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     pass = false; // veto xition region
     numEvents->Fill(18); 
   }
+cout<<__LINE__<<endl;      
   
   if( phys.dRll() < 0.1 ) {
     pass = false;
     numEvents->Fill(19); 
   }
+cout<<__LINE__<<endl;      
 
   if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
     pass = false; // require explicit dilepton event
     numEvents->Fill(20); 
   }
+cout<<__LINE__<<endl;      
   
   if( !(phys.evt_type() == 0 ) ) {
     pass = false; // require opposite sign
     numEvents->Fill(21); 
   }
+cout<<__LINE__<<endl;      
   
   if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
     pass = false; // on-Z
     numEvents->Fill(22); 
   }
+cout<<__LINE__<<endl;      
   
   if( !(phys.dilpt() > 50) ){
     pass = false; // Z pT > 50 GeV
     numEvents->Fill(23); 
   }
+cout<<__LINE__<<endl;      
   
   return pass;
 }
