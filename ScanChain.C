@@ -174,9 +174,9 @@ bool hasGoodZ(){
     return false; // on-Z
   }
   
-  if( !(phys.dilpt() > 50) ){
+  if( !(phys.dilpt() > 22) ){
     numEvents->Fill(23); 
-    return false; // Z pT > 50 GeV
+    return false; // Z pT > 22 GeV
   }
 
   return true;
