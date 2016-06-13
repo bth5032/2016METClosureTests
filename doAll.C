@@ -25,7 +25,7 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     if (conf->get("gjets") == "true") {
       ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
     }
-    return 
+    return ;
   }
 
   else{
