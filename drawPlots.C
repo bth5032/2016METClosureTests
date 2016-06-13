@@ -431,12 +431,11 @@ TString drawCutDebug(ConfigParser *conf){
   fullpad->cd();
     
   fullpad->SetRightMargin(0.05);
-  fullpad->SetBottomMargin(0.5);
   if (conf->get("ExtraRightMargin") == "true")
   {
     fullpad->SetRightMargin(0.08);
   }
-  fullpad->SetBottomMargin(0.12);
+  fullpad->SetBottomMargin(0.3);
   
   fullpad->Draw();
   fullpad->cd();
