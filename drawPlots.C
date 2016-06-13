@@ -499,6 +499,7 @@ TString drawCutDebug(ConfigParser *conf){
   for (int i = xmin; i<xmax; i++)
   {
     bin_label=label_conf[to_string(i)];
+    cout<<i<<": "<<bin_label<<endl;
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
    
