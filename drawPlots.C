@@ -524,7 +524,6 @@ TString drawCutDebug(ConfigParser *conf){
   delete p_hist;
   delete fullpad;
   delete c;
-  delete label_conf;
 
   f_primary->Close();
   delete f_primary;
