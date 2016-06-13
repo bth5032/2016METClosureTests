@@ -501,7 +501,7 @@ TString drawCutDebug(ConfigParser *conf){
   {
     bin_label=label_conf[to_string(i)];
     cout<<i<<": "<<bin_label<<endl;
-    h_axes->GetXaxis()->SetBinLabel(i, bin_label);
+    h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
   }  
   h_axes->GetXaxis()->LabelsOption("v");
   
