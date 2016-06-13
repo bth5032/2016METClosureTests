@@ -503,7 +503,7 @@ TString drawCutDebug(ConfigParser *conf){
     cout<<i<<": "<<bin_label<<endl;
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
-   
+  h_axes->GetXaxis()->LabelsOption("v");
   
   fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
