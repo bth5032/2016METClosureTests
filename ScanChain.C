@@ -111,14 +111,13 @@ bool hasGoodZ(){
   }
 cout<<__LINE__<<endl;      
 
-  
   if( phys.lep_pt().at(0) < 20        ) {
     pass = false; // leading lep pT > 20 GeV
     numEvents->Fill(11); 
   }
 cout<<__LINE__<<endl;      
-  
-  if( phys.lep_pt().at(1)                < 20        ) {
+cout<<"Event: "<<phys.evt()<<"Lumi: "<<phys.lumi()<<"Run: "<<phys.run()<<endl;
+  if( phys.lep_pt().at(1) < 20        ) {
 cout<<__LINE__<<endl;      
 
     pass = false; // tailing lep pT > 20 GeV
@@ -126,7 +125,7 @@ cout<<__LINE__<<endl;
     
     numEvents->Fill(12); 
 cout<<__LINE__<<endl;      
-    
+
   }
 cout<<__LINE__<<endl;      
   
