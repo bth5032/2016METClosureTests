@@ -18,3 +18,14 @@ function mkplotdir {
 		cp ~/public_html/ZMET2016/index.php ${1}/
 	fi
 }
+
+function makeAll {
+	makeHistos Z_Base
+	makeHistos G_Base
+	makeHistos G_Reweight
+
+	makePlots configs/singleplots.conf
+	makePlots configs/ratioplots.conf
+	makePlots configs/ratioplots_nowt.conf
+	makePlots configs/cuts.conf
+}
