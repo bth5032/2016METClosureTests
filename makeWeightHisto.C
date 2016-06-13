@@ -6,15 +6,15 @@
 
 using namespace std;
 
-void makeWeightHisto(TString output_dir, TString primary_histso, TString secondary_histos, TString hist_name)
+void makeWeightHisto(TString output_dir, TString primary_histos, TString secondary_histos, TString hist_name)
 {
 
   if (! output_dir.EndsWith('/')){
     output_dir+='/';
   }
 
-  TFile * f_primary = TFile::Open(primary_loc , "READ"); //typically location to data hist
-  TFile * f_secondary = TFile::Open(secondary_loc, "READ"); //typically location to zjets hist
+  TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
+  TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
   TH1F * h_primary;
   TH1F * h_secondary;
 
@@ -35,7 +35,7 @@ void makeWeightHisto(TString output_dir, TString primary_histso, TString seconda
 
   TFile * file = TFile::Open(output_dir+hist_name+"_ratio.root","RECREATE");
   file->cd();
-  h_vtx_ratio->Write();
+  h_ratio->Write();
   h_primary->Write();
   h_secondary->Write();
   file->Close();
