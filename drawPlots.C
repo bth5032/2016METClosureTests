@@ -495,6 +495,7 @@ TString drawCutDebug(ConfigParser *conf){
   // SET AXIS LABELS
   //----------------------
   ConfigParser label_conf(conf->get("labels_file"));
+  label_conf.loadConfig("Error Labels");
   TString bin_label;
   for (int i = xmin; i<xmax; i++)
   {
