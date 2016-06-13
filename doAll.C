@@ -3,7 +3,7 @@
 #include "DefineDatasets.C"
 #include "ConfigParser.C"
 
-void doAll ( TString config_name, TString config_file="run_modes.conf" ) {
+void doAll ( TString config_name, TString config_file="configs/run_modes.conf" ) {
 
 
   ConfigParser *conf = new ConfigParser(config_file.Data());
