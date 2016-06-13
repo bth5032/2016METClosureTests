@@ -83,13 +83,16 @@ TString drawTwoWithResidual(ConfigParser *conf){
   s_hist->Rebin(bin_size);
   
   //===========================
-  // Normalize MC
+  // Normalize
   //===========================
-  double numEventsData = p_hist->Integral(0,-1);
-  double numEventsMC = s_hist->Integral(0,-1);
-  double scaleFactor = ((double) numEventsData/numEventsMC);
-  
-  s_hist->Scale(scaleFactor);
+  if (conf->get("normalize") == "true")
+  {
+    double numEventsData = p_hist->Integral(0,-1);
+    double numEventsMC = s_hist->Integral(0,-1);
+    double scaleFactor = ((double) numEventsData/numEventsMC);
+    
+    s_hist->Scale(scaleFactor);
+  }
   
   //===========================
   // SET MC COLORS
