@@ -103,44 +103,32 @@ bool passBaseCut(){
 }
 
 bool hasGoodZ(){
-  bool pass = true;
-
   if( phys.nlep() < 2         ){ 
-    pass= false; // require at least 2 good leptons
     numEvents->Fill(10);
+    return false; // require at least 2 good leptons
   }
-cout<<__LINE__<<endl;      
-
+  
   if( phys.lep_pt().at(0) < 20        ) {
-    pass = false; // leading lep pT > 20 GeV
     numEvents->Fill(11); 
+    return false; // leading lep pT > 20 GeV
   }
-cout<<__LINE__<<endl;      
-cout<<"Event: "<<phys.evt()<<" Lumi: "<<phys.lumi()<<" Run: "<<phys.run()<<endl;
+
   if( phys.lep_pt().at(1) < 20        ) {
-cout<<__LINE__<<endl;      
-
-    pass = false; // tailing lep pT > 20 GeV
-cout<<__LINE__<<endl;      
-    
     numEvents->Fill(12); 
-cout<<__LINE__<<endl;      
+    return false; // tailing lep pT > 20 GeV      
 
-  }
-cout<<__LINE__<<endl;      
+  }   
   
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
-    pass = false; // eta < 2.4
     numEvents->Fill(13); 
-  }
-cout<<__LINE__<<endl;      
+    return false; // eta < 2.4
+  }    
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
-    pass = false; // eta < 2.4
     numEvents->Fill(14); 
+    return false; // eta < 2.4
   }
-cout<<__LINE__<<endl;      
-  
+
   /*
   //This is the augmented cut selection.
   LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
@@ -157,101 +145,92 @@ cout<<__LINE__<<endl;
   
   //This is the original cu t selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
-    pass = false;
     numEvents->Fill(17);
+    return false;
   }
-cout<<__LINE__<<endl;      
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
-    pass = false; // veto xition region
     numEvents->Fill(18); 
+    return false; // veto xition region
   }
-cout<<__LINE__<<endl;      
   
   if( phys.dRll() < 0.1 ) {
-    pass = false;
     numEvents->Fill(19); 
+    return false;
   }
-cout<<__LINE__<<endl;      
 
   if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-    pass = false; // require explicit dilepton event
     numEvents->Fill(20); 
+    return false; // require explicit dilepton event
   }
-cout<<__LINE__<<endl;      
   
   if( !(phys.evt_type() == 0 ) ) {
-    pass = false; // require opposite sign
     numEvents->Fill(21); 
+    return false; // require opposite sign
   }
-cout<<__LINE__<<endl;      
   
   if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
-    pass = false; // on-Z
     numEvents->Fill(22); 
+    return false; // on-Z
   }
-cout<<__LINE__<<endl;      
   
   if( !(phys.dilpt() > 50) ){
-    pass = false; // Z pT > 50 GeV
     numEvents->Fill(23); 
+    return false; // Z pT > 50 GeV
   }
-cout<<__LINE__<<endl;      
-  
-  return pass;
+
+  return true;
 }
 
 bool hasGoodPhoton(){
-  bool pass = true;
-
   if( phys.ngamma() <  1 ) {
-    pass = false; // require at least 1 good photon
     numEvents->Fill(24);
+    return false; // require at least 1 good photon
   }
   
   if( phys.evt_type() != 2 ) {
-    pass = false; // photon + jets events
     numEvents->Fill(25);
+    return false; // photon + jets events
   }
   
   if( phys.gamma_pt().at(0) < 22 ) {
-    pass = false; // photon pt > 22 GeV
     numEvents->Fill(26);
+    return false; // photon pt > 22 GeV
   }
   
   if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
-    pass = false; // veto xition region
     numEvents->Fill(27);
+    return false; // veto xition region
   }
   
   if( abs(phys.gamma_p4().at(0).eta()) > 2.4 ) {
-    pass = false; // photon in EC or EB
     numEvents->Fill(28);
+    return false; // photon in EC or EB
   }
   
   if( phys.gamma_hOverE().at(0) > 0.1 ) {
-    pass = false; // H/E < 0.1
     numEvents->Fill(29);
+    return false; // H/E < 0.1
   }
   
   // if( phys.matched_neutralemf()          < 0.7   ) return false; // jet neutral EM fraction cut
   
   if( phys.matched_emf() < 0.7 ) {
-    pass = false; // jet neutral EM fraction cut
     numEvents->Fill(30);
+    return false; // jet neutral EM fraction cut
   }
   
   if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
-    pass = false; // kill photons aligned with MET
     numEvents->Fill(31);
+    return false; // kill photons aligned with MET
   }
   
   if( phys.elveto() ) {
-    pass = false; // veto pixel match
     numEvents->Fill(32);
+    return false; // veto pixel match
   }
   
-  return pass;  
+  return true;  
 }
 
 bool hasGoodBoson() {
