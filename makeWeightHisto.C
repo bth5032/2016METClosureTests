@@ -9,8 +9,8 @@ using namespace std;
 void makeWeightHisto(TString output_dir, TString primary_histos, TString secondary_histos, TString hist_name, TString primary_name, TString secondary_name)
 {
 
-  if (! output_dir.EndsWith('/')){
-    output_dir+='/';
+  if (! output_dir.EndsWith("/")){
+    output_dir+="/";
   }
 
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
