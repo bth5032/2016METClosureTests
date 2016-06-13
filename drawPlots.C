@@ -494,11 +494,11 @@ TString drawCutDebug(ConfigParser *conf){
   //----------------------
   // SET AXIS LABELS
   //----------------------
-  ConfigParser label_conf = new ConfigParser(conf->get("labels_file"));
+  ConfigParser label_conf(conf->get("labels_file"));
   TString bin_label;
   for (int i = xmin; i<xmax; i++)
   {
-    bin_label=label_conf->get(to_string(i));
+    bin_label=label_conf[to_string(i)];
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
    
@@ -524,6 +524,7 @@ TString drawCutDebug(ConfigParser *conf){
   delete p_hist;
   delete fullpad;
   delete c;
+  delete label_conf;
 
   f_primary->Close();
   delete f_primary;
