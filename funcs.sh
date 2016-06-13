@@ -5,7 +5,7 @@
 
 
 function makePlots {
-	root -l -b -q "drawPlots.C()"
+	root -l -b -q "drawPlots.C(\"$1\")"
 }
 function makeHistos {	
 	root -l -b -q "doAll.C(\"$1\")"
