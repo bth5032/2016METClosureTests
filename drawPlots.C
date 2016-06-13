@@ -87,8 +87,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //===========================
   if (conf->get("normalize") == "true")
   {
-    double numEventsData = p_hist->Integral(0,-1);
-    double numEventsMC = s_hist->Integral(0,-1);
+    double numEventsData = p_hist->Integral();
+    double numEventsMC = s_hist->Integral();
     double scaleFactor = ((double) numEventsData/numEventsMC);
     
     s_hist->Scale(scaleFactor);
