@@ -116,7 +116,7 @@ cout<<__LINE__<<endl;
     numEvents->Fill(11); 
   }
 cout<<__LINE__<<endl;      
-cout<<"Event: "<<phys.evt()<<"Lumi: "<<phys.lumi()<<"Run: "<<phys.run()<<endl;
+cout<<"Event: "<<phys.evt()<<" Lumi: "<<phys.lumi()<<" Run: "<<phys.run()<<endl;
   if( phys.lep_pt().at(1) < 20        ) {
 cout<<__LINE__<<endl;      
 
