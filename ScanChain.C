@@ -366,7 +366,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_weight_hist_file->Close();
   }
 
-cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   // Loop over events to Analyze
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
@@ -374,8 +374,10 @@ cout<<__LINE__<<endl;
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
   TFile *currentFile = 0;
-cout<<__LINE__<<endl;
-  // File Loop
+  //cout<<__LINE__<<endl;
+//==============
+// File Loop
+//==============
   while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
@@ -384,8 +386,10 @@ cout<<__LINE__<<endl;
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
     phys.Init(tree); //Loads in all the branches
-cout<<__LINE__<<endl;
-    // Loop over Events in current file
+    //cout<<__LINE__<<endl;
+//===========================================
+// Loop over Events in current file
+//===========================================
     if( nEventsTotal >= nEventsChain ) continue;
     unsigned int nEventsTree = tree->GetEntriesFast();
     for( unsigned int event = 0; event < nEventsTree; ++event) {
@@ -395,30 +399,30 @@ cout<<__LINE__<<endl;
       if(fast) tree->LoadTree(event);
       phys.GetEntry(event);
       ++nEventsTotal;
-cout<<__LINE__<<endl;    
+      //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
-cout<<__LINE__<<endl;
-      //=======================================
-      // Analysis Code
-      //=======================================
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;
+//=======================================
+// Analysis Code
+//=======================================
+      //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
       if ( isDuplicate() ) continue; // check for duplicates
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (! passBaseCut()) continue; // Base Cut
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (! hasGoodBoson()) continue; // Boson Specific Cuts
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
@@ -429,7 +433,7 @@ cout<<__LINE__<<endl;
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
 
-cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
     }
     // Clean Up
     delete tree;
@@ -440,9 +444,9 @@ cout<<__LINE__<<endl;
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }
   
-  //=======================================
-  // Write Out Histos
-  //=======================================
+//=======================================
+// Write Out Histos
+//=======================================
 
   output->cd();
 
