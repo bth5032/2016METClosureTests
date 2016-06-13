@@ -12,9 +12,9 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
 
     cout<<"Using config:"<<endl;
     conf->print();
-
+    TString out_dir = conf->get("histo_output_dir");
+    
     if (conf->get("mode") == "rwt"){
-      TString out_dir=conf->get("histo_output_dir");
       makeWeightHisto(out_dir, out_dir+"/ct_zjets_base.root", out_dir+"/ct_gjets_base.root", "vpt", "zjets", "gjets");
     }
 
