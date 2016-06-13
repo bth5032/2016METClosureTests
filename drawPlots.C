@@ -93,7 +93,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
     
     s_hist->Scale(scaleFactor);
   }
-  
+
   //===========================
   // SET MC COLORS
   //===========================
@@ -388,6 +388,149 @@ TString drawSingleTH1(ConfigParser *conf){
   return errors;
 }
 
+TString drawCutDebug(ConfigParser *conf){
+  /* This method expects conf to have a plot config loaded in already. */
+  TString errors="";
+
+  TFile* f_primary = new TFile(TString(conf->get("histogram_path")));
+
+  cout << "Found files "<<endl;
+
+  TString plot_name = conf->get("plot_name");
+  TString plot_title = conf->get("title");
+  double xmax = stod(conf->get("xmax"));
+  double xmin = stod(conf->get("xmin"));
+  double bin_size = stod(conf->get("bin_size"));
+  TString hist_name=conf->get("hist_name");
+  TString sample_name=conf->get("sample_name");
+  TString xlabel=conf->get("xlabel");
+  TString ylabel=conf->get("ylabel");
+  TString save_dir=conf->get("save_dir");
+
+
+  cout << "Making Plots for: "<<plot_name<<endl;
+
+  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
+
+
+  cout << "Histograms pulled from files, adding draw options"<<endl;
+  
+  //============================================
+  // Draw Data-MC Plots
+  //============================================
+  
+  TCanvas * c = new TCanvas("c","",2000,2000);
+  c->cd();
+  gPad->SetRightMargin(0.05);
+  gPad->Modified();
+  gStyle->SetOptStat(kFALSE);
+  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
+  
+  fullpad->Draw();
+  fullpad->cd();
+    
+  fullpad->SetRightMargin(0.05);
+  if (conf->get("ExtraRightMargin") == "true")
+  {
+    fullpad->SetRightMargin(0.08);
+  }
+  fullpad->SetBottomMargin(0.12);
+  
+  fullpad->Draw();
+  fullpad->cd();
+  
+  if (conf->get("logy") == "true")
+  {
+    cout<<"Plot tagged for log y-axis"<<endl;
+    fullpad->SetLogy();
+  }
+  
+  p_hist->Rebin(bin_size);
+  
+  //===========================
+  // SET MC COLORS
+  //===========================
+  
+  p_hist->SetFillColor(kAzure+5);
+  p_hist->SetFillStyle(1001);
+
+  //===========================
+  // Find Plot Maxima
+  //===========================
+  
+  double ymax = 0;
+
+  ymax = 1.2*p_hist->GetMaximum();
+
+  cout<<"Proper plot maximum set to "<<ymax<<endl;
+  
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  
+  
+  //-----------------------
+  // AXES FIX
+  //-----------------------
+  
+  cout<<"Setting axis names"<<endl;
+  h_axes->GetXaxis()->SetTitle(xlabel);
+  h_axes->GetYaxis()->SetTitle(ylabel);
+  
+  
+  //----------------------
+  // ADD OVERFLOW BIN
+  //----------------------
+  if (conf->get("overflow")=="true"){
+    cout<<"Plot tagged for overflow bin, building..."<<endl;
+    double n_bins = p_hist->GetNbinsX();
+    
+    double overflow_primary = p_hist->GetBinContent(n_bins + 1);
+
+    double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
+
+    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
+  }
+
+  //----------------------
+  // SET AXIS LABELS
+  //----------------------
+  ConfigParser label_conf = new ConfigParser(conf->get("labels_file"));
+  TString bin_label;
+  for (int i = xmin; i<xmax; i++)
+  {
+    bin_label=label_conf->get(to_string(i));
+    h_axes->GetXaxis()->SetBinLabel(i, bin_label);
+  }  
+   
+  
+  fullpad->SetLeftMargin(0.15);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.04);
+  
+  cout<<"Drawing histograms"<<endl;
+  h_axes->Draw();
+  p_hist->Draw("HIST SAME");
+  
+  fullpad->RedrawAxis();
+  
+  cout<<"Saving..."<<endl;
+  c->SaveAs(save_dir+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+plot_name+TString(".png"));
+  //c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+plot_name+TString(".C"));
+  
+  cout<<"Cleaning up plot variables"<<endl;
+  delete p_hist;
+  delete fullpad;
+  delete c;
+
+  f_primary->Close();
+  delete f_primary;
+
+  return errors;
+}
+
 void drawPlots(TString config_file)
 {
   vector<TString> plot_names;
@@ -401,6 +544,9 @@ void drawPlots(TString config_file)
     }
     else if (configs->get("PLOT_TYPE") == "single"){
       drawSingleTH1(configs);
+    }
+    else if (configs->get("PLOT_TYPE") == "debug"){
+      drawCutDebug(configs);
     }
   }
   

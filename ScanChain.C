@@ -40,78 +40,212 @@ TH1F *g_vpt_weight_hist;
 TFile *g_weight_hist_file;
 TString g_sample_name;
 
+TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
+
 
 bool passMETFilters(){
+  bool pass = true;
 
   if ( phys.isData() ) {
-    if ( phys.nVert() == 0 ) return false;
-    if (!phys.Flag_HBHENoiseFilter                   ()      ) return false;
-    if (!phys.Flag_HBHEIsoNoiseFilter                ()      ) return false;
+    if ( phys.nVert() == 0 ) {
+      numEvents->Fill(1);
+      pass=false;
+    }
+    if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
+      pass=false;
+      numEvents->Fill(2);
+    }
+    if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
+      pass=false;
+      numEvents->Fill(3);
+    } 
     if ( phys.Flag_CSCTightHalo2015Filter_isLoaded ){
-      if (!phys.Flag_CSCTightHalo2015Filter            ()      ) return false;  
+      if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
+        pass=false;
+        numEvents->Fill(4);
+      }
     }
     else{
-      if (!phys.Flag_CSCTightHaloFilter            ()      ) return false;
+      if (!phys.Flag_CSCTightHaloFilter            ()      ) { 
+        pass=false;
+        numEvents->Fill(4);
+      }
     }
-    if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) return false;
-    if (!phys.Flag_goodVertices                      ()      ) return false;
-    if (!phys.Flag_eeBadScFilter                     ()      ) return false;
+    if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
+      pass=false;
+      numEvents->Fill(5);
+    }
+    if (!phys.Flag_goodVertices                      ()      ) { 
+      pass=false;
+      numEvents->Fill(6);
+    }
+    if (!phys.Flag_eeBadScFilter                     ()      ) { 
+      pass=false;
+      numEvents->Fill(7);
+    }
 
   }
-  return true;
+  return pass;
 }
 
 bool passBaseCut(){
-  
-  if (! (phys.evt_passgoodrunlist() > 0)) return false; //golden json
-  if (! (phys.njets() >= 2) ) return false; //2 jet cut
+  bool pass=true;
+  if (! (phys.evt_passgoodrunlist() > 0)){ 
+    pass=false; //golden json
+    numEvents->Fill(8);
+  } 
+  if (! (phys.njets() >= 2) ){ 
+    pass=false; //2 jet cut
+    numEvents->Fill(9);
+  } 
 
-  return true;
+  return pass;
 }
 
 bool hasGoodZ(){
-  if( phys.nlep()                        < 2         ) return false; // require at least 2 good leptons
-  if( phys.lep_pt().at(0)                < 20        ) return false; // leading lep pT > 20 GeV
-  if( phys.lep_pt().at(1)                < 20        ) return false; // tailing lep pT > 20 GeV
-  if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) return false; // eta < 2.4
-  if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) return false; // eta < 2.4
+  bool pass = true;
+
+  if( phys.nlep() < 2         ){ 
+    pass= false; // require at least 2 good leptons
+    numEvents->Fill(10);
+  }
+  
+  if( phys.lep_pt().at(0) < 20        ) {
+    pass = false; // leading lep pT > 20 GeV
+    numEvents->Fill(11); 
+  }
+  
+  if( phys.lep_pt().at(1)                < 20        ) {
+    pass = false; // tailing lep pT > 20 GeV
+    numEvents->Fill(12); 
+  }
+  
+  if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
+    pass = false; // eta < 2.4
+    numEvents->Fill(13); 
+  }
+  
+  if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
+    pass = false; // eta < 2.4
+    numEvents->Fill(14); 
+  }
+  
+  /*
   //This is the augmented cut selection.
   LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
-  if( abs(zp4.eta())   > 1.4 &&
-      abs(zp4.eta())   < 1.6   ) return false; // veto xition region
-  if( abs(zp4.eta())   > 2.4   ) return false; // Z in EC or EB
-  /*
-  //This is the original cu t selection
-  if( abs(phys.lep_p4().at(0).eta())     > 1.4 &&
-    abs(phys.lep_p4().at(0).eta())     < 1.6       ) return false;
-  if( abs(phys.lep_p4().at(1).eta())     > 1.4 &&
-    abs(phys.lep_p4().at(1).eta())     < 1.6       ) return false; // veto xition region
+  if( abs(zp4.eta()) > 1.4 && abs(zp4.eta())   < 1.6) {
+    pass = false; // veto xition region
+    numEvents->Fill(15); 
+  }
+  
+  if( abs(zp4.eta())   > 2.4   ) {
+    pass = false; // Z in EC or EB
+    numEvents->Fill(16); 
+  } 
   */
-  if( phys.dRll()                        < 0.1       ) return false;
+  
+  //This is the original cu t selection
+  if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
+    pass = false;
+    numEvents->Fill(17);
+  }
 
-  if( !(phys.hyp_type() == 0 ||              
-    phys.hyp_type() == 1 ||              
-    phys.hyp_type() == 2 )                       ) return false; // require explicit dilepton event
-  if( !(phys.evt_type() == 0 )                       ) return false; // require opposite sign
-  if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) return false; // on-Z
-  if( !(phys.dilpt() > 50)                           ) return false; // Z pT > 50 GeV
-  return true;
+  if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
+    pass = false; // veto xition region
+    numEvents->Fill(18); 
+  }
+  
+  if( phys.dRll() < 0.1 ) {
+    pass = false;
+    numEvents->Fill(19); 
+  }
+
+  if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
+    pass = false; // require explicit dilepton event
+    numEvents->Fill(20); 
+  }
+  
+  if( !(phys.evt_type() == 0 ) ) {
+    pass = false; // require opposite sign
+    numEvents->Fill(21); 
+  }
+  
+  if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
+    pass = false; // on-Z
+    numEvents->Fill(22); 
+  }
+  
+  if( !(phys.dilpt() > 50) ){
+    pass = false; // Z pT > 50 GeV
+    numEvents->Fill(23); 
+  }
+  
+  return pass;
 }
 
 bool hasGoodPhoton(){
-  if( phys.ngamma()                      <  1    ) return false; // require at least 1 good photon
-  if( phys.evt_type()                    != 2    ) return false; // photon + jets events
-  if( phys.gamma_pt().at(0)              < 22    ) return false; // photon pt > 22 GeV
-  if( abs(phys.gamma_p4().at(0).eta())   > 1.4 &&
-      abs(phys.gamma_p4().at(0).eta())   < 1.6   ) return false; // veto xition region
-  if( abs(phys.gamma_p4().at(0).eta())   > 2.4   ) return false; // photon in EC or EB
-  if( phys.gamma_hOverE().at(0)          > 0.1   ) return false; // H/E < 0.1   
+  bool pass = true;
+
+  if( phys.ngamma() <  1 ) {
+    pass = false; // require at least 1 good photon
+    numEvents->Fill(24);
+  }
+  
+  if( phys.evt_type() != 2 ) {
+    pass = false; // photon + jets events
+    numEvents->Fill(25);
+  }
+  
+  if( phys.gamma_pt().at(0) < 22 ) {
+    pass = false; // photon pt > 22 GeV
+    numEvents->Fill(26);
+  }
+  
+  if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
+    pass = false; // veto xition region
+    numEvents->Fill(27);
+  }
+  
+  if( abs(phys.gamma_p4().at(0).eta()) > 2.4 ) {
+    pass = false; // photon in EC or EB
+    numEvents->Fill(28);
+  }
+  
+  if( phys.gamma_hOverE().at(0) > 0.1 ) {
+    pass = false; // H/E < 0.1
+    numEvents->Fill(29);
+  }
+  
   // if( phys.matched_neutralemf()          < 0.7   ) return false; // jet neutral EM fraction cut
-  if( phys.matched_emf()                 < 0.7   ) return false; // jet neutral EM fraction cut
-  if( acos( cos( phys.gamma_phi().at(0)      
-         - phys.met_phi() ) )    < 0.14  ) return false; // kill photons aligned with MET
-  if( phys.elveto()                              ) return false; // veto pixel match
-  return true;  
+  
+  if( phys.matched_emf() < 0.7 ) {
+    pass = false; // jet neutral EM fraction cut
+    numEvents->Fill(30);
+  }
+  
+  if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
+    pass = false; // kill photons aligned with MET
+    numEvents->Fill(31);
+  }
+  
+  if( phys.elveto() ) {
+    pass = false; // veto pixel match
+    numEvents->Fill(32);
+  }
+  
+  return pass;  
+}
+
+bool hasGoodBoson() {
+  if (g_sample_name == "zjets") {
+    return hasGoodZ();
+  }
+  else if (g_sample_name == "gjets"){
+    return hasGoodPhoton();
+  }
+  else{
+    return false;
+  }
 }
 
 double bosonPt(){
@@ -184,7 +318,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   cout<<"Opening file "<<savePath+"ct_"+sampleName+"_"+mode+".root"<<endl;
   TFile * output = new TFile(savePath+"ct_"+sampleName+"_"+mode+".root", "recreate");
 
-  TH1I *numEvents = new TH1I("numEvents_"+sampleName, "Number of events in "+sampleName, 1, 0, 1);
+  numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 50, 0, 50);
   numEvents->SetDirectory(rootdir);
 
   //MET Histos
@@ -276,6 +410,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       double weight = getWeight();
       if ( isDuplicate() ) continue; // check for duplicates
       if (! passBaseCut()) continue; // Base Cut
+      if (! hasGoodBoson()) continue; // Boson Specific Cuts
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
 //cout<<__LINE__<<endl;      
       //Fill in Histos
