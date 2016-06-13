@@ -29,12 +29,12 @@ TString drawTwoWithResidual(ConfigParser *conf){
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
-  TString primary_name=conf->get("primary_name");
-  TString secondary_name=conf->get("secondary_name");
   TString xlabel=conf->get("xlabel");
   TString ylabel=conf->get("ylabel");
-  TString plot_title=conf->get("title");
+  TString primary_name=conf->get("primary_name");
+  TString secondary_name=conf->get("secondary_name");
   TString save_dir=conf->get("save_dir");
+  TString plot_title=conf->get("title");
 
 
   cout << "Making Plots for: "<<plot_name<<endl;

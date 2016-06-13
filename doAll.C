@@ -14,7 +14,7 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     conf->print();
     TString out_dir = conf->get("histo_output_dir");
     
-    if (conf->get("mode") == "rwt"){
+    if (conf->get("vpt_reweight") == "true"){
       makeWeightHisto(out_dir, out_dir+"/ct_zjets_base.root", out_dir+"/ct_gjets_base.root", "vpt", "zjets", "gjets");
     }
 
@@ -25,13 +25,11 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     if (conf->get("gjets") == "true") {
       ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
     }
-    exit(0);
-  
+    return 
   }
 
   else{
     cout<<"Configuration "<<config_name<<" could not be loaded, please check the name and config file, "<<config_file<<"and try again."<<endl;
     exit(1);
   }
-  
 }
