@@ -42,5 +42,5 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
 
   cout<<"Reweight histogram succesfully made at "<<output_dir+hist_name+"_ratio.root"<<endl;
   
-  exit(0);
+  return ;
 }
