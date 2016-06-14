@@ -15,22 +15,28 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
 
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
   TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
-  TH1F * h_primary;
-  TH1F * h_secondary;
+  TH1F * h_primary_float;
+  TH1F * h_secondary_float;
 
   if (f_primary && f_secondary) {
-    h_primary = (TH1D*)f_primary->Get(primary_name+"_"+hist_name)->Clone("h_"+primary_name);
-    h_secondary = (TH1D*)f_secondary->Get(secondary_name+"_"+hist_name)->Clone("h_"+secondary_name);
+    h_primary_float = (TH1F*)f_primary->Get(primary_name+"_"+hist_name)->Clone("h_"+primary_name);
+    h_secondary_float = (TH1F*)f_secondary->Get(secondary_name+"_"+hist_name)->Clone("h_"+secondary_name);
   }
   else{
     cout<<"Error, could not open baseline files, please check they exist where specified and try again"<<endl;
     exit(1);
   }
 
+  TH1D * h_primary;
+  TH1D * h_secondary;
+
+  h_primary->Copy(h_primary_float);
+  h_secondary->Copy(h_secondary_float);
+
   h_secondary->Scale(1./h_secondary->GetSumOfWeights());
   h_primary->Scale(1./h_primary->GetSumOfWeights());
 
-  TH1D * h_ratio = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio");
+  TH1D * h_ratio = (TH1F*) h_primary->Clone("h_"+hist_name+"_ratio");
   h_ratio->Divide(h_secondary);
 
   TFile * file = TFile::Open(output_dir+hist_name+"_ratio.root","RECREATE");
