@@ -27,23 +27,23 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
     exit(1);
   }
 
-  TH1D * h_primary;
-  TH1D * h_secondary;
+  TH1D h_primary;
+  TH1D h_secondary;
 
-  h_primary_float->Copy(*h_primary);
-  h_secondary_float->Copy(*h_secondary);
+  h_primary_float->Copy(h_primary);
+  h_secondary_float->Copy(h_secondary);
 
-  h_secondary->Scale(1./h_secondary->GetSumOfWeights());
-  h_primary->Scale(1./h_primary->GetSumOfWeights());
+  h_secondary.Scale(1./h_secondary.GetSumOfWeights());
+  h_primary.Scale(1./h_primary.GetSumOfWeights());
 
-  TH1D * h_ratio = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio");
+  TH1D * h_ratio = (TH1D*) h_primary.Clone("h_"+hist_name+"_ratio");
   h_ratio->Divide(h_secondary);
 
   TFile * file = TFile::Open(output_dir+hist_name+"_ratio.root","RECREATE");
   file->cd();
   h_ratio->Write();
-  h_primary->Write();
-  h_secondary->Write();
+  h_primary.Write();
+  h_secondary.Write();
   file->Close();
 
   cout<<"Reweight histogram succesfully made at "<<output_dir+hist_name+"_ratio.root"<<endl;
