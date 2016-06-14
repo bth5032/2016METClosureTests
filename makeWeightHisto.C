@@ -30,8 +30,8 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
   TH1D * h_primary;
   TH1D * h_secondary;
 
-  h_primary->Copy(&h_primary_float);
-  h_secondary->Copy(&h_secondary_float);
+  h_primary->Copy(*h_primary_float);
+  h_secondary->Copy(*h_secondary_float);
 
   h_secondary->Scale(1./h_secondary->GetSumOfWeights());
   h_primary->Scale(1./h_primary->GetSumOfWeights());
