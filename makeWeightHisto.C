@@ -37,7 +37,7 @@ void makeWeightHisto(TString output_dir, TString primary_histos, TString seconda
   h_primary.Scale(1./h_primary.GetSumOfWeights());
 
   TH1D * h_ratio = (TH1D*) h_primary.Clone("h_"+hist_name+"_ratio");
-  h_ratio->Divide(h_secondary);
+  h_ratio->Divide(&h_secondary);
 
   TFile * file = TFile::Open(output_dir+hist_name+"_ratio.root","RECREATE");
   file->cd();
