@@ -9,7 +9,7 @@
 #include "THStack.h"
 #include "TGaxis.h"
 #include "TCut.h"
-#include "TH1F.h"
+#include "TH1D.h"
 
 #include "ConfigParser.C"
 
@@ -39,10 +39,10 @@ TString drawTwoWithResidual(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
-  TH1F* s_hist = (TH1F*) ((TH1F*) f_secondary->Get(secondary_name+"_"+hist_name))->Clone("shist_"+plot_name);
+  TH1D* s_hist = (TH1D*) ((TH1D*) f_secondary->Get(secondary_name+"_"+hist_name))->Clone("shist_"+plot_name);
   cout<<hist_name<<" found in "<<f_secondary->GetName()<<endl;
 
   cout << "Histograms pulled from files, adding draw options"<<endl;
@@ -108,8 +108,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //===========================
   
   double ymax = 0;
-  TH1F* clonedSecondary = (TH1F*) s_hist->Clone("clonedSecondary_forReweight_"+plot_name);
-  TH1F* clonedPrimary = (TH1F*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
+  TH1D* clonedSecondary = (TH1D*) s_hist->Clone("clonedSecondary_forReweight_"+plot_name);
+  TH1D* clonedPrimary = (TH1D*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
   
   clonedSecondary->GetXaxis()->SetRangeUser(xmin, xmax);
   clonedPrimary->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -195,7 +195,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   ratiopad->Draw();
   ratiopad->cd();
   
-  TH1F* residual = (TH1F*) p_hist->Clone("residual");
+  TH1D* residual = (TH1D*) p_hist->Clone("residual");
   residual->Divide(s_hist);
   
   /*cout<<"Fixing error bars"<<endl;
@@ -205,7 +205,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   }*/
   
   cout<<"Building axes"<<endl;
-  TH1F* h_axis_ratio = new TH1F(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
+  TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
   
   h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
   h_axis_ratio->GetYaxis()->SetTitleSize(0.18);
@@ -275,7 +275,7 @@ TString drawSingleTH1(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
 
@@ -410,7 +410,7 @@ TString drawCutDebug(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1F* p_hist = (TH1F*) ((TH1F*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
+  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(sample_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
 

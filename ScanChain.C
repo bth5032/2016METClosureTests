@@ -36,7 +36,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 //Global Vars
 ConfigParser *conf;
 int nDuplicates=0;
-TH1F *g_vpt_weight_hist;
+TH1D *g_vpt_weight_hist;
 TFile *g_weight_hist_file;
 TString g_sample_name;
 
@@ -102,6 +102,21 @@ bool passBaseCut(){
   return pass;
 }
 
+bool passMuonTriggers(){
+  if ( conf->get("use_muon_DZ_triggers") == "true" ){
+    //cout<<"Using DZ triggers"<<endl;
+    return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso())
+  }
+  else{
+    //cout<<"Using Non DZ triggers"<<endl;
+    return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso())
+  } 
+}
+
+bool passElectronTriggers(){
+  return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() )
+}
+
 bool hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
@@ -127,6 +142,14 @@ bool hasGoodZ(){
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
     return false; // eta < 2.4
+  }
+
+  if (! ( passMuonTriggers() && phys.hyp_type() == 1 )){
+    if (! ( passElectronTriggers() && phys.hyp_type() == 0) )
+    {
+      numEvents->Fill(33);
+      return false; 
+    }
   }
 
   /*
@@ -319,39 +342,39 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   numEvents->SetDirectory(rootdir);
 
   //MET Histos
-  TH1F *t1met = new TH1F(sampleName+"_type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
+  TH1D *t1met = new TH1D(sampleName+"_type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
-  TH1F *rawmet = new TH1F(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
+  TH1D *rawmet = new TH1D(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
 
-  TH1F *ht = new TH1F(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
+  TH1D *ht = new TH1D(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
 
-  TH1F *numMETFilters = new TH1F(sampleName+"_numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
+  TH1D *numMETFilters = new TH1D(sampleName+"_numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
   numMETFilters->SetDirectory(rootdir);
   numMETFilters->Sumw2();
 
-  TH1F *vpt = new TH1F(sampleName+"_vpt", "Boson Pt for events in "+sampleName, 6000,0,6000);
+  TH1D *vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, 6000,0,6000);
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
-  TH1F *njets = new TH1F(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
+  TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
 
-  TH1F *nbtags_m = new TH1F(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_m = new TH1D(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 6000,0,6000);
   nbtags_m->SetDirectory(rootdir);
   nbtags_m->Sumw2();
 
-  TH1F *nbtags_l = new TH1F(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_l = new TH1D(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 6000,0,6000);
   nbtags_l->SetDirectory(rootdir);
   nbtags_l->Sumw2();
 
-  TH1F *nbtags_t = new TH1F(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_t = new TH1D(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 6000,0,6000);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
@@ -361,7 +384,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   //Set up manual vertex reweighting.  
   if( conf->get("vpt_reweight") == "true" ){
     g_weight_hist_file = TFile::Open(savePath+"vpt_ratio.root","READ");
-    g_vpt_weight_hist = (TH1F*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
+    g_vpt_weight_hist = (TH1D*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
     g_vpt_weight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
   }
