@@ -104,11 +104,11 @@ bool passBaseCut(){
 
 bool passMuonTriggers(){
   if ( conf->get("use_muon_DZ_triggers") == "true" ){
-    //cout<<"Using DZ triggers"<<endl;
+    cout<<"Using DZ triggers"<<endl;
     return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso())
   }
   else{
-    //cout<<"Using Non DZ triggers"<<endl;
+    cout<<"Using Non DZ triggers"<<endl;
     return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso())
   } 
 }
