@@ -114,7 +114,7 @@ bool passMuonTriggers(){
 }
 
 bool passElectronTriggers(){
-  return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() )
+  return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
 }
 
 bool hasGoodZ(){
