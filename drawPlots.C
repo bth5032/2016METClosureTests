@@ -30,7 +30,7 @@ void drawCMSLatex(double luminosity){
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(left_margin, height-, "#it{CMS #bf{Preliminary}}" );    
+  cmstex = new TLatex(left_margin, height, "#it{CMS #bf{Preliminary}}" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
