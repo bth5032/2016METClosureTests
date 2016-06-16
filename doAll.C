@@ -14,7 +14,7 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     conf->print();
     
     if (conf->get("reweight") == "true"){
-      makeWeightHisto(conf->get("rwt_output_file"), conf->get("primary_location"), conf->get("secondary_location"), conf->get("rwt_var"), conf->get("primary_name"), conf->get("secondary_name"));
+      makeWeightHisto(conf);
     }
 
     if (conf->get("zjets") == "true") {
