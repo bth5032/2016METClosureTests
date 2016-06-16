@@ -32,6 +32,9 @@ void makeWeightHisto(ConfigParser * conf)
     exit(1);
   }
 
+  TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio_unscaled");
+  h_ratio_unscaled->Divide(h_secondary); 
+
   h_secondary->Scale(1./h_secondary->GetSumOfWeights());
   h_primary->Scale(1./h_primary->GetSumOfWeights());
 
@@ -41,6 +44,7 @@ void makeWeightHisto(ConfigParser * conf)
   TFile * file = TFile::Open(output_location,"RECREATE");
   file->cd();
   h_ratio->Write();
+  h_ratio_unscaled->Write();
   h_primary->Write();
   h_secondary->Write();
   file->Close();
