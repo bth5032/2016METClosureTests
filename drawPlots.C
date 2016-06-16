@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void drawCMSLatex(double luminosity){
+void drawCMSLatex(double luminosity, double height){
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   lumitex = new TLatex(.9-gPad->GetLeftMargin(), gPad->GetTopMargin(), Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
