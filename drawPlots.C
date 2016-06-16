@@ -15,8 +15,7 @@
 
 using namespace std;
 
-void drawCMSLatex( TCanvas * &canvas, double luminosity, double height){
-  canvas->cd();
+void drawCMSLatex(double luminosity, double height){
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
   lumitex = new TLatex(0.7,height, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
@@ -254,6 +253,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
+    plotpad->cd();
     drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.93);
   }
 
@@ -399,6 +399,7 @@ TString drawSingleTH1(ConfigParser *conf){
   fullpad->RedrawAxis();
   
   if (conf->get("luminosity_fb") != ""){
+    fullpad->cd();
     drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.91);
   }
 
