@@ -15,7 +15,7 @@
 
 using namespace std;
 
-void drawCMSLatex(double luminosity, double height2){
+void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
   height=1.02-gPad->GetTopMargin();
   float left_margin = gPad->GetLeftMargin();
@@ -257,7 +257,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
     plotpad->cd();
-    drawCMSLatex(stod(conf->get("luminosity_fb")), 0.93);
+    drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
 
   cout<<"Saving..."<<endl;
@@ -403,7 +403,7 @@ TString drawSingleTH1(ConfigParser *conf){
   
   if (conf->get("luminosity_fb") != ""){
     fullpad->cd();
-    drawCMSLatex(stod(conf->get("luminosity_fb")), 0.91);
+    drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
 
   cout<<"Saving..."<<endl;
