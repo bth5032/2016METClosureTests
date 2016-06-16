@@ -254,7 +254,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
     plotpad->cd();
-    drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.93);
+    drawCMSLatex(stod(conf->get("luminosity_fb")), 0.93);
   }
 
   cout<<"Saving..."<<endl;
@@ -400,7 +400,7 @@ TString drawSingleTH1(ConfigParser *conf){
   
   if (conf->get("luminosity_fb") != ""){
     fullpad->cd();
-    drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.91);
+    drawCMSLatex(stod(conf->get("luminosity_fb")), 0.91);
   }
 
   cout<<"Saving..."<<endl;
