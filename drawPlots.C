@@ -15,6 +15,21 @@
 
 using namespace std;
 
+void drawLatexFromTString(TString text, double x_low, double y_low){
+  TLatex *lumitex = NULL;
+
+  // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  lumitex = new TLatex(x_low, y_low , text );    
+  // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
+  lumitex->SetNDC();    
+  lumitex->SetTextSize(14);    
+  lumitex->SetLineWidth(2);
+  lumitex->SetTextFont(43);    
+  lumitex->Draw();
+
+  return;
+}
+
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
   height=1.02-gPad->GetTopMargin();
@@ -118,6 +133,19 @@ TString drawTwoWithResidual(ConfigParser *conf){
     
     s_hist->Scale(scaleFactor);
   }
+
+  //===========================
+  // Print out num events to screen 
+  //===========================
+  if (conf->get("print_stats") == "true")
+  {
+    double p_evts_gtr150 = p_hist->Integral(p_hist->FindBin(150), -1);
+    double s_evts_gtr150 = s_hist->Integral(s_hist->FindBin(150), -1);
+
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+to_string(p_evts_gtr150)), .5,.5);
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+to_string(s_evts_gtr150)), .5, .6);
+  }
+
 
   //===========================
   // SET MC COLORS

@@ -379,15 +379,15 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   njets->SetDirectory(rootdir);
   njets->Sumw2();
 
-  TH1D *nbtags_m = new TH1D(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_m = new TH1D(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_m->SetDirectory(rootdir);
   nbtags_m->Sumw2();
 
-  TH1D *nbtags_l = new TH1D(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_l = new TH1D(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_l->SetDirectory(rootdir);
   nbtags_l->Sumw2();
 
-  TH1D *nbtags_t = new TH1D(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 6000,0,6000);
+  TH1D *nbtags_t = new TH1D(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
