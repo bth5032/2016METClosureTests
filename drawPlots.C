@@ -576,7 +576,7 @@ void drawPlots(TString config_file)
   
   TGaxis::SetMaxDigits(1);
   TGaxis::SetExponentOffset(-0.07, 1, "y"); // X and Y offset for Y axis
-  TGaxis::SetExponentOffset(.5, 0.5, "x"); // X and Y offset for X axis
+  TGaxis::SetExponentOffset(-.5, 0.1, "x"); // X and Y offset for X axis
   
   ConfigParser *configs=new ConfigParser(config_file.Data());
   
