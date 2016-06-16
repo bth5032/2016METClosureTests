@@ -15,11 +15,11 @@
 
 using namespace std;
 
-void drawCMSLatex( TCanvas * &canvas, double luminosity){
+void drawCMSLatex( TCanvas * &canvas, double luminosity, double height){
   canvas->cd();
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(0.7,0.91, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
+  lumitex = new TLatex(0.7,height, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
   lumitex->SetTextSize(0.03);    
@@ -28,7 +28,7 @@ void drawCMSLatex( TCanvas * &canvas, double luminosity){
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.25,0.91, "#it{CMS #bf{Preliminary}}" );    
+  cmstex = new TLatex(0.25,height, "#it{CMS #bf{Preliminary}}" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
@@ -254,7 +254,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   
   //Draw luminosity and CMS tag
   if (conf->get("luminosity_fb") != ""){
-    drawCMSLatex(c, stod(conf->get("luminosity_fb")));
+    drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.93);
   }
 
   cout<<"Saving..."<<endl;
@@ -399,7 +399,7 @@ TString drawSingleTH1(ConfigParser *conf){
   fullpad->RedrawAxis();
   
   if (conf->get("luminosity_fb") != ""){
-    drawCMSLatex(c, stod(conf->get("luminosity_fb")));
+    drawCMSLatex(c, stod(conf->get("luminosity_fb")), 0.91);
   }
 
   cout<<"Saving..."<<endl;
@@ -569,6 +569,9 @@ void drawPlots(TString config_file)
 {
   vector<TString> plot_names;
   TString errors="";
+  
+  TGaxis::SetExponentOffset(-0.05, 0.01, "y"); // X and Y offset for Y axis
+  TGaxis::SetExponentOffset(-0.05, -0.01, "x"); // X and Y offset for X axis
   
   ConfigParser *configs=new ConfigParser(config_file.Data());
   
