@@ -393,7 +393,7 @@ TString drawSingleTH1(ConfigParser *conf){
   fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
-  h_axes->GetYaxis()->SetLabelSize(0.04);
+  h_axes->GetYaxis()->SetLabelSize(0.03);
   
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
