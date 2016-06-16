@@ -570,7 +570,7 @@ void drawPlots(TString config_file)
   vector<TString> plot_names;
   TString errors="";
   
-  TGaxis::SetExponentOffset(-0.05, 0.01, "y"); // X and Y offset for Y axis
+  TGaxis::SetExponentOffset(-0.07, 0.01, "y"); // X and Y offset for Y axis
   TGaxis::SetExponentOffset(-0.05, -0.01, "x"); // X and Y offset for X axis
   
   ConfigParser *configs=new ConfigParser(config_file.Data());
