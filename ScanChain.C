@@ -324,16 +324,13 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   Inputs:
   chain -- contains the files to make the histograms from, 
   sampleName -- for bookkeeping since we make histograms from many different samples. 
-  savePath -- where the histogram .root files end up
-  mode -- Various options can be set using different 'modes'. Initially this will only be used to determine the event weights, for mode "base" no extra weights are applied, for mode "vpt_reweight" the program expects "base" histograms to already be made, and to have had a reweight histogram available.
-  do_MET_filters -- determines whether passMETFilters() is a baseline criteria for events to make it into histos. 
+  configuration -- pointer to the configuration object
   */  
 
   //Set Global Vars
   g_sample_name=sampleName;
   conf=configuration;
   TString savePath = conf->get("histo_output_dir");
-  TString mode = conf->get("mode");
 
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
