@@ -17,12 +17,10 @@ using namespace std;
 
 void drawLatexFromTString(TString text, double x_low, double y_low){
   TLatex *lumitex = NULL;
-
-  // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(x_low, y_low , text );    
-  // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
+  
+  lumitex = new TLatex(x_low, y_low , text );      
   lumitex->SetNDC();    
-  lumitex->SetTextSize(14);    
+  lumitex->SetTextSize(1);    
   lumitex->SetLineWidth(2);
   lumitex->SetTextFont(43);    
   lumitex->Draw();
@@ -142,11 +140,11 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double p_evts_gtr150 = p_hist->Integral(p_hist->FindBin(150), -1);
     double s_evts_gtr150 = s_hist->Integral(s_hist->FindBin(150), -1);
 
-    cout<<TString("Number of Events > 150GeV in "+primary_name+to_string(p_evts_gtr150))<<endl;
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+to_string(p_evts_gtr150)), .5,.5);
+    cout<<TString("Number of Events > 150GeV in "+primary_name+" "+to_string(p_evts_gtr150))<<endl;
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+" "+to_string(p_evts_gtr150)), .5,.5);
 
-    cout<<TString("Number of Events > 150GeV in "+secondary_name+to_string(s_evts_gtr150))<<endl;
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+to_string(s_evts_gtr150)), .5, .6);
+    cout<<TString("Number of Events > 150GeV in "+secondary_name+" "+to_string(s_evts_gtr150))<<endl;
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+" "+to_string(s_evts_gtr150)), .5, .6);
   }
 
 
