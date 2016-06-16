@@ -15,6 +15,29 @@
 
 using namespace std;
 
+void drawCMSLatex( TCanvas * &canvas, double luminosity){
+  canvas->cd();
+  TLatex *lumitex = NULL;
+  // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
+  lumitex = new TLatex(0.66,0.955, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
+  // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
+  lumitex->SetNDC();    
+  lumitex->SetTextSize(0.04);    
+  lumitex->SetLineWidth(2);
+  lumitex->SetTextFont(42);    
+  lumitex->Draw();
+
+  TLatex *cmstex = NULL;
+  cmstex = new TLatex(0.18,0.95, "CMS Preliminary" );    
+  cmstex->SetNDC();    
+  cmstex->SetTextSize(0.04);    
+  cmstex->SetLineWidth(2);
+  cmstex->SetTextFont(62);    
+  cmstex->Draw();
+
+  return;
+}
+
 TString drawTwoWithResidual(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
   TString errors="";
@@ -229,6 +252,11 @@ TString drawTwoWithResidual(ConfigParser *conf){
   c->Update();
   c->cd();
   
+  //Draw luminosity and CMS tag
+  if (conf->get("luminosity_fb") != ""){
+    drawCMSLatex(c, stod(conf->get("luminosity_fb")));
+  }
+
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
@@ -329,7 +357,6 @@ TString drawSingleTH1(ConfigParser *conf){
   ymax = 1.2*p_hist->GetMaximum();
 
   
-  
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
@@ -371,6 +398,10 @@ TString drawSingleTH1(ConfigParser *conf){
   
   fullpad->RedrawAxis();
   
+  if (conf->get("luminosity_fb") != ""){
+    drawCMSLatex(c, stod(conf->get("luminosity_fb")));
+  }
+
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
