@@ -20,9 +20,9 @@ void drawLatexFromTString(TString text, double x_low, double y_low){
   
   lumitex = new TLatex(x_low, y_low , text );      
   lumitex->SetNDC();    
-  lumitex->SetTextSize(1);    
+  lumitex->SetTextSize(.04);    
   lumitex->SetLineWidth(2);
-  lumitex->SetTextFont(43);    
+  lumitex->SetTextFont(42);    
   lumitex->Draw();
 
   return;
