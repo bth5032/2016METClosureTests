@@ -142,7 +142,10 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double p_evts_gtr150 = p_hist->Integral(p_hist->FindBin(150), -1);
     double s_evts_gtr150 = s_hist->Integral(s_hist->FindBin(150), -1);
 
+    cout<<TString("Number of Events > 150GeV in "+primary_name+to_string(p_evts_gtr150))<<endl;
     drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+to_string(p_evts_gtr150)), .5,.5);
+
+    cout<<TString("Number of Events > 150GeV in "+secondary_name+to_string(s_evts_gtr150))<<endl;
     drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+to_string(s_evts_gtr150)), .5, .6);
   }
 
