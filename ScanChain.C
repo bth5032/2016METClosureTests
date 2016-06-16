@@ -103,18 +103,28 @@ bool passBaseCut(){
 }
 
 bool passMuonTriggers(){
-  if ( conf->get("use_muon_DZ_triggers") == "true" ){
-    cout<<"Using DZ triggers"<<endl;
-    return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
+  if ( phys.isData() ){
+    if ( conf->get("use_muon_DZ_triggers") == "true" ){
+      cout<<"Using DZ triggers"<<endl;
+      return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
+    }
+    else{
+      cout<<"Using Non DZ triggers"<<endl;
+      return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+    } 
   }
   else{
-    cout<<"Using Non DZ triggers"<<endl;
-    return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
-  } 
+    return true; //MC always passes
+  }
 }
 
 bool passElectronTriggers(){
-  return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
+  if (phys.isData()){
+    return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
+  }
+  else{
+    return true; //MC always passes
+  }
 }
 
 bool hasGoodZ(){
