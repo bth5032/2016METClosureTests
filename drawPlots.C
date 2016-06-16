@@ -19,18 +19,18 @@ void drawCMSLatex( TCanvas * &canvas, double luminosity){
   canvas->cd();
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(0.65,0.92, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
+  lumitex = new TLatex(0.7,0.91, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
-  lumitex->SetTextSize(0.02);    
+  lumitex->SetTextSize(0.03);    
   lumitex->SetLineWidth(2);
   lumitex->SetTextFont(42);    
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.25,0.92, "CMS Preliminary" );    
+  cmstex = new TLatex(0.25,0.91, "CMS Preliminary" );    
   cmstex->SetNDC();    
-  cmstex->SetTextSize(0.02);    
+  cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
   cmstex->SetTextFont(62);    
   cmstex->Draw();
