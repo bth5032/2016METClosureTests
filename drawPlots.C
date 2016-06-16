@@ -28,7 +28,7 @@ void drawCMSLatex( TCanvas * &canvas, double luminosity){
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.25,0.91, "CMS Preliminary" );    
+  cmstex = new TLatex(0.25,0.91, "#it{#bf{CMS} Preliminary}" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
