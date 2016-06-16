@@ -15,10 +15,13 @@
 
 using namespace std;
 
-void drawCMSLatex(double luminosity, double height){
+void drawCMSLatex(double luminosity, double height2){
   TLatex *lumitex = NULL;
+  height=1.02-gPad->GetTopMargin();
+  float left_margin = gPad->GetLeftMargin();
+
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(.9-gPad->GetLeftMargin(), 1.02-gPad->GetTopMargin(), Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
+  lumitex = new TLatex(.9-left_margin, height , Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
   lumitex->SetTextSize(0.03);    
@@ -27,7 +30,7 @@ void drawCMSLatex(double luminosity, double height){
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(gPad->GetLeftMargin(),height, "#it{CMS #bf{Preliminary}}" );    
+  cmstex = new TLatex(left_margin, height, "#it{CMS #bf{Preliminary}}" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
