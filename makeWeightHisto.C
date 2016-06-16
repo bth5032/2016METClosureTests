@@ -9,7 +9,6 @@ using namespace std;
 void makeWeightHisto(TString output_location, TString primary_histos, TString secondary_histos, TString hist_name, TString primary_name, TString secondary_name)
 {
 
-
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
   TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
   TH1D * h_primary;
