@@ -18,7 +18,7 @@ using namespace std;
 void drawCMSLatex(double luminosity, double height){
   TLatex *lumitex = NULL;
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
-  lumitex = new TLatex(0.7,height, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
+  lumitex = new TLatex(.9-gPad->GetLeftMargin(),height, height, Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   // lumitex = new TLatex(0.66,0.955, Form("few pb^{-1} (13 TeV)") );    
   lumitex->SetNDC();    
   lumitex->SetTextSize(0.03);    
@@ -27,7 +27,7 @@ void drawCMSLatex(double luminosity, double height){
   lumitex->Draw();
 
   TLatex *cmstex = NULL;
-  cmstex = new TLatex(0.25,height, "#it{CMS #bf{Preliminary}}" );    
+  cmstex = new TLatex(gPad->GetLeftMargin(),height, "#it{CMS #bf{Preliminary}}" );    
   cmstex->SetNDC();    
   cmstex->SetTextSize(0.03);    
   cmstex->SetLineWidth(2);
