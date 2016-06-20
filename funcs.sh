@@ -5,27 +5,29 @@
 
 
 function makePlots {
+	mkdirs $1
 	root -l -b -q "drawPlots.C(\"$1\")"
 }
 function makeHistos {	
-	root -l -b -q "doAll.C(\"$1\")"
+	mkdirs $2
+	root -l -b -q "doAll.C(\"$1\", \"$2\")"
 }	
 
-function mkplotdir {
-	if [[ ! -d $1 ]]
+function mkdirs {
+	conf_filename=$1
+	#For Histo Configs
+	new_dir=`grep DEFAULT::histo_output_dir < $conf_filename`
+	if [[ ! -z $new_dir ]]
 	then
-		mkdir -p $1
-		cp ~/public_html/ZMET2016/index.php ${1}/
+		mkdir -p ${new_dir#*=}
 	fi
-}
 
-function makeAll {
-	makeHistos Z_Base
-	makeHistos G_Base
-	makeHistos G_Reweight
+	#For Plots Configs
+	new_dir=`grep DEFAULT::save_dir < $conf_filename`
+	if [[ ! -z $new_dir ]]
+	then
+		mkdir -p ${new_dir#*=}
+		cp ~/public_html/ZMET2016/index.php ${new_dir#*=}
+	fi
 
-	makePlots configs/singleplots.conf
-	makePlots configs/ratioplots.conf
-	makePlots configs/ratioplots_nowt.conf
-	makePlots configs/cuts.conf
 }

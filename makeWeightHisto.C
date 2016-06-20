@@ -10,13 +10,16 @@ using namespace std;
 
 void makeWeightHisto(ConfigParser * conf)
 {
-
-  TString output_location = conf->get("rwt_output_file");
-  TString primary_histos = conf->get("primary_location");
-  TString secondary_histos = conf->get("secondary_location");
   TString hist_name = conf->get("rwt_var");
+  
   TString primary_name = conf->get("primary_name");
   TString secondary_name = conf->get("secondary_name");
+  
+  TString primary_histos = conf->get("histo_output_dir")+"ct_Z_Base_"+conf->get("signal_region")+".root";
+  TString secondary_histos = conf->get("histo_output_dir")+"ct_G_Base_"+conf->get("signal_region")+".root";
+  
+  TString output_location = conf->get("histo_output_dir")+"ct_"+hist_name+"_"+conf->get("signal_region")+"_rwt.root";
+
 
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
   TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist

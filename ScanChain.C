@@ -342,8 +342,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
-  cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+".root"<<endl;
-  TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+".root", "recreate");
+  cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
+  TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
 
   numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 50, 0, 50);
   numEvents->SetDirectory(rootdir);
