@@ -318,6 +318,59 @@ bool isDuplicate(){
   return false;
 }
 
+bool passSignalRegionCuts(){
+  
+  #Njets Min Cut
+  if (conf->get("Njets_min") != ""){
+    if (phys.njets() < atoi(conf->get("Njets_min"))){
+      numEvents->Fill(34);
+      return false;
+    }
+  }
+
+  #Njets Max Cut
+  if (conf->get("Njets_max") != ""){
+    if (phys.njets() > atoi(conf->get("Njets_max"))){
+      numEvents->Fill(35);
+      return false;
+    }
+  }
+
+  #Num Bottom jets Min Cut
+  if (conf->get("NBjets_min") != ""){
+    if (phys.nBJetMedium() < atoi(conf->get("NBjets_min"))){
+      numEvents->Fill(36);
+      return false;
+    }
+  }
+
+  #Num Bottom jets Max Cut
+  if (conf->get("NBjets_max") != ""){
+    if (phys.nBJetMedium() > atoi(conf->get("NBjets_max"))){
+      numEvents->Fill(37);
+      return false;
+    }
+  }
+
+  #Leading Jet/MET Phi
+  if (conf->get("dPhi_MET_j1") != ""){
+    if (phys.dphi_metj1() > atoi(conf->get("dPhi_MET_j1"))){
+      numEvents->Fill(38);
+      return false;
+    }
+  }
+
+  #Trailing Jet/MET Phi
+  if (conf->get("dPhi_MET_j2") != ""){
+    if (phys.dphi_metj2() > atoi(conf->get("dPhi_MET_j2"))){
+      numEvents->Fill(39);
+      return false;
+    }
+  }
+
+
+}
+
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
@@ -360,6 +413,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *ht = new TH1D(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
+
+  TH1D *gen_ht = new TH1D(sampleName+"_genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
+  gen_ht->SetDirectory(rootdir);
+  gen_ht->Sumw2();
 
   TH1D *numMETFilters = new TH1D(sampleName+"_numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
   numMETFilters->SetDirectory(rootdir);
@@ -461,6 +518,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
       if (phys.ht() != 0) ht->Fill(phys.ht(), weight);
+      if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
       if (bosonPt() != 0) vpt->Fill(bosonPt(), weight);
       njets->Fill(phys.njets(), weight);
       nbtags_m->Fill(phys.nBJetMedium(), weight);
@@ -490,6 +548,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   t1met->Write();
   rawmet->Write();
   ht->Write();
+  gen_ht->Write();
   vpt->Write();
   njets->Write();
   nbtags_m->Write();
