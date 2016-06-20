@@ -322,7 +322,7 @@ bool passSignalRegionCuts(){
   
   #Njets Min Cut
   if (conf->get("Njets_min") != ""){
-    if (phys.njets() < atoi(conf->get("Njets_min"))){
+    if (phys.njets() < stod(conf->get("Njets_min"))){
       numEvents->Fill(34);
       return false;
     }
@@ -330,7 +330,7 @@ bool passSignalRegionCuts(){
 
   #Njets Max Cut
   if (conf->get("Njets_max") != ""){
-    if (phys.njets() > atoi(conf->get("Njets_max"))){
+    if (phys.njets() > stod(conf->get("Njets_max"))){
       numEvents->Fill(35);
       return false;
     }
@@ -338,7 +338,7 @@ bool passSignalRegionCuts(){
 
   #Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
-    if (phys.nBJetMedium() < atoi(conf->get("NBjets_min"))){
+    if (phys.nBJetMedium() < stod(conf->get("NBjets_min"))){
       numEvents->Fill(36);
       return false;
     }
@@ -346,7 +346,7 @@ bool passSignalRegionCuts(){
 
   #Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
-    if (phys.nBJetMedium() > atoi(conf->get("NBjets_max"))){
+    if (phys.nBJetMedium() > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
       return false;
     }
@@ -354,7 +354,7 @@ bool passSignalRegionCuts(){
 
   #Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
-    if (phys.dphi_metj1() < atoi(conf->get("dPhi_MET_j1"))){
+    if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
       numEvents->Fill(38);
       return false;
     }
@@ -362,7 +362,7 @@ bool passSignalRegionCuts(){
 
   #Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
-    if (phys.dphi_metj2() < atoi(conf->get("dPhi_MET_j2"))){
+    if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
       numEvents->Fill(39);
       return false;
     }
@@ -370,7 +370,7 @@ bool passSignalRegionCuts(){
 
   #MT2b min
   if (conf->get("MT2b") != ""){
-    if (phys.mt2b() < atoi(conf->get("MT2b"))){
+    if (phys.mt2b() < stod(conf->get("MT2b"))){
       numEvents->Fill(40);
       return false;
     }
@@ -378,7 +378,7 @@ bool passSignalRegionCuts(){
 
   #HT min
   if (conf->get("HT_min") != ""){
-    if (phys.ht() < atoi(conf->get("HT_min"))){
+    if (phys.ht() < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
       return false;
     }
@@ -386,7 +386,7 @@ bool passSignalRegionCuts(){
 
   #DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
-    if (abs(phys.mbb_csv() - 125) < atoi(conf->get("mbb_mh_diff"))){
+    if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
       return false;
     }
@@ -403,7 +403,7 @@ bool passSignalRegionCuts(){
       pt = phys.lep_pt().at(0) + phys.lep_pt().at(1);
     }
     
-    if ( abs(phys.ht() + pt ) < atoi(conf->get("sum_HT_pt_pt") ) ){
+    if ( abs(phys.ht() + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
       return false;
     }
