@@ -287,8 +287,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
     int high_val = stoi(conf->get("stats_high_val"));
 
     Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), &p_evts_gtr150_err);
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), &s_evts_gtr150_err);
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), p_evts_gtr150_err);
+    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), s_evts_gtr150_err);
     double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
     
     drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+": "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) ), .55,.5);
