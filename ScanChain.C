@@ -508,7 +508,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
-    cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"<<endl;
+    cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     g_weight_hist_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
     g_vpt_weight_hist = (TH1D*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
     g_vpt_weight_hist->SetDirectory(rootdir);
