@@ -294,8 +294,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double p_evts_gtr150 = p_hist->Sumw2(p_hist->FindBin(150), -1); // maybe use integralAndError instead of this...
     double s_evts_gtr150 = s_hist->Sumw2(s_hist->FindBin(150), -1);
 
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+": "+to_string(p_evts_gtr150)+" Error: "+toString(p_evts_gtr150_err) ), .55,.5);
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+": "+to_string(s_evts_gtr150)+" Error: "+toString(s_evts_gtr150_err)), .55, .52);
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+": "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) ), .55,.5);
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+": "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err)), .55, .52);
     drawLatexFromTString(TString("Ratio: "+to_string(ratio_evts_gtr150)), .55, .54);
     drawLatexFromTString(TString("Error Mult: "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150))), .55, .56);
   }
