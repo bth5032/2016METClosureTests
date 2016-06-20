@@ -15,6 +15,10 @@
 
 using namespace std;
 
+double errMult(double A, double B, double errA, double errB, double C) {
+  return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
+}
+
 void drawLatexFromTString(TString text, double x_low, double y_low){
   TLatex *lumitex = NULL;
   
@@ -275,18 +279,25 @@ TString drawTwoWithResidual(ConfigParser *conf){
   }
 
   //===========================
-  // Print out num events to screen 
+  // Print Closure Stats
   //===========================
   if (conf->get("print_stats") == "true")
   {
-    double p_evts_gtr150 = p_hist->Integral(p_hist->FindBin(150), -1);
-    double s_evts_gtr150 = s_hist->Integral(s_hist->FindBin(150), -1);
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
 
-    cout<<TString("Number of Events > 150GeV in "+primary_name+" "+to_string(p_evts_gtr150))<<endl;
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+" "+to_string(p_evts_gtr150)), .5,.5);
+    double p_evts_gtr150_err, s_evts_gtr150_err; 
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), &p_evts_gtr150_err);
+    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), &s_evts_gtr150_err);
+    double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
+    
+    double p_evts_gtr150 = p_hist->Sumw2(p_hist->FindBin(150), -1); // maybe use integralAndError instead of this...
+    double s_evts_gtr150 = s_hist->Sumw2(s_hist->FindBin(150), -1);
 
-    cout<<TString("Number of Events > 150GeV in "+secondary_name+" "+to_string(s_evts_gtr150))<<endl;
-    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+" "+to_string(s_evts_gtr150)), .5, .6);
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+": "+to_string(p_evts_gtr150)+" Error: "+toString(p_evts_gtr150_err) ), .55,.5);
+    drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+": "+to_string(s_evts_gtr150)+" Error: "+toString(s_evts_gtr150_err)), .55, .52);
+    drawLatexFromTString(TString("Ratio: "+to_string(ratio_evts_gtr150)), .55, .54);
+    drawLatexFromTString(TString("Error Mult: "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150))), .55, .56);
   }
 
   cout<<"Saving..."<<endl;
