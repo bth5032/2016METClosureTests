@@ -286,14 +286,11 @@ TString drawTwoWithResidual(ConfigParser *conf){
     int low_val = stoi(conf->get("stats_low_val"));
     int high_val = stoi(conf->get("stats_high_val"));
 
-    double p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), &p_evts_gtr150_err);
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), &s_evts_gtr150_err);
+    Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), *p_evts_gtr150_err);
+    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), *s_evts_gtr150_err);
     double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
     
-    double p_evts_gtr150 = p_hist->Sumw2(p_hist->FindBin(150), -1); // maybe use integralAndError instead of this...
-    double s_evts_gtr150 = s_hist->Sumw2(s_hist->FindBin(150), -1);
-
     drawLatexFromTString(TString("Number of Events > 150GeV in "+primary_name+": "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) ), .55,.5);
     drawLatexFromTString(TString("Number of Events > 150GeV in "+secondary_name+": "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err)), .55, .52);
     drawLatexFromTString(TString("Ratio: "+to_string(ratio_evts_gtr150)), .55, .54);
