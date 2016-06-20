@@ -320,7 +320,7 @@ bool isDuplicate(){
 
 bool passSignalRegionCuts(){
   
-  #Njets Min Cut
+  //Njets Min Cut
   if (conf->get("Njets_min") != ""){
     if (phys.njets() < stod(conf->get("Njets_min"))){
       numEvents->Fill(34);
@@ -328,7 +328,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Njets Max Cut
+  //Njets Max Cut
   if (conf->get("Njets_max") != ""){
     if (phys.njets() > stod(conf->get("Njets_max"))){
       numEvents->Fill(35);
@@ -336,7 +336,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Num Bottom jets Min Cut
+  //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
     if (phys.nBJetMedium() < stod(conf->get("NBjets_min"))){
       numEvents->Fill(36);
@@ -344,7 +344,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Num Bottom jets Max Cut
+  //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
     if (phys.nBJetMedium() > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
@@ -352,7 +352,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Leading Jet/MET Phi min
+  //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
     if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
       numEvents->Fill(38);
@@ -360,7 +360,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Trailing Jet/MET Phi min
+  //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
     if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
       numEvents->Fill(39);
@@ -368,7 +368,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #MT2b min
+  //MT2b min
   if (conf->get("MT2b") != ""){
     if (phys.mt2b() < stod(conf->get("MT2b"))){
       numEvents->Fill(40);
@@ -376,7 +376,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #HT min
+  //HT min
   if (conf->get("HT_min") != ""){
     if (phys.ht() < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
@@ -384,7 +384,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #DiBottom mass difference from Higgs Mass
+  //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
     if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
@@ -392,7 +392,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Wierd ATLAS SR cut
+  //Wierd ATLAS SR cut
   if (conf->get("sum_HT_pt_pt") != ""){
     double pt;
     
