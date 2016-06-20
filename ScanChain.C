@@ -97,7 +97,7 @@ bool passBaseCut(){
   if (! (phys.njets() >= 2) ){ 
     pass=false; //2 jet cut
     numEvents->Fill(9);
-  } 
+  }
 
   return pass;
 }
@@ -352,23 +352,62 @@ bool passSignalRegionCuts(){
     }
   }
 
-  #Leading Jet/MET Phi
+  #Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
-    if (phys.dphi_metj1() > atoi(conf->get("dPhi_MET_j1"))){
+    if (phys.dphi_metj1() < atoi(conf->get("dPhi_MET_j1"))){
       numEvents->Fill(38);
       return false;
     }
   }
 
-  #Trailing Jet/MET Phi
+  #Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
-    if (phys.dphi_metj2() > atoi(conf->get("dPhi_MET_j2"))){
+    if (phys.dphi_metj2() < atoi(conf->get("dPhi_MET_j2"))){
       numEvents->Fill(39);
       return false;
     }
   }
 
+  #MT2b min
+  if (conf->get("MT2b") != ""){
+    if (phys.mt2b() < atoi(conf->get("MT2b"))){
+      numEvents->Fill(40);
+      return false;
+    }
+  }
 
+  #HT min
+  if (conf->get("HT_min") != ""){
+    if (phys.ht() < atoi(conf->get("HT_min"))){
+      numEvents->Fill(41);
+      return false;
+    }
+  }
+
+  #DiBottom mass difference from Higgs Mass
+  if (conf->get("mbb_mh_diff") != ""){
+    if (abs(phys.mbb_csv() - 125) < atoi(conf->get("mbb_mh_diff"))){
+      numEvents->Fill(42);
+      return false;
+    }
+  }
+
+  #Wierd ATLAS SR cut
+  if (conf->get("sum_HT_pt_pt") != ""){
+    double pt;
+    
+    if (phys.evt_type() == 2 && phys.ngamma() > 0){
+      pt = phys.gamma_pt().at(0);
+    }
+    else{
+      pt = phys.lep_pt().at(0) + phys.lep_pt().at(1);
+    }
+    
+    if ( abs(phys.ht() + pt ) < atoi(conf->get("sum_HT_pt_pt") ) ){
+      numEvents->Fill(43);
+      return false;
+    }
+  }
 }
 
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
@@ -389,9 +428,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
   
-  //=======================================
-  // Define Histograms
-  //=======================================
+//=======================================
+// Define Histograms
+//=======================================
   
   TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
@@ -507,6 +546,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
 
       if (! hasGoodBoson()) continue; // Boson Specific Cuts
+      //cout<<__LINE__<<endl;      
+
+      if (! passSignalRegionCuts()) continue; // Signal Region Cuts
       //cout<<__LINE__<<endl;      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters

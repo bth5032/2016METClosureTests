@@ -27,7 +27,40 @@ function mkdirs {
 	if [[ ! -z $new_dir ]]
 	then
 		mkdir -p ${new_dir#*=}
-		cp ~/public_html/ZMET2016/index.php ${new_dir#*=}
+		addIndexToDirTree ${new_dir#*=}
 	fi
+}
+
+function makeAll {
+	if [[ -a $1/run_modes.conf ]]
+	then
+		makeHistos Z_Base $1/run_modes.conf
+		makeHistos G_Base $1/run_modes.conf
+		makeHistos G_Reweight $1/run_modes.conf
+
+		makePlots $1/singleplots.conf
+		makePlots $1/ratioplots.conf
+		makePlots $1/ratioplots_nowt.conf
+		makePlots $1/cuts.conf
+	else
+		echo "Can not find $1/run_modes.conf"
+	fi
+}
+
+function addIndexToDirTree {
+	#Adds the file at ~/public_html/ZMET2016/index.php into everything inside of the ~/public_html/ClosureTests/ directory for the directory given as $1.
+	topdir=$1
+
+	while [[ ${topdir%ClosureTests*} == "/home/users/bhashemi/public_html/" ]]
+	do
+		
+		if [[ ! -a ${topdir}/index.php ]]
+		then
+			cp ~/public_html/ZMET2016/index.php ${topdir}/index.php
+		fi
+
+		topdir=`dirname $topdir`
+	
+	done
 
 }
