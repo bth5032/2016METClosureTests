@@ -328,6 +328,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   //Njets Max Cut
   if (conf->get("Njets_max") != ""){
     if (phys.njets() > stod(conf->get("Njets_max"))){
@@ -335,6 +337,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  cout<<__LINE__<<endl;
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
@@ -344,6 +348,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
     if (phys.nBJetMedium() > stod(conf->get("NBjets_max"))){
@@ -351,6 +357,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  cout<<__LINE__<<endl;
 
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
@@ -360,6 +368,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
     if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
@@ -367,6 +377,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  cout<<__LINE__<<endl;
 
   //MT2b min
   if (conf->get("MT2b") != ""){
@@ -376,6 +388,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   //HT min
   if (conf->get("HT_min") != ""){
     if (phys.ht() < stod(conf->get("HT_min"))){
@@ -384,6 +398,8 @@ bool passSignalRegionCuts(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
     if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
@@ -391,6 +407,8 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+
+  cout<<__LINE__<<endl;
 
   //Wierd ATLAS SR cut
   if (conf->get("sum_HT_pt_pt") != ""){
@@ -408,6 +426,7 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+  return true;
 }
 
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
