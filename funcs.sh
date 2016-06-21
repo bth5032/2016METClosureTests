@@ -104,7 +104,7 @@ function makeAllConfigs {
 	makeAll configs/B/Btag/ 2>&1 > B_btag.out &
 	makeAll configs/B/Bveto/ 2>&1 > B_btag.out &
 
-	makeAll configs/ewkHiggs 2>&1 > ewkHiggs.out &
-	makeAll configs/atlas 2>&1 > atlas.out &
-	#makeAll configs/edge 2>&1 > edge.out &
+	makeAll configs/ewkHiggs/ 2>&1 > ewkHiggs.out &
+	makeAll configs/atlas/ 2>&1 > atlas.out &
+	#makeAll configs/edge/ 2>&1 > edge.out &
 }
