@@ -24,11 +24,14 @@ function mkdirs {
 
 	#For Plots Configs
 	new_dir=`grep DEFAULT::save_dir < $conf_filename`
-	if [[ ! -z $new_dir ]]
-	then
-		mkdir -p ${new_dir#*=}
-		addIndexToDirTree ${new_dir#*=}
-	fi
+	for l in `echo $new_dir`
+	do
+		if [[ ! -z $new_dir ]]
+		then
+			mkdir -p ${new_dir#*=}
+			addIndexToDirTree ${new_dir#*=}
+		fi
+	done
 }
 
 function makeAll {
