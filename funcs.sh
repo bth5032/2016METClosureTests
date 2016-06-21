@@ -26,10 +26,10 @@ function mkdirs {
 	new_dir=`grep DEFAULT::save_dir < $conf_filename`
 	for l in `echo $new_dir`
 	do
-		if [[ ! -z $new_dir ]]
+		if [[ ! -d ${l#*=} ]]
 		then
-			mkdir -p ${new_dir#*=}
-			addIndexToDirTree ${new_dir#*=}
+			mkdir -p ${l#*=}
+			addIndexToDirTree ${l#*=}
 		fi
 	done
 }
