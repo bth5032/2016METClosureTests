@@ -555,6 +555,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
 // Analysis Code
 //=======================================
+      if( TString(currentFile->GetTitle()).Contains("zjetsInclusive") ){
+        if( phys.gen_ht() > 100 ) {
+          numEvents->Fill(44);
+          continue;
+        }
+      }
       //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
