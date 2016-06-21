@@ -35,18 +35,48 @@ function mkdirs {
 }
 
 function makeAll {
+	makeHistosForDir $1
+	makePlotsForDir $1
+}
+
+function makeHistosForDir {
 	if [[ -a $1/run_modes.conf ]]
 	then
 		makeHistos Z_Base $1/run_modes.conf
 		makeHistos G_Base $1/run_modes.conf
 		makeHistos G_Reweight $1/run_modes.conf
-
-		makePlots $1/singleplots.conf
-		makePlots $1/ratioplots.conf
-		makePlots $1/ratioplots_nowt.conf
-		makePlots $1/cuts.conf
 	else
 		echo "Can not find $1/run_modes.conf"
+	fi
+}
+
+function makePlotsForDir {
+	if [[ -a $1/singleplots.conf ]]
+	then
+		makePlots $1/singleplots.conf
+	else
+		echo "Can not find $1/singleplots.conf"
+	fi
+
+	if [[ -a $1/ratioplots.conf ]]
+	then
+		makePlots $1/ratioplots.conf
+	else
+		echo "Can not find $1/ratioplots.conf"
+	fi
+
+	if [[ -a $1/ratioplots_nowt.conf ]]
+	then
+		makePlots $1/ratioplots_nowt.conf
+	else
+		echo "Can not find $1/ratioplots_nowt.conf"
+	fi
+
+	if [[ -a $1/cuts.conf ]]
+	then
+		makePlots $1/cuts.conf
+	else
+		echo "Can not find $1/cuts.conf"
 	fi
 }
 
