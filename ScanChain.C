@@ -119,7 +119,7 @@ bool passMuonTriggers(){
 }
 
 bool passElectronTriggers(){
-  if (phys.isData()){
+  if ( phys.isData()){
     return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
   }
   else{
@@ -207,10 +207,10 @@ bool hasGoodZ(){
     return false; // on-Z
   }
   
-  if( !(phys.dilpt() > 22) ){
+  /*if( !(phys.dilpt() > 22) ){
     numEvents->Fill(23); 
     return false; // Z pT > 22 GeV
-  }
+  }*/
 
   return true;
 }

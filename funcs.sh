@@ -8,6 +8,7 @@ function makePlots {
 	mkdirs $1
 	root -l -b -q "drawPlots.C(\"$1\")"
 }
+
 function makeHistos {	
 	mkdirs $2
 	root -l -b -q "doAll.C(\"$1\", \"$2\")"
@@ -78,6 +79,13 @@ function makePlotsForDir {
 	else
 		echo "Can not find $1/cuts.conf"
 	fi
+
+	if [[ -a $1/statplots.conf ]]
+	then
+		makePlots $1/statplots.conf
+	else
+		echo "Can not find $1/statplots.conf"
+	fi
 }
 
 function addIndexToDirTree {
@@ -95,16 +103,37 @@ function addIndexToDirTree {
 		topdir=`dirname $topdir`
 	
 	done
-
 }
 
 function makeAllConfigs {
-	makeAll configs/A/Btag/ 2>&1 > A_btag.out &
-	makeAll configs/A/Bveto/ 2>&1 > A_bveto.out &
-	makeAll configs/B/Btag/ 2>&1 > B_btag.out &
-	makeAll configs/B/Bveto/ 2>&1 > B_btag.out &
+	if [[ $1 == "plots" ]]
+	then
+		makePlotsForDir configs/A/Btag/ 2>&1 > A_btag.plots_out &
+		makePlotsForDir configs/A/Bveto/ 2>&1 > A_bveto.plots_out &
+		makePlotsForDir configs/B/Btag/ 2>&1 > B_btag.plots_out &
+		makePlotsForDir configs/B/Bveto/ 2>&1 > B_btag.plots_out &
+		
+		makePlotsForDir configs/ewkHiggs/ 2>&1 > ewkHiggs.plots_out &
+		makePlotsForDir configs/atlas/ 2>&1 > atlas.plots_out &
+		makePlotsForDir configs/edge/ 2>&1 > edge.plots_out &
+	elif [[ $1 == "histos" ]]
+	then
+		makeHistosForDir configs/A/Btag/ 2>&1 > A_btag.hist_out &
+		makeHistosForDir configs/A/Bveto/ 2>&1 > A_bveto.hist_out &
+		makeHistosForDir configs/B/Btag/ 2>&1 > B_btag.hist_out &
+		makeHistosForDir configs/B/Bveto/ 2>&1 > B_btag.hist_out &
+		
+		makeHistosForDir configs/ewkHiggs/ 2>&1 > ewkHiggs.hist_out &
+		makeHistosForDir configs/atlas/ 2>&1 > atlas.hist_out &
+		makeHistosForDir configs/edge/ 2>&1 > edge.hist_out &
+	else
+		makeAll configs/A/Btag/ 2>&1 > A_btag.out &
+		makeAll configs/A/Bveto/ 2>&1 > A_bveto.out &
+		makeAll configs/B/Btag/ 2>&1 > B_btag.out &
+		makeAll configs/B/Bveto/ 2>&1 > B_btag.out &
 
-	makeAll configs/ewkHiggs/ 2>&1 > ewkHiggs.out &
-	makeAll configs/atlas/ 2>&1 > atlas.out &
-	#makeAll configs/edge/ 2>&1 > edge.out &
+		makeAll configs/ewkHiggs/ 2>&1 > ewkHiggs.out &
+		makeAll configs/atlas/ 2>&1 > atlas.out &
+		makeAll configs/edge/ 2>&1 > edge.out &
+	fi
 }
