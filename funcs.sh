@@ -35,9 +35,11 @@ function mkdirs {
 	done
 }
 
-function makeAll {
-	makeHistosForDir $1
-	makePlotsForDir $1
+function makeAllForDir {
+	echo $1 > hist_out
+	makeHistosForDir $1 >> hist_out 2>&1 &
+	echo $1 > plots_out
+	makePlotsForDir $1 >> plots_out 2>&1 &
 }
 
 function makeHistosForDir {
@@ -108,32 +110,43 @@ function addIndexToDirTree {
 function makeAllConfigs {
 	if [[ $1 == "plots" ]]
 	then
-		makePlotsForDir configs/A/Btag/ > A_btag.plots_out  2>&1 &
-		makePlotsForDir configs/A/Bveto/ > A_bveto.plots_out  2>&1 &
-		makePlotsForDir configs/B/Btag/ > B_btag.plots_out  2>&1 &
-		makePlotsForDir configs/B/Bveto/ > B_bveto.plots_out  2>&1 &
+		makePlotsForDir configs/A/Btag/ > A_Btag.plots_out  2>&1 &
+		makePlotsForDir configs/A/Bveto/ > A_Bveto.plots_out  2>&1 &
+		makePlotsForDir configs/B/Btag/ > B_Btag.plots_out  2>&1 &
+		makePlotsForDir configs/B/Bveto/ > B_Bveto.plots_out  2>&1 &
 		
 		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
 		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
 		makePlotsForDir configs/edge/ > edge.plots_out  2>&1 &
 	elif [[ $1 == "histos" ]]
 	then
-		makeHistosForDir configs/A/Btag/ > A_btag.hist_out 2>&1 &
-		makeHistosForDir configs/A/Bveto/ > A_bveto.hist_out 2>&1 &
-		makeHistosForDir configs/B/Btag/ > B_btag.hist_out 2>&1 &
-		makeHistosForDir configs/B/Bveto/ > B_bveto.hist_out 2>&1 &
+		makeHistosForDir configs/A/Btag/ > A_Btag.hist_out 2>&1 &
+		makeHistosForDir configs/A/Bveto/ > A_Bveto.hist_out 2>&1 &
+		makeHistosForDir configs/B/Btag/ > B_Btag.hist_out 2>&1 &
+		makeHistosForDir configs/B/Bveto/ > B_Bveto.hist_out 2>&1 &
 		
 		makeHistosForDir configs/ewkHiggs/ > ewkHiggs.hist_out 2>&1 &
 		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
 		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
 	else
-		makeAll configs/A/Btag/ > A_btag.out 2>&1 &
-		makeAll configs/A/Bveto/ > A_bveto.out 2>&1 &
-		makeAll configs/B/Btag/ > B_btag.out 2>&1 &
-		makeAll configs/B/Bveto/ > B_bveto.out 2>&1 &
+		makeAll configs/A/Btag/ > A_Btag.out 2>&1 &
+		makeAll configs/A/Bveto/ > A_Bveto.out 2>&1 &
+		makeAll configs/B/Btag/ > B_Btag.out 2>&1 &
+		makeAll configs/B/Bveto/ > B_Bveto.out 2>&1 &
 
 		makeAll configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
 		makeAll configs/atlas/ > atlas.out 2>&1 &
 		makeAll configs/edge/ > edge.out 2>&1 &
 	fi
+}
+
+function numjobs {
+	psout=`ps aux | grep bhashemi | grep "configs/"` 
+
+	if [[ $1 == "v" ]]
+	then 
+		echo "$psout"
+	fi
+
+	echo "scale=3; "`echo "$psout" | wc  -l`"*(1/2) - 1/2" | bc;
 }
