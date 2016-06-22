@@ -163,11 +163,12 @@ TString drawTwoWithResidual(ConfigParser *conf){
   else {
       ymax = 1.2*clonedSecondary->GetMaximum();   
   }
+  cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedSecondary->GetMaximum() <<endl;
+  cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   delete clonedSecondary;
   delete clonedPrimary;
   
-  cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
   
