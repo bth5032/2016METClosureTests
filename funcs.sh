@@ -80,11 +80,11 @@ function makePlotsForDir {
 		echo "Can not find $1/cuts.conf"
 	fi
 
-	if [[ -a $1/statplots.conf ]]
+	if [[ -a $1/statsplots.conf ]]
 	then
-		makePlots $1/statplots.conf
+		makePlots $1/statsplots.conf
 	else
-		echo "Can not find $1/statplots.conf"
+		echo "Can not find $1/statsplots.conf"
 	fi
 }
 

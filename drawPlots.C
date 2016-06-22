@@ -572,7 +572,6 @@ TString drawCutDebug(ConfigParser *conf){
   for (int i = xmin; i<xmax; i++)
   {
     bin_label=label_conf[to_string(i)];
-    cout<<i<<": "<<bin_label<<endl;
     h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
   }  
   h_axes->GetXaxis()->LabelsOption("v");
@@ -620,13 +619,13 @@ void drawPlots(TString config_file)
 
   while(configs->loadNextConfig()) {
     if (configs->get("PLOT_TYPE") == "ratio"){
-      drawTwoWithResidual(configs);
+      errors=drawTwoWithResidual(configs);
     }
     else if (configs->get("PLOT_TYPE") == "single"){
-      drawSingleTH1(configs);
+      errors=drawSingleTH1(configs);
     }
     else if (configs->get("PLOT_TYPE") == "debug"){
-      drawCutDebug(configs);
+      errors=drawCutDebug(configs);
     }
   }
   
