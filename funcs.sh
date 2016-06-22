@@ -108,32 +108,32 @@ function addIndexToDirTree {
 function makeAllConfigs {
 	if [[ $1 == "plots" ]]
 	then
-		makePlotsForDir configs/A/Btag/ 2>&1 > A_btag.plots_out &
-		makePlotsForDir configs/A/Bveto/ 2>&1 > A_bveto.plots_out &
-		makePlotsForDir configs/B/Btag/ 2>&1 > B_btag.plots_out &
-		makePlotsForDir configs/B/Bveto/ 2>&1 > B_btag.plots_out &
+		makePlotsForDir configs/A/Btag/ > A_btag.plots_out  2>&1 &
+		makePlotsForDir configs/A/Bveto/ > A_bveto.plots_out  2>&1 &
+		makePlotsForDir configs/B/Btag/ > B_btag.plots_out  2>&1 &
+		makePlotsForDir configs/B/Bveto/ > B_btag.plots_out  2>&1 &
 		
-		makePlotsForDir configs/ewkHiggs/ 2>&1 > ewkHiggs.plots_out &
-		makePlotsForDir configs/atlas/ 2>&1 > atlas.plots_out &
-		makePlotsForDir configs/edge/ 2>&1 > edge.plots_out &
+		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
+		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
+		makePlotsForDir configs/edge/ > edge.plots_out  2>&1 &
 	elif [[ $1 == "histos" ]]
 	then
-		makeHistosForDir configs/A/Btag/ 2>&1 > A_btag.hist_out &
-		makeHistosForDir configs/A/Bveto/ 2>&1 > A_bveto.hist_out &
-		makeHistosForDir configs/B/Btag/ 2>&1 > B_btag.hist_out &
-		makeHistosForDir configs/B/Bveto/ 2>&1 > B_btag.hist_out &
+		makeHistosForDir configs/A/Btag/ > A_btag.hist_out 2>&1 &
+		makeHistosForDir configs/A/Bveto/ > A_bveto.hist_out 2>&1 &
+		makeHistosForDir configs/B/Btag/ > B_btag.hist_out 2>&1 &
+		makeHistosForDir configs/B/Bveto/ > B_btag.hist_out 2>&1 &
 		
-		makeHistosForDir configs/ewkHiggs/ 2>&1 > ewkHiggs.hist_out &
-		makeHistosForDir configs/atlas/ 2>&1 > atlas.hist_out &
-		makeHistosForDir configs/edge/ 2>&1 > edge.hist_out &
+		makeHistosForDir configs/ewkHiggs/ > ewkHiggs.hist_out 2>&1 &
+		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
+		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
 	else
-		makeAll configs/A/Btag/ 2>&1 > A_btag.out &
-		makeAll configs/A/Bveto/ 2>&1 > A_bveto.out &
-		makeAll configs/B/Btag/ 2>&1 > B_btag.out &
-		makeAll configs/B/Bveto/ 2>&1 > B_btag.out &
+		makeAll configs/A/Btag/ > A_btag.out 2>&1 &
+		makeAll configs/A/Bveto/ > A_bveto.out 2>&1 &
+		makeAll configs/B/Btag/ > B_btag.out 2>&1 &
+		makeAll configs/B/Bveto/ > B_btag.out 2>&1 &
 
-		makeAll configs/ewkHiggs/ 2>&1 > ewkHiggs.out &
-		makeAll configs/atlas/ 2>&1 > atlas.out &
-		makeAll configs/edge/ 2>&1 > edge.out &
+		makeAll configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
+		makeAll configs/atlas/ > atlas.out 2>&1 &
+		makeAll configs/edge/ > edge.out 2>&1 &
 	fi
 }
