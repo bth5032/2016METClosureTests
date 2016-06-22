@@ -36,10 +36,15 @@ function mkdirs {
 }
 
 function _makeAllForDir {
-	echo $1 > hist_out
-	makeHistosForDir $1 >> hist_out 2>&1
-	echo $1 > plots_out
-	makePlotsForDir $1 >> plots_out 2>&1
+	fname_hist="hist_out_"${1//\//_}
+	fname_plots="plots_out_"${1//\//_}	
+
+	echo $1 > $fname_hist
+	makeHistosForDir $1 >> $fname_hist 2>&1
+
+
+	echo $1 > $fname_plots
+	makePlotsForDir $1 >> $fname_plots 2>&1
 }
 
 function makeAllForDir {
@@ -153,4 +158,21 @@ function numjobs {
 	fi
 
 	echo "scale=3; "`echo "$psout" | wc  -l`"*(1/2) - 1/2" | bc;
+}
+
+function pullHists {
+	dname=`cat $1/run_modes.conf | grep DEFAULT::histo_output_dir=`
+	dname=${dname#*=}
+
+	srname=`cat $1/run_modes.conf | grep signal_region=`
+	srname=${srname#*=}
+
+	scp uaf:$dname/ct_*${srname}*.root histos/ 
+}
+
+function pullOutput {
+	scp uaf:~/Projects/GIT/2016METClosureTests/*.hist_out outputs/
+	scp uaf:~/Projects/GIT/2016METClosureTests/*.plots_out outputs/
+	scp uaf:~/Projects/GIT/2016METClosureTests/hist_out* outputs/
+	scp uaf:~/Projects/GIT/2016METClosureTests/plots_out* outputs/
 }
