@@ -382,7 +382,7 @@ bool passSignalRegionCuts(){
 
   //MT2b min
   if (conf->get("MT2b") != ""){
-    if (phys.mt2b() < stod(conf->get("MT2b"))){
+    if (phys.mt2b() < stod(conf->get("MT2b")) && g_sample_name == "gjets"){
       numEvents->Fill(40);
       return false;
     }
