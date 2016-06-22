@@ -192,11 +192,11 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double overflow_primary = p_hist->GetBinContent(n_bins + 1);
     double overflow_secondary = s_hist->GetBinContent(n_bins + 1);
 
-    double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
-    double max_secondary = s_hist->Integral(s_hist->FindBin(xmax) - 1, n_bins);
+    double max_primary = p_hist->Integral(p_hist->FindBin(xmax-.001), n_bins);
+    double max_secondary = s_hist->Integral(s_hist->FindBin(xmax-.001), n_bins);
 
-    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
-    s_hist->SetBinContent(s_hist->FindBin(xmax) - 1, max_secondary+overflow_secondary);
+    p_hist->SetBinContent(p_hist->FindBin(xmax-.001), max_primary+overflow_primary);
+    s_hist->SetBinContent(s_hist->FindBin(xmax-.001), max_secondary+overflow_secondary);
   }
   
       
