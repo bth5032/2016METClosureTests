@@ -38,6 +38,9 @@ function mkdirs {
 function makeAllForDir {
 	echo $1 > hist_out
 	makeHistosForDir $1 >> hist_out 2>&1 &
+
+	wait
+	
 	echo $1 > plots_out
 	makePlotsForDir $1 >> plots_out 2>&1 &
 }
