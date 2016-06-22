@@ -111,7 +111,7 @@ function makeAllConfigs {
 		makePlotsForDir configs/A/Btag/ > A_btag.plots_out  2>&1 &
 		makePlotsForDir configs/A/Bveto/ > A_bveto.plots_out  2>&1 &
 		makePlotsForDir configs/B/Btag/ > B_btag.plots_out  2>&1 &
-		makePlotsForDir configs/B/Bveto/ > B_btag.plots_out  2>&1 &
+		makePlotsForDir configs/B/Bveto/ > B_bveto.plots_out  2>&1 &
 		
 		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
 		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
@@ -121,7 +121,7 @@ function makeAllConfigs {
 		makeHistosForDir configs/A/Btag/ > A_btag.hist_out 2>&1 &
 		makeHistosForDir configs/A/Bveto/ > A_bveto.hist_out 2>&1 &
 		makeHistosForDir configs/B/Btag/ > B_btag.hist_out 2>&1 &
-		makeHistosForDir configs/B/Bveto/ > B_btag.hist_out 2>&1 &
+		makeHistosForDir configs/B/Bveto/ > B_bveto.hist_out 2>&1 &
 		
 		makeHistosForDir configs/ewkHiggs/ > ewkHiggs.hist_out 2>&1 &
 		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
@@ -130,7 +130,7 @@ function makeAllConfigs {
 		makeAll configs/A/Btag/ > A_btag.out 2>&1 &
 		makeAll configs/A/Bveto/ > A_bveto.out 2>&1 &
 		makeAll configs/B/Btag/ > B_btag.out 2>&1 &
-		makeAll configs/B/Bveto/ > B_btag.out 2>&1 &
+		makeAll configs/B/Bveto/ > B_bveto.out 2>&1 &
 
 		makeAll configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
 		makeAll configs/atlas/ > atlas.out 2>&1 &
