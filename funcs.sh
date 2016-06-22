@@ -111,7 +111,7 @@ function makeAllConfigs {
 		makePlotsForDir configs/A/Btag/ > A_btag.plots_out  2>&1 &
 		makePlotsForDir configs/A/Bveto/ > A_bveto.plots_out  2>&1 &
 		makePlotsForDir configs/B/Btag/ > B_btag.plots_out  2>&1 &
-		#makePlotsForDir configs/B/Bveto/ > B_bveto.plots_out  2>&1 &
+		makePlotsForDir configs/B/Bveto/ > B_bveto.plots_out  2>&1 &
 		
 		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
 		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
