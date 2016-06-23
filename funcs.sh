@@ -157,7 +157,7 @@ function numjobs {
 
 	if [[ $1 == "v" ]]
 	then 
-		echo "$psout"
+		echo "$psout" | grep "root -l"
 	fi
 
 	echo "scale=3; "`echo "$psout" | wc  -l`"*(1/2) - 1/2" | bc;
