@@ -36,8 +36,11 @@ function mkdirs {
 }
 
 function _makeAllForDir {
-	fname_hist="hist_out_"${1//\//_}
-	fname_plots="plots_out_"${1//\//_}	
+	fname_hist=${1//\//_}
+	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
+
+	fname_plots=${1//\//_}
+	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	echo $1 > $fname_hist
 	makeHistosForDir $1 >> $fname_hist 2>&1
@@ -138,14 +141,14 @@ function makeAllConfigs {
 		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
 		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
 	else
-		makeAllForDir configs/A/Btag/ > A_Btag.out 2>&1 &
-		makeAllForDir configs/A/Bveto/ > A_Bveto.out 2>&1 &
-		makeAllForDir configs/B/Btag/ > B_Btag.out 2>&1 &
-		makeAllForDir configs/B/Bveto/ > B_Bveto.out 2>&1 &
+		makeAllForDir configs/A/Btag/
+		makeAllForDir configs/A/Bveto/
+		makeAllForDir configs/B/Btag/
+		makeAllForDir configs/B/Bveto/
 
-		makeAllForDir configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
-		makeAllForDir configs/atlas/ > atlas.out 2>&1 &
-		makeAllForDir configs/edge/ > edge.out 2>&1 &
+		makeAllForDir configs/ewkHiggs/
+		makeAllForDir configs/atlas/
+		makeAllForDir configs/edge/
 	fi
 }
 
