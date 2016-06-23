@@ -176,3 +176,7 @@ function pullOutput {
 	scp uaf:~/Projects/GIT/2016METClosureTests/hist_out* outputs/
 	scp uaf:~/Projects/GIT/2016METClosureTests/plots_out* outputs/
 }
+
+function killjobs {
+	kill -9 `numjobs -v | grep "root -l" | xargs`
+}
