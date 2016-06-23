@@ -138,14 +138,14 @@ function makeAllConfigs {
 		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
 		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
 	else
-		makeAll configs/A/Btag/ > A_Btag.out 2>&1 &
-		makeAll configs/A/Bveto/ > A_Bveto.out 2>&1 &
-		makeAll configs/B/Btag/ > B_Btag.out 2>&1 &
-		makeAll configs/B/Bveto/ > B_Bveto.out 2>&1 &
+		makeAllForDir configs/A/Btag/ > A_Btag.out 2>&1 &
+		makeAllForDir configs/A/Bveto/ > A_Bveto.out 2>&1 &
+		makeAllForDir configs/B/Btag/ > B_Btag.out 2>&1 &
+		makeAllForDir configs/B/Bveto/ > B_Bveto.out 2>&1 &
 
-		makeAll configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
-		makeAll configs/atlas/ > atlas.out 2>&1 &
-		makeAll configs/edge/ > edge.out 2>&1 &
+		makeAllForDir configs/ewkHiggs/ > ewkHiggs.out 2>&1 &
+		makeAllForDir configs/atlas/ > atlas.out 2>&1 &
+		makeAllForDir configs/edge/ > edge.out 2>&1 &
 	fi
 }
 
