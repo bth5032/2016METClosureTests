@@ -427,14 +427,14 @@ bool passSignalRegionCuts(){
     }
   }
   
-  if (conf->get("lep1_pt_min") != ""){
+  if (conf->get("lep1_pt_min") != "" && g_sample_name=="zjets" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
       numEvents->Fill(45);
       return false;
     }
   }
 
-  if (conf->get("lep2_pt_min") != ""){
+  if (conf->get("lep2_pt_min") != "" && g_sample_name=="zjets" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
       numEvents->Fill(46);
       return false;
