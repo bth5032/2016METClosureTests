@@ -133,9 +133,9 @@ bool hasGoodZ(){
     return false; // require at least 2 good leptons
   }
   
-  if( phys.lep_pt().at(0) < 20        ) {
+  if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
-    return false; // leading lep pT > 20 GeV
+    return false; // leading lep pT > 25 GeV
   }
 
   if( phys.lep_pt().at(1) < 20        ) {
@@ -426,6 +426,21 @@ bool passSignalRegionCuts(){
       return false;
     }
   }
+  
+  if (conf->get("lep1_pt_min") != ""){
+    if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
+      numEvents->Fill(45);
+      return false;
+    }
+  }
+
+  if (conf->get("lep2_pt_min") != ""){
+    if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
+      numEvents->Fill(46);
+      return false;
+    }
+  }
+
   return true;
 }
 
