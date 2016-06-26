@@ -510,6 +510,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   {
     vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_atlas, ptbins_atlas); 
   }
+  else if (conf->get("signal_region") == "VincePhotonPT"){
+    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, 6000, 0, 6000);  
+  }
+
   else{
     vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_std, ptbins_std);  
   }
