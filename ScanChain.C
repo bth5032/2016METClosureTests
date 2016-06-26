@@ -517,6 +517,43 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
+  TH1D *vpt_150;
+  TH1D *vpt_225;
+  TH1D *vpt_300;
+
+  TH1D *met_150;
+  TH1D *met_225;
+  TH1D *met_300;
+
+  if (conf->get("signal_region") == "VincePhotonPT"){
+    vpt_150 = new TH1D(sampleName+"_vpt150", "Boson Pt for events with > 150GeV of MET in "+sampleName, 6000, 0, 6000);  
+    vpt_225 = new TH1D(sampleName+"_vpt225", "Boson Pt for events with > 225GeV of MET in "+sampleName, 6000, 0, 6000);  
+    vpt_300 = new TH1D(sampleName+"_vpt300", "Boson Pt for events with > 300GeV of MET in "+sampleName, 6000, 0, 6000);  
+
+    met_150 = new TH1D(sampleName+"_met150", "MET for events with > 150GeV of MET in "+sampleName, 6000, 0, 6000);  
+    met_225 = new TH1D(sampleName+"_met225", "MET for events with > 225GeV of MET in "+sampleName, 6000, 0, 6000);  
+    met_300 = new TH1D(sampleName+"_met300", "MET for events with > 300GeV of MET in "+sampleName, 6000, 0, 6000);  
+
+    vpt_150->SetDirectory(rootdir);
+    vpt_150->Sumw2();
+
+    vpt_225->SetDirectory(rootdir);
+    vpt_225->Sumw2();
+
+    vpt_300->SetDirectory(rootdir);
+    vpt_300->Sumw2();
+
+    met_150->SetDirectory(rootdir);
+    met_150->Sumw2();
+
+    met_225->SetDirectory(rootdir);
+    met_225->Sumw2();
+
+    met_300->SetDirectory(rootdir);
+    met_300->Sumw2();
+  }
+
+
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
@@ -623,6 +660,22 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_t->Fill(phys.nBJetTight(), weight);
 
       //cout<<__LINE__<<endl;
+
+      //Vince's Photon plots
+      if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 150){
+          met150->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt150->Fill(bosonPt(), weight);
+        } 
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
+          met225->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt225->Fill(bosonPt(), weight);
+        } 
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
+          met300->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt300->Fill(bosonPt(), weight);
+        } 
+      }
     }
     // Clean Up
     delete tree;
@@ -651,7 +704,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_m->Write();
   nbtags_l->Write();
   nbtags_t->Write();
-
+  
+  if (conf->get("signal_region") == "VincePhotonPT"){
+    met150->Write();
+    vpt150->Write();
+    met225->Write();
+    vpt225->Write();
+    met300->Write();
+    vpt300->Write();
+  }
+  
   //close output file
   output->Write();
   output->Close();
