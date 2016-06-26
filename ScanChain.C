@@ -664,16 +664,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //Vince's Photon plots
       if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 150){
-          met150->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt150->Fill(bosonPt(), weight);
+          met_150->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt_150->Fill(bosonPt(), weight);
         } 
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
-          met225->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt225->Fill(bosonPt(), weight);
+          met_225->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt_225->Fill(bosonPt(), weight);
         } 
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
-          met300->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt300->Fill(bosonPt(), weight);
+          met_300->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+          vpt_300->Fill(bosonPt(), weight);
         } 
       }
     }
@@ -706,12 +706,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_t->Write();
   
   if (conf->get("signal_region") == "VincePhotonPT"){
-    met150->Write();
-    vpt150->Write();
-    met225->Write();
-    vpt225->Write();
-    met300->Write();
-    vpt300->Write();
+    met_150->Write();
+    vpt_150->Write();
+    met_225->Write();
+    vpt_225->Write();
+    met_300->Write();
+    vpt_300->Write();
   }
   
   //close output file
