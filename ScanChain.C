@@ -26,7 +26,6 @@
 // Configuration parsing
 #include "ConfigParser.C"
 
-h_pt_ee_eff_jetht->GetEfficiency(h_pt_ee_eff_jetht->FindFixBin(209))
 using namespace std;
 using namespace zmet;
 using namespace duplicate_removal;
