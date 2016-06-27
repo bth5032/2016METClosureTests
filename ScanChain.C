@@ -26,7 +26,7 @@
 // Configuration parsing
 #include "ConfigParser.C"
 
-
+h_pt_ee_eff_jetht->GetEfficiency(h_pt_ee_eff_jetht->FindFixBin(209))
 using namespace std;
 using namespace zmet;
 using namespace duplicate_removal;
@@ -37,6 +37,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 ConfigParser *conf;
 int nDuplicates=0;
 TH1D *g_vpt_weight_hist;
+TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
 TFile *g_weight_hist_file;
 TString g_sample_name;
 
@@ -292,6 +293,15 @@ double bosonPt(){
   }
 }
 
+double getEff(){
+  if (abs(phys.gamma_p4.at(0).eta()) < 1.4){
+    return g_vpt_eff_barrel->GetEfficiency(v_pt_eff_barrel->FindFixBin(phys.gamma_p4.pt()));
+  }
+  else{
+    return g_vpt_eff_endcap->GetEfficiency(v_pt_eff_endcap->FindFixBin(phys.gamma_p4.pt())); 
+  }
+}
+
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
@@ -303,6 +313,10 @@ double getWeight(){
 
   if ( conf->get("reweight") == "true" ) {
     weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
+  }
+
+  if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets"){
+    weight *= getEff();
   }
   return weight;
 }
@@ -585,6 +599,22 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_vpt_weight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
   }
+  
+  if( conf->get("reweight_eff") == "true" ){
+    cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
+    TFile weight_eff_file("trigeff_Photon165_zmet2016.root", "READ");
+    
+    //barrel
+    g_vpt_eff_barrel = (TEfficiency*)weight_eff_file->Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_vpt_eff_barrel->SetDirectory(rootdir);
+
+    //endcap
+    g_vpt_eff_endcap = (TEfficiency*)weight_eff_file->Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_vpt_eff_endcap->SetDirectory(rootdir);
+    
+    weight_eff_file->Close();
+  }
+
 
   //cout<<__LINE__<<endl;
   // Loop over events to Analyze
