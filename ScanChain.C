@@ -314,7 +314,7 @@ double getWeight(){
     weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
   }
 
-  if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets"){
+  if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
     weight *= getEff();
   }
   return weight;
