@@ -292,9 +292,9 @@ TString drawTwoWithResidual(ConfigParser *conf){
     double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), s_evts_gtr150_err);
     double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
     
-    TString stat_string_1("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
+    TString stat_string_1("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
 
-    TString stat_string_2("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
+    TString stat_string_2("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
 
     TString stat_string_3("Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150)));
 
