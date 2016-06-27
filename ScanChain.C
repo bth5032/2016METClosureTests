@@ -295,10 +295,10 @@ double bosonPt(){
 
 double getEff(){
   if (abs(phys.gamma_p4.at(0).eta()) < 1.4){
-    return g_vpt_eff_barrel->GetEfficiency(g_vpt_eff_barrel->FindFixBin(phys.gamma_p4.at(0).pt()));
+    return g_vpt_eff_barrel->GetEfficiency(g_vpt_eff_barrel->FindFixBin(phys.gamma_pt.at(0)));
   }
   else{
-    return g_vpt_eff_endcap->GetEfficiency(g_vpt_eff_endcap->FindFixBin(phys.gamma_p4.at(0).pt())); 
+    return g_vpt_eff_endcap->GetEfficiency(g_vpt_eff_endcap->FindFixBin(phys.gamma_pt.at(0))); 
   }
 }
 
