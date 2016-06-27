@@ -605,14 +605,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     TFile weight_eff_file("trigeff_Photon165_zmet2016.root", "READ");
     
     //barrel
-    g_vpt_eff_barrel = (TEfficiency*)weight_eff_file->Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_vpt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
     g_vpt_eff_barrel->SetDirectory(rootdir);
 
     //endcap
-    g_vpt_eff_endcap = (TEfficiency*)weight_eff_file->Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_vpt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
     g_vpt_eff_endcap->SetDirectory(rootdir);
     
-    weight_eff_file->Close();
+    weight_eff_file.Close();
   }
 
 
