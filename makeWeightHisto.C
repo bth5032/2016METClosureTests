@@ -38,6 +38,8 @@ void makeWeightHisto(ConfigParser * conf)
     exit(1);
   }
 
+  cout<<"Retrived Histograms"<<endl;
+
   TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio_unscaled");
   h_ratio_unscaled->Divide(h_secondary); 
 
