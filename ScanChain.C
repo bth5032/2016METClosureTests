@@ -458,24 +458,31 @@ bool passSignalRegionCuts(){
 }
 
 bool passRareCuts(){
+  
+  bool hasrealmet = true;
+  bool realzpair  = true;
+  
   if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
-    bool hasrealmet = false;
-    bool realzpair  = false;
+    
+    hasrealmet = true;
+    realzpair  = true;
+    
     for( size_t genind = 0; genind < phys.genPart_motherId().size(); genind++ ){
       if( (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) &&
         phys.genPart_status().at(genind) == 23 &&
         (abs(phys.genPart_pdgId().at(genind))==12 ||
          abs(phys.genPart_pdgId().at(genind))==14 ||
          abs(phys.genPart_pdgId().at(genind))==16) ){
-      // cout<<"mom "<<phys.genPart_motherId().at(genind) << " | stat "<< phys.genPart_status().at(genind) <<  " | id "<< phys.genPart_pdgId().at(genind) << endl;
-      hasrealmet = true;
+        // cout<<"mom "<<phys.genPart_motherId().at(genind) << " | stat "<< phys.genPart_status().at(genind) <<  " | id "<< phys.genPart_pdgId().at(genind) << endl;
+        hasrealmet = true;
       }
+      
       if( phys.genPart_motherId().at(genind) == 23 &&
         phys.genPart_status().at(genind) == 23 &&
         (abs(phys.genPart_pdgId().at(genind))==11 ||
          abs(phys.genPart_pdgId().at(genind))==13) ){
+        realzpair = true;
       }
-      realzpair = true;
     }
   }
 
