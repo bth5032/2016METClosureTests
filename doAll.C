@@ -9,6 +9,7 @@ void runScanChain(ConfigParser* conf){
   conf->print();
 
   if (conf->get("reweight") == "true"){
+    cout<<"Making Reweight Histogram"<<endl;
     makeWeightHisto(conf);
   }
 
