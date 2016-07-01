@@ -433,9 +433,7 @@ TString drawSingleTH1(ConfigParser *conf){
     double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
 
     p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
-  }
-  
-      
+  }      
   
   fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
@@ -448,6 +446,24 @@ TString drawSingleTH1(ConfigParser *conf){
   
   fullpad->RedrawAxis();
   
+  //===========================
+  // Print Closure Stats
+  //===========================
+  if (conf->get("print_stats") == "true")
+  {
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
+
+    Double_t p_evts_gtr150_err;
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), p_evts_gtr150_err);
+    
+    TString stat_string_1("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
+
+    drawLatexFromTString(stat_string_1, .52,.5);
+
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
+  }
+
   if (conf->get("luminosity_fb") != ""){
     fullpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));

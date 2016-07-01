@@ -485,8 +485,15 @@ bool passRareCuts(){
       }
     }
   }
-
-    return (hasrealmet && realzpair);
+  
+  if ( ! hasrealmet ){
+    numEvents->Fill(47);
+  }
+  else if ( ! realzpair ){
+    numEvents->Fill(48);
+  }
+  
+  return (hasrealmet && realzpair);
 }
 
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
@@ -706,7 +713,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
 
       if (! passSignalRegionCuts()) continue; // Signal Region Cuts
-      //cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;
+
+      if (conf->get("rares") == "true"){ 
+        if ( ! passRareCuts() ) continue; //Rare Sample Selections
+      }      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;      

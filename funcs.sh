@@ -44,17 +44,17 @@ function _makeAllForDir {
 
 	if [[ $2 == "hists" ]]
 	then
-		echo $1 > $fname_hist
+		echo $1 > outputs/$fname_hist
 		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 	elif [[ $2 == "plots" ]]
 	then
-		echo $1 > $fname_plots
+		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
 	else
-		echo $1 > $fname_hist
+		echo $1 > outputs/$fname_hist
 		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
-		echo $1 > $fname_plots
+		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
 	fi
 }
