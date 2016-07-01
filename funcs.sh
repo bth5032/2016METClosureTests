@@ -42,12 +42,21 @@ function _makeAllForDir {
 	fname_plots=${1//\//_}
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
-	echo $1 > $fname_hist
-	makeHistosForDir $1 >> $fname_hist 2>&1
+	if [[ $2 == "hists" ]]
+	then
+		echo $1 > $fname_hist
+		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
+	elif [[ $2 == "plots" ]]
+	then
+		echo $1 > $fname_plots
+		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
+	else
+		echo $1 > $fname_hist
+		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
-
-	echo $1 > $fname_plots
-	makePlotsForDir $1 >> $fname_plots 2>&1
+		echo $1 > $fname_plots
+		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
+	fi
 }
 
 function makeAllForDir {
@@ -120,35 +129,36 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
+	# takes in the 
 	if [[ $1 == "plots" ]]
 	then
-		makePlotsForDir configs/A/Btag/ > A_Btag.plots_out  2>&1 &
-		makePlotsForDir configs/A/Bveto/ > A_Bveto.plots_out  2>&1 &
-		makePlotsForDir configs/B/Btag/ > B_Btag.plots_out  2>&1 &
-		makePlotsForDir configs/B/Bveto/ > B_Bveto.plots_out  2>&1 &
+		makeAllForDir $2/A/Btag/ plots
+		makeAllForDir $2/A/Bveto/ plots
+		makeAllForDir $2/B/Btag/ plots
+		makeAllForDir $2/B/Bveto/ plots
 		
-		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
-		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
-		makePlotsForDir configs/edge/ > edge.plots_out  2>&1 &
+		makeAllForDir $2/ewkHiggs/ plots
+		makeAllForDir $2/atlas/ plots
+		makeAllForDir $2/edge/ plots
 	elif [[ $1 == "histos" ]]
 	then
-		makeHistosForDir configs/A/Btag/ > A_Btag.hist_out 2>&1 &
-		makeHistosForDir configs/A/Bveto/ > A_Bveto.hist_out 2>&1 &
-		makeHistosForDir configs/B/Btag/ > B_Btag.hist_out 2>&1 &
-		makeHistosForDir configs/B/Bveto/ > B_Bveto.hist_out 2>&1 &
+		makeAllForDir $2/A/Btag/ hists
+		makeAllForDir $2/A/Bveto/ hists
+		makeAllForDir $2/B/Btag/ hists
+		makeAllForDir $2/B/Bveto/ hists
 		
-		makeHistosForDir configs/ewkHiggs/ > ewkHiggs.hist_out 2>&1 &
-		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
-		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
+		makeAllForDir $2/ewkHiggs/ hists
+		makeAllForDir $2/atlas/ hists
+		makeAllForDir $2/edge/ hists
 	else
-		makeAllForDir configs/A/Btag/
-		makeAllForDir configs/A/Bveto/
-		makeAllForDir configs/B/Btag/
-		makeAllForDir configs/B/Bveto/
+		makeAllForDir $2/A/Btag/
+		makeAllForDir $2/A/Bveto/
+		makeAllForDir $2/B/Btag/
+		makeAllForDir $2/B/Bveto/
 
-		makeAllForDir configs/ewkHiggs/
-		makeAllForDir configs/atlas/
-		makeAllForDir configs/edge/
+		makeAllForDir $2/ewkHiggs/
+		makeAllForDir $2/atlas/
+		makeAllForDir $2/edge/
 	fi
 }
 
