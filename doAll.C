@@ -17,18 +17,23 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
       makeWeightHisto(conf);
     }
 
-    if (conf->get("zjets") == "true") {
-      ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
+    if (conf->get("data") == "true"){
+      if (conf->get("zjets") == "true"){
+        ScanChain(getDataZChain(conf->get("data_set")), conf->get("data_type"), conf);  
+      }
+      if (conf->get("gjets") == "true"){
+        ScanChain(getDataPhotonChain(conf->get("data_set")), conf->get("data_type"), conf);  
+      }
+    }
+    else{
+      if (conf->get("zjets") == "true") {
+        ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
+      }
+      if (conf->get("gjets") == "true") {
+        ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
+      }
     }
     
-    if (conf->get("gjets") == "true") {
-      ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
-    }
-
-    if (conf->get("data") == "true")
-    {
-      ScanChain(getDataChain(conf->get("data_set")), conf->get("data_type"), conf);  
-    }
     return ;
   }
 

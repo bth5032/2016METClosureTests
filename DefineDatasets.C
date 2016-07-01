@@ -66,9 +66,9 @@ TChain * getGJetsChain(TString data_set){
 }
 
 //====================================
-// Data
+// Photon Data
 //====================================
-TChain * getDataChain(TString trigger){
+TChain * getDataPhotonChain(TString trigger){
   TChain *ch_Data = new TChain("t");
 
   //Single Photon Trigger
@@ -76,6 +76,31 @@ TChain * getDataChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v1.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
+  }
+
+  return ch_Data;
+}
+
+//====================================
+// Leptonic Data
+//====================================
+TChain * getDataZChain(TString trigger){
+  TChain *ch_Data = new TChain("t");
+
+  // E/Mu Trigger
+  if (trigger.Contains("ee")){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v2*");
+  }
+
+  if (trigger == "em"){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v2*");
+  }
+
+  if (trigger == "mm"){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v1.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v2.root");
   }
 
   return ch_Data;
