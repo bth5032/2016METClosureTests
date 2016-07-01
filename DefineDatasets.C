@@ -66,6 +66,35 @@ TChain * getGJetsChain(TString data_set){
 }
 
 //====================================
+// Rare Samples
+//====================================
+TChain * getRareChain(TString data_set){
+  TChain *ch_rares = new TChain("t");
+ 
+  if (data_set.Contains("wz")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wz_3lnu_powheg*.root");
+  }
+
+  if (data_set.Contains("zz")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zz_2l2nu_powheg*.root");
+  }
+
+  if (data_set.Contains("vvv")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/www_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wwz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wzz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zzz_incl_mgmlm*.root");
+  }
+
+  if (data_set.Contains("ttv")){
+    ch_rares->Add("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttw_ln_amcnlo/wjets*.root");
+    ch_rares->Add("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttz_llnn_amcnlo/unknown*.root");
+  }
+
+  return ch_rares;
+}
+
+//====================================
 // Photon Data
 //====================================
 TChain * getDataPhotonChain(TString trigger){
