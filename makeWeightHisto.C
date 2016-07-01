@@ -23,6 +23,7 @@ void makeWeightHisto(ConfigParser * conf)
 
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
   TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
+  cout<<"Found files for reweighting"<<endl;
   TH1D * h_primary;
   TH1D * h_secondary;
   TH1D * h_primary_scaled;
