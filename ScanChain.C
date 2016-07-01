@@ -477,6 +477,7 @@ bool passRareCuts(){
       }
       realzpair = true;
     }
+  }
 
     return (hasrealmet && realzpair);
 }
