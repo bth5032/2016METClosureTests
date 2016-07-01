@@ -458,7 +458,7 @@ bool passSignalRegionCuts(){
 }
 
 bool passRareCuts(){
-  if( g_sample_name == "vvv" || g_sample_name == "ttv") ){
+  if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
     bool hasrealmet = false;
     bool realzpair  = false;
     for( size_t genind = 0; genind < phys.genPart_motherId().size(); genind++ ){
