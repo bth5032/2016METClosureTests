@@ -60,7 +60,7 @@ function _makeAllForDir {
 }
 
 function makeAllForDir {
-	_makeAllForDir $1 &
+	_makeAllForDir $1 $2 &
 }
 
 function makeHistosForDir {
