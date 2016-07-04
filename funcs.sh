@@ -132,40 +132,14 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
-	# takes in the 
-	if [[ $1 == "plots" ]]
-	then
-		makeAllForDir $2/A/Btag/ plots
-		makeAllForDir $2/A/Bveto/ plots
-		makeAllForDir $2/B/Btag/ plots
-		makeAllForDir $2/B/Bveto/ plots
-		
-		makeAllForDir $2/ewkHiggs/ plots
-		makeAllForDir $2/atlas/ plots
-		makeAllForDir $2/edge/ plots
-	elif [[ $1 == "hists" ]]
-	then
-		makeAllForDir $2/A/Btag/ hists
-		makeAllForDir $2/A/Bveto/ hists
-		makeAllForDir $2/B/Btag/ hists
-		makeAllForDir $2/B/Bveto/ hists
-		
-		makeAllForDir $2/ewkHiggs/ hists
-		makeAllForDir $2/atlas/ hists
-		makeAllForDir $2/edge/ hists
-	elif [[ $1 == "all" ]]
-	then
-		makeAllForDir $2/A/Btag/
-		makeAllForDir $2/A/Bveto/
-		makeAllForDir $2/B/Btag/
-		makeAllForDir $2/B/Bveto/
-
-		makeAllForDir $2/ewkHiggs/
-		makeAllForDir $2/atlas/
-		makeAllForDir $2/edge/
-	else
-		echo "Please choose a step to run over, hists, plots, or all"
-	fi
+	makeAllForDir $2/A/Btag/ $1
+	makeAllForDir $2/A/Bveto/ $1
+	makeAllForDir $2/B/Btag/ $1
+	makeAllForDir $2/B/Bveto/ $1
+	
+	makeAllForDir $2/ewkHiggs/ $1
+	makeAllForDir $2/atlas/ $1
+	makeAllForDir $2/edge/ $1
 }
 
 function numjobs {
