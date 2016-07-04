@@ -25,7 +25,7 @@ void runScanChain(ConfigParser* conf){
     }
   }
   else if (conf->get("rares") == "true"){
-    ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf)
+    ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);
   }
   else{
     if (conf->get("zjets") == "true") {
