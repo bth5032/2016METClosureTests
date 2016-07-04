@@ -196,17 +196,21 @@ bool hasGoodZ(){
     return false;
   }
 
-  if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-    if (conf->get("data_set") == "em" && phys.hyp_type() == 2)
-    {
-      //this is a good Flavor Symmetric event
-    }
-    else{
+  if (conf->get("data_set") == "em"){
+    if (! phys.hyp_type() == 2){
       numEvents->Fill(20); 
-      return false; // require explicit dilepton event
+      return false; // require explicit opposite flavor event
     }
   }
-  
+  else{
+    if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
+      else{
+        numEvents->Fill(20); 
+        return false; // require explicit same flavor event
+      }
+    }
+  }
+
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
     return false; // require opposite sign
