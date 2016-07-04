@@ -101,7 +101,7 @@ TChain * getDataPhotonChain(TString trigger){
   TChain *ch_Data = new TChain("t");
 
   //Single Photon Trigger
-  if (trigger == "SinglePhoton"){
+  if (trigger.Contains("SinglePhoton")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v1.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
@@ -122,12 +122,12 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v2*");
   }
 
-  if (trigger == "em"){
+  if (trigger.Contains("em")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v1*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v2*");
   }
 
-  if (trigger == "mm"){
+  if (trigger.Contains("mm")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v1.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v2.root");
   }
