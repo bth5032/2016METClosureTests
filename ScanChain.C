@@ -197,7 +197,7 @@ bool hasGoodZ(){
   }
 
   if (conf->get("data_set") == "em"){
-    if (! phys.hyp_type() == 2){
+    if (! (phys.hyp_type() == 2) ){
       numEvents->Fill(20); 
       return false; // require explicit opposite flavor event
     }
