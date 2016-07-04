@@ -51,7 +51,7 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     }
   }
 
-  if ( conf->loadConfig(config_name.Data()) ){
+  else if ( conf->loadConfig(config_name.Data()) ){
     runScanChain(conf);
   }
 
