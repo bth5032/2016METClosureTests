@@ -204,10 +204,8 @@ bool hasGoodZ(){
   }
   else{
     if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-      else{
         numEvents->Fill(20); 
         return false; // require explicit same flavor event
-      }
     }
   }
 
