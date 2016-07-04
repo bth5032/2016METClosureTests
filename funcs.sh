@@ -50,12 +50,14 @@ function _makeAllForDir {
 	then
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
-	else
+	elif [[ $2 == "all" ]]
 		echo $1 > outputs/$fname_hist
 		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
+	else
+		echo "Please choose a step to run over, hists, plots, or all"
 	fi
 }
 
@@ -140,7 +142,7 @@ function makeAllConfigs {
 		makeAllForDir $2/ewkHiggs/ plots
 		makeAllForDir $2/atlas/ plots
 		makeAllForDir $2/edge/ plots
-	elif [[ $1 == "histos" ]]
+	elif [[ $1 == "hists" ]]
 	then
 		makeAllForDir $2/A/Btag/ hists
 		makeAllForDir $2/A/Bveto/ hists
@@ -150,7 +152,7 @@ function makeAllConfigs {
 		makeAllForDir $2/ewkHiggs/ hists
 		makeAllForDir $2/atlas/ hists
 		makeAllForDir $2/edge/ hists
-	else
+	elif [[ $1 == "all" ]]
 		makeAllForDir $2/A/Btag/
 		makeAllForDir $2/A/Bveto/
 		makeAllForDir $2/B/Btag/
@@ -159,6 +161,8 @@ function makeAllConfigs {
 		makeAllForDir $2/ewkHiggs/
 		makeAllForDir $2/atlas/
 		makeAllForDir $2/edge/
+	else
+		echo "Please choose a step to run over, hists, plots, or all"
 	fi
 }
 

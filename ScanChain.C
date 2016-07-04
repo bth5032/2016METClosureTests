@@ -59,18 +59,18 @@ bool passMETFilters(){
       pass=false;
       numEvents->Fill(3);
     } 
-    if ( phys.Flag_CSCTightHalo2015Filter_isLoaded ){
-      if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
-        pass=false;
-        numEvents->Fill(4);
-      }
+/*    if ( phys.Flag_CSCTightHalo2015Filter_isLoaded ){*/
+    if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
+      pass=false;
+      numEvents->Fill(4);
     }
+/*    }
     else{
       if (!phys.Flag_CSCTightHaloFilter            ()      ) { 
         pass=false;
         numEvents->Fill(4);
       }
-    }
+    }*/
     if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
       pass=false;
       numEvents->Fill(5);
