@@ -112,7 +112,7 @@ bool passMuonTriggers(){
 
 bool passElectronTriggers(){
   if ( phys.isData()){
-    return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
+    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
   }
   else{
     return true; //MC always passes
@@ -146,11 +146,23 @@ bool hasGoodZ(){
     return false; // eta < 2.4
   }
 
-  if (! ( passMuonTriggers() && phys.hyp_type() == 1 )){
-    if (! ( passElectronTriggers() && phys.hyp_type() == 0) )
-    {
+  if (conf->get("data_set") == "em")
+  {
+    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
+      //good Mu/E event
+    }
+    else{
       numEvents->Fill(33);
-      return false; 
+      return false;
+    }
+  }
+  else{
+    if (! ( passMuonTriggers() && phys.hyp_type() == 1 )){
+      if (! ( passElectronTriggers() && phys.hyp_type() == 0) )
+      {
+        numEvents->Fill(33);
+        return false; 
+      }
     }
   }
 
@@ -168,7 +180,7 @@ bool hasGoodZ(){
   } 
   */
   
-  //This is the original cu t selection
+  //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
     return false;
@@ -185,12 +197,12 @@ bool hasGoodZ(){
   }
 
   if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-    numEvents->Fill(20); 
     if (conf->get("data_set") == "em" && phys.hyp_type() == 2)
     {
       //this is a good Flavor Symmetric event
     }
     else{
+      numEvents->Fill(20); 
       return false; // require explicit dilepton event
     }
   }
