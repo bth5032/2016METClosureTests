@@ -186,7 +186,13 @@ bool hasGoodZ(){
 
   if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
     numEvents->Fill(20); 
-    return false; // require explicit dilepton event
+    if (conf->get("data_set") == "em" && phys.hyp_type() == 2)
+    {
+      //this is a good Flavor Symmetric event
+    }
+    else{
+      return false; // require explicit dilepton event
+    }
   }
   
   if( !(phys.evt_type() == 0 ) ) {
