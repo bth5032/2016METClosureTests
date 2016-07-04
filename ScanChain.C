@@ -733,6 +733,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         if ( ! passRareCuts() ) continue; //Rare Sample Selections
       }      
 
+      if (phys.hyp_type() != 2){
+        cout<<"You suck at coding"<<endl;
+        continue;
+      }
+
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;      
       //Fill in Histos
