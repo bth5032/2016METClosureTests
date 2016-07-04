@@ -288,8 +288,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
     int high_val = stoi(conf->get("stats_high_val"));
 
     Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), p_evts_gtr150_err);
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), s_evts_gtr150_err);
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
+    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val-.001), s_evts_gtr150_err);
     double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
     
     TString stat_string_1("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
@@ -455,7 +455,7 @@ TString drawSingleTH1(ConfigParser *conf){
     int high_val = stoi(conf->get("stats_high_val"));
 
     Double_t p_evts_gtr150_err;
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), p_evts_gtr150_err);
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
     
     TString stat_string_1("Number of Events in "+hist_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
 
