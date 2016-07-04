@@ -51,6 +51,7 @@ function _makeAllForDir {
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
 	elif [[ $2 == "all" ]]
+	then
 		echo $1 > outputs/$fname_hist
 		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
@@ -153,6 +154,7 @@ function makeAllConfigs {
 		makeAllForDir $2/atlas/ hists
 		makeAllForDir $2/edge/ hists
 	elif [[ $1 == "all" ]]
+	then
 		makeAllForDir $2/A/Btag/
 		makeAllForDir $2/A/Bveto/
 		makeAllForDir $2/B/Btag/
