@@ -720,20 +720,35 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
       }
-      if ( isDuplicate() ) continue; // check for duplicates
+      if ( isDuplicate() ){
+        cout<<"Failed Duplicate"<<endl;
+        continue;
+      } // check for duplicates
       //cout<<__LINE__<<endl;      
 
-      if (! passBaseCut()) continue; // Base Cut
+      if (! passBaseCut()){ 
+        cout<<"Failed Baseline"<<endl;
+        continue; 
+      }// Base Cut
       //cout<<__LINE__<<endl;      
 
-      if (! hasGoodBoson()) continue; // Boson Specific Cuts
+      if (! hasGoodBoson()){
+        cout<<"Failed Good Boson"<<endl;
+        continue; // Boson Specific Cuts
+      }
       //cout<<__LINE__<<endl;      
 
-      if (! passSignalRegionCuts()) continue; // Signal Region Cuts
+      if (! passSignalRegionCuts()){ 
+        cout<<"Failed SR"<<endl;
+        continue; // Signal Region Cuts
+      }
       //cout<<__LINE__<<endl;
 
       if (conf->get("rares") == "true"){ 
-        if ( ! passRareCuts() ) continue; //Rare Sample Selections
+        if ( ! passRareCuts() ){
+          cout<<"Failed Rare Cuts"<<endl;
+          continue;
+        } //Rare Sample Selections
       }      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
