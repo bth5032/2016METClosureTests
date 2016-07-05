@@ -472,9 +472,9 @@ bool passRareCuts(){
   bool realzpair  = true;
   
   if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
-    cout<<"Checking for rare cuts"<<endl;
-    hasrealmet = true;
-    realzpair  = true;
+    //cout<<"Checking for rare cuts"<<endl;
+    hasrealmet = false;
+    realzpair  = false;
     
     for( size_t genind = 0; genind < phys.genPart_motherId().size(); genind++ ){
       if( (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) &&
