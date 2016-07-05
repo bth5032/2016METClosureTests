@@ -173,3 +173,10 @@ function pullOutput {
 function killjobs {
 	kill -9 `numjobs -v | grep "root -l" | xargs`
 }
+
+function addRareHists {
+	for i in ATLAS A_btag A_bveto B_btag B_bveto EdgeZ EWK_Higgs
+	do 
+		root -l -b- q"AddRareHists.C(\"$i\", \"/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/\")" 
+	done
+}
