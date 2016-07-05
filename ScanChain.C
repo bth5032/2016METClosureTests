@@ -717,6 +717,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
+      if (event % 10000 == 0){
+        cout<<"Weight: "<<weight<<endl;
+      }
       if ( isDuplicate() ) continue; // check for duplicates
       //cout<<__LINE__<<endl;      
 
