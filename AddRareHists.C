@@ -36,4 +36,7 @@ void AddRareHists(TString sample_name, TString location){
 
     i++;
   }
+
+  f_combined->Write();
+  f_combined->Close();
 }
