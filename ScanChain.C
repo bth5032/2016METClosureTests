@@ -500,12 +500,14 @@ bool passRareCuts(){
   
   if ( ! hasrealmet ){
     numEvents->Fill(47);
+    return false;
   }
   else if ( ! realzpair ){
     numEvents->Fill(48);
+    return false;
   }
   
-  return (hasrealmet && realzpair);
+  return true;
 }
 
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
@@ -730,11 +732,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if (conf->get("rares") == "true"){ 
         if ( ! passRareCuts() ) continue; //Rare Sample Selections
       }      
-
-      if (phys.hyp_type() != 2){
-        cout<<"You suck at coding"<<endl;
-        continue;
-      }
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;      
