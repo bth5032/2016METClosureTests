@@ -180,3 +180,13 @@ function addRareHists {
 		root -l -b- -q "AddRareHists.C(\"$i\", \"/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/\")" 
 	done
 }
+
+function makeRareHists {
+	makeHistos all configs/Rares/A/Btag/run_modes.conf
+	makeHistos all configs/Rares/A/Bveto/run_modes.conf
+	makeHistos all configs/Rares/B/Btag/run_modes.conf
+	makeHistos all configs/Rares/B/Bveto/run_modes.conf
+	makeHistos all configs/Rares/edge/run_modes.conf
+	makeHistos all configs/Rares/atlas/run_modes.conf
+	makeHistos all configs/Rares/ewkHiggs/run_modes.conf
+}

@@ -279,14 +279,11 @@ bool hasGoodPhoton(){
 }
 
 bool hasGoodBoson() {
-  if (g_sample_name == "zjets") {
-    return hasGoodZ();
-  }
-  else if (g_sample_name == "gjets"){
+  if (g_sample_name == "gjets") {
     return hasGoodPhoton();
   }
-  else{
-    return true;
+  else {
+    return hasGoodZ();
   }
 }
 
