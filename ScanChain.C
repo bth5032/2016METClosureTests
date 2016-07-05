@@ -472,7 +472,7 @@ bool passRareCuts(){
   bool realzpair  = true;
   
   if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
-    
+    cout<<"Checking for rare cuts"<<endl;
     hasrealmet = true;
     realzpair  = true;
     

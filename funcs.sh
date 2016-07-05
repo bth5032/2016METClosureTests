@@ -182,11 +182,11 @@ function addRareHists {
 }
 
 function makeRareHists {
-	makeHistos all configs/Rares/A/Btag/run_modes.conf
-	makeHistos all configs/Rares/A/Bveto/run_modes.conf
-	makeHistos all configs/Rares/B/Btag/run_modes.conf
-	makeHistos all configs/Rares/B/Bveto/run_modes.conf
-	makeHistos all configs/Rares/edge/run_modes.conf
-	makeHistos all configs/Rares/atlas/run_modes.conf
-	makeHistos all configs/Rares/ewkHiggs/run_modes.conf
+	makeHistos all configs/Rares/A/Btag/run_modes.conf > outputs/configs_Rares_A_btag.hist_out 2>&1 &
+	makeHistos all configs/Rares/A/Bveto/run_modes.conf > outputs/configs_Rares_A_bveto.hist_out 2>&1 &
+	makeHistos all configs/Rares/B/Btag/run_modes.conf > outputs/configs_Rares_B_btag.hist_out 2>&1 &
+	makeHistos all configs/Rares/B/Bveto/run_modes.conf > outputs/configs_Rares_B_bveto.hist_out 2>&1 &
+	makeHistos all configs/Rares/edge/run_modes.conf > outputs/configs_Rares_edge.hist_out 2>&1 &
+	makeHistos all configs/Rares/atlas/run_modes.conf > outputs/configs_Rares_atlas.hist_out 2>&1 &
+	makeHistos all configs/Rares/ewkHiggs/run_modes.conf > outputs/configs_Rares_ewkHiggs.hist_out 2>&1 &
 }
