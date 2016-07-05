@@ -286,7 +286,7 @@ bool hasGoodBoson() {
     return hasGoodPhoton();
   }
   else{
-    return false;
+    return true;
   }
 }
 
@@ -717,36 +717,36 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
-      if (event % 10000 == 0){
+      /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
-      }
+      }*/
       if ( isDuplicate() ){
-        cout<<"Failed Duplicate"<<endl;
+        //cout<<"Failed Duplicate"<<endl;
         continue;
       } // check for duplicates
       //cout<<__LINE__<<endl;      
 
       if (! passBaseCut()){ 
-        cout<<"Failed Baseline"<<endl;
+        //cout<<"Failed Baseline"<<endl;
         continue; 
       }// Base Cut
       //cout<<__LINE__<<endl;      
 
       if (! hasGoodBoson()){
-        cout<<"Failed Good Boson"<<endl;
+        //cout<<"Failed Good Boson"<<endl;
         continue; // Boson Specific Cuts
       }
       //cout<<__LINE__<<endl;      
 
       if (! passSignalRegionCuts()){ 
-        cout<<"Failed SR"<<endl;
+        //cout<<"Failed SR"<<endl;
         continue; // Signal Region Cuts
       }
       //cout<<__LINE__<<endl;
 
       if (conf->get("rares") == "true"){ 
         if ( ! passRareCuts() ){
-          cout<<"Failed Rare Cuts"<<endl;
+          //cout<<"Failed Rare Cuts"<<endl;
           continue;
         } //Rare Sample Selections
       }      
