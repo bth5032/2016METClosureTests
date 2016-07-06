@@ -361,7 +361,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Njets Max Cut
   if (conf->get("Njets_max") != ""){
@@ -371,7 +371,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
@@ -381,7 +381,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
@@ -391,7 +391,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
@@ -401,7 +401,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
@@ -411,7 +411,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //MT2b min
   if (conf->get("MT2b") != ""){
@@ -421,7 +421,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //HT min
   if (conf->get("HT_min") != ""){
@@ -431,7 +431,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
@@ -441,7 +441,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Wierd ATLAS SR cut
   if (conf->get("sum_HT_pt_pt") != ""){
@@ -649,7 +649,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_t->Sumw2();
 
   cout<<"Histograms initialized"<<endl;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
@@ -676,7 +676,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   }
 
 
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   // Loop over events to Analyze
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
@@ -684,7 +684,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
   TFile *currentFile = 0;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 //==============
 // File Loop
 //==============
@@ -696,7 +696,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
     phys.Init(tree); //Loads in all the branches
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 //===========================================
 // Loop over Events in current file
 //===========================================
@@ -709,10 +709,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if(fast) tree->LoadTree(event);
       phys.GetEntry(event);
       ++nEventsTotal;
-      //cout<<__LINE__<<endl;    
+      cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 //=======================================
 // Analysis Code
 //=======================================
@@ -722,7 +722,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         }
       }
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
       /*if (event % 10000 == 0){
@@ -732,25 +732,25 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         //cout<<"Failed Duplicate"<<endl;
         continue;
       } // check for duplicates
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! passBaseCut()){ 
         //cout<<"Failed Baseline"<<endl;
         continue; 
       }// Base Cut
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! hasGoodBoson()){
         //cout<<"Failed Good Boson"<<endl;
         continue; // Boson Specific Cuts
       }
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
 
       if (! passSignalRegionCuts()){ 
         //cout<<"Failed SR"<<endl;
         continue; // Signal Region Cuts
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       if (conf->get("rares") == "true"){ 
         if ( ! passRareCuts() ){
@@ -760,10 +760,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       }      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-      //cout<<__LINE__<<endl;      
+      cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
@@ -775,7 +775,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
 
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       //Vince's Photon plots
       if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
