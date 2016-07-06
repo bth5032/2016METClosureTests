@@ -119,6 +119,33 @@ bool passElectronTriggers(){
   }
 }
 
+bool passHLTs(){
+  if (conf->get("data_set") == "em"){
+    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
+      //good Mu/E event
+    }
+    else{
+      return false;
+    }
+  }
+  else{
+    if ( phys.hyp_type() == 1 ){ //Muon Event
+      if ( ! passMuonTriggers() ){
+        return false; 
+      }
+    }
+    else if ( phys.hyp_type() == 0 ){
+      if ( ! passElectronTriggers() ){
+        return false;
+      }
+    }
+    else{ //hyp_type == 2 and it's not an emu event for the TTbar estimate.
+      return false; 
+    }
+  }
+
+}
+
 bool hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
@@ -146,26 +173,10 @@ bool hasGoodZ(){
     return false; // eta < 2.4
   }
 
-  if (conf->get("data_set") == "em")
-  {
-    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
-      //good Mu/E event
-    }
-    else{
-      numEvents->Fill(33);
-      return false;
-    }
+  if (! passHLTs()){
+    numEvents->Fill(15);
+    return false;
   }
-  else{
-    if (! ( passMuonTriggers() && phys.hyp_type() == 1 )){
-      if (! ( passElectronTriggers() && phys.hyp_type() == 0) )
-      {
-        numEvents->Fill(33);
-        return false; 
-      }
-    }
-  }
-
   /*
   //This is the augmented cut selection.
   LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
