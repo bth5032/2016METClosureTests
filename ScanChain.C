@@ -37,7 +37,7 @@ ConfigParser *conf;
 int nDuplicates=0;
 TH1D *g_vpt_weight_hist;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
-TFile *g_weight_hist_file, g_pileup_hist_file;
+TFile *g_weight_hist_file, *g_pileup_hist_file;
 TString g_sample_name;
 TH1D* g_pileup_hist;
 
