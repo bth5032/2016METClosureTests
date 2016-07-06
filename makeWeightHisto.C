@@ -23,6 +23,7 @@ void makeWeightHisto(ConfigParser * conf)
 
   TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
   TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
+  cout<<"Found input files for reweighting"<<endl;
   TH1D * h_primary;
   TH1D * h_secondary;
   TH1D * h_primary_scaled;
@@ -36,6 +37,8 @@ void makeWeightHisto(ConfigParser * conf)
     cout<<"Error, could not open baseline files, please check they exist where specified and try again"<<endl;
     exit(1);
   }
+
+  cout<<"Retrived Histograms"<<endl;
 
   TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio_unscaled");
   h_ratio_unscaled->Divide(h_secondary); 

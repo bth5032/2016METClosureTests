@@ -66,16 +66,70 @@ TChain * getGJetsChain(TString data_set){
 }
 
 //====================================
-// Data
+// Rare Samples
 //====================================
-TChain * getDataChain(TString trigger){
+TChain * getRareChain(TString data_set){
+  TChain *ch_rares = new TChain("t");
+ 
+  if (data_set.Contains("wz")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wz_3lnu_powheg*.root");
+  }
+
+  if (data_set.Contains("zz")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zz_2l2nu_powheg*.root");
+  }
+
+  if (data_set.Contains("vvv")){
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/www_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wwz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/wzz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/zzz_incl_mgmlm*.root");
+  }
+
+  if (data_set.Contains("ttv")){
+    ch_rares->Add("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttw_ln_amcnlo/wjets*.root");
+    ch_rares->Add("/hadoop/cms/store/user/cwelke/uaf8/dilepbabies/V08-07-00_ttz_llnn_amcnlo/unknown*.root");
+  }
+
+  return ch_rares;
+}
+
+//====================================
+// Photon Data
+//====================================
+TChain * getDataPhotonChain(TString trigger){
   TChain *ch_Data = new TChain("t");
 
   //Single Photon Trigger
-  if (trigger == "SinglePhoton"){
+  if (trigger.Contains("SinglePhoton")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v1.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
+  }
+
+  return ch_Data;
+}
+
+//====================================
+// Leptonic Data
+//====================================
+TChain * getDataZChain(TString trigger){
+  TChain *ch_Data = new TChain("t");
+
+  // E/Mu Trigger
+  if (trigger.Contains("ee")){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v2*");
+  }
+
+  if (trigger.Contains("em")){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v2*");
+  }
+
+  if (trigger.Contains("mm")){
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v1.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v2.root");
   }
 
   return ch_Data;

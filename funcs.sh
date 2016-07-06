@@ -37,21 +37,35 @@ function mkdirs {
 
 function _makeAllForDir {
 	fname_hist=${1//\//_}
+	fname_hist=${1//__//_}
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
 	fname_plots=${1//\//_}
+	fname_plots=${1//__//_}
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
-	echo $1 > $fname_hist
-	makeHistosForDir $1 >> $fname_hist 2>&1
+	if [[ $2 == "hists" ]]
+	then
+		echo $1 > outputs/$fname_hist
+		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
+	elif [[ $2 == "plots" ]]
+	then
+		echo $1 > outputs/$fname_plots
+		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
+	elif [[ $2 == "all" ]]
+	then
+		echo $1 > outputs/$fname_hist
+		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
-
-	echo $1 > $fname_plots
-	makePlotsForDir $1 >> $fname_plots 2>&1
+		echo $1 > outputs/$fname_plots
+		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
+	else
+		echo "Please choose a step to run over, hists, plots, or all"
+	fi
 }
 
 function makeAllForDir {
-	_makeAllForDir $1 &
+	_makeAllForDir $1 $2 &
 }
 
 function makeHistosForDir {
@@ -120,36 +134,14 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
-	if [[ $1 == "plots" ]]
-	then
-		makePlotsForDir configs/A/Btag/ > A_Btag.plots_out  2>&1 &
-		makePlotsForDir configs/A/Bveto/ > A_Bveto.plots_out  2>&1 &
-		makePlotsForDir configs/B/Btag/ > B_Btag.plots_out  2>&1 &
-		makePlotsForDir configs/B/Bveto/ > B_Bveto.plots_out  2>&1 &
-		
-		makePlotsForDir configs/ewkHiggs/ > ewkHiggs.plots_out  2>&1 &
-		makePlotsForDir configs/atlas/ > atlas.plots_out  2>&1 &
-		makePlotsForDir configs/edge/ > edge.plots_out  2>&1 &
-	elif [[ $1 == "histos" ]]
-	then
-		makeHistosForDir configs/A/Btag/ > A_Btag.hist_out 2>&1 &
-		makeHistosForDir configs/A/Bveto/ > A_Bveto.hist_out 2>&1 &
-		makeHistosForDir configs/B/Btag/ > B_Btag.hist_out 2>&1 &
-		makeHistosForDir configs/B/Bveto/ > B_Bveto.hist_out 2>&1 &
-		
-		makeHistosForDir configs/ewkHiggs/ > ewkHiggs.hist_out 2>&1 &
-		makeHistosForDir configs/atlas/ > atlas.hist_out 2>&1 &
-		makeHistosForDir configs/edge/ > edge.hist_out 2>&1 &
-	else
-		makeAllForDir configs/A/Btag/
-		makeAllForDir configs/A/Bveto/
-		makeAllForDir configs/B/Btag/
-		makeAllForDir configs/B/Bveto/
-
-		makeAllForDir configs/ewkHiggs/
-		makeAllForDir configs/atlas/
-		makeAllForDir configs/edge/
-	fi
+	makeAllForDir $2/A/Btag/ $1
+	makeAllForDir $2/A/Bveto/ $1
+	makeAllForDir $2/B/Btag/ $1
+	makeAllForDir $2/B/Bveto/ $1
+	
+	makeAllForDir $2/ewkHiggs/ $1
+	makeAllForDir $2/atlas/ $1
+	makeAllForDir $2/edge/ $1
 }
 
 function numjobs {
@@ -182,4 +174,21 @@ function pullOutput {
 
 function killjobs {
 	kill -9 `numjobs -v | grep "root -l" | xargs`
+}
+
+function addRareHists {
+	for i in ATLAS A_btag A_bveto B_btag B_bveto EdgeZ EWK_Higgs
+	do 
+		root -l -b- -q "AddRareHists.C(\"$i\", \"/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/\")" 
+	done
+}
+
+function makeRareHists {
+	makeHistos all configs/Rares/A/Btag/run_modes.conf > outputs/configs_Rares_A_Btag.hist_out 2>&1 &
+	makeHistos all configs/Rares/A/Bveto/run_modes.conf > outputs/configs_Rares_A_Bveto.hist_out 2>&1 &
+	makeHistos all configs/Rares/B/Btag/run_modes.conf > outputs/configs_Rares_B_Btag.hist_out 2>&1 &
+	makeHistos all configs/Rares/B/Bveto/run_modes.conf > outputs/configs_Rares_B_Bveto.hist_out 2>&1 &
+	makeHistos all configs/Rares/edge/run_modes.conf > outputs/configs_Rares_edge.hist_out 2>&1 &
+	makeHistos all configs/Rares/atlas/run_modes.conf > outputs/configs_Rares_atlas.hist_out 2>&1 &
+	makeHistos all configs/Rares/ewkHiggs/run_modes.conf > outputs/configs_Rares_ewkHiggs.hist_out 2>&1 &
 }

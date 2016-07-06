@@ -37,8 +37,9 @@ ConfigParser *conf;
 int nDuplicates=0;
 TH1D *g_vpt_weight_hist;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
-TFile *g_weight_hist_file;
+TFile *g_weight_hist_file, *g_pileup_hist_file;
 TString g_sample_name;
+TH1D* g_pileup_hist;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
@@ -59,17 +60,9 @@ bool passMETFilters(){
       pass=false;
       numEvents->Fill(3);
     } 
-    if ( phys.Flag_CSCTightHalo2015Filter_isLoaded ){
-      if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
-        pass=false;
-        numEvents->Fill(4);
-      }
-    }
-    else{
-      if (!phys.Flag_CSCTightHaloFilter            ()      ) { 
-        pass=false;
-        numEvents->Fill(4);
-      }
+    if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
+      pass=false;
+      numEvents->Fill(4);
     }
     if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
       pass=false;
@@ -104,27 +97,71 @@ bool passBaseCut(){
 
 bool passMuonTriggers(){
   if ( phys.isData() ){
+    //cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
-      cout<<"Using DZ triggers"<<endl;
+      //cout<<"Using DZ triggers"<<endl;
+      //cout<<__LINE__<<endl;
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
     }
     else{
-      cout<<"Using Non DZ triggers"<<endl;
+      //cout<<"Using Non DZ triggers"<<endl;
+      //cout<<__LINE__<<endl;
       return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
   }
   else{
+    //cout<<__LINE__<<endl;
     return true; //MC always passes
   }
 }
 
 bool passElectronTriggers(){
   if ( phys.isData()){
-    return (phys.HLT_DoubleEl_DZ() || phys.HLT_DoubleEl_noiso() );
+    //cout<<__LINE__<<endl;
+    return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
   }
   else{
+    //cout<<__LINE__<<endl;
     return true; //MC always passes
   }
+}
+
+bool passHLTs(){
+  if (conf->get("data_set") == "em"){
+    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
+      //good Mu/E event
+      //cout<<__LINE__<<endl;
+    }
+    else{
+      //cout<<__LINE__<<endl;
+      return false;
+    }
+  }
+  else{
+    //cout<<__LINE__<<endl;
+    if ( phys.hyp_type() == 1 ){ //Muon Event
+      //cout<<__LINE__<<endl;
+      if ( ! passMuonTriggers() ){
+        //cout<<__LINE__<<endl;
+        return false; 
+      }
+    }
+    else if ( phys.hyp_type() == 0 ){
+      //cout<<__LINE__<<endl;
+      if ( ! passElectronTriggers() ){
+        //cout<<__LINE__<<endl;
+        return false;
+      }
+    }
+    else{ //hyp_type == 2 and it's not an emu event for the TTbar estimate.
+      //cout<<__LINE__<<endl;
+      return false; 
+    }
+  }
+
+  //cout<<__LINE__<<endl;
+
+  return true;
 }
 
 bool hasGoodZ(){
@@ -133,10 +170,14 @@ bool hasGoodZ(){
     return false; // require at least 2 good leptons
   }
   
+  //cout<<__LINE__<<endl;
+
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
     return false; // leading lep pT > 25 GeV
   }
+
+  //cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(1) < 20        ) {
     numEvents->Fill(12); 
@@ -144,24 +185,28 @@ bool hasGoodZ(){
 
   }   
   
+  //cout<<__LINE__<<endl;
+
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
     return false; // eta < 2.4
   }    
+
+  //cout<<__LINE__<<endl;
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
     return false; // eta < 2.4
   }
 
-  if (! ( passMuonTriggers() && phys.hyp_type() == 1 )){
-    if (! ( passElectronTriggers() && phys.hyp_type() == 0) )
-    {
-      numEvents->Fill(33);
-      return false; 
-    }
+  //cout<<__LINE__<<endl;
+
+  if (! passHLTs()){
+    numEvents->Fill(15);
+    return false;
   }
 
+  //cout<<__LINE__<<endl;
   /*
   //This is the augmented cut selection.
   LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
@@ -176,36 +221,56 @@ bool hasGoodZ(){
   } 
   */
   
-  //This is the original cu t selection
+  //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
     return false;
   }
 
+  //cout<<__LINE__<<endl;
+
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
     return false; // veto xition region
   }
+
+  //cout<<__LINE__<<endl;
   
   if( phys.dRll() < 0.1 ) {
     numEvents->Fill(19); 
     return false;
   }
 
-  if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-    numEvents->Fill(20); 
-    return false; // require explicit dilepton event
+  //cout<<__LINE__<<endl;
+
+  if (conf->get("data_set") == "em"){
+    if (! (phys.hyp_type() == 2) ){
+      numEvents->Fill(20); 
+      return false; // require explicit opposite flavor event
+    }
   }
-  
+  else{
+    if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
+        numEvents->Fill(20); 
+        return false; // require explicit same flavor event
+    }
+  }
+
+  //cout<<__LINE__<<endl;
+
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
     return false; // require opposite sign
   }
+
+  //cout<<__LINE__<<endl;
   
   if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
     numEvents->Fill(22); 
     return false; // on-Z
   }
+
+  //cout<<__LINE__<<endl;
   
   /*if( !(phys.dilpt() > 22) ){
     numEvents->Fill(23); 
@@ -267,14 +332,11 @@ bool hasGoodPhoton(){
 }
 
 bool hasGoodBoson() {
-  if (g_sample_name == "zjets") {
-    return hasGoodZ();
-  }
-  else if (g_sample_name == "gjets"){
+  if (g_sample_name == "gjets") {
     return hasGoodPhoton();
   }
-  else{
-    return false;
+  else {
+    return hasGoodZ();
   }
 }
 
@@ -316,6 +378,10 @@ double getWeight(){
 
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
     weight *= getEff();
+  }
+
+  if (conf->get("rares") == "true"){
+    weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
   }
   return weight;
 }
@@ -457,6 +523,47 @@ bool passSignalRegionCuts(){
   return true;
 }
 
+bool passRareCuts(){
+  
+  bool hasrealmet = true;
+  bool realzpair  = true;
+  
+  if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
+    //cout<<"Checking for rare cuts"<<endl;
+    hasrealmet = false;
+    realzpair  = false;
+    
+    for( size_t genind = 0; genind < phys.genPart_motherId().size(); genind++ ){
+      if( (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) &&
+        phys.genPart_status().at(genind) == 23 &&
+        (abs(phys.genPart_pdgId().at(genind))==12 ||
+         abs(phys.genPart_pdgId().at(genind))==14 ||
+         abs(phys.genPart_pdgId().at(genind))==16) ){
+        // cout<<"mom "<<phys.genPart_motherId().at(genind) << " | stat "<< phys.genPart_status().at(genind) <<  " | id "<< phys.genPart_pdgId().at(genind) << endl;
+        hasrealmet = true;
+      }
+      
+      if( phys.genPart_motherId().at(genind) == 23 &&
+        phys.genPart_status().at(genind) == 23 &&
+        (abs(phys.genPart_pdgId().at(genind))==11 ||
+         abs(phys.genPart_pdgId().at(genind))==13) ){
+        realzpair = true;
+      }
+    }
+  }
+  
+  if ( ! hasrealmet ){
+    numEvents->Fill(47);
+    return false;
+  }
+  else if ( ! realzpair ){
+    numEvents->Fill(48);
+    return false;
+  }
+  
+  return true;
+}
+
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
@@ -491,6 +598,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *t1met = new TH1D(sampleName+"_type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
+
+  //MET Histos
+  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 100,0,100);
+  nVert->SetDirectory(rootdir);
+  nVert->Sumw2();
 
   TH1D *rawmet = new TH1D(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
@@ -598,6 +710,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_vpt_weight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
   }
+
+  if( conf->get("rares") == "true" ){
+    cout<<"Pileup reweighting with nvtx_ratio_4p0fb.root"<<endl;
+    g_pileup_hist_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
+    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
+    g_pileup_hist->SetDirectory(rootdir);
+    g_pileup_hist_file->Close();
+  }
   
   if( conf->get("reweight_eff") == "true" ){
     cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
@@ -664,17 +784,39 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
-      if ( isDuplicate() ) continue; // check for duplicates
+      /*if (event % 10000 == 0){
+        cout<<"Weight: "<<weight<<endl;
+      }*/
+      if ( isDuplicate() ){
+        //cout<<"Failed Duplicate"<<endl;
+        continue;
+      } // check for duplicates
       //cout<<__LINE__<<endl;      
 
-      if (! passBaseCut()) continue; // Base Cut
+      if (! passBaseCut()){ 
+        //cout<<"Failed Baseline"<<endl;
+        continue; 
+      }// Base Cut
       //cout<<__LINE__<<endl;      
 
-      if (! hasGoodBoson()) continue; // Boson Specific Cuts
+      if (! hasGoodBoson()){
+        //cout<<"Failed Good Boson"<<endl;
+        continue; // Boson Specific Cuts
+      }
       //cout<<__LINE__<<endl;      
 
-      if (! passSignalRegionCuts()) continue; // Signal Region Cuts
-      //cout<<__LINE__<<endl;      
+      if (! passSignalRegionCuts()){ 
+        //cout<<"Failed SR"<<endl;
+        continue; // Signal Region Cuts
+      }
+      //cout<<__LINE__<<endl;
+
+      if (conf->get("rares") == "true"){ 
+        if ( ! passRareCuts() ){
+          //cout<<"Failed Rare Cuts"<<endl;
+          continue;
+        } //Rare Sample Selections
+      }      
 
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;      
@@ -691,6 +833,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_m->Fill(phys.nBJetMedium(), weight);
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
+      nVert->Fill(phys.nVert(), weight);
 
       //cout<<__LINE__<<endl;
 
@@ -737,6 +880,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_m->Write();
   nbtags_l->Write();
   nbtags_t->Write();
+  nVert->Write();
   
   if (conf->get("signal_region") == "VincePhotonPT"){
     met_150->Write();

@@ -181,6 +181,33 @@ TString drawTwoWithResidual(ConfigParser *conf){
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
   
+
+  TString stat_string_1, stat_string_2, stat_string_3;
+
+  //===========================
+  // Print Closure Stats
+  //===========================
+  if (conf->get("print_stats") == "true")
+  {
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
+
+    Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
+    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val-.001), s_evts_gtr150_err);
+    double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
+    
+    stat_string_1 = "Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err);
+
+    stat_string_2 = "Number of Events in "+secondary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err);
+
+    stat_string_3 = "Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150));
+
+
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_2<<endl;
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_3<<endl;
+  }
   
   //----------------------
   // ADD OVERFLOW BIN
@@ -278,34 +305,10 @@ TString drawTwoWithResidual(ConfigParser *conf){
     plotpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
-
-  //===========================
-  // Print Closure Stats
-  //===========================
-  if (conf->get("print_stats") == "true")
-  {
-    int low_val = stoi(conf->get("stats_low_val"));
-    int high_val = stoi(conf->get("stats_high_val"));
-
-    Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val), p_evts_gtr150_err);
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val), s_evts_gtr150_err);
-    double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
-    
-    TString stat_string_1("Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err) );
-
-    TString stat_string_2("Number of Events in "+secondary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err) );
-
-    TString stat_string_3("Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150)));
-
-    drawLatexFromTString(stat_string_1, .52,.5);
-    drawLatexFromTString(stat_string_2, .52, .52);
-    drawLatexFromTString(stat_string_3, .52, .54);
-
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_2<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_3<<endl;
-  }
+  
+  drawLatexFromTString(stat_string_1, .52,.5);
+  drawLatexFromTString(stat_string_2, .52, .52);
+  drawLatexFromTString(stat_string_3, .52, .54);
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
@@ -420,6 +423,24 @@ TString drawSingleTH1(ConfigParser *conf){
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
   
+  TString stat_string_1;
+
+  //===========================
+  // Print Closure Stats
+  //===========================
+  if (conf->get("print_stats") == "true")
+  {
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
+
+    Double_t p_evts_gtr150_err;
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
+    
+    stat_string_1 = "Number of Events in "+hist_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err);
+
+
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
+  }
   
   //----------------------
   // ADD OVERFLOW BIN
@@ -433,9 +454,7 @@ TString drawSingleTH1(ConfigParser *conf){
     double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
 
     p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
-  }
-  
-      
+  }      
   
   fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
@@ -448,10 +467,13 @@ TString drawSingleTH1(ConfigParser *conf){
   
   fullpad->RedrawAxis();
   
+
   if (conf->get("luminosity_fb") != ""){
     fullpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
+  
+  drawLatexFromTString(stat_string_1, .52,.5);
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
