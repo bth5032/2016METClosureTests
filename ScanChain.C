@@ -96,25 +96,31 @@ bool passBaseCut(){
 
 bool passMuonTriggers(){
   if ( phys.isData() ){
+    cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
+      cout<<__LINE__<<endl;
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
     }
     else{
       //cout<<"Using Non DZ triggers"<<endl;
+      cout<<__LINE__<<endl;
       return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
   }
   else{
+    cout<<__LINE__<<endl;
     return true; //MC always passes
   }
 }
 
 bool passElectronTriggers(){
   if ( phys.isData()){
+    cout<<__LINE__<<endl;
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
   }
   else{
+    cout<<__LINE__<<endl;
     return true; //MC always passes
   }
 }
@@ -123,23 +129,31 @@ bool passHLTs(){
   if (conf->get("data_set") == "em"){
     if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
       //good Mu/E event
+      cout<<__LINE__<<endl;
     }
     else{
+      cout<<__LINE__<<endl;
       return false;
     }
   }
   else{
+    cout<<__LINE__<<endl;
     if ( phys.hyp_type() == 1 ){ //Muon Event
+      cout<<__LINE__<<endl;
       if ( ! passMuonTriggers() ){
+        cout<<__LINE__<<endl;
         return false; 
       }
     }
     else if ( phys.hyp_type() == 0 ){
+      cout<<__LINE__<<endl;
       if ( ! passElectronTriggers() ){
+        cout<<__LINE__<<endl;
         return false;
       }
     }
     else{ //hyp_type == 2 and it's not an emu event for the TTbar estimate.
+      cout<<__LINE__<<endl;
       return false; 
     }
   }
