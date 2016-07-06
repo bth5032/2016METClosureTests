@@ -709,7 +709,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   if( conf->get("rares") == "true" ){
     cout<<"Pileup reweighting with nvtx_ratio_4p0fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
-    g_pileup_hist = (TH1D*)g_weight_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
+    g_pileup_hist = (TH1D*)((TH1D*)g_weight_hist_file->Get("h_vtx_ratio"))->Clone("h_pileup_weight");
     g_pileup_hist->SetDirectory(rootdir);
     g_pileup_hist_file->Close();
   }
