@@ -37,8 +37,9 @@ ConfigParser *conf;
 int nDuplicates=0;
 TH1D *g_vpt_weight_hist;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
-TFile *g_weight_hist_file;
+TFile *g_weight_hist_file, g_pileup_hist_file;
 TString g_sample_name;
+TH1D* g_pileup_hist;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
@@ -161,7 +162,6 @@ bool passHLTs(){
   //cout<<__LINE__<<endl;
 
   return true;
-
 }
 
 bool hasGoodZ(){
@@ -378,6 +378,10 @@ double getWeight(){
 
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
     weight *= getEff();
+  }
+
+  if (conf->get("rares") == "true"){
+    weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
   }
   return weight;
 }
@@ -700,6 +704,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_vpt_weight_hist = (TH1D*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
     g_vpt_weight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
+  }
+
+  if( conf->get("rares") == "true" ){
+    cout<<"Pileup reweighting with nvtx_ratio_4p0fb.root")<<endl;
+    g_pileup_hist_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
+    g_pileup_hist = (TH1D*)g_weight_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
+    g_pileup_hist->SetDirectory(rootdir);
+    g_pileup_hist_file->Close();
   }
   
   if( conf->get("reweight_eff") == "true" ){
