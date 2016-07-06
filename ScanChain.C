@@ -599,6 +599,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
+  //MET Histos
+  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 100,0,100);
+  nVert->SetDirectory(rootdir);
+  nVert->Sumw2();
+
   TH1D *rawmet = new TH1D(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
@@ -828,6 +833,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_m->Fill(phys.nBJetMedium(), weight);
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
+      nVert->Fill(phys.nVert(), weight);
 
       //cout<<__LINE__<<endl;
 
@@ -874,6 +880,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_m->Write();
   nbtags_l->Write();
   nbtags_t->Write();
+  nVert->Write();
   
   if (conf->get("signal_region") == "VincePhotonPT"){
     met_150->Write();
