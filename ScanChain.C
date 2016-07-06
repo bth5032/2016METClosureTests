@@ -152,10 +152,14 @@ bool hasGoodZ(){
     return false; // require at least 2 good leptons
   }
   
+  cout<<__LINE__<<endl;
+
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
     return false; // leading lep pT > 25 GeV
   }
+
+  cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(1) < 20        ) {
     numEvents->Fill(12); 
@@ -163,20 +167,28 @@ bool hasGoodZ(){
 
   }   
   
+  cout<<__LINE__<<endl;
+
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
     return false; // eta < 2.4
   }    
+
+  cout<<__LINE__<<endl;
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
     return false; // eta < 2.4
   }
 
+  cout<<__LINE__<<endl;
+
   if (! passHLTs()){
     numEvents->Fill(15);
     return false;
   }
+
+  cout<<__LINE__<<endl;
   /*
   //This is the augmented cut selection.
   LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
@@ -197,15 +209,21 @@ bool hasGoodZ(){
     return false;
   }
 
+  cout<<__LINE__<<endl;
+
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
     return false; // veto xition region
   }
+
+  cout<<__LINE__<<endl;
   
   if( phys.dRll() < 0.1 ) {
     numEvents->Fill(19); 
     return false;
   }
+
+  cout<<__LINE__<<endl;
 
   if (conf->get("data_set") == "em"){
     if (! (phys.hyp_type() == 2) ){
@@ -220,15 +238,21 @@ bool hasGoodZ(){
     }
   }
 
+  cout<<__LINE__<<endl;
+
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
     return false; // require opposite sign
   }
+
+  cout<<__LINE__<<endl;
   
   if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
     numEvents->Fill(22); 
     return false; // on-Z
   }
+
+  cout<<__LINE__<<endl;
   
   /*if( !(phys.dilpt() > 22) ){
     numEvents->Fill(23); 
