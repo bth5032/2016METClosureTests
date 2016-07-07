@@ -43,6 +43,31 @@ TH1D* g_pileup_hist;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
+int getPrescaleNoBins_nol1ps()
+{
+  if( !( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ||
+     phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 ||
+     phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ||
+     phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 ||
+     phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || 
+     phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || 
+     phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ||
+     phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+     phys.HLT_Photon165_HE10() > 0
+     ) ) return 0;
+  if(     (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 ||
+       phys.HLT_Photon165_HE10() > 0)            ) return phys.HLT_Photon165_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
+
+  else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               phys.gamma_pt().at(0) > 50 ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
+  if(      phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 50                               ) return phys.HLT_Photon36_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               phys.gamma_pt().at(0) > 33 ) return phys.HLT_Photon30_R9Id90_HE10_IsoM();
+  if(      phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33                               ) return phys.HLT_Photon22_R9Id90_HE10_IsoM();
+  // else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
+  return -1; // should not get here
+}
 
 bool passMETFilters(){
   bool pass = true;
@@ -383,6 +408,11 @@ double getWeight(){
   if (conf->get("rares") == "true"){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
   }
+
+  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true"){
+    weight *= getPrescaleNoBins_nol1ps();
+  }
+  
   return weight;
 }
 
