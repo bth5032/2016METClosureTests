@@ -71,6 +71,13 @@ TString drawTwoWithResidual(ConfigParser *conf){
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
+  TString hist_name2=conf->get("hist_name");
+  
+  if (conf->get("hist_name2") != "")
+  {
+    hist_name2=conf->get("hist_name2");    
+  }
+
   TString xlabel=conf->get("xlabel");
   TString ylabel=conf->get("ylabel");
   TString primary_name=conf->get("primary_name");
@@ -84,8 +91,8 @@ TString drawTwoWithResidual(ConfigParser *conf){
   TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
-  TH1D* s_hist = (TH1D*) ((TH1D*) f_secondary->Get(secondary_name+"_"+hist_name))->Clone("shist_"+plot_name);
-  cout<<hist_name<<" found in "<<f_secondary->GetName()<<endl;
+  TH1D* s_hist = (TH1D*) ((TH1D*) f_secondary->Get(secondary_name+"_"+hist_name2))->Clone("shist_"+plot_name);
+  cout<<hist_name2<<" found in "<<f_secondary->GetName()<<endl;
 
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
