@@ -876,6 +876,13 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
       //cout<<__LINE__<<endl;
 
+      if (conf->get("data_set") == "wz"){
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
+          cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
+        }
+      }
+
+
       //Vince's Photon plots
       if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
         if (phys.met_T1CHS_miniAOD_CORE_pt() >= 150){
@@ -955,7 +962,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     nVert_HLT_Photon30_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
   }
-  
+
   //close output file
   output->Write();
   output->Close();
