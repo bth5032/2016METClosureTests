@@ -37,11 +37,9 @@ function mkdirs {
 
 function _makeAllForDir {
 	fname_hist=${1//\//_}
-	fname_hist=${1//__//_}
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
 	fname_plots=${1//\//_}
-	fname_plots=${1//__//_}
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	if [[ $2 == "hists" ]]
