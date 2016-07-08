@@ -632,7 +632,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   t1met->Sumw2();
 
   //MET Histos
-  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 100,0,100);
+  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 150,0,150);
   nVert->SetDirectory(rootdir);
   nVert->Sumw2();
 
