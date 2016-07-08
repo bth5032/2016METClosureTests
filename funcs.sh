@@ -114,6 +114,11 @@ function makePlotsForDir {
 	else
 		echo "Can not find $1/statsplots.conf"
 	fi
+
+	if [[ -a $1/nvert.conf ]]
+	then
+		makePlots $1/nvert.conf
+	fi
 }
 
 function addIndexToDirTree {
