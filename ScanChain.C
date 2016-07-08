@@ -408,7 +408,7 @@ double getWeight(){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
   }
 
-  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true"){
+  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleNoBins_nol1ps();
   }
 
@@ -899,7 +899,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         } 
       }
 
-      if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
+      if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
         if( ( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ){
           if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ) nVert_HLT_Photon165_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
