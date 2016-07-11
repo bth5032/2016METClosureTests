@@ -42,7 +42,7 @@ TString g_sample_name;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
-int getPrescaleWeight{
+double getPrescaleWeight(){
   if( !( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ||
      phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 ||
      phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ||
