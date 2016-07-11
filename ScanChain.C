@@ -987,7 +987,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
       if (conf->get("data_set") == "wz"){
         //cout<<__LINE__<<endl;
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
           //cout<<__LINE__<<endl;
           cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
         }
