@@ -3,7 +3,7 @@
 
 #include <TFile.h>
 #include <TH1D.h>
-#include <nString.h>
+#include <TString.h>
 
 
 using namespace std;
