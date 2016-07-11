@@ -44,9 +44,9 @@ TString g_sample_name;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
-set<int> inVinceNotMine = {48459,104538,128205,376293,551825,620848,950618,1062947,1202682,1208144,1487916,1655035,1833726};
+//set<int> inVinceNotMine = {48459,104538,128205,376293,551825,620848,950618,1062947,1202682,1208144,1487916,1655035,1833726};
 
-set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
+//set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
 
 bool printPass = false;
 bool printFail = false;
@@ -606,7 +606,7 @@ bool passSignalRegionCuts(){
     }
   }
   
-  if (conf->get("lep1_pt_min") != "" && g_sample_name=="zjets" ){
+  if (conf->get("lep1_pt_min") != "" && g_sample_name != "gjets" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
       numEvents->Fill(45);
       if (printFail) cout<<phys.evt()<<" :Failed lep1 min pt"<<endl;
@@ -614,7 +614,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  if (conf->get("lep2_pt_min") != "" && g_sample_name=="zjets" ){
+  if (conf->get("lep2_pt_min") != "" && g_sample_name != "gjets" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
       numEvents->Fill(46);
       if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
@@ -920,16 +920,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       
       if (conf->get("data_set") == "wz"){
         //cout<<__LINE__<<endl;
-        /*if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
           //cout<<__LINE__<<endl;
           cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
-        }*/
-        if ( inVinceNotMine.count(phys.evt()) != 0){
+        }
+        /*if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
-        }
+        }*/
       }
 
       //cout<<__LINE__<<endl;      
