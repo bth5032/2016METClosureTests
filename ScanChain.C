@@ -767,8 +767,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   }
 
   if( conf->get("data") == "true" ){
-    cout<<"Pileup reweighting with "<<save_path+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
-    g_l1prescale_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
+    cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
+    g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
     g_l1prescale_hist36 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon36_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight36");
     g_l1prescale_hist36->SetDirectory(rootdir);
