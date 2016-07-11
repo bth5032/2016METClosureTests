@@ -925,7 +925,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
         }*/
         if ( inVinceNotMine.count(phys.evt()) != 0){
-          printPass = true;
+          //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
