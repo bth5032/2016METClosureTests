@@ -219,7 +219,7 @@ function getSRs {
 
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
-	for j in "nVert_HLT_Photon22_R9Id90_HE10_IsoM nVert_HLT_Photon30_R9Id90_HE10_IsoM nVert_HLT_Photon36_R9Id90_HE10_IsoM"
+	for j in nVert_HLT_Photon22_R9Id90_HE10_IsoM nVert_HLT_Photon30_R9Id90_HE10_IsoM nVert_HLT_Photon36_R9Id90_HE10_IsoM
 	do
 		for i in `getSRs`
 		do
