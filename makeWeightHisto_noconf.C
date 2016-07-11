@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void makeWeightHisto(TString output_location, TString infile1, TString infile2, TString hist1, TString hist2, TString output_hist_name)
+void makeWeightHisto_noconf(TString output_location, TString infile1, TString infile2, TString hist1, TString hist2, TString output_hist_name)
 {
 
   cout<<"Making new reweight histogram in file "<<output_location<<". Using "<<hist1<<" in "<<infile1<<" as target to make weights for "<<hist2<<" in "<<infile2<<"."<<endl;
