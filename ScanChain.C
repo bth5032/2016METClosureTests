@@ -35,15 +35,14 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 //Global Vars
 ConfigParser *conf;
 int nDuplicates=0;
-TH1D *g_vpt_weight_hist;
+TH1D *g_vpt_weight_hist, *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
-TFile *g_weight_hist_file, *g_pileup_hist_file;
+TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
-TH1D* g_pileup_hist;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
-int getPrescaleNoBins_nol1ps(){
+int getPrescaleWeight{
   if( !( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ||
      phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 ||
      phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 ||
@@ -63,9 +62,15 @@ int getPrescaleNoBins_nol1ps(){
 
   else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 &&                               phys.gamma_pt().at(0) > 50 ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
   //cout<<__LINE__<<endl;
-  if(      phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 50                               ) return phys.HLT_Photon36_R9Id90_HE10_IsoM();
-  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 &&                               phys.gamma_pt().at(0) > 33 ) return phys.HLT_Photon30_R9Id90_HE10_IsoM();
-  if(      phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33                               ) return phys.HLT_Photon22_R9Id90_HE10_IsoM();
+  if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 50 ) {
+    return phys.HLT_Photon36_R9Id90_HE10_IsoM() * g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert()));
+  }
+  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 33 ){
+    return phys.HLT_Photon30_R9Id90_HE10_IsoM() * g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert()));
+  }
+  if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) {
+    return phys.HLT_Photon22_R9Id90_HE10_IsoM() *  g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert()));
+  }
   // else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
   //cout<<__LINE__<<endl;
   return -1; // should not get here
@@ -412,7 +417,7 @@ double getWeight(){
   }
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
-    weight *= getPrescaleNoBins_nol1ps();
+    weight *= getPrescaleWeight();
   }
 
   return weight;
@@ -759,6 +764,22 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
     g_pileup_hist->SetDirectory(rootdir);
     g_pileup_hist_file->Close();
+  }
+
+  if( conf->get("data") == "true" ){
+    cout<<"Pileup reweighting with "<<save_path+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
+    g_l1prescale_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
+    
+    g_l1prescale_hist36 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon36_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight36");
+    g_l1prescale_hist36->SetDirectory(rootdir);
+
+    g_l1prescale_hist30 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon30_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight30");
+    g_l1prescale_hist30->SetDirectory(rootdir);
+
+    g_l1prescale_hist22 = (TH1D*)g_l1prescale_file->Get("rwt_nVert_HLT_Photon22_R9Id90_HE10_IsoM")->Clone("l1prescaleWeight22");
+    g_l1prescale_hist22->SetDirectory(rootdir);
+
+    g_l1prescale_file->Close();
   }
   
   if( conf->get("reweight_eff") == "true" ){
