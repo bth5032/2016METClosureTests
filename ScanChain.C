@@ -917,20 +917,15 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         }
       }
-      
-      if (conf->get("data_set") == "wz"){
+      /*if (conf->get("data_set") == "wz"){
         //cout<<__LINE__<<endl;
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
-          //cout<<__LINE__<<endl;
-          cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
-        }
         /*if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
-        }*/
-      }
+        }
+      }*/
 
       //cout<<__LINE__<<endl;      
       //Set up event weight
@@ -989,6 +984,20 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
       //cout<<__LINE__<<endl;
 
+
+      if (conf->get("data_set") == "wz"){
+        //cout<<__LINE__<<endl;
+        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
+          //cout<<__LINE__<<endl;
+          cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
+        }
+        /*if ( inVinceNotMine.count(phys.evt()) != 0){
+          //printPass = true;
+        }
+        if ( inMineNotVince.count(phys.evt()) != 0){
+          printFail = true;
+        }*/
+      }
 
       //Vince's Photon plots
       if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
