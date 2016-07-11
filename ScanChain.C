@@ -919,7 +919,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       }
       /*if (conf->get("data_set") == "wz"){
         //cout<<__LINE__<<endl;
-        /*if ( inVinceNotMine.count(phys.evt()) != 0){
+        if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
