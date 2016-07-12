@@ -182,7 +182,7 @@ bool passElectronTriggers(){
 
 bool passHLTs(){
   if (conf->get("data_set") == "em"){
-    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
+    if (phys.HLT_MuEG() /*|| phys.HLT_MuEG_2()*/ || phys.HLT_MuEG_noiso()){
       //good Mu/E event
       //cout<<__LINE__<<endl;
     }
