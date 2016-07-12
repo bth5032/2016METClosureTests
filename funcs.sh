@@ -37,11 +37,9 @@ function mkdirs {
 
 function _makeAllForDir {
 	fname_hist=${1//\//_}
-	fname_hist=${1//__//_}
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
 	fname_plots=${1//\//_}
-	fname_plots=${1//__//_}
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	if [[ $2 == "hists" ]]
@@ -113,6 +111,11 @@ function makePlotsForDir {
 		makePlots $1/statsplots.conf
 	else
 		echo "Can not find $1/statsplots.conf"
+	fi
+
+	if [[ -a $1/nvert.conf ]]
+	then
+		makePlots $1/nvert.conf
 	fi
 }
 
@@ -191,4 +194,42 @@ function makeRareHists {
 	makeHistos all configs/Rares/edge/run_modes.conf > outputs/configs_Rares_edge.hist_out 2>&1 &
 	makeHistos all configs/Rares/atlas/run_modes.conf > outputs/configs_Rares_atlas.hist_out 2>&1 &
 	makeHistos all configs/Rares/ewkHiggs/run_modes.conf > outputs/configs_Rares_ewkHiggs.hist_out 2>&1 &
+}
+
+function getSRs {
+	if [[ $1 == "dirs" ]]
+	then
+		echo "A/Btag/"
+		echo "A/Bveto/"
+		echo "B/Btag/"
+		echo "B/Bveto/"
+		echo "edge/"
+		echo "atlas/"
+		echo "ewkHiggs/"
+	else
+		echo "A_btag"
+		echo "A_bveto"
+		echo "B_btag"
+		echo "B_bveto"
+		echo "EdgeZ"
+		echo "ATLAS"
+		echo "EWK_Higgs"
+	fi
+}
+
+function makeL1PrescaleWeightHists {
+	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
+	for j in nVert_HLT_Photon22_R9Id90_HE10_IsoM nVert_HLT_Photon30_R9Id90_HE10_IsoM nVert_HLT_Photon36_R9Id90_HE10_IsoM
+	do
+		for i in `getSRs`
+		do
+			output_location=${OutputDir}L1PrescaleWeight_$i.root
+			infile1=${OutputDir}ct_Z_Base_$i.root
+			infile2=${OutputDir}ct_G_Base_$i.root
+			hist1="zjets_nVert"
+			hist2="gjets_"$j
+			output_hist_name="rwt_"$j
+			root -l -b -q "makeWeightHisto_noconf.C(\"${output_location}\",\"${infile1}\",\"${infile2}\",\"${hist1}\",\"${hist2}\",\"${output_hist_name}\")"
+		done
+	done
 }
