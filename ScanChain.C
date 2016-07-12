@@ -837,7 +837,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_pileup_hist_file->Close();
   }
 
-  if( conf->get("data") == "true" ){
+  if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! conf->get("FSBKG") == "true") ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
