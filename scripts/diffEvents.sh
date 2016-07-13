@@ -13,5 +13,5 @@ cat MyOutputsFile | grep "EVENT-LIST" | cut -d' ' -f2 | sort -n > myevents.tmp
 diff vinceevents.tmp myevents.tmp | grep '>' > inMineNotVince.tmp
 diff vinceevents.tmp myevents.tmp | grep '>' > inVinceNotMine.tmp
 
-echo "set<int> inVinceNotMine = {"`cat inVinceNotMine.tmo | xargs | tr ' ' ','`"}"
-echo "set<int> inMineNotVince = {"`cat inMineNotVince.tmo | xargs | tr ' ' ','`"}"
+echo "set<int> inVinceNotMine = {"`cat inVinceNotMine.tmp | xargs | tr ' ' ','`"}"
+echo "set<int> inMineNotVince = {"`cat inMineNotVince.tmp | xargs | tr ' ' ','`"}"
