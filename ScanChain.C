@@ -922,9 +922,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         if ( inVinceNotMine.count(phys.evt()) != 0){
           printFail = true;
         }
-        if ( inMineNotVince.count(phys.evt()) != 0){
+        /*if ( inMineNotVince.count(phys.evt()) != 0){
           printPass = true;
-        }
+        }*/
       }
 
       //cout<<__LINE__<<endl;      
