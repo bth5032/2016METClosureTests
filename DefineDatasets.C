@@ -88,7 +88,7 @@ TChain * getRareChain(TString data_set){
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wz_3lnu_powheg*.root");
   }
 
-  if (data_set.Contains("zz"))
+  if (data_set.Contains("zz")) {
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/zz_2l2n_powheg*.root");
   }
 
