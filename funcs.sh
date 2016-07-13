@@ -233,3 +233,21 @@ function makeL1PrescaleWeightHists {
 		done
 	done
 }
+
+function addDefaultToConfigs {
+	echo "Would you like to add: DEFAULT::$1"
+	echo "To the first line of the following:"
+	find $2 -name "$3"
+	echo -n "Please type yes if so: "
+	read input_from_user
+	if [[ $input_from_user == "yes" ]]
+	then
+		for f in `find $2 -name "$3"`
+		do
+			sed -i '1 i\DEFAULT::$1' $f
+		done
+		echo "Files Succesfully Altered: "`head -n1 $f`
+	else
+		echo "Aborting, nothing added to files..."
+	fi
+}

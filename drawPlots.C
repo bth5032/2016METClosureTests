@@ -136,10 +136,19 @@ TString drawTwoWithResidual(ConfigParser *conf){
   //===========================
   if (conf->get("normalize") == "true")
   {
-    double numEventsData = p_hist->Integral();
-    double numEventsMC = s_hist->Integral();
-    double scaleFactor = ((double) numEventsData/numEventsMC);
-    
+    double numEventsData;
+    double numEventsMC;
+    double scaleFactor;
+    if (conf->get("norm_0_50") == "true")
+    {
+      numEventsData = p_hist->Integral(p_hist->FindBin(1),p_hist->FindBin(49.9));
+      numEventsMC = s_hist->Integral(p_hist->FindBin(1),s_hist->FindBin(49.9));
+    }
+    else{
+      numEventsData = p_hist->Integral();
+      numEventsMC = s_hist->Integral();
+    }
+    scaleFactor = ((double) numEventsData/numEventsMC);
     s_hist->Scale(scaleFactor);
   }
 
