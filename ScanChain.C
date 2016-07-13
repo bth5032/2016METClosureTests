@@ -921,7 +921,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         //cout<<__LINE__<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
           printFail = true;
-          cout<<phys.evt()<<" - jets: "<<phys.njets()<<" lep2_pt: "<<phys.lep_pt().at(1)<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl;
+          if (phys.nlep() > 0){
+            cout<<phys.evt()<<" - jets: "<<phys.njets()<<" lep2_pt: "<<phys.lep_pt().at(1)<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl;
+          }
+          else{
+            cout<<phys.evt()<<" - jets: "<<phys.njets()<<" genZ: "<<phys.genPart_motherId().at(0)<<" dilmass: "<<phys.dilmass()<<"evt_type: "<<phys.evt_type()<<" nlep: "<<phys.nlep()<<endl; 
+          }
         }
         /*if ( inMineNotVince.count(phys.evt()) != 0){
           printPass = true;
