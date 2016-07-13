@@ -44,7 +44,7 @@ TString g_sample_name;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
-set<int> inVinceNotMine = {4589,8308,11893,14101,14746,19058,23180,28337,35374,42297,56194,60844,62242,64496,94423,95813,96364,97305,108841,115916,120306,127729,132182,137726,149809,151328,153127,182754,187629,191053,198339,202662,206473,214221,216796,221953,223390,225608,235943,244158,250884,251983,257113,259935,261309,270523,274748,277608,294101,316484,318876,318957,329729,330631,332962,333411,334846,340820,349907,351289,357272,357425,369136,370324,374306,374516,381210,383337,385393,390720,392522,396041,398289,413797,420484};
+//set<int> inVinceNotMine = {4589,8308,11893,14101,14746,19058,23180,28337,35374,42297,56194,60844,62242,64496,94423,95813,96364,97305,108841,115916,120306,127729,132182,137726,149809,151328,153127,182754,187629,191053,198339,202662,206473,214221,216796,221953,223390,225608,235943,244158,250884,251983,257113,259935,261309,270523,274748,277608,294101,316484,318876,318957,329729,330631,332962,333411,334846,340820,349907,351289,357272,357425,369136,370324,374306,374516,381210,383337,385393,390720,392522,396041,398289,413797,420484};
 
 //set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
 
@@ -465,6 +465,9 @@ double getWeight(){
 
   if (conf->get("rares") == "true"){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    if (phys.hyp_type() == 0) weight *= 0.970;
+    if (phys.hyp_type() == 1) weight *= 0.920;
+    if (phys.hyp_type() == 2) weight *= 0.886;
   }
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
@@ -647,8 +650,8 @@ bool passRareCuts(){
         hasrealmet = true;
       }
       
-      if( phys.genPart_motherId().at(genind) == 23 &&
-        phys.genPart_status().at(genind) == 23 &&
+      if( (phys.genPart_motherId().at(genind) == 23 || phys.genPart_grandmaId().at(genind) == 23) &&
+        (phys.genPart_status().at(genind) == 23 || phys.genPart_status().at(genind) == 1) &&
         (abs(phys.genPart_pdgId().at(genind))==11 ||
          abs(phys.genPart_pdgId().at(genind))==13) ){
         realzpair = true;
@@ -830,8 +833,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   }
 
   if( conf->get("rares") == "true" ){
-    cout<<"Pileup reweighting with nvtx_ratio_4p0fb.root"<<endl;
-    g_pileup_hist_file = TFile::Open("nvtx_ratio_4p0fb.root", "READ");
+    cout<<"Pileup reweighting with nvtx_ratio_6p26fb.root"<<endl;
+    g_pileup_hist_file = TFile::Open("nvtx_ratio_6p26fb.root", "READ");
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
     g_pileup_hist->SetDirectory(rootdir);
     g_pileup_hist_file->Close();
@@ -907,7 +910,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       ZMET2016::progress( nEventsTotal, nEventsChain );
       //cout<<__LINE__<<endl;
 //=======================================
-// Analysis Code
+// Debugging And Odd Corrections Before Cuts
 //=======================================
       printPass = false;
       printFail = false;
@@ -932,7 +935,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           printPass = true;
         }*/
       }
-
+//=======================================
+// Cuts
+//=======================================
       //cout<<__LINE__<<endl;      
       //Set up event weight
       double weight = getWeight();
@@ -969,7 +974,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         } //Rare Sample Selections
       }      
-
+//=======================================
+// Analysis Code
+//=======================================
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;      
       //Fill in Histos
@@ -989,8 +996,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;
 
       //cout<<__LINE__<<endl;
-
-
+//=======================================
+// Debugging And Odd Corrections After Cuts
+//=======================================
       if (conf->get("data_set") == "ttv"){
         //cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<phys.evt()<<endl;
@@ -1070,8 +1078,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
-  }
-  
+  }  
 //=======================================
 // Write Out Histos
 //=======================================
