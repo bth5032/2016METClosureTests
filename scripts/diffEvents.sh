@@ -7,8 +7,8 @@ echo "Pulling Vince's outputs from file: "$VinceOutputsFile
 MyOutputsFile=$2
 echo "Pulling my outputs from file: "$MyOutputsFile
 
-cat VinceOutputsFile | grep "^[0-9]*$" | sort -n > vinceevents.tmp
-cat MyOutputsFile | grep "EVENT-LIST" | cut -d' ' -f2 | sort -n > myevents.tmp
+cat $VinceOutputsFile | grep "^[0-9]*$" | sort -n > vinceevents.tmp
+cat $MyOutputsFile | grep "EVENT-LIST" | cut -d' ' -f2 | sort -n > myevents.tmp
 
 diff vinceevents.tmp myevents.tmp | grep '>' > inMineNotVince.tmp
 diff vinceevents.tmp myevents.tmp | grep '>' > inVinceNotMine.tmp
