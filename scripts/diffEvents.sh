@@ -10,8 +10,8 @@ echo "Pulling my outputs from file: "$MyOutputsFile
 cat $VinceOutputsFile | grep "^[0-9]*$" | sort -n > vinceevents.tmp
 cat $MyOutputsFile | grep "EVENT-LIST" | cut -d' ' -f2 | sort -n > myevents.tmp
 
-diff vinceevents.tmp myevents.tmp | grep '>' > inMineNotVince.tmp
-diff vinceevents.tmp myevents.tmp | grep '>' > inVinceNotMine.tmp
+diff vinceevents.tmp myevents.tmp | grep ">" > inMineNotVince.tmp
+diff vinceevents.tmp myevents.tmp | grep "<" > inVinceNotMine.tmp
 
-echo "set<int> inVinceNotMine = {"`cat inVinceNotMine.tmp | xargs | tr ' ' ','`"}"
-echo "set<int> inMineNotVince = {"`cat inMineNotVince.tmp | xargs | tr ' ' ','`"}"
+echo "set<int> inVinceNotMine = {"`cat inVinceNotMine.tmp | tr '\n' ','`"}"
+echo "set<int> inMineNotVince = {"`cat inMineNotVince.tmp | tr '\n' ','`"}"
