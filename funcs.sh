@@ -251,3 +251,7 @@ function addDefaultToConfigs {
 		echo "Aborting, nothing added to files..."
 	fi
 }
+
+function replaceInConfigs {
+	#for i in `find $3 -name $4`; do sed -i.bak 's,$1,$2,g' $i; done
+}
