@@ -93,10 +93,10 @@ TChain * getRareChain(TString data_set){
   }
 
   if (data_set.Contains("vvv")){
-    ch_rare->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/www_incl_mgmlm*.root");
-    ch_rare->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wwz_incl_mgmlm*.root");
-    ch_rare->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wzz_incl_mgmlm*.root");
-    ch_rare->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/zzz_incl_mgmlm*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/www_incl_mgmlm*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wwz_incl_mgmlm*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wzz_incl_mgmlm*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/zzz_incl_mgmlm*.root");
   }
 
   if (data_set.Contains("ttv")){
