@@ -1,3 +1,6 @@
+DEFAULT::scaleTofb=4.0
+DEFAULT::data=true
+DEFAULT::$1
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes
@@ -15,25 +18,28 @@ DEFAULT::luminosity_fb=1
 # Region B with Btag
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/RealMETMC/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/DataWithGjetsMCRealMET/
 DEFAULT::signal_region=B_btag
 DEFAULT::NBjets_min=1
 DEFAULT::Njets_min=4
 
 #Zjets Only Base Config
 Name=Z_Base
+data_type=zjets
 zjets=true
 gjets=false
 vpt_reweight=false
 
 #Gjets Only Base Config
 Name=G_Base
+data_type=gjets
 zjets=false
 gjets=true
 vpt_reweight=false
 
 #Gjets Reweighted Config
 Name=G_Reweight
+data_type=gjets
 zjets=false
 gjets=true
 reweight=true

@@ -15,11 +15,11 @@ DEFAULT::luminosity_fb=1
 # Basic defaults
 DEFAULT::overflow=true
 DEFAULT::normalize=true
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/RealMETMC/SR/EdgeZ/RatioNoWt/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/DataWithGjetsMCRealMET/SR/EdgeZ/RatioNoWt/
 
 #Histo locations
-DEFAULT::primary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/RealMETMC/ct_Z_Base_EdgeZ.root
-DEFAULT::secondary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/RealMETMC/ct_G_Base_EdgeZ.root
+DEFAULT::primary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/DataWithGjetsMCRealMET/ct_Z_Base_EdgeZ.root
+DEFAULT::secondary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/DataWithGjetsMCRealMET/ct_G_Base_EdgeZ.root
 
 #Sample Names
 DEFAULT::primary_name=zjets

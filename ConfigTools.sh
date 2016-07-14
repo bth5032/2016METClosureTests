@@ -2,6 +2,12 @@
 #This script contains methods which are useful in copying configs to make another analysis
 
 function addDefaultToConfigs {
+  if [[ $# < 3 ]]
+  then
+    echo "addDefaultToConfigs <opt=arg> <Directory> <Filename>"
+    return 1
+  fi
+
   echo "Would you like to add: DEFAULT::$1"
   echo "To the first line of the following:"
   find $2 -name "$3"

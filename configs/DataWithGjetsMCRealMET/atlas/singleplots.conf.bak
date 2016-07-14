@@ -14,9 +14,9 @@ DEFAULT::luminosity_fb=1
 # Z Histos
 #====================
 
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/RealMETMC/SR/atlas/Zjets/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/DataWithGjetsMCRealMET/SR/atlas/Zjets/
 
-DEFAULT::histogram_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/RealMETMC/ct_Z_Base_ATLAS.root
+DEFAULT::histogram_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/DataWithGjetsMCRealMET/ct_Z_Base_ATLAS.root
 
 DEFAULT::sample_name=zjets
 
@@ -187,8 +187,8 @@ hist_name=nbtags_l
 # Gamma Histos
 #====================
 
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/RealMETMC/SR/atlas/Gjets/
-DEFAULT::histogram_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/RealMETMC/ct_G_Base_ATLAS.root
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/DataWithGjetsMCRealMET/SR/atlas/Gjets/
+DEFAULT::histogram_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/DataWithGjetsMCRealMET/ct_G_Base_ATLAS.root
 DEFAULT::sample_name=gjets
 
 Name=Gamma_vpt_base

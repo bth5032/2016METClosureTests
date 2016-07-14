@@ -459,6 +459,10 @@ double getWeight(){
   // If we don't have data use scale to 1 fb^-1. 
   if ( ! ( phys.isData() ) ) {
     weight *= phys.evt_scale1fb();
+    //Weight to some other lumi
+    if ( conf->get("scaleTofb") != "" ){
+      weight *= stod(conf->get("scaleTofb"));
+    }
   }
 
   if ( conf->get("reweight") == "true" ) {
