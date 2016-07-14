@@ -136,7 +136,7 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
   }
 
-    if (data_set.Contains("GammaRealMET")){
+    if (trigger.Contains("GammaRealMET")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo.root");
@@ -148,7 +148,7 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht600_amcnlo.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht800_amcnlo.root");
   }
-  else if (data_set.Contains("JustWjetRealMET")){
+  else if (trigger.Contains("JustWjetRealMET")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht100_amcnlo.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht1200_amcnlo.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht200_amcnlo.root");
@@ -157,10 +157,10 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht600_amcnlo.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht800_amcnlo.root");
   }
-  else if (data_set.Contains("JustWGjetRealMET")){
+  else if (trigger.Contains("JustWGjetRealMET")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo.root");
   }
-  else if (data_set.Contains("JustTTBarRealMET")){
+  else if (trigger.Contains("JustTTBarRealMET")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm.root");
   }
