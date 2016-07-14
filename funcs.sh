@@ -244,7 +244,7 @@ function addDefaultToConfigs {
 	then
 		for f in `find $2 -name "$3"`
 		do
-			sed -i '1 i\DEFAULT::$1' $f
+			sed -i "1 i\DEFAULT::$1" $f
 			#echo "File Succesfully Altered: "`head -n1 $f`
 		done
 		echo "File Succesfully Altered"
