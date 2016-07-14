@@ -176,7 +176,7 @@ function pullOutput {
 }
 
 function killjobs {
-	kill -9 `numjobs v | grep "root -l" | xargs`
+	kill -9 `numjobs v | head -n-1 | cut -d' ' -f3 | xargs`
 }
 
 function addRareHists {
