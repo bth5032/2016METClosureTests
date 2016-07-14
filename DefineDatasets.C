@@ -136,6 +136,35 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
   }
 
+    if (data_set.Contains("GammaRealMET")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht100_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht1200_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht200_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht2500_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht400_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht600_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht800_amcnlo.root");
+  }
+  else if (data_set.Contains("JustWjetRealMET")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht100_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht1200_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht200_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht2500_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht400_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht600_amcnlo.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wjets_ht800_amcnlo.root");
+  }
+  else if (data_set.Contains("JustWGjetRealMET")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo.root");
+  }
+  else if (data_set.Contains("JustTTBarRealMET")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm.root");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm.root");
+  }
+
   return ch_Data;
 }
 
