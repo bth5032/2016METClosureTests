@@ -245,13 +245,14 @@ function addDefaultToConfigs {
 		for f in `find $2 -name "$3"`
 		do
 			sed -i '1 i\DEFAULT::$1' $f
+			#echo "File Succesfully Altered: "`head -n1 $f`
 		done
-		echo "Files Succesfully Altered: "`head -n1 $f`
+		echo "File Succesfully Altered"
 	else
 		echo "Aborting, nothing added to files..."
 	fi
 }
 
 function replaceInConfigs {
-	#for i in `find $3 -name $4`; do sed -i.bak 's,$1,$2,g' $i; done
+	echo "for i in `find \$3 -name \$4`; do sed -i.bak 's,\$1,\$2,g' \$i; done"
 }
