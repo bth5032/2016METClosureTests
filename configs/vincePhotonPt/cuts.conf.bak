@@ -6,7 +6,7 @@
 #
 
 Name=numevents
-fake2=false
+fake2=also_true
 fake=true
 plot_name=NumEvents
 title=Photon PT event cuts

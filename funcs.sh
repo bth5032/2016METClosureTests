@@ -176,7 +176,7 @@ function pullOutput {
 }
 
 function killjobs {
-	kill -9 `numjobs -v | grep "root -l" | xargs`
+	kill -9 `numjobs v | grep "root -l" | xargs`
 }
 
 function addRareHists {
@@ -232,27 +232,4 @@ function makeL1PrescaleWeightHists {
 			root -l -b -q "makeWeightHisto_noconf.C(\"${output_location}\",\"${infile1}\",\"${infile2}\",\"${hist1}\",\"${hist2}\",\"${output_hist_name}\")"
 		done
 	done
-}
-
-function addDefaultToConfigs {
-	echo "Would you like to add: DEFAULT::$1"
-	echo "To the first line of the following:"
-	find $2 -name "$3"
-	echo -n "Please type yes if so: "
-	read input_from_user
-	if [[ $input_from_user == "yes" ]]
-	then
-		for f in `find $2 -name "$3"`
-		do
-			sed -i "1 i\DEFAULT::$1" $f
-			#echo "File Succesfully Altered: "`head -n1 $f`
-		done
-		echo "File Succesfully Altered"
-	else
-		echo "Aborting, nothing added to files..."
-	fi
-}
-
-function replaceInConfigs {
-	echo "for i in `find \$3 -name \$4`; do sed -i.bak 's,\$1,\$2,g' \$i; done"
 }
