@@ -269,6 +269,8 @@ function closureTable {
 		fi
 	done
 
+	echo $i
+
 	for k in `seq 0 $i`
 	do
 		echo -n $title[$i]" "
