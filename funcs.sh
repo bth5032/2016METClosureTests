@@ -244,15 +244,18 @@ function closureTable {
 	i=0
 	while read l 
 	do
-		if [[ $i == 1 ]]
+		if [[ $i == 0 ]]
 		then
 			echo $l | cut -d' ' -f 5,7,8,10,11,12
 			i=$((i+1))
 		elif [[ $i == 1 ]]
+		then
 			echo $l | cut -d' ' -f 5,7,8,10,11,12
 			i=$((i+1))
 		elif [[ $i == 2 ]]
+		then
 			echo $l
 			i=0
+		fi
 	done < `cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
 }
