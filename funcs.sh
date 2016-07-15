@@ -242,7 +242,7 @@ function closureTable {
 	fi
 
 	i=0
-	while read l 
+	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 | while read l 
 	do
 		if [[ $i == 0 ]]
 		then
@@ -257,5 +257,5 @@ function closureTable {
 			echo $l
 			i=0
 		fi
-	done < `cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
+	done
 }
