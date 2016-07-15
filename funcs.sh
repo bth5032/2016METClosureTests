@@ -247,7 +247,7 @@ function closureTable {
 	ratio[0]="Ratio"
 	i=1
 	j=0
-	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 | while read l 
+	while read l 
 	do
 		if [[ $j == "0" ]]
 		then
@@ -269,9 +269,8 @@ function closureTable {
 			echo $j $i
 			i=$((i+1))
 			j=0
-
 		fi
-	done
+	done <<< `cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
 
 	echo $i
 
