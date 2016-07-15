@@ -249,18 +249,18 @@ function closureTable {
 	j=0
 	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 | while read l 
 	do
-		if [[ $j == 0 ]]
+		if [[ $j == "0" ]]
 		then
 			title[$i]=`echo $l | cut -d' ' -f 7,9`
 			zjets[$i]=`echo $l | cut -d' ' -f 11`
 			zjets[$i]=$zjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
 			j=$((j+1))
-		elif [[ $j == 1 ]]
+		elif [[ $j == "1" ]]
 		then
 			gjets[$i]=`echo $l | cut -d' ' -f 11`
 			gjets[$i]=$gjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
 			j=$((j+1))
-		elif [[ $j == 2 ]]
+		elif [[ $j == "2" ]]
 		then
 			ratio[$i]=`echo $l | cut -d' ' -f 2`
 			ratio[$i]=$ratio[$i]" +/- "`echo $l | cut -d' ' -f 5`
@@ -275,7 +275,7 @@ function closureTable {
 	done
 	echo ""
 
-	for k in `seq 0 $i`" "
+	for k in `seq 0 $i`
 	do
 		echo -n $zjets[$i]
 	done
@@ -291,6 +291,5 @@ function closureTable {
 	do
 		echo -n $ratio[$i]" "
 	done
-	echo ""
 
 }
