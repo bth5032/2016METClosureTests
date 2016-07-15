@@ -253,7 +253,7 @@ function closureTable {
 		then
 			title[$i]=`echo $l | cut -d' ' -f 7,9`
 			zjets[$i]=`echo $l | cut -d' ' -f 11`
-			zjets[$i]=$zjets[$i]" +/- "echo $l | cut -d' ' -f 13`
+			zjets[$i]=$zjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
 			j=$((j+1))
 		elif [[ $j == 1 ]]
 		then
