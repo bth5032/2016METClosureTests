@@ -244,7 +244,7 @@ function closureTable {
 	i=0
 	while read l 
 	do
-		if [[ $i ==  ]]
+		if [[ $i == 1 ]]
 		then
 			echo $l | cut -d' ' -f 5,7,8,10,11,12
 			i=$((i+1))
