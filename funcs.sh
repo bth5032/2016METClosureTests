@@ -254,19 +254,19 @@ function closureTable {
 			title[$i]=`echo $l | cut -d' ' -f 7,9`
 			zjets[$i]=`echo $l | cut -d' ' -f 11`
 			zjets[$i]=$zjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
+			echo $j $i
 			j=$((j+1))
-			echo $j
 		elif [[ $j == "1" ]]
 		then
 			gjets[$i]=`echo $l | cut -d' ' -f 11`
 			gjets[$i]=$gjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
+			echo $j $i
 			j=$((j+1))
-			echo $j
 		elif [[ $j == "2" ]]
 		then
 			ratio[$i]=`echo $l | cut -d' ' -f 2`
 			ratio[$i]=$ratio[$i]" +/- "`echo $l | cut -d' ' -f 5`
-			echo $j
+			echo $j $i
 			i=$((i+1))
 			j=0
 
