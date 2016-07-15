@@ -246,11 +246,11 @@ function closureTable {
 	do
 		if [[ $i == 0 ]]
 		then
-			echo $l | cut -d' ' -f 5,7,9,10,11,12
+			echo $l | cut -d' ' -f 5,7,8,9,11,12,13
 			i=$((i+1))
 		elif [[ $i == 1 ]]
 		then
-			echo $l | cut -d' ' -f 5,7,9,10,11,12
+			echo $l | cut -d' ' -f 5,7,8,9,11,12,13
 			i=$((i+1))
 		elif [[ $i == 2 ]]
 		then
