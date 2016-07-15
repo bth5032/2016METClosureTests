@@ -241,6 +241,8 @@ function closureTable {
 		return
 	fi
 
+	lines=`cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
+
 	title[0]="Sample"
 	zjets[0]="Zjets"
 	gjets[0]="Gjets"
@@ -270,7 +272,7 @@ function closureTable {
 			i=$((i+1))
 			j=0
 		fi
-	done <<< `cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
+	done <<< `echo -e $lines`
 
 	echo $i
 
