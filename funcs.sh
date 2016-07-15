@@ -241,21 +241,56 @@ function closureTable {
 		return
 	fi
 
-	i=0
+	title[0]="Sample"
+	zjets[0]="Zjets"
+	gjets[0]="Gjets"
+	ratio[0]="Ratio"
+	i=1
+	j=0
 	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 | while read l 
 	do
-		if [[ $i == 0 ]]
+		if [[ $j == 0 ]]
 		then
-			echo $l | cut -d' ' -f 5,7,8,9,11,12,13
+			title[$i]=echo $l | cut -d' ' -f 7,9
+			zjets[$i]=echo $l | cut -d' ' -f 11
+			zjets[$i]=$zjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
+			j=$((j+1))
+		elif [[ $j == 1 ]]
+		then
+			gjets[$i]=echo $l | cut -d' ' -f 11
+			gjets[$i]=$gjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
+			j=$((j+1))
+		elif [[ $j == 2 ]]
+		then
+			ratio[$i]=echo $l | cut -d' ' -f 2
+			ratio[$i]=$ratio[$i]" +/- "`echo $l | cut -d' ' -f 5`
 			i=$((i+1))
-		elif [[ $i == 1 ]]
-		then
-			echo $l | cut -d' ' -f 5,7,8,9,11,12,13
-			i=$((i+1))
-		elif [[ $i == 2 ]]
-		then
-			echo $l
-			i=0
+			j=0
 		fi
 	done
+
+	for k in `seq 0 $i`
+	do
+		echo -n $title[$i]" "
+	done
+	echo ""
+
+	for k in `seq 0 $i`" "
+	do
+		echo -n $zjets[$i]
+	done
+	echo ""
+
+	for k in `seq 0 $i`
+	do
+		echo -n $gjets[$i]" "
+	done
+	echo ""
+
+	for k in `seq 0 $i`
+	do
+		echo -n $ratio[$i]" "
+	done
+	echo ""
+
 }
