@@ -241,62 +241,70 @@ function closureTable {
 		return
 	fi
 
-	lines=`cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15`
+	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 > lines.tmp
 
-	title[0]="Sample"
+	title[0]="Sample" # Holds the bin
 	zjets[0]="Zjets"
 	gjets[0]="Gjets"
 	ratio[0]="Ratio"
 	i=1
 	j=0
-	while read l 
+
+	while read -r l 
 	do
+		#echo "$l"
 		if [[ $j == "0" ]]
 		then
-			title[$i]=`echo $l | cut -d' ' -f 7,9`
+			title[$i]=`echo $l | cut -d' ' -f 7,9 | sed 's/\([[:digit:]]*\) \([[:digit:]]*\)/\1-\2/g' `
 			zjets[$i]=`echo $l | cut -d' ' -f 11`
-			zjets[$i]=$zjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
-			echo $j $i
+			zjets[$i]=${zjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
+			#echo $j $i
 			j=$((j+1))
 		elif [[ $j == "1" ]]
 		then
 			gjets[$i]=`echo $l | cut -d' ' -f 11`
-			gjets[$i]=$gjets[$i]" +/- "`echo $l | cut -d' ' -f 13`
-			echo $j $i
+			gjets[$i]=${gjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
+			#echo $j $i
 			j=$((j+1))
 		elif [[ $j == "2" ]]
 		then
 			ratio[$i]=`echo $l | cut -d' ' -f 2`
-			ratio[$i]=$ratio[$i]" +/- "`echo $l | cut -d' ' -f 5`
-			echo $j $i
+			ratio[$i]=${ratio[$i]}"+/-"`echo $l | cut -d' ' -f 5`
+			#echo $j $i
 			i=$((i+1))
 			j=0
 		fi
-	done <<< `echo -e $lines`
+	done < lines.tmp
 
-	echo $i
+	rm lines.tmp
+
+	#echo $i
+
+	echo "======================"
 
 	for k in `seq 0 $i`
 	do
-		echo -n $title[$i]" "
+		echo -n ${title[$k]}" "
 	done
 	echo ""
 
 	for k in `seq 0 $i`
 	do
-		echo -n $zjets[$i]
+		echo -n ${zjets[$k]}" "
 	done
 	echo ""
 
 	for k in `seq 0 $i`
 	do
-		echo -n $gjets[$i]" "
+		echo -n ${gjets[$k]}" "
 	done
 	echo ""
 
 	for k in `seq 0 $i`
 	do
-		echo -n $ratio[$i]" "
+		echo -n ${ratio[$k]}" "
 	done
+
+	echo ""
 
 }
