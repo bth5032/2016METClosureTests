@@ -9,28 +9,27 @@ TChain * getZJetsChain(TString data_set) {
 
   if (data_set.Contains("inclusive")){
     //Inclusive HT
-    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/zjets_m50_mgmlm_zjetsInclusive_*");
+    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/dy_m50_mgmlm_ext1*");
   }
 
   if (data_set.Contains("100200")){
     //HT 100-200 
-    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/zjets_m50_mgmlm_HT100200*");
+    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/dy_m50_mgmlm_ht100_ext1*");
   }
 
   if (data_set.Contains("200400")){
     //HT 200-400 
-    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/zjets_m50_mgmlm_HT200400*");
+    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/dy_m50_mgmlm_ht200_ext1*");
   }
 
   if (data_set.Contains("400600")){
     //HT 400-600 
-    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/zjets_m50_mgmlm_HT400600*");
+    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/dy_m50_mgmlm_ht400_ext1*");
   }
 
   if (data_set.Contains("600Inf")){
     //HT 600-Inf 
-    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/zjets_miniAODv2_m50_mgmlm_HT600Inf_ext1*");
-    //Nothing here for now.
+    ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/dy_m50_mgmlm_ht600_ext1*");
   }
 
   return ch_Zjets;
@@ -44,23 +43,23 @@ TChain * getGJetsChain(TString data_set){
  
   if (data_set.Contains("40100") && (!data_set.Contains("REALMETISO"))){
     //HT 40-100 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/Gjets_mgmlm_HT40100*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht40_dr0p4_mgmlm*");
   }
   if (data_set.Contains("100200") && (!data_set.Contains("REALMETISO"))){
     //HT 100-200 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/Gjets_mgmlm_HT100200*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht100_dr0p4_mgmlm*");
   }
   if (data_set.Contains("200400") && (!data_set.Contains("REALMETISO"))){
     //HT 200-400 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/Gjets_mgmlm_HT200400*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht200_dr0p4_mgmlm*");
   }
   if (data_set.Contains("400600") && (!data_set.Contains("REALMETISO"))){
     //HT 400-600 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/Gjets_mgmlm_HT400600*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht400_dr0p4_mgmlm*");
   }
   if (data_set.Contains("600Inf") && (!data_set.Contains("REALMETISO"))){
     //HT 600-Inf 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/bobakBabies/V7680-hybrid-00-Bobak/Gjets_mgmlm_HT600Inf*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-00/gjetsht600_dr0p4_mgmlm*");
   }
 
   if (data_set.Contains("GammaRealMET")){
@@ -131,12 +130,11 @@ TChain * getDataPhotonChain(TString trigger){
 
   //Single Photon Trigger
   if (trigger.Contains("SinglePhoton")){
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v1.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ph_v2_1.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ph_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ph_v2*");
   }
 
-    if (trigger.Contains("GammaRealMET")){
+  if (trigger.Contains("GammaRealMET")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltbr_mgmlm.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/ttbar_1ltop_mgmlm.root");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/wgjets_incl_amcnlo.root");
@@ -176,18 +174,18 @@ TChain * getDataZChain(TString trigger){
 
   // E/Mu Trigger
   if (trigger.Contains("ee")){
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v1*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_ee_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_ee_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_ee_v2*");
   }
 
   if (trigger.Contains("em")){
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v1*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_em_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_em_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_em_v2*");
   }
 
   if (trigger.Contains("mm")){
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v1.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-07-01/data_2016B_Prompt_mm_v2.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016B_Prompt_mm_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-00/data_2016C_Prompt_mm_v2*");
   }
 
   return ch_Data;
