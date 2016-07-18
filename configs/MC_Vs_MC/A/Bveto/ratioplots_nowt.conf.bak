@@ -78,6 +78,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 hist_name=type1MET
+stats_high_val=6001
 
 Name=t1met_log
 plot_name=Type1MET_Log
@@ -89,6 +90,7 @@ ylabel=Count / 5 GeV
 bin_size=5
 logy=true
 hist_name=type1MET
+stats_high_val=6001
 
 Name=rawmet_longtail
 plot_name=RawMET_longtail
@@ -109,6 +111,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 hist_name=rawMET
+stats_high_val=6001
 
 Name=ht_longtail
 plot_name=HT_longtail
