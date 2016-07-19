@@ -307,4 +307,9 @@ function closureTable {
 
 	echo ""
 
+	unset title
+	unset zjets
+	unset gjets
+	unset ratio
+
 }
