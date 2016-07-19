@@ -320,7 +320,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
     return false;
   }
-  if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll<<" "; }
+  if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
 
   //cout<<__LINE__<<endl;
 
