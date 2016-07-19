@@ -275,9 +275,7 @@ function closureTable {
 			j=0
 		fi
 	done < lines.tmp
-
-	rm lines.tmp
-
+	
 	#echo $i
 
 	echo "======================"
@@ -307,9 +305,12 @@ function closureTable {
 
 	echo ""
 
+	#	Cleanup
 	unset title
 	unset zjets
 	unset gjets
 	unset ratio
-
+	unset i
+	unset j
+	rm lines.tmp
 }
