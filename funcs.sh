@@ -280,25 +280,25 @@ function closureTable {
 
 	echo "======================"
 
-	for k in `seq 0 $i`
+	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${title[$k]}" "
 	done
 	echo ""
 
-	for k in `seq 0 $i`
+	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${zjets[$k]}" "
 	done
 	echo ""
 
-	for k in `seq 0 $i`
+	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${gjets[$k]}" "
 	done
 	echo ""
 
-	for k in `seq 0 $i`
+	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${ratio[$k]}" "
 	done
