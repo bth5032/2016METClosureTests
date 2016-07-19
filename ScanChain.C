@@ -237,7 +237,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
     return false; // require at least 2 good leptons
   }
-  if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<endl; }
+  if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
   //cout<<__LINE__<<endl;
 
@@ -541,6 +541,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
+  if (printStats) { cout<<"NbjetsMed: "<<phys.nBJetMedium()<<" "; }
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
@@ -563,7 +564,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-
+  if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
     if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
@@ -574,7 +575,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-
+  if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
     if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
@@ -585,7 +586,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-
+  if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
   if (conf->get("MT2b") != ""){
     if (phys.mt2b() < stod(conf->get("MT2b")) && g_sample_name == "zjets"){
@@ -596,9 +597,9 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-
   //HT min
   if (conf->get("HT_min") != ""){
+  if (printStats) { cout<<"ht: "<<phys.ht()<<" "; }
     if (phys.ht() < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
       //if (printFail) cout<<phys.evt()<<" :Failed sum HT min cut"<<endl;
@@ -607,9 +608,9 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
+  if (printStats) { cout<<"mbb_mh_diff: "<<abs(phys.mbb_csv() - 125)<<" "; }
     if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
       //if (printFail) cout<<phys.evt()<<" :Failed sum mbb_mh diff cut"<<endl;
@@ -629,7 +630,7 @@ bool passSignalRegionCuts(){
     else{
       pt = phys.lep_pt().at(0) + phys.lep_pt().at(1);
     }
-    
+    if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(phys.ht() + pt )<<" "; }
     if ( abs(phys.ht() + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
       //if (printFail) cout<<phys.evt()<<" :Failed sum HT pt pt cut"<<endl;
@@ -686,7 +687,8 @@ bool passRareCuts(){
       }
     }
   }
-  
+  if (printStats) { cout<<"HasGenZ: "<<realzpair<<" "; }
+  if (printStats) { cout<<"HasGenMET: "<<hasrealmet<<" "; }
   if ( ! hasrealmet ){
     numEvents->Fill(47);
     //if (printFail) cout<<phys.evt()<<" :Failed Has Real MET Rare Cut"<<endl;    
