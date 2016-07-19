@@ -136,15 +136,16 @@ bool passMETFilters(){
 
 bool passBaseCut(){
   bool pass=true;
+  if (printStats) { cout<<"goodrun : "<<phys.evt_passgoodrunlist()<<" "; }
+  if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
+  
   if (! (phys.evt_passgoodrunlist() > 0)){ 
     pass=false; //golden json
-    if (printStats) { cout<<"goodrun : "<<phys.evt_passgoodrunlist()<<" "; }
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
   } 
   if (! (phys.njets() >= 2) ){ 
     pass=false; //2 jet cut
-    if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
     //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
     numEvents->Fill(9);
   }
