@@ -495,7 +495,7 @@ double getEff(){
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
-
+  cout<<__LINE__<<endl;
   // If we don't have data use scale to 1 fb^-1. 
   if ( ! ( phys.isData() ) ) {
     weight *= phys.evt_scale1fb();
@@ -504,6 +504,7 @@ double getWeight(){
       weight *= stod(conf->get("scaleTofb"));
     }
   }
+  cout<<__LINE__<<endl;
 
   if ( conf->get("reweight") == "true" ) {
     weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
@@ -512,6 +513,7 @@ double getWeight(){
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
     weight *= getEff();
   }
+  cout<<__LINE__<<endl;
 
   if (conf->get("rares") == "true"){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
@@ -519,10 +521,12 @@ double getWeight(){
     if (phys.hyp_type() == 1) weight *= 0.920;
     if (phys.hyp_type() == 2) weight *= 0.886;
   }
+  cout<<__LINE__<<endl;
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
   }
+  cout<<__LINE__<<endl;
 
   return weight;
 }
@@ -925,7 +929,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     
     weight_eff_file.Close();
   }
-
+  cout<<__LINE__<<endl;
   //set goodrun list
   const char* json_file = "auxFiles/golden_json_080716_7p65fb_snt.txt"; // 7.56 fb
   cout<<"Setting good run list: "<<json_file<<endl;
