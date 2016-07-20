@@ -49,7 +49,7 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 
 //set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
 
-set<long> inspection_set = {470836340,726705664,1268760057,1113504849,173918891,3089654438};
+//set<long> inspection_set = {470836340,726705664,1268760057,1113504849,173918891,3089654438};
 
 bool printStats = false;
 bool printFail = false;
@@ -990,9 +990,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         }
       }
-      if ( inspection_set.count(phys.evt()) != 0){
+      /*if ( inspection_set.count(phys.evt()) != 0){
         printStats=true;
-      }
+      }*/
       /*if (conf->get("data_set") == "ttv"){
         cout<<__LINE__<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
