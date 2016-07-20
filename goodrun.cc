@@ -282,5 +282,5 @@ int max_run_max_lumi ()
      return -1;
 }
 
-#endif // __CUNT__
+#endif // __CINT__
 
