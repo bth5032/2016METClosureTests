@@ -186,10 +186,6 @@ static int load_runs (const char *fname, enum file_type type)
      return line;
 }
 
-void doNothing(){
-  
-}
-
 bool goodrun (unsigned int run, unsigned int lumi_block)
 {
      if (not good_runs_loaded_) {
