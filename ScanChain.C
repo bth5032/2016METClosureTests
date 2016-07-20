@@ -154,18 +154,18 @@ bool passBaseCut(){
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
   //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
-  if (! (goodrun(phys.evt(), phys.lumi()))){ 
+  /*if (! (goodrun(phys.evt(), phys.lumi()))){ 
     pass=false; //golden json
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
-  }
+  }*/
 
   //Old Method, using branch
-  /*if (! (phys.evt_passgoodrunlist() > 0)){ 
+  if (! (phys.evt_passgoodrunlist() > 0)){ 
     pass=false; //golden json
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
-  }*/ 
+  } 
   if (! (phys.njets() >= 2) ){ 
     pass=false; //2 jet cut
     //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
