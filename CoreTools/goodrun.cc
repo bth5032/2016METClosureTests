@@ -253,9 +253,9 @@ bool goodrun_json (unsigned int run, unsigned int lumi_block)
 
 void set_goodrun_file (const char* filename)
 {
-  int ret = load_runs(filename, TEXT);
-  assert(ret != 0);
-  good_runs_loaded_ = true;
+  //int ret = load_runs(filename, TEXT);
+  //assert(ret != 0);
+  //good_runs_loaded_ = true;
 }
 
 void set_goodrun_file_json (const char* filename)
