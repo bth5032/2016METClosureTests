@@ -620,7 +620,7 @@ TString drawCutDebug(ConfigParser *conf){
   for (int i = xmin; i<xmax; i++)
   {
     bin_label=label_conf[to_string(i)];
-    bin_label+=" ("+to_string((int) p_hist->GetBinContent(i))+")";
+    bin_label+=" ("+to_string((int) p_hist->GetBinContent(i-1))+")";
     h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
   }  
   h_axes->GetXaxis()->LabelsOption("v");
