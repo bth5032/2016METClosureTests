@@ -36,6 +36,7 @@ namespace duplicate_removal{
   bool is_duplicate (const DorkyEventIdentifier &id){
     cout<<"Checking Duplicate"<<endl;
        std::pair<std::set<DorkyEventIdentifier>::const_iterator, bool> ret = already_seen.insert(id);
+       cout<<"Check Performed"<<endl;
        return !ret.second;
   }
 
