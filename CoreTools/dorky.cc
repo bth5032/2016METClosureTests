@@ -36,11 +36,11 @@ namespace duplicate_removal{
   bool is_duplicate (const DorkyEventIdentifier &id){
     cout<<"Checking Duplicate"<<endl;
     cout<<"run: "<<id.run<<" lumi: "<<id.lumi_section<<" event: "<<id.event<<endl;
-       std::pair<std::set<DorkyEventIdentifier>::const_iterator, bool> ret; 
-       cout<<"Ret Made"<<endl;
-       ret = already_seen.insert(id);
+       std::pair<std::set<DorkyEventIdentifier>::const_iterator, bool> event_been_seen; 
+       cout<<"Return value Made"<<endl;
+       event_been_seen = already_seen.insert(id);
        cout<<"Check Performed"<<endl;
-       return !ret.second;
+       return !event_been_seen.second;
   }
 
   void clear_list(){
