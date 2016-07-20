@@ -532,14 +532,19 @@ double getWeight(){
 }
 
 bool isDuplicate(){
+  cout<<__LINE__<<endl;
   if( phys.isData() ) {
     DorkyEventIdentifier id(phys.run(), phys.evt(), phys.lumi());
+    cout<<__LINE__<<endl;
     if (is_duplicate(id) ){
       ++nDuplicates;
+      cout<<__LINE__<<endl;
       //if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
       return true;
     }
+    cout<<__LINE__<<endl;
   }
+  cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes not a duplicate"<<endl;
   return false;
 }
