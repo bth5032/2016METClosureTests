@@ -55,6 +55,11 @@ static const char json_py[] =
 
 static int load_runs (const char *fname, enum file_type type)
 {
+  return 1;
+}
+
+/*static int load_runs (const char *fname, enum file_type type)
+{
      good_runs_.clear();
      FILE *file = 0;
      switch (type) { 
@@ -184,7 +189,7 @@ static int load_runs (const char *fname, enum file_type type)
      if (type == JSON)
 	  unlink((std::string(fname) + ".tmp").c_str());
      return line;
-}
+}*/
 
 bool goodrun (unsigned int run, unsigned int lumi_block)
 {
