@@ -154,7 +154,7 @@ bool passBaseCut(){
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
   //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
-  if (! (goodrun(phys.evt(), phys.lumi()))){ 
+  if (! (goodrun(phys.run(), phys.lumi()))){ 
     pass=false; //golden json
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
