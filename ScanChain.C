@@ -23,8 +23,8 @@
 #include "ZMET2016.cc"
 
 // CORE
-#include "CoreTools/dorky.h"
-#include "CoreTools/dorky.cc"
+//#include "dorky.h"
+#include "dorky.cc"
 #include "CoreTools/goodrun.h"
 // Configuration parsing
 #include "ConfigParser.C"
