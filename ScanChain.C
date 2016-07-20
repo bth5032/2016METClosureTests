@@ -23,8 +23,8 @@
 #include "ZMET2016.cc"
 
 // CORE
-#include "dorky.cc"
-
+#include "CoreTools/dorky.cc"
+#include "CoreTools/goodrun.h"
 // Configuration parsing
 #include "ConfigParser.C"
 
@@ -106,11 +106,11 @@ bool passMETFilters(){
       //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
       numEvents->Fill(3);
     } 
-    if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
+    /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
       pass=false;
       //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(4);
-    }
+    }*/
     if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
       pass=false;
       //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
@@ -126,7 +126,21 @@ bool passMETFilters(){
       //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
       numEvents->Fill(7);
     }
-
+    if (!phys.Flag_globalTightHalo2016            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(4);
+    }
+    if (!phys.Flag_badMuonFilter            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(50);
+    }
+    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(51);
+    }
   }
   if (pass){
     //if (printPass) cout<<phys.evt()<<": Passes MET Filters"<<endl;
@@ -136,14 +150,21 @@ bool passMETFilters(){
 
 bool passBaseCut(){
   bool pass=true;
-  if (printStats) { cout<<"goodrun : "<<phys.evt_passgoodrunlist()<<" "; }
-  if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
+  //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
+  //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
-  if (! (phys.evt_passgoodrunlist() > 0)){ 
+  if (! (goodrun(phys.evt(), phys.lumi()))){ 
     pass=false; //golden json
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
-  } 
+  }
+
+  //Old Method, using branch
+  /*if (! (phys.evt_passgoodrunlist() > 0)){ 
+    pass=false; //golden json
+    //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+    numEvents->Fill(8);
+  }*/ 
   if (! (phys.njets() >= 2) ){ 
     pass=false; //2 jet cut
     //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
@@ -160,13 +181,13 @@ bool passMuonTriggers(){
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
       //cout<<__LINE__<<endl;
-      if (printStats) { cout<<"HLT_DoubleMu: "<<phys.HLT_DoubleMu()<<" HLT_DoubleMu_tk: "<<phys.HLT_DoubleMu_tk()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
+      //if (printStats) { cout<<"HLT_DoubleMu: "<<phys.HLT_DoubleMu()<<" HLT_DoubleMu_tk: "<<phys.HLT_DoubleMu_tk()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
     }
     else{
       //cout<<"Using Non DZ triggers"<<endl;
       //cout<<__LINE__<<endl;
-      if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
+      //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
   }
@@ -179,7 +200,7 @@ bool passMuonTriggers(){
 bool passElectronTriggers(){
   if ( phys.isData()){
     //cout<<__LINE__<<endl;
-    if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
+    //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
   }
   else{
@@ -190,7 +211,7 @@ bool passElectronTriggers(){
 
 bool passHLTs(){
   if (conf->get("data_set") == "em"){
-    if (printStats) { cout<<"HLT_MuEG: "<<phys.HLT_MuEG()<<" HLT_MuEG_noiso: "<<phys.HLT_MuEG_noiso()<<" "; }
+    //if (printStats) { cout<<"HLT_MuEG: "<<phys.HLT_MuEG()<<" HLT_MuEG_noiso: "<<phys.HLT_MuEG_noiso()<<" "; }
     if (phys.HLT_MuEG() /*|| phys.HLT_MuEG_2()*/ || phys.HLT_MuEG_noiso()){
       //good Mu/E event
       //cout<<__LINE__<<endl;
@@ -238,7 +259,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
     return false; // require at least 2 good leptons
   }
-  if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
+  //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
   //cout<<__LINE__<<endl;
 
@@ -247,7 +268,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
     return false; // leading lep pT > 25 GeV
   }
-  if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
+  //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
   //cout<<__LINE__<<endl;
 
@@ -256,7 +277,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed lep2 pt < 20 Z cut"<<endl;
     return false; // tailing lep pT > 20 GeV      
   }
-  if (printStats) { cout<<"lep2 pt: "<<phys.lep_pt().at(1)<<" "; }
+  //if (printStats) { cout<<"lep2 pt: "<<phys.lep_pt().at(1)<<" "; }
   
   //cout<<__LINE__<<endl;
 
@@ -265,7 +286,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
     return false; // eta < 2.4
   }    
-  if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
+  //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
 
   //cout<<__LINE__<<endl;
   
@@ -274,7 +295,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed lep2 eta > 2.4 Z cut"<<endl;
     return false; // eta < 2.4
   }
-  if (printStats) { cout<<"lep2 eta: "<<phys.lep_p4().at(1).eta()<<" "; }
+  //if (printStats) { cout<<"lep2 eta: "<<phys.lep_p4().at(1).eta()<<" "; }
 
   //cout<<__LINE__<<endl;
 
@@ -321,7 +342,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
     return false;
   }
-  if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
+  //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
 
   //cout<<__LINE__<<endl;
 
@@ -331,7 +352,7 @@ bool hasGoodZ(){
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
       return false; // require explicit opposite flavor event
     }
-    if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
   }
   else{
     //require explicit hypothesis type
@@ -340,7 +361,7 @@ bool hasGoodZ(){
         //if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
         return false; // require explicit same flavor event
     }
-    if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
   }
 
   //cout<<__LINE__<<endl;
@@ -350,7 +371,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed evt_type=0 Z cut"<<endl;
     return false; // require opposite sign
   }
-  if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
+  //if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
 
   //cout<<__LINE__<<endl;
   
@@ -359,7 +380,7 @@ bool hasGoodZ(){
     //if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return false; // on-Z
   }
-  if (printStats) { cout<<"mass_ll: "<<phys.dilmass()<<" "; }
+  //if (printStats) { cout<<"mass_ll: "<<phys.dilmass()<<" "; }
 
   //cout<<__LINE__<<endl;
   
@@ -542,7 +563,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  if (printStats) { cout<<"NbjetsMed: "<<phys.nBJetMedium()<<" "; }
+  //if (printStats) { cout<<"NbjetsMed: "<<phys.nBJetMedium()<<" "; }
 
   //Num Bottom jets Min Cut
   if (conf->get("NBjets_min") != ""){
@@ -565,7 +586,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
+  //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
     if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
@@ -576,7 +597,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
+  //if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
     if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
@@ -587,7 +608,7 @@ bool passSignalRegionCuts(){
   }
 
   //cout<<__LINE__<<endl;
-  if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
+  //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
   if (conf->get("MT2b") != ""){
     if (phys.mt2b() < stod(conf->get("MT2b")) && g_sample_name == "zjets"){
@@ -600,7 +621,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //HT min
   if (conf->get("HT_min") != ""){
-  if (printStats) { cout<<"ht: "<<phys.ht()<<" "; }
+  //if (printStats) { cout<<"ht: "<<phys.ht()<<" "; }
     if (phys.ht() < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
       //if (printFail) cout<<phys.evt()<<" :Failed sum HT min cut"<<endl;
@@ -611,7 +632,7 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
-  if (printStats) { cout<<"mbb_mh_diff: "<<abs(phys.mbb_csv() - 125)<<" "; }
+  //if (printStats) { cout<<"mbb_mh_diff: "<<abs(phys.mbb_csv() - 125)<<" "; }
     if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
       //if (printFail) cout<<phys.evt()<<" :Failed sum mbb_mh diff cut"<<endl;
@@ -631,7 +652,7 @@ bool passSignalRegionCuts(){
     else{
       pt = phys.lep_pt().at(0) + phys.lep_pt().at(1);
     }
-    if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(phys.ht() + pt )<<" "; }
+    //if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(phys.ht() + pt )<<" "; }
     if ( abs(phys.ht() + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
       //if (printFail) cout<<phys.evt()<<" :Failed sum HT pt pt cut"<<endl;
@@ -688,8 +709,8 @@ bool passRareCuts(){
       }
     }
   }
-  if (printStats) { cout<<"HasGenZ: "<<realzpair<<" "; }
-  if (printStats) { cout<<"HasGenMET: "<<hasrealmet<<" "; }
+  //if (printStats) { cout<<"HasGenZ: "<<realzpair<<" "; }
+  //if (printStats) { cout<<"HasGenMET: "<<hasrealmet<<" "; }
   if ( ! hasrealmet ){
     numEvents->Fill(47);
     //if (printFail) cout<<phys.evt()<<" :Failed Has Real MET Rare Cut"<<endl;    
@@ -733,7 +754,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
   TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
 
-  numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 50, 0, 50);
+  numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
 
   //MET Histos
@@ -854,6 +875,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
 
+//==============
+// Setup Stuff Pulled From External Files
+//==============
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
@@ -865,7 +889,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   if( conf->get("rares") == "true" ){
     cout<<"Pileup reweighting with nvtx_ratio_6p26fb.root"<<endl;
-    g_pileup_hist_file = TFile::Open("nvtx_ratio_6p26fb.root", "READ");
+    g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_6p26fb.root", "READ");
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
     g_pileup_hist->SetDirectory(rootdir);
     g_pileup_hist_file->Close();
@@ -889,7 +913,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   
   if( conf->get("reweight_eff") == "true" ){
     cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
-    TFile weight_eff_file("trigeff_Photon165_zmet2016.root", "READ");
+    TFile weight_eff_file("auxFiles/trigeff_Photon165_zmet2016.root", "READ");
     
     //barrel
     g_vpt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
@@ -901,6 +925,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     
     weight_eff_file.Close();
   }
+
+  //set goodrun list
+  const char* json_file = "auxFiles/golden_json_080716_7p65fb_snt"; // 7.56 fb
+  cout<<"Setting good run list: "<<json_file<<endl;
+  set_goodrun_file(json_file);
 
 
   //cout<<__LINE__<<endl;
@@ -1048,7 +1077,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         }
       }*/
 
-      if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
+      //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
 
       /*if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
         cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
