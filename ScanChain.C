@@ -24,7 +24,7 @@
 
 // CORE
 //#include "dorky.h"
-#include "dorky.cc"
+#include "CoreTools/dorky.cc"
 //#include "goodrun.h"
 // Configuration parsing
 #include "ConfigParser.C"
