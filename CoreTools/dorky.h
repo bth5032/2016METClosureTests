@@ -7,7 +7,7 @@
 #include <set>
 
 namespace duplicate_removal {
-     struct DorkyEventIdentifier {
+    struct DorkyEventIdentifier {
     // this is a workaround for not having unique event id's in MC 
     DorkyEventIdentifier (unsigned long int r, unsigned long int e, unsigned long int l);
     unsigned long int run, event, lumi_section;
