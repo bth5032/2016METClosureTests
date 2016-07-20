@@ -55,11 +55,6 @@ static const char json_py[] =
 
 static int load_runs (const char *fname, enum file_type type)
 {
-  return 1;
-}
-
-/*static int load_runs (const char *fname, enum file_type type)
-{
      good_runs_.clear();
      FILE *file = 0;
      switch (type) { 
@@ -189,7 +184,11 @@ static int load_runs (const char *fname, enum file_type type)
      if (type == JSON)
 	  unlink((std::string(fname) + ".tmp").c_str());
      return line;
-}*/
+}
+
+void doNothing(){
+  
+}
 
 bool goodrun (unsigned int run, unsigned int lumi_block)
 {
@@ -253,9 +252,9 @@ bool goodrun_json (unsigned int run, unsigned int lumi_block)
 
 void set_goodrun_file (const char* filename)
 {
-  //int ret = load_runs(filename, TEXT);
-  //assert(ret != 0);
-  //good_runs_loaded_ = true;
+  int ret = load_runs(filename, TEXT);
+  assert(ret != 0);
+  good_runs_loaded_ = true;
 }
 
 void set_goodrun_file_json (const char* filename)
