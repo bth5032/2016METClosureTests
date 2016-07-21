@@ -1087,9 +1087,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
 
-      /*if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
+      if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
         cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
-      }*/
+      }
 
       //Vince's Photon plots
       if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
