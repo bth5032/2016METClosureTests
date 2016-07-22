@@ -772,6 +772,13 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
+  const int n_metbins_wide_std = 6;
+  const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 6000};
+
+  TH1D *t1met_widebin = new TH1D(sampleName+"_type1MET_widebin", "Type 1 MET for "+sampleName, n_metbins_wide_std, metbins_wide_std);
+  t1met_widebin->SetDirectory(rootdir);
+  t1met_widebin->Sumw2();
+
   //MET Histos
   TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 150,0,150);
   nVert->SetDirectory(rootdir);
@@ -854,7 +861,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     met_300->SetDirectory(rootdir);
     met_300->Sumw2();
   }
-
 
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
