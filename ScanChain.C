@@ -754,7 +754,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
-  //=======================================
+//=======================================
 // Define Histograms
 //=======================================
   
@@ -889,7 +889,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
-
 //==============
 // Setup Stuff Pulled From External Files
 //==============
@@ -1060,7 +1059,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
       //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
-      if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+      if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) {
+        t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+        t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
+      }
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
       if (phys.ht() != 0) ht->Fill(phys.ht(), weight);
       if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
@@ -1172,6 +1174,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   numEvents->Write();
   numMETFilters->Write();
   t1met->Write();
+  t1met_widebin->Write();
   rawmet->Write();
   ht->Write();
   gen_ht->Write();
