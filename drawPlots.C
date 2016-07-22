@@ -382,8 +382,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   return errors;
 }
 
-TString drawTwoWithResidual(ConfigParser *conf){
-  /* This method expects conf to have a plot config loaded in already. */
+/*TString drawTwoWithResidual(ConfigParser *conf){
+  // This method expects conf to have a plot config loaded in already.
   TString errors="";
 
   TFile* f_primary = new TFile(TString(conf->get("primary_path")));
@@ -610,11 +610,11 @@ TString drawTwoWithResidual(ConfigParser *conf){
   TH1D* residual = (TH1D*) p_hist->Clone("residual");
   residual->Divide(s_hist);
   
-  /*cout<<"Fixing error bars"<<endl;
-  for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
-    double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
-    residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
-  }*/
+  //cout<<"Fixing error bars"<<endl;
+  //for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
+  //  double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
+  //  residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
+  //}
   
   cout<<"Building axes"<<endl;
   TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
@@ -673,7 +673,7 @@ TString drawTwoWithResidual(ConfigParser *conf){
   delete f_secondary;
 
   return errors;
-}
+}*/
 
 TString drawSingleTH1(ConfigParser *conf){
   /* This method expects conf to have a plot config loaded in already. */
