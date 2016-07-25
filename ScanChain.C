@@ -989,7 +989,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
-      if ( conf->get("data") == "" ){
+      if ( conf->get("data") == ""  && conf->get("data_type") == "zjets" ){
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
           if( phys.gen_ht() > 100 ) {
             numEvents->Fill(44);
@@ -1161,13 +1161,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       }
     }
     // Clean Up
+    cout<<__LINE__<<endl;
     delete tree;
+    cout<<__LINE__<<endl;
     file.Close();
   }
 
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }  
+  cout<<__LINE__<<endl;
 //=======================================
 // Write Out Histos
 //=======================================
@@ -1176,19 +1179,31 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   //Write out histograms to file
   numEvents->Write();
+  cout<<__LINE__<<endl;
   numMETFilters->Write();
+  cout<<__LINE__<<endl;
   t1met->Write();
+  cout<<__LINE__<<endl;
   t1met_widebin->Write();
+  cout<<__LINE__<<endl;
   rawmet->Write();
+  cout<<__LINE__<<endl;
   ht->Write();
+  cout<<__LINE__<<endl;
   gen_ht->Write();
+  cout<<__LINE__<<endl;
   vpt->Write();
+  cout<<__LINE__<<endl;
   njets->Write();
+  cout<<__LINE__<<endl;
   nbtags_m->Write();
+  cout<<__LINE__<<endl;
   nbtags_l->Write();
+  cout<<__LINE__<<endl;
   nbtags_t->Write();
+  cout<<__LINE__<<endl;
   nVert->Write();
-  
+  cout<<__LINE__<<endl;
   if (conf->get("signal_region") == "VincePhotonPT"){
     met_150->Write();
     vpt_150->Write();
@@ -1197,6 +1212,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     met_300->Write();
     vpt_300->Write();
   }
+  cout<<__LINE__<<endl;
 
   if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
   {
@@ -1209,11 +1225,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     nVert_HLT_Photon30_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
   }
+  cout<<__LINE__<<endl;
 
   //close output file
   output->Write();
   output->Close();
-  
+  cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");
   cout << endl;
