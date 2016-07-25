@@ -989,10 +989,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
-      if( TString(currentFile->GetTitle()).Contains("zjetsInclusive") ){
-        if( phys.gen_ht() > 100 ) {
-          numEvents->Fill(44);
-          continue;
+      if ( conf->get("data") == "" )
+        if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
+          if( phys.gen_ht() > 100 ) {
+            numEvents->Fill(44);
+            continue;
+          }
         }
       }
       /*if ( inspection_set.count(phys.evt()) != 0){
