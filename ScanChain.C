@@ -18,6 +18,7 @@
 #include "TFile.h"
 #include "TROOT.h"
 #include "TTreeCache.h"
+#include "TEfficiency.h"
 
 // ZMET2016
 #include "ZMET2016.cc"
