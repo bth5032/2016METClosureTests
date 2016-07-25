@@ -989,7 +989,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
-      if ( conf->get("data") == "" )
+      if ( conf->get("data") == "" ){
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
           if( phys.gen_ht() > 100 ) {
             numEvents->Fill(44);
