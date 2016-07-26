@@ -1219,16 +1219,23 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   }
   cout<<__LINE__<<endl;
 
-  if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
+  if ( phys.isData() ) //if photon data
   {
-    nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon90_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon75_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon50_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon36_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon30_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
+    cout<<__LINE__<<endl;    
+    if (conf->get("data_type") == "gjets") {
+      cout<<__LINE__<<endl;
+      if (conf->get("data") == "true") { 
+        cout<<__LINE__<<endl;
+        nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon90_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon75_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon50_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon36_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon30_R9Id90_HE10_IsoM->Write();
+        nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
+      }
+    }
   }
   cout<<__LINE__<<endl;
 
