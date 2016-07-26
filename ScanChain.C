@@ -895,6 +895,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //==============
 // Setup Stuff Pulled From External Files
 //==============
+  int eventsInFile;
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
@@ -969,6 +970,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
     phys.Init(tree); //Loads in all the branches
     //cout<<__LINE__<<endl;
+    eventsInFile = 0;
 //===========================================
 // Loop over Events in current file
 //===========================================
@@ -990,6 +992,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
+      eventsInFile++;
+      if (eventsInFile > 1000) continue;
       if ( conf->get("data") == ""  && conf->get("data_type") == "zjets" ){
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
           if( phys.gen_ht() > 100 ) {
