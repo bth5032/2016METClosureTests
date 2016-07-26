@@ -997,7 +997,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
         cout<<"Zjets MC event"<<endl;
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
-          cout<<"Inclusive sample with gen_ht: "<<phys.gen_ht()<<endl;
+          cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
           if( phys.gen_ht() > 100 ) {
             cout<<"skipped"<<endl;
             numEvents->Fill(44);
