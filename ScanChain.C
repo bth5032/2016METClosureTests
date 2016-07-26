@@ -992,8 +992,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
-      eventsInFile++;
-      if (eventsInFile > 1000) continue;
+      //eventsInFile++;
+      //if (eventsInFile > 1000) continue;
       if ( conf->get("data") == ""  && conf->get("data_type") == "zjets" ){
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
           if( phys.gen_ht() > 100 ) {
