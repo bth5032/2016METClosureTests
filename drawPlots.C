@@ -32,6 +32,8 @@ void drawLatexFromTString(TString text, double x_low, double y_low){
   return;
 }
 
+//nothing
+
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
   height=1.02-gPad->GetTopMargin();
