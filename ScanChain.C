@@ -794,6 +794,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   ht->SetDirectory(rootdir);
   ht->Sumw2();
 
+  TH1D *ht_wide = new TH1D(sampleName+"_ht_wide", "Scalar sum of hadronic pt (HT) for "+sampleName, 60,0,6000);
+  ht_wide->SetDirectory(rootdir);
+  ht_wide->Sumw2();
+
   TH1D *gen_ht = new TH1D(sampleName+"_genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
   gen_ht->SetDirectory(rootdir);
   gen_ht->Sumw2();
@@ -987,14 +991,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
+      eventsInFile++;
+      if (eventsInFile > 100) continue;
       //cout<<__LINE__<<endl;
 //=======================================
 // Debugging And Odd Corrections Before Cuts
 //=======================================
       printStats = false;
       printFail = false;
-      eventsInFile++;
-      if (eventsInFile > 100) continue;
       if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
         //cout<<"Zjets MC event"<<endl;
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
@@ -1077,7 +1081,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
       }
       if (phys.met_rawPt() != 0) rawmet->Fill(phys.met_rawPt(), weight);
-      if (phys.ht() != 0) ht->Fill(phys.ht(), weight);
+      if (phys.ht() != 0) {
+        ht->Fill(phys.ht(), weight);
+        ht_wide->Fill(phys.ht(), weight);
+      }
       if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
       if (bosonPt() != 0) vpt->Fill(bosonPt(), weight);
       njets->Fill(phys.njets(), weight);
@@ -1198,6 +1205,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   rawmet->Write();
   //cout<<__LINE__<<endl;
   ht->Write();
+  //cout<<__LINE__<<endl;
+  ht_wide->Write();
   //cout<<__LINE__<<endl;
   gen_ht->Write();
   //cout<<__LINE__<<endl;
