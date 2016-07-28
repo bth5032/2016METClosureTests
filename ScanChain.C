@@ -511,7 +511,15 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
   if ( conf->get("reweight") == "true" ) {
-    weight *= g_reweight_hist->GetBinContent(g_reweight_hist->FindBin(bosonPt()));
+    double bin_key=0;
+    if (conf->get("rwt_var") == "vpt"){
+      bin_key = bosonPt();
+    }
+    else if (conf->get("rwt_var") == "ht_wide")
+    {
+      bin_key = phys.ht();
+    }
+    weight *= g_reweight_hist->GetBinContent(g_reweight_hist->FindBin(bin_key));
   }
 
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
