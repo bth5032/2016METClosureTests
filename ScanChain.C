@@ -506,8 +506,8 @@ void readyReweightHists(){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
     TFile *reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-    g_reweighting_hists.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
-    g_reweighting_hists.back().first->SetDirectory(rootdir);
+    g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+    g_reweight_pairs.back().first->SetDirectory(rootdir);
     reweight_file->Close();
 
     while (conf->get("weight_from") != "" ){
@@ -515,12 +515,12 @@ void readyReweightHists(){
       cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
       rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
       reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-       g_reweighting_hists.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
-      g_reweighting_hists.back().first->SetDirectory(rootdir);
+      g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+      g_reweight_pairs.back().first->SetDirectory(rootdir);
       reweight_file->Close();      
     }
 
-    conf->loadConfig(conf_name);
+    conf->loadConfig(conf_name.Data());
     cout<<"Reweight hists loaded, proceeding with conf "<<conf->get("Name")<<endl;
 }
 
@@ -530,15 +530,15 @@ double getReweight(){
   TH1D* rwt_hist;
   TString rwt_var;
   
-  for (int i=0; i<g_reweighting_hists.size(); i++){
-    rwt_hist = g_reweighting_hists.at(i).first;
-    rwt_var = g_reweighting_hists.at(i).second;
+  for (int i=0; i<g_reweight_pairs.size(); i++){
+    rwt_hist = g_reweight_pairs.at(i).first;
+    rwt_var = g_reweight_pairs.at(i).second;
 
     if (rwt_var == "vpt"){
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
-      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()); 
+      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
     }
 
   }
