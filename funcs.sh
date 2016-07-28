@@ -99,6 +99,11 @@ function makePlotsForDir {
 		echo "Can not find $1/ratioplots_nowt.conf"
 	fi
 
+	if [[ -a $1/ratioplots_HT.conf ]]
+	then
+		makePlots $1/ratioplots_HT.conf
+	fi
+
 	if [[ -a $1/cuts.conf ]]
 	then
 		makePlots $1/cuts.conf
