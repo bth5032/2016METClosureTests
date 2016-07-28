@@ -900,7 +900,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   if( conf->get("reweight") == "true" ){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     g_weight_hist_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-    TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio" 
+    TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
     g_reweight_hist = (TH1D*)g_weight_hist_file->Get(rwt_hist_name)->Clone("reweight_hist");
     g_reweight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
