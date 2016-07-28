@@ -1034,8 +1034,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
-      eventsInFile++;
-      if (eventsInFile > 100) continue;
+      //eventsInFile++;
+      //if (eventsInFile > 100) continue;
       //cout<<__LINE__<<endl;
 //=======================================
 // Debugging And Odd Corrections Before Cuts
