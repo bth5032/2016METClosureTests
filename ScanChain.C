@@ -506,7 +506,7 @@ void readyReweightHists(){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
     TFile *reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-    g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+    g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone(TString("reweight_hist_")+conf->get("rwt_var"))),conf->get("rwt_var"));
     g_reweight_pairs.back().first->SetDirectory(rootdir);
     reweight_file->Close();
 
@@ -515,7 +515,7 @@ void readyReweightHists(){
       cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
       rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
       reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-      g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+      g_reweight_pairs.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone(TString("reweight_hist_")+conf->get("rwt_var"))),conf->get("rwt_var"));
       g_reweight_pairs.back().first->SetDirectory(rootdir);
       reweight_file->Close();      
     }
