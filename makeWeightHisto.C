@@ -16,7 +16,16 @@ void makeWeightHisto(ConfigParser * conf)
   TString secondary_name = conf->get("secondary_name");
   
   TString primary_histos = conf->get("histo_output_dir")+"ct_Z_Base_"+conf->get("signal_region")+".root";
-  TString secondary_histos = conf->get("histo_output_dir")+"ct_G_Base_"+conf->get("signal_region")+".root";
+  
+  TString weight_from;
+  
+  if (conf->get("weight_from") == ""){
+    weight_from="G_Base";
+  }
+  else{
+    weight_from=conf->get("weight_from");
+  }
+  TString secondary_histos = conf->get("histo_output_dir")+"ct_"+weight_from+"_"+conf->get("signal_region")+".root";
   
   TString output_location = conf->get("histo_output_dir")+"ct_"+hist_name+"_"+conf->get("signal_region")+"_rwt.root";
 
