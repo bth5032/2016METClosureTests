@@ -42,7 +42,7 @@ ConfigParser *conf;
 int nDuplicates=0;
 
 vector<pair <TH1D*, TString> > g_reweight_pairs;
-
+TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
@@ -810,8 +810,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
 // Define Histograms
 //=======================================
-  
-  TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
   cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
   TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
