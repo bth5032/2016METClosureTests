@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <utility>
 
 
 // ROOT
@@ -39,7 +40,10 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 //Global Vars
 ConfigParser *conf;
 int nDuplicates=0;
-TH1D *g_reweight_hist, *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
+
+vector<pair <TH1D*, TString> > g_reweight_pairs;
+
+TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
@@ -496,6 +500,52 @@ double getEff(){
   }
 }
 
+void readyReweightHists(){
+    TString conf_name = conf->get("Name");
+
+    cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
+    TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
+    TFile reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
+    g_reweighting_hists.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+    g_reweighting_hists.back().first->SetDirectory(rootdir);
+    reweight_file->Close();
+
+    while (conf->get("weight_from") != "" ){
+      conf->loadConfig(conf->get("weight_from"));
+      cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
+      rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
+      reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
+       g_reweighting_hists.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
+      g_reweighting_hists.back().first->SetDirectory(rootdir);
+      reweight_file->Close();      
+    }
+
+    conf->loadConfig(conf_name);
+    cout<<"Reweight hists loaded, proceeding with conf "<<conf->get("Name")<<endl;
+}
+
+double getReweight(){
+  double weight = 1;
+  
+  TH1D* rwt_hist;
+  TString rwt_var;
+  
+  for (int i=0; i<g_reweighting_hists.size(); i++){
+    rwt_hist = g_reweighting_hists.at(i).first;
+    rwt_var = g_reweighting_hists.at(i).second;
+
+    if (rwt_var == "vpt"){
+      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
+    }
+    else if (rwt_var == "ht_wide"){
+      weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()); 
+    }
+
+  }
+
+  return weight;
+}
+
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
@@ -511,15 +561,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
   if ( conf->get("reweight") == "true" ) {
-    double bin_key=0;
-    if (conf->get("rwt_var") == "vpt"){
-      bin_key = bosonPt();
-    }
-    else if (conf->get("rwt_var") == "ht_wide")
-    {
-      bin_key = phys.ht();
-    }
-    weight *= g_reweight_hist->GetBinContent(g_reweight_hist->FindBin(bin_key));
+    weight *= getReweight();
   }
 
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
@@ -910,12 +952,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   int eventsInFile;
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
-    cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
-    g_weight_hist_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-    TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
-    g_reweight_hist = (TH1D*)g_weight_hist_file->Get(rwt_hist_name)->Clone("reweight_hist");
-    g_reweight_hist->SetDirectory(rootdir);
-    g_weight_hist_file->Close();
+    readyReweightHists();
   }
 
   if( conf->get("rares") == "true" ){
@@ -999,8 +1036,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
-      eventsInFile++;
-      if (eventsInFile > 100) continue;
+      //eventsInFile++;
+      //if (eventsInFile > 100) continue;
       //cout<<__LINE__<<endl;
 //=======================================
 // Debugging And Odd Corrections Before Cuts
