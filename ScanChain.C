@@ -992,8 +992,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
-      //eventsInFile++;
-      //if (eventsInFile > 10) continue;
+      eventsInFile++;
+      if (eventsInFile > 100) continue;
       if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
         //cout<<"Zjets MC event"<<endl;
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
