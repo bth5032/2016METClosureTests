@@ -39,7 +39,7 @@ typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
 //Global Vars
 ConfigParser *conf;
 int nDuplicates=0;
-TH1D *g_vpt_weight_hist, *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
+TH1D *g_reweight_hist, *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
@@ -511,7 +511,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
   if ( conf->get("reweight") == "true" ) {
-    weight *= g_vpt_weight_hist->GetBinContent(g_vpt_weight_hist->FindBin(bosonPt()));
+    weight *= g_reweight_hist->GetBinContent(g_reweight_hist->FindBin(bosonPt()));
   }
 
   if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
@@ -900,8 +900,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   if( conf->get("reweight") == "true" ){
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     g_weight_hist_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
-    g_vpt_weight_hist = (TH1D*)g_weight_hist_file->Get("h_vpt_ratio")->Clone("h_vpt_weight");
-    g_vpt_weight_hist->SetDirectory(rootdir);
+    TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio" 
+    g_reweight_hist = (TH1D*)g_weight_hist_file->Get(rwt_hist_name)->Clone("reweight_hist");
+    g_reweight_hist->SetDirectory(rootdir);
     g_weight_hist_file->Close();
   }
 
