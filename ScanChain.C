@@ -505,7 +505,7 @@ void readyReweightHists(){
 
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
-    TFile reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
+    TFile *reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
     g_reweighting_hists.push_back(((TH1D*)reweight_file->Get(rwt_hist_name)->Clone("reweight_hist_"+conf->get("rwt_var"))),conf->get("rwt_var"));
     g_reweighting_hists.back().first->SetDirectory(rootdir);
     reweight_file->Close();
