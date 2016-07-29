@@ -532,18 +532,18 @@ double getReweight(){
   
   TH1D* rwt_hist;
   TString rwt_var;
-  cout<<"Size: "<<g_reweight_pairs.size()<<endl;
+  //cout<<"Size: "<<g_reweight_pairs.size()<<endl;
   for (int i=0; i<g_reweight_pairs.size(); i++){
     rwt_hist = g_reweight_pairs.at(i).first;
     rwt_var = g_reweight_pairs.at(i).second;
-    cout<<rwt_var<<endl;
+    //cout<<rwt_var<<endl;
 
     if (rwt_var == "vpt"){
-      cout<<"Addign vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
+      //cout<<"Addign vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
-      cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
+      //cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
     }
 
