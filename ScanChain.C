@@ -539,7 +539,7 @@ double getReweight(){
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
-      cout<<"Addign vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
+      cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
     }
 
