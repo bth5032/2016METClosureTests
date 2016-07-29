@@ -503,6 +503,8 @@ double getEff(){
 void readyReweightHists(){
     TString conf_name = conf->get("Name");
 
+    cout<<"FINDFIND Adding "<<conf->get("Name");
+
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
     TFile *reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
@@ -512,6 +514,7 @@ void readyReweightHists(){
 
     while (conf->get("weight_from") != "" ){
       conf->loadConfig(conf->get("weight_from"));
+      cout<<"FINDFIND Adding "<<conf->get("Name");
       cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
       rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
       reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
