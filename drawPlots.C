@@ -62,8 +62,10 @@ void drawCMSLatex(double luminosity){
 /*TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // This method expects conf to have a plot config loaded in already. 
   //In the conf, we expect there to be hist names of the form file_N_path,
-  //hist_n_name, starting with 0 for the primary and counting up to N-1 hists. 
-  //num_hists should be the number of the number of histograms in that plot
+  //hist_n_name, starting with 0 for the primary histogram, which is normally 
+  //going to be the data events in our signal region. The rest of the hists, starting
+  //from 1, are added to a THStack which is normalized to hist_0 in the bin 0-50. 
+  //num_hists should be the number of the number of histograms in the plot.
   TString errors="";
 
   int num_hists=stoi(conf->get("num_hists"));
@@ -91,7 +93,7 @@ void drawCMSLatex(double luminosity){
     }
   }
 
-  //Set labels for TLegend
+  //Get labels for TLegend
   TString hist_labels[num_hists];
   for (int i = 0; i<num_hists; i++){
     hist_labels[i]=conf->get("hist_"+to_string(i)+"_label");    
@@ -113,12 +115,19 @@ void drawCMSLatex(double luminosity){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   TH1D *hists[num_hists];
-  for (int i = 0; i<num_hists; i++){
-    TH1D* p_hist = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
+  for (int i = 1; i<num_hists; i++){
+    TH1D* hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
+  //Add all the background hists to a stack.
+  THStack * stack = new THStack("stack_"+conf->get("Name"), conf->get("title"));
+  for (int i=0; i<num_hists; i++)
+  {
+    stack->Add(hists[i]);
+  } 
+
   //============================================
   // Draw Data-MC Plots
   //============================================
@@ -154,6 +163,7 @@ void drawCMSLatex(double luminosity){
   for (int i = 0; i<num_hists; i++){
     hists[i]->Rebin(bin_size);
   } 
+
   //===========================
   // Normalize
   //===========================
