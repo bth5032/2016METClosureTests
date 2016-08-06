@@ -59,7 +59,7 @@ void drawCMSLatex(double luminosity){
   return;
 }
 
-/*TString drawArbitraryNumberWithResidual(ConfigParser *conf){
+TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // This method expects conf to have a plot config loaded in already. 
   //In the conf, we expect there to be hist names of the form file_N_path,
   //hist_n_name, starting with 0 for the primary histogram, which is normally 
@@ -69,7 +69,11 @@ void drawCMSLatex(double luminosity){
   TString errors="";
 
   int num_hists=stoi(conf->get("num_hists"));
-  
+
+  if (num_hists < 2){
+    return TString("Less than Two hists can not be turned into a residual plot, please call drawSingleTH1");
+  } 
+
   //Add files from which to obtain histos
   TFile *hist_files[num_hists];
   for (int i = 0; i<num_hists; i++){
@@ -123,10 +127,18 @@ void drawCMSLatex(double luminosity){
   
   //Add all the background hists to a stack.
   THStack * stack = new THStack("stack_"+conf->get("Name"), conf->get("title"));
-  for (int i=0; i<num_hists; i++)
+  for (int i=1; i<num_hists; i++)
   {
     stack->Add(hists[i]);
   } 
+
+  //Create sum of background samples
+  TH1D *bg_sum = hists[1]->Clone("bg_sum_"+plot_name);
+  bg_sum->SetTitle("Sum of background samples");
+
+  for (int i=2; i<num_hists; i++){
+    bg_sum->Add(hists[i]);
+  }
 
   //============================================
   // Draw Data-MC Plots
@@ -175,18 +187,14 @@ void drawCMSLatex(double luminosity){
     if (conf->get("norm_0_50") == "true")
     {
       numEventsData = hists[0]->Integral(hists[0]->FindBin(1),hists[0]->FindBin(49.9));
-      numEventsMC = 0;
-      for (int i = 1; i<num_hists; i++){
-        numEventsMC += hists[i]->Integral(hists[i]->FindBin(1),hists[i]->FindBin(49.9));
-      } 
+      numEventsMC = bg_sum->Integral(bg_sum->FindBin(1),bg_sum->FindBin(49.9));
     }
+
     else{
       numEventsData = hists[0]->Integral();
-      numEventsMC = 0;
-      for (int i = 1; i<num_hists; i++){
-        numEventsMC += hists[i]->Integral();
-      }
+      numEventsMC = bg_sum->Integral();
     }
+
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
       hists[i]->Scale(scaleFactor);  
@@ -211,19 +219,19 @@ void drawCMSLatex(double luminosity){
   //===========================
   
   double ymax = 0;
-  TH1D* clonedSecondary = (TH1D*) s_hist->Clone("clonedSecondary_forReweight_"+plot_name);
+  TH1D* clonedBG = (TH1D*) s_hist->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
   
   clonedSecondary->GetXaxis()->SetRangeUser(xmin, xmax);
-  clonedPrimary->GetXaxis()->SetRangeUser(xmin,xmax);
+  clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
   
   if (clonedSecondary->GetMaximum() < clonedPrimary->GetMaximum()){
       ymax = 1.2*clonedPrimary->GetMaximum();
   }
   else {
-      ymax = 1.2*clonedSecondary->GetMaximum();   
+      ymax = 1.2*clonedBG->GetMaximum();   
   }
-  cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedSecondary->GetMaximum() <<endl;
+  cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   delete clonedSecondary;
@@ -242,18 +250,36 @@ void drawCMSLatex(double luminosity){
   h_axes->GetYaxis()->SetTitle(ylabel);
   
 
-  TString stat_string_1, stat_string_2, stat_string_3;
+  TString stat_string;
 
   //===========================
   // Print Closure Stats
   //===========================
+
+
+  //start here when you next work on this.
+
   if (conf->get("print_stats") == "true")
   {
     int low_val = stoi(conf->get("stats_low_val"));
     int high_val = stoi(conf->get("stats_high_val"));
 
-    Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
+    Double_t err_evts_in_interval_primary;
+    double num_evts_in_interval_primary;
+
+    Double_t err_evts_in_interval; 
+    double num_evts_in_interval;
+    for (int i=0; i<num_hists; i++){
+      num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
+      if (i == 0){
+        num_evts_in_interval_primary = num_evts_in_interval;
+        err_evts_in_interval_primary = err_evts_in_interval;
+        cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_1<<endl;
+      }
+      else{
+
+      }
+    }
     double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val-.001), s_evts_gtr150_err);
     double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
     
@@ -264,9 +290,9 @@ void drawCMSLatex(double luminosity){
     stat_string_3 = "Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150));
 
 
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_2<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_3<<endl;
+    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_1<<endl;
+    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_2<<endl;
+    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_3<<endl;
   }
   
   //----------------------
@@ -392,7 +418,7 @@ void drawCMSLatex(double luminosity){
   delete f_secondary;
 
   return errors;
-}*/
+}
 
 TString drawTwoWithResidual(ConfigParser *conf){
   // This method expects conf to have a plot config loaded in already.
