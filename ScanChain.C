@@ -503,6 +503,8 @@ double getEff(){
 void readyReweightHists(){
     TString conf_name = conf->get("Name");
 
+    //cout<<"FINDFIND Adding "<<conf->get("Name");
+
     cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
     TString rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
     TFile *reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
@@ -512,6 +514,7 @@ void readyReweightHists(){
 
     while (conf->get("weight_from") != "" ){
       conf->loadConfig(conf->get("weight_from"));
+      //cout<<"FINDFIND Adding "<<conf->get("Name");
       cout<<"Reweighting with "<<TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root")<<endl;
       rwt_hist_name = "h_"+conf->get("rwt_var")+"_ratio";
       reweight_file = TFile::Open( TString(conf->get("histo_output_dir")+"ct_"+conf->get("rwt_var")+"_"+conf->get("signal_region")+"_rwt.root"), "READ");
@@ -529,15 +532,18 @@ double getReweight(){
   
   TH1D* rwt_hist;
   TString rwt_var;
-  
+  //cout<<"Size: "<<g_reweight_pairs.size()<<endl;
   for (int i=0; i<g_reweight_pairs.size(); i++){
     rwt_hist = g_reweight_pairs.at(i).first;
     rwt_var = g_reweight_pairs.at(i).second;
+    //cout<<rwt_var<<endl;
 
     if (rwt_var == "vpt"){
+      //cout<<"Addign vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
+      //cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
     }
 
@@ -1034,8 +1040,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
-      //eventsInFile++;
-      //if (eventsInFile > 100) continue;
+      eventsInFile++;
+      if (eventsInFile > 100) continue;
       //cout<<__LINE__<<endl;
 //=======================================
 // Debugging And Odd Corrections Before Cuts
@@ -1291,6 +1297,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   //close output file
   output->Write();
   output->Close();
+  g_reweight_pairs.clear();
   //cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");
