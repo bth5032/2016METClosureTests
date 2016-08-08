@@ -135,6 +135,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   //cout<<__LINE__<<endl;
 
+
+  //Create sum of background samples
+  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
+  bg_sum->SetTitle("Sum of background samples");
+  
+  //cout<<__LINE__<<endl;
+  
+  for (int i=2; i<num_hists; i++){
+    bg_sum->Add(hists[i]);
+  }
+
   //============================================
   // Draw Data-MC Plots
   //============================================
@@ -198,18 +209,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     for (int i = 1; i<num_hists; i++){
       hists[i]->Scale(scaleFactor);  
     }
+    bg_sum->Scale(scaleFactor);
   }
   //cout<<__LINE__<<endl;
 
-  //Create sum of background samples
-  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
-  bg_sum->SetTitle("Sum of background samples");
-  
-  //cout<<__LINE__<<endl;
-  
-  for (int i=2; i<num_hists; i++){
-    bg_sum->Add(hists[i]);
-  }
 
   //===========================
   // SET MC COLORS
