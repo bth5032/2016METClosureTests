@@ -180,7 +180,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
-    hists[i]->Rebin(bin_size);
+    hists.at(i)->Rebin(bin_size);
   }
   cout<<__LINE__<<endl;
 
