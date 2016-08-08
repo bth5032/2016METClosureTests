@@ -119,7 +119,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout << "Making Plots for: "<<plot_name<<endl;
 
   vector<TH1D*> hists (num_hists);
-  for (int i = 1; i<num_hists; i++){
+  for (int i = 0; i<num_hists; i++){
     hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
   }  
