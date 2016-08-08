@@ -213,7 +213,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
-  //partial_sort(hists.begin(), hists.begin()+1, hists.end(), TH1DIntegralSort);
+  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
 
   for (int i=1; i<num_hists; i++)
   {
