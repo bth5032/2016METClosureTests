@@ -75,7 +75,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   } 
 
   //Add files from which to obtain histos
-  TFile *hist_files[num_hists];
+  vector<TFile*> hist_files (num_hists);
   for (int i = 0; i<num_hists; i++){
     hist_files[i]=new TFile(TString(conf->get("file_"+to_string(i)+"_path")));
   }
@@ -87,7 +87,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   double bin_size = stod(conf->get("bin_size"));
   
   //Get name of hist to read from file
-  TString hist_names[num_hists];
+  vector<TString> hist_names (num_hists);
   for (int i = 0; i<num_hists; i++){
     if (conf->get("hist_"+to_string(i)+"_name") != ""){
       hist_names[i]=conf->get("hist_"+to_string(i)+"_name");    
@@ -98,13 +98,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
 
   //Get labels for TLegend
-  TString hist_labels[num_hists];
+  vector<TString> hist_labels (num_hists);
   for (int i = 0; i<num_hists; i++){
     hist_labels[i]=conf->get("hist_"+to_string(i)+"_label");    
   }  
 
   //Set prefix for retriving histogram
-  TString hist_prefix[num_hists];
+  vector<TString> hist_prefix (num_hists);
   for (int i = 0; i<num_hists; i++){
     hist_prefix[i]=conf->get("hist_"+to_string(i)+"_prefix");    
   }  
@@ -118,7 +118,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
-  TH1D *hists[num_hists];
+  vector<TH1D*> hists (num_hists);
   for (int i = 1; i<num_hists; i++){
     TH1D* hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
