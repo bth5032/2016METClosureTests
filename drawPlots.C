@@ -133,7 +133,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   } 
 
   //Create sum of background samples
-  TH1D *bg_sum = hists[1]->Clone("bg_sum_"+plot_name);
+  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
 
   for (int i=2; i<num_hists; i++){
@@ -217,13 +217,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   
   double ymax = 0;
-  TH1D* clonedBG = (TH1D*) s_hist->Clone("clonedBG_forReweight_"+plot_name);
-  TH1D* clonedPrimary = (TH1D*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
+  TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
+  TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
   
-  clonedSecondary->GetXaxis()->SetRangeUser(xmin, xmax);
+  clonedPrimary->GetXaxis()->SetRangeUser(xmin, xmax);
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
   
-  if (clonedSecondary->GetMaximum() < clonedPrimary->GetMaximum()){
+  if (clonedBG->GetMaximum() < clonedPrimary->GetMaximum()){
       ymax = 1.2*clonedPrimary->GetMaximum();
   }
   else {
@@ -232,11 +232,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
-  delete clonedSecondary;
+  delete clonedBG;
   delete clonedPrimary;
   
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
   
   
   //-----------------------
@@ -248,7 +248,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitle(ylabel);
   
 
-  TString stat_string;
+  TString stats_string;
 
   //===========================
   // Print Closure Stats
@@ -272,7 +272,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         err_evts_in_interval_primary = err_evts_in_interval;
       }
       stats_string = "Number of Events in "+hist_names[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
-      cout<<"STATS: "<<stat_string<<endl;
+      cout<<"STATS: "<<stats_string<<endl;
+      drawLatexFromTString(stats_string, .52,.5+(0.02*i));
     }
   }
   
@@ -310,9 +311,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->AddEntry(p_hist, primary_name, "p");
-  l1->AddEntry(s_hist, secondary_name, "f");
   
+  l1->AddEntry(hists[0], primary_name, "p");
+  for (int i = 1; i<num_hists; i++){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
+  }
+
   l1->Draw("same");
   
   //--------------------------
@@ -370,10 +374,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
   
-  drawLatexFromTString(stat_string_1, .52,.5);
-  drawLatexFromTString(stat_string_2, .52, .52);
-  drawLatexFromTString(stat_string_3, .52, .54);
-
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
@@ -382,8 +382,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
-  delete p_hist;
-  delete s_hist;
+  delete [] hists;
+  delete [] hist_names;
+  delete [] hist_labels;
+  delete [] hist_prefix;
   delete residual;
   delete ratiopad;
   delete plotpad;
