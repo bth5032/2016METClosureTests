@@ -15,7 +15,7 @@
 
 using namespace std;
 
-vector<int> ROOTCOLORPALATE = [46,8,9,30,38,40,2,6,28,42,3,5,7,41];
+vector<int> ROOTCOLORPALATE = {46,8,9,30,38,40,2,6,28,42,3,5,7,41};
 
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
