@@ -176,6 +176,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   for (int i = 0; i<num_hists; i++){
     hists[i]->Rebin(bin_size);
   }
+  bg_sum->Rebin(bin_size);
   //cout<<__LINE__<<endl;
 
   //===========================
