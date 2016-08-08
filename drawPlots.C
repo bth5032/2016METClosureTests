@@ -32,7 +32,9 @@ void drawLatexFromTString(TString text, double x_low, double y_low){
   return;
 }
 
-//nothing
+bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
+  return (hist_1->Integral() < hist_2->Integral()) ;
+}
 
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
@@ -125,14 +127,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
-  //Add all the background hists to a stack.
-  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
-  //cout<<__LINE__<<endl;
-  for (int i=1; i<num_hists; i++)
-  {
-    stack->Add(hists[i]);
-  } 
-
   //cout<<__LINE__<<endl;
 
 
@@ -213,6 +207,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
 
+  //===========================
+  // MAKE AND ORDER STACK BY NUM EVENTS
+  //===========================
+  //Add all the background hists to a stack.
+  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
+  //cout<<__LINE__<<endl;
+  partial_sort(hists.begin(), hists.begin()+1, hists.end(), TH1DIntegralSort);
+
+  for (int i=1; i<num_hists; i++)
+  {
+    stack->Add(hists[i]);
+  } 
 
   //===========================
   // SET MC COLORS
