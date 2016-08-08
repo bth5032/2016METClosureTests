@@ -226,7 +226,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
-    hists[i]->SetFillColor(i+1);
+    hists[i]->SetFillColor(i+30);
     hists[i]->SetFillStyle(1001);
   }
   //cout<<__LINE__<<endl;
