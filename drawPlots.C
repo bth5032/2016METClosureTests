@@ -208,12 +208,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
   //===========================
-  // MAKE AND ORDER STACK BY NUM EVENTS
+  // MAKE STACK
   //===========================
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
-  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  //sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
 
   for (int i=1; i<num_hists; i++)
   {
