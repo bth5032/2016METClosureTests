@@ -126,7 +126,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
   //Add all the background hists to a stack.
-  THStack * stack = new THStack("stack_"+conf->get("Name").c_str(), conf->get("title").c_str());
+  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   for (int i=1; i<num_hists; i++)
   {
     stack->Add(hists[i]);
