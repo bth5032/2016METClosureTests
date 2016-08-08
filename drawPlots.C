@@ -15,6 +15,8 @@
 
 using namespace std;
 
+vector<int> ROOTCOLORPALATE = [46,8,9,30,38,40,2,6,28,42,3,5,7,41];
+
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
@@ -226,7 +228,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
-    hists[i]->SetFillColor(3*i+30);
+    hists[i]->SetFillColor(ROOTCOLORPALATE[i % ROOTCOLORPALATE.size()]);
     hists[i]->SetFillStyle(1001);
   }
   //cout<<__LINE__<<endl;
