@@ -206,8 +206,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // SET MC COLORS
   //===========================
   
-  s_hist->SetFillColor(kAzure+5);
-  s_hist->SetFillStyle(1001);
   for (int i = 1; i<num_hists; i++){
     hists[i]->SetFillColor(i+1);
     hists[i]->SetFillStyle(1001);
@@ -301,8 +299,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  s_hist->Draw("HIST SAME");
-  p_hist->Draw("E1 SAME");
+  stack->Draw("HIST SAME");
+  hists[0]->Draw("E1 SAME");
 
   plotpad->RedrawAxis();
   
