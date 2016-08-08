@@ -257,8 +257,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
 
 
-  //start here when you next work on this.
-
   if (conf->get("print_stats") == "true")
   {
     int low_val = stoi(conf->get("stats_low_val"));
@@ -274,25 +272,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       if (i == 0){
         num_evts_in_interval_primary = num_evts_in_interval;
         err_evts_in_interval_primary = err_evts_in_interval;
-        cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_1<<endl;
       }
-      else{
-
-      }
+      stats_string = "Number of Events in "+hist_names[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
+      cout<<"STATS: "<<stat_string<<endl;
     }
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val-.001), s_evts_gtr150_err);
-    double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
-    
-    stat_string_1 = "Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err);
-
-    stat_string_2 = "Number of Events in "+secondary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err);
-
-    stat_string_3 = "Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150));
-
-
-    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_1<<endl;
-    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_2<<endl;
-    cout<<hist_files[0]->GetName()<<" STATS: "<<stat_string_3<<endl;
   }
   
   //----------------------
@@ -300,16 +283,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //----------------------
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = p_hist->GetNbinsX();
-    
-    double overflow_primary = p_hist->GetBinContent(n_bins + 1);
-    double overflow_secondary = s_hist->GetBinContent(n_bins + 1);
-
-    double max_primary = p_hist->Integral(p_hist->FindBin(xmax-.001), n_bins);
-    double max_secondary = s_hist->Integral(s_hist->FindBin(xmax-.001), n_bins);
-
-    p_hist->SetBinContent(p_hist->FindBin(xmax-.001), max_primary+overflow_primary);
-    s_hist->SetBinContent(s_hist->FindBin(xmax-.001), max_secondary+overflow_secondary);
+    double n_bins = hists[0]->GetNbinsX();
+    double overflow, max;
+    for (int i = 0; i<num_hists; i++){
+      overflow = hists[i]->GetBinContent(n_bins + 1);
+      max = hists[i]->Integral(hists[i]->FindBin(xmax-.001), n_bins);
+      hists[i]->SetBinContent(hists[i]->FindBin(xmax-.001), max+overflow);
+    }
   }
   
       
@@ -352,8 +332,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   ratiopad->Draw();
   ratiopad->cd();
   
-  TH1D* residual = (TH1D*) p_hist->Clone("residual");
-  residual->Divide(s_hist);
+  TH1D* residual = (TH1D*) hists[0]->Clone("residual");
+  residual->Divide(bg_sum);
   
   //cout<<"Fixing error bars"<<endl;
   //for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
