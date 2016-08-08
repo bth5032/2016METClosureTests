@@ -120,13 +120,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   vector<TH1D*> hists (num_hists);
   for (int i = 1; i<num_hists; i++){
-    TH1D* hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
+    hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
   //Add all the background hists to a stack.
-  THStack * stack = new THStack("stack_"+conf->get("Name"), conf->get("title"));
+  THStack * stack = new THStack("stack_"+conf->get("Name"), conf->get("title").c_str());
   for (int i=1; i<num_hists; i++)
   {
     stack->Add(hists[i]);
