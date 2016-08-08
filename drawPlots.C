@@ -383,7 +383,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
   //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
   h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
-  h_axis_ratio->GetYaxis()->SetTitle("Signal/Prediction");
+  h_axis_ratio->GetYaxis()->SetTitle("#frac{Signal}{Prediction}");
   h_axis_ratio->GetXaxis()->SetTickLength(0.07);
   h_axis_ratio->GetXaxis()->SetTitleSize(0.005);
   h_axis_ratio->GetXaxis()->SetLabelSize(0.);
