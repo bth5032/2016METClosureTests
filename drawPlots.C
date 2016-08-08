@@ -1009,7 +1009,7 @@ void drawPlots(TString config_file)
 
   while(configs->loadNextConfig()) {
     if (configs->get("PLOT_TYPE") == "ratio"){
-      errors=drawTwoWithResidual(configs);
+      errors=drawArbitraryNumberWithResidual(configs);
     }
     else if (configs->get("PLOT_TYPE") == "single"){
       errors=drawSingleTH1(configs);
