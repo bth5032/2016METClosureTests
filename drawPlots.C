@@ -312,7 +312,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
   
-  l1->AddEntry(hists[0], primary_name, "p");
+  l1->AddEntry(hists[0], hist_labels[0], "p");
   for (int i = 1; i<num_hists; i++){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
@@ -382,20 +382,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
-  delete [] hists;
-  delete [] hist_names;
-  delete [] hist_labels;
-  delete [] hist_prefix;
+  hists.clear();
+  hist_names.clear();
+  hist_labels.clear();
+  hist_prefix.clear();
   delete residual;
   delete ratiopad;
   delete plotpad;
   delete fullpad;
   delete c;
   
-  f_primary->Close();
-  delete f_primary;
-  f_secondary->Close();
-  delete f_secondary;
+  for (int i = 0; i<num_hists; i++){
+    hist_files[i]->Close();
+  }
+  hist_files.clear();
 
   return errors;
 }
