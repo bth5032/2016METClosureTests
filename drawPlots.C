@@ -179,9 +179,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->SetLogy();
   }
   cout<<__LINE__<<endl;
-  /*for (int i = 0; i<num_hists; i++){
+  for (int i = 0; i<num_hists; i++){
     hists[i]->Rebin(bin_size);
-  }*/
+  }
   cout<<__LINE__<<endl;
 
   //===========================
