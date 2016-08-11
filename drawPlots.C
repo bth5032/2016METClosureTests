@@ -185,8 +185,43 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // Normalize
   //===========================
   //cout<<__LINE__<<endl;
+  TH1D* clonedBG;
+  TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
+  
   if (conf->get("normalize") == "true")
   {
+    TString hist_nums_for_norm = conf->get("normalize_hist_nums");
+    //Do special normalization
+    if (hist_nums_for_norm != ""){
+      for (int i=1; i<num_hists; i++){
+        if (hist_nums_for_norm.Contains(to_string(i))){
+          if (clonedBG == NULL){
+            clonedBG = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
+          }
+          else{
+            clonedBG->Add(hists[i]);
+          }
+        }
+      }
+    }
+    else{
+      clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forNorm_"+plot_name);
+    }
+
+    //check to make sure bg hist is not empty
+    if (clonedBG == NULL){
+      return TString("Check the normalize_hist_nums opt, no hists in range labeled for normalization");
+    }
+
+    if (conf->get("subtract_non_normed")=="true"){
+      for (int i=1; i<num_hists; i++){
+        if( ! conf->get("normalize_hist_nums").Contains(to_string(i))){
+          clonedPrimary->Subtract(hists[i]);
+        }
+      }
+    }
+
+
     double numEventsData;
     double numEventsMC;
     double scaleFactor;
@@ -430,299 +465,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   hist_files.clear();
   //cout<<__LINE__<<endl;
-  return errors;
-}
-
-TString drawTwoWithResidual(ConfigParser *conf){
-  // This method expects conf to have a plot config loaded in already.
-  TString errors="";
-
-  TFile* f_primary = new TFile(TString(conf->get("primary_path")));
-  TFile* f_secondary = new TFile(TString(conf->get("secondary_path")));
-
-  cout << "Found files "<<endl;
-
-  TString plot_name = conf->get("plot_name");
-  double xmax = stod(conf->get("xmax"));
-  double xmin = stod(conf->get("xmin"));
-  double bin_size = stod(conf->get("bin_size"));
-  TString hist_name=conf->get("hist_name");
-  TString hist_name2=conf->get("hist_name");
-  
-  if (conf->get("hist_name2") != "")
-  {
-    hist_name2=conf->get("hist_name2");    
-  }
-
-  TString xlabel=conf->get("xlabel");
-  TString ylabel=conf->get("ylabel");
-  TString primary_name=conf->get("primary_name");
-  TString secondary_name=conf->get("secondary_name");
-  TString save_dir=conf->get("save_dir");
-  TString plot_title=conf->get("title");
-
-
-  cout << "Making Plots for: "<<plot_name<<endl;
-
-  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(primary_name+"_"+hist_name))->Clone("phist_"+plot_name);
-  cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
-
-  TH1D* s_hist = (TH1D*) ((TH1D*) f_secondary->Get(secondary_name+"_"+hist_name2))->Clone("shist_"+plot_name);
-  cout<<hist_name2<<" found in "<<f_secondary->GetName()<<endl;
-
-  cout << "Histograms pulled from files, adding draw options"<<endl;
-  
-  //============================================
-  // Draw Data-MC Plots
-  //============================================
-  
-  TCanvas * c = new TCanvas("c","",2000,2000);
-  c->cd();
-  gPad->SetRightMargin(0.05);
-  gPad->Modified();
-  gStyle->SetOptStat(kFALSE);
-  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
-  
-  fullpad->Draw();
-  fullpad->cd();
-  
-  TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
-  
-  plotpad->SetRightMargin(0.05);
-  if (conf->get("ExtraRightMargin") == "true")
-  {
-    plotpad->SetRightMargin(0.08);
-  }
-  plotpad->SetBottomMargin(0.12);
-  
-  plotpad->Draw();
-  plotpad->cd();
-  
-  if (conf->get("logy") == "true")
-  {
-    cout<<"Plot tagged for log y-axis"<<endl;
-    plotpad->SetLogy();
-  }
-  
-  p_hist->Rebin(bin_size);
-  s_hist->Rebin(bin_size);
-  
-  //===========================
-  // Normalize
-  //===========================
-  if (conf->get("normalize") == "true")
-  {
-    double numEventsData;
-    double numEventsMC;
-    double scaleFactor;
-    if (conf->get("norm_0_50") == "true")
-    {
-      numEventsData = p_hist->Integral(p_hist->FindBin(1),p_hist->FindBin(49.9));
-      numEventsMC = s_hist->Integral(p_hist->FindBin(1),s_hist->FindBin(49.9));
-    }
-    else{
-      numEventsData = p_hist->Integral();
-      numEventsMC = s_hist->Integral();
-    }
-    scaleFactor = ((double) numEventsData/numEventsMC);
-    s_hist->Scale(scaleFactor);
-  }
-
-
-  //===========================
-  // SET MC COLORS
-  //===========================
-  
-  s_hist->SetFillColor(kAzure+5);
-  s_hist->SetFillStyle(1001);
-  
-  p_hist->SetMarkerStyle(20);
-
-  //===========================
-  // Find Plot Maxima
-  //===========================
-  
-  double ymax = 0;
-  TH1D* clonedSecondary = (TH1D*) s_hist->Clone("clonedSecondary_forReweight_"+plot_name);
-  TH1D* clonedPrimary = (TH1D*) p_hist->Clone("clonedPrimary_forReweight_"+plot_name);
-  
-  clonedSecondary->GetXaxis()->SetRangeUser(xmin, xmax);
-  clonedPrimary->GetXaxis()->SetRangeUser(xmin,xmax);
-  
-  if (clonedSecondary->GetMaximum() < clonedPrimary->GetMaximum()){
-      ymax = 1.2*clonedPrimary->GetMaximum();
-  }
-  else {
-      ymax = 1.2*clonedSecondary->GetMaximum();   
-  }
-  cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedSecondary->GetMaximum() <<endl;
-  cout<<"Proper plot maximum set to "<<ymax<<endl;
-  
-  delete clonedSecondary;
-  delete clonedPrimary;
-  
-  
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
-  
-  
-  //-----------------------
-  // AXES FIX
-  //-----------------------
-  
-  cout<<"Setting axis names"<<endl;
-  h_axes->GetXaxis()->SetTitle(xlabel);
-  h_axes->GetYaxis()->SetTitle(ylabel);
-  
-
-  TString stat_string_1, stat_string_2, stat_string_3;
-
-  //===========================
-  // Print Closure Stats
-  //===========================
-  if (conf->get("print_stats") == "true")
-  {
-    int low_val = stoi(conf->get("stats_low_val"));
-    int high_val = stoi(conf->get("stats_high_val"));
-
-    Double_t p_evts_gtr150_err, s_evts_gtr150_err; 
-    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
-    double s_evts_gtr150 = s_hist->IntegralAndError(s_hist->FindBin(low_val), s_hist->FindBin(high_val-.001), s_evts_gtr150_err);
-    double ratio_evts_gtr150 = p_evts_gtr150/s_evts_gtr150;
-    
-    stat_string_1 = "Number of Events in "+primary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err);
-
-    stat_string_2 = "Number of Events in "+secondary_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(s_evts_gtr150)+" Error: "+to_string(s_evts_gtr150_err);
-
-    stat_string_3 = "Ratio: "+to_string(ratio_evts_gtr150)+" Error : "+to_string(errMult(p_evts_gtr150, s_evts_gtr150, p_evts_gtr150_err, s_evts_gtr150_err, ratio_evts_gtr150));
-
-
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_2<<endl;
-    cout<<f_primary->GetName()<<" STATS: "<<stat_string_3<<endl;
-  }
-  
-  //----------------------
-  // ADD OVERFLOW BIN
-  //----------------------
-  if (conf->get("overflow")=="true"){
-    cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = p_hist->GetNbinsX();
-    
-    double overflow_primary = p_hist->GetBinContent(n_bins + 1);
-    double overflow_secondary = s_hist->GetBinContent(n_bins + 1);
-
-    double max_primary = p_hist->Integral(p_hist->FindBin(xmax-.001), n_bins);
-    double max_secondary = s_hist->Integral(s_hist->FindBin(xmax-.001), n_bins);
-
-    p_hist->SetBinContent(p_hist->FindBin(xmax-.001), max_primary+overflow_primary);
-    s_hist->SetBinContent(s_hist->FindBin(xmax-.001), max_secondary+overflow_secondary);
-  }
-  
-      
-  
-  plotpad->SetLeftMargin(0.15);
-  h_axes->GetYaxis()->SetTitleOffset(1.3);
-  h_axes->GetYaxis()->SetTitleSize(0.05);
-  h_axes->GetYaxis()->SetLabelSize(0.04);
-  
-  cout<<"Drawing histograms"<<endl;
-  h_axes->Draw();
-  s_hist->Draw("HIST SAME");
-  p_hist->Draw("E1 SAME");
-
-  plotpad->RedrawAxis();
-  
-  TLegend *l1;
-  l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
-  
-  l1->SetLineColor(kWhite);  
-  l1->SetShadowColor(kWhite);
-  l1->SetFillColor(kWhite);
-  l1->AddEntry(p_hist, primary_name, "p");
-  l1->AddEntry(s_hist, secondary_name, "f");
-  
-  l1->Draw("same");
-  
-  //--------------------------
-  // Fill in Residual Plot
-  //--------------------------
-  
-  cout<<"Getting ready for residual plots"<<endl;
-  fullpad->cd();
-  TPad *ratiopad = new TPad("ratiopad", "ratiopad" ,0.,0.,1,0.21);
-  ratiopad->SetTopMargin(0.05);
-  ratiopad->SetLeftMargin(0.15);
-  ratiopad->SetBottomMargin(0.1);
-  ratiopad->SetRightMargin(0.05);
-  ratiopad->SetGridy();  // doesn't actually appear for some reason..
-  ratiopad->Draw();
-  ratiopad->cd();
-  
-  TH1D* residual = (TH1D*) p_hist->Clone("residual");
-  residual->Divide(s_hist);
-  
-  //cout<<"Fixing error bars"<<endl;
-  //for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
-  //  double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
-  //  residual->SetBinError(count, residual->GetBinContent(count)*relative_error);
-  //}
-  
-  cout<<"Building axes"<<endl;
-  TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
-  
-  h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
-  h_axis_ratio->GetYaxis()->SetTitleSize(0.18);
-  h_axis_ratio->GetYaxis()->SetNdivisions(5);
-  h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
-  //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
-  h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
-  h_axis_ratio->GetYaxis()->SetTitle("Data/MC");
-  h_axis_ratio->GetXaxis()->SetTickLength(0.07);
-  h_axis_ratio->GetXaxis()->SetTitleSize(0.);
-  h_axis_ratio->GetXaxis()->SetLabelSize(0.);
-  
-  TLine* line1 = new TLine(xmin,1,xmax,1);
-  line1->SetLineStyle(2);
-  
-  cout<<"Drawing ratio plot"<<endl;
-  h_axis_ratio->Draw("axis");
-  line1->Draw("same");
-  residual->Draw("same");
-  
-  c->Update();
-  c->cd();
-  
-  //Draw luminosity and CMS tag
-  if (conf->get("luminosity_fb") != ""){
-    plotpad->cd();
-    drawCMSLatex(stod(conf->get("luminosity_fb")));
-  }
-  
-  drawLatexFromTString(stat_string_1, .52,.5);
-  drawLatexFromTString(stat_string_2, .52, .52);
-  drawLatexFromTString(stat_string_3, .52, .54);
-
-  cout<<"Saving..."<<endl;
-  c->SaveAs(save_dir+plot_name+TString(".pdf"));
-  c->SaveAs(save_dir+plot_name+TString(".png"));
-  //c->SaveAs(save_dir+plot_name+TString(".root"));
-  //c->SaveAs(save_dir+plot_name+TString(".C"));
-  
-  cout<<"Cleaning up plot variables"<<endl;
-  delete l1;
-  delete p_hist;
-  delete s_hist;
-  delete residual;
-  delete ratiopad;
-  delete plotpad;
-  delete fullpad;
-  delete c;
-  
-  f_primary->Close();
-  delete f_primary;
-  f_secondary->Close();
-  delete f_secondary;
-
   return errors;
 }
 
