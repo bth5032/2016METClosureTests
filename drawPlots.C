@@ -180,6 +180,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
     //cout<<__LINE__<<endl;
+    
     //This if statement is used when there is 
     //special normalization being done. This part of
     //the code makes a proxy for the BG sum and for the
@@ -188,25 +189,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //hist_nums_for_norm. If subrtact_non_normed is also true then
     //the hists not marked to be normalized will be subtracted from the 
     //primary before the scale factors are calculated.
-    if (hist_nums_for_norm != ""){
+    
+    if (hist_nums_for_norm != ""){ //if not all hists to be normed.
       //cout<<__LINE__<<endl;
-      for (int i=1; i<num_hists; i++){
-        if (hist_nums_for_norm.Contains(to_string(i))){
+      for (int i=1; i<num_hists; i++){ //for each hist
+        if (hist_nums_for_norm.Contains(to_string(i))){ //if hist is in list to be normed
           //cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
           //cout<<__LINE__<<endl;
-          if (clonedBG_norm == NULL){
+          if (clonedBG_norm == NULL){ //Make new clonedBG
             //cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
+            cout<<hist_names[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           else{
             //cout<<__LINE__<<endl;
-            clonedBG_norm->Add(hists[i]);
+            clonedBG_norm->Add(hists[i]); //Add to clonedBG
+            cout<<hist_names[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           //cout<<__LINE__<<endl;
         }
       }
     }
-    else{
+    else{ //otherwise put all hists in clonedBG
       clonedBG_norm = (TH1D*) hists[1]->Clone("clonedBG_forNorm_"+plot_name);
       for (int i=2; i<num_hists; i++){
         clonedBG_norm->Add(hists[i]);
@@ -226,6 +230,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
           //cout<<__LINE__<<endl;
+          cout<<hist_names[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
@@ -263,6 +268,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     bg_sum->Add(hists[i]);
   }
   //cout<<__LINE__<<endl;
+
+  for (int i = 0; i<num_hists; i++){
+    cout<<hist_names[i]<<": after-reweight "<<hist[i]->GetBinContent(1)<<endl;
+  }
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
