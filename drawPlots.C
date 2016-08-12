@@ -270,7 +270,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
   for (int i = 0; i<num_hists; i++){
-    cout<<hist_names[i]<<": after-reweight "<<hist[i]->GetBinContent(1)<<endl;
+    cout<<hist_names[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
   }
 
   delete clonedPrimary_norm;
