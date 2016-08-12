@@ -245,7 +245,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(1),clonedPrimary_norm->FindBin(49.9));
       numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(1),clonedBG_norm->FindBin(49.9));
     }
-
     else{
       numEventsData = clonedPrimary_norm->Integral();
       numEventsMC = clonedBG_norm->Integral();
@@ -255,7 +254,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
-      if (hist_nums_for_norm.Contains(to_string(i))) hists[i]->Scale(scaleFactor);  
+      if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ) hists[i]->Scale(scaleFactor);  
     }
   }
 
