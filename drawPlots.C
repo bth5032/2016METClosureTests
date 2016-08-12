@@ -207,9 +207,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
           cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){
+            cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
           }
           else{
+            cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]);
           }
           cout<<__LINE__<<endl;
