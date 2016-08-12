@@ -254,8 +254,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
-      if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ) {
-        hists[i]->Scale(scaleFactor);  //if hist is marked }for norm or no hists marked for norms.
+      if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ){
+        hists[i]->Scale(scaleFactor);  //if hist is marked for norm or no hists marked for norms.
         cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(0)<<endl;
     }
   }
