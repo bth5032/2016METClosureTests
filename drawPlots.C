@@ -185,7 +185,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // Normalize
   //===========================
   cout<<__LINE__<<endl;
-  TH1D* clonedBG_norm;
+  TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   
   if (conf->get("normalize") == "true"){
