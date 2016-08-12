@@ -185,11 +185,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // Normalize
   //===========================
   //cout<<__LINE__<<endl;
-  TH1D* clonedBG;
-  TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
+  TH1D* clonedBG_norm;
+  TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   
-  if (conf->get("normalize") == "true")
-  {
+  if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     
     //This if statement is used when there is 
@@ -203,28 +202,28 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     if (hist_nums_for_norm != ""){
       for (int i=1; i<num_hists; i++){
         if (hist_nums_for_norm.Contains(to_string(i))){
-          if (clonedBG == NULL){
-            clonedBG = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
+          if (clonedBG_norm == NULL){
+            clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_norm_forNorm_"+plot_name);
           }
           else{
-            clonedBG->Add(hists[i]);
+            clonedBG_norm->Add(hists[i]);
           }
         }
       }
     }
     else{
-      clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forNorm_"+plot_name);
+      clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_norm_forNorm_"+plot_name);
     }
 
     //check to make sure bg hist is not empty
-    if (clonedBG == NULL){
+    if (clonedBG_norm == NULL){
       return TString("Check the normalize_hist_nums opt, no hists in range labeled for normalization");
     }
 
     if (conf->get("subtract_non_normed")=="true"){
       for (int i=1; i<num_hists; i++){
         if( ! hist_nums_for_norm.Contains(to_string(i))){
-          clonedPrimary->Add(hists[i], -1); //subtract
+          clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
     }
@@ -235,13 +234,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     double scaleFactor;
     if (conf->get("norm_0_50") == "true")
     {
-      numEventsData = clonedPrimary->Integral(clonedPrimary->FindBin(1),clonedPrimary->FindBin(49.9));
-      numEventsMC = clonedBG->Integral(clonedBG->FindBin(1),clonedBG->FindBin(49.9));
+      numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(1),clonedPrimary_norm->FindBin(49.9));
+      numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(1),clonedBG_norm->FindBin(49.9));
     }
 
     else{
-      numEventsData = clonedPrimary->Integral();
-      numEventsMC = clonedBG->Integral();
+      numEventsData = clonedPrimary_norm->Integral();
+      numEventsMC = clonedBG_norm->Integral();
     }
     //cout<<__LINE__<<endl;
 
@@ -252,8 +251,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     bg_sum->Scale(scaleFactor);
   }
-  delete clonedPrimary;
-  delete clonedBG;
+
+  delete clonedPrimary_norm;
+  delete clonedBG_norm;
   //cout<<__LINE__<<endl;
 
   //===========================
