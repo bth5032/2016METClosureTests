@@ -252,7 +252,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     for (int i = 1; i<num_hists; i++){
       if (hist_nums_for_norm.Contains(to_string(i))) hists[i]->Scale(scaleFactor);  
     }
-    bg_sum->Scale(scaleFactor);
   }
 
   //Create sum of background samples
