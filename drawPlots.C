@@ -190,7 +190,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
-    
+    cout<<__LINE__<<endl;
     //This if statement is used when there is 
     //special normalization being done. This part of
     //the code makes a proxy for the BG sum and for the
@@ -200,35 +200,43 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //the hists not marked to be normalized will be subtracted from the 
     //primary before the scale factors are calculated.
     if (hist_nums_for_norm != ""){
+      cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){
         if (hist_nums_for_norm.Contains(to_string(i))){
+          cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_norm_forNorm_"+plot_name);
           }
           else{
             clonedBG_norm->Add(hists[i]);
           }
+          cout<<__LINE__<<endl;
         }
       }
     }
     else{
       clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_norm_forNorm_"+plot_name);
     }
+    cout<<__LINE__<<endl;
 
     //check to make sure bg hist is not empty
     if (clonedBG_norm == NULL){
       return TString("Check the normalize_hist_nums opt, no hists in range labeled for normalization");
     }
+    cout<<__LINE__<<endl;
 
     if (conf->get("subtract_non_normed")=="true"){
+      cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){
+        cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
+          cout<<__LINE__<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
     }
 
-
+    cout<<__LINE__<<endl;
     double numEventsData;
     double numEventsMC;
     double scaleFactor;
