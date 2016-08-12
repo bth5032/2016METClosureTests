@@ -199,12 +199,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           if (clonedBG_norm == NULL){ //Make new clonedBG
             //cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
-            cout<<hist_names[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           else{
             //cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]); //Add to clonedBG
-            cout<<hist_names[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           //cout<<__LINE__<<endl;
         }
@@ -230,7 +230,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
           //cout<<__LINE__<<endl;
-          cout<<hist_names[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
+          cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
@@ -270,7 +270,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
   for (int i = 0; i<num_hists; i++){
-    cout<<hist_names[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
+    cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
   }
 
   delete clonedPrimary_norm;
