@@ -9,7 +9,7 @@
 #include "THStack.h"
 #include "TGaxis.h"
 #include "TCut.h"
-#include "TH1D.h"lamb
+#include "TH1D.h"
 
 #include "ConfigParser.C"
 
