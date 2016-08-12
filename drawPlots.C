@@ -205,7 +205,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         if (hist_nums_for_norm.Contains(to_string(i))){
           cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){
-            clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_norm_forNorm_"+plot_name);
+            clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
           }
           else{
             clonedBG_norm->Add(hists[i]);
@@ -215,7 +215,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
     }
     else{
-      clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_norm_forNorm_"+plot_name);
+      clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_forNorm_"+plot_name);
     }
     cout<<__LINE__<<endl;
 
