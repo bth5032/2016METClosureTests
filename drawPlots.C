@@ -190,6 +190,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
+    cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
     cout<<__LINE__<<endl;
     //This if statement is used when there is 
     //special normalization being done. This part of
