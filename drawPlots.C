@@ -223,8 +223,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     if (conf->get("subtract_non_normed")=="true"){
       for (int i=1; i<num_hists; i++){
-        if( ! conf->get("normalize_hist_nums").Contains(to_string(i))){
-          clonedPrimary->Subtract(hists[i]);
+        if( ! hist_nums_for_norm.Contains(to_string(i))){
+          clonedPrimary->Add(hists[i], -1); //subtract
         }
       }
     }
