@@ -129,14 +129,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
 
   //Create sum of background samples
   TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   for (int i=2; i<num_hists; i++){
     bg_sum->Add(hists[i]);
@@ -146,17 +146,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   // Draw Data-MC Plots
   //============================================
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
   gPad->SetRightMargin(0.05);
   gPad->Modified();
   gStyle->SetOptStat(kFALSE);
   TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   fullpad->Draw();
   fullpad->cd();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
   
   plotpad->SetRightMargin(0.05);
@@ -165,33 +165,33 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->SetRightMargin(0.08);
   }
   plotpad->SetBottomMargin(0.12);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   plotpad->Draw();
   plotpad->cd();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
     plotpad->SetLogy();
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     hists[i]->Rebin(bin_size);
   }
   bg_sum->Rebin(bin_size);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //===========================
   // Normalize
   //===========================
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     //This if statement is used when there is 
     //special normalization being done. This part of
     //the code makes a proxy for the BG sum and for the
@@ -201,46 +201,46 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //the hists not marked to be normalized will be subtracted from the 
     //primary before the scale factors are calculated.
     if (hist_nums_for_norm != ""){
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){
         if (hist_nums_for_norm.Contains(to_string(i))){
-          cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
-          cout<<__LINE__<<endl;
+          //cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
+          //cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
           }
           else{
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]);
           }
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
         }
       }
     }
     else{
       clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_forNorm_"+plot_name);
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
 
     //check to make sure bg hist is not empty
     if (clonedBG_norm == NULL){
       return TString("Check the normalize_hist_nums opt, no hists in range labeled for normalization");
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
 
     if (conf->get("subtract_non_normed")=="true"){
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
     }
 
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     double numEventsData;
     double numEventsMC;
     double scaleFactor;
@@ -254,7 +254,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsData = clonedPrimary_norm->Integral();
       numEventsMC = clonedBG_norm->Integral();
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
 
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
@@ -266,14 +266,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //===========================
   // MAKE STACK
   //===========================
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
 
   for (int i=1; i<num_hists; i++)
@@ -284,38 +284,38 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   // SET MC COLORS
   //===========================
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
     hists[i]->SetFillColor(ROOTCOLORPALATE[(i-1) % ROOTCOLORPALATE.size()]);
     hists[i]->SetFillStyle(1001);
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   hists[0]->SetMarkerStyle(20);
 
   //===========================
   // Find Plot Maxima
   //===========================
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   double ymax = 0;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   clonedPrimary->GetXaxis()->SetRangeUser(xmin, xmax);
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   if (clonedBG->GetMaximum() < clonedPrimary->GetMaximum()){
       ymax = 1.2*clonedPrimary->GetMaximum();
   }
   else {
       ymax = 1.2*clonedBG->GetMaximum();   
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   delete clonedBG;
   delete clonedPrimary;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
   
@@ -327,7 +327,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout<<"Setting axis names"<<endl;
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
-  cout<<__LINE__<<endl;  
+  //cout<<__LINE__<<endl;  
 
   TString stats_string;
 
@@ -340,42 +340,42 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   {
     int low_val = stoi(conf->get("stats_low_val"));
     int high_val = stoi(conf->get("stats_high_val"));
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     Double_t err_evts_in_interval_primary;
     double num_evts_in_interval_primary;
 
     Double_t err_evts_in_interval; 
     double num_evts_in_interval;
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     for (int i=0; i<num_hists; i++){
       num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
       if (i == 0){
         num_evts_in_interval_primary = num_evts_in_interval;
         err_evts_in_interval_primary = err_evts_in_interval;
       }
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       stats_string = "Number of Events in "+hist_names[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
       cout<<"STATS: "<<stats_string<<endl;
       drawLatexFromTString(stats_string, .52,.5+(0.02*i));
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
   
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
     double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
       overflow = hists[i]->GetBinContent(n_bins + 1);
       max = hists[i]->Integral(hists[i]->FindBin(xmax-.001), n_bins);
       hists[i]->SetBinContent(hists[i]->FindBin(xmax-.001), max+overflow);
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
   
       
@@ -384,26 +384,26 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
   h_axes->GetYaxis()->SetLabelSize(0.04);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
   stack->Draw("HIST SAME");
   hists[0]->Draw("E1 SAME");
 
   plotpad->RedrawAxis();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TLegend *l1;
   l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "p");
   for (int i = 1; i<num_hists; i++){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   l1->Draw("same");
   
@@ -421,11 +421,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   ratiopad->SetGridy();  // doesn't actually appear for some reason..
   ratiopad->Draw();
   ratiopad->cd();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   TH1D* residual = (TH1D*) hists[0]->Clone("residual");
   residual->Divide(bg_sum);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //cout<<"Fixing error bars"<<endl;
   //for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
   //  double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
@@ -434,7 +434,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Building axes"<<endl;
   TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
   h_axis_ratio->GetYaxis()->SetTitleSize(0.18);
   h_axis_ratio->GetYaxis()->SetNdivisions(5);
@@ -446,7 +446,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetXaxis()->SetTitleSize(0.005);
   h_axis_ratio->GetXaxis()->SetLabelSize(0.);
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TLine* line1 = new TLine(xmin,1,xmax,1);
   line1->SetLineStyle(2);
   
@@ -454,7 +454,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->Draw("axis");
   line1->Draw("same");
   residual->Draw("same");
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   c->Update();
   c->cd();
   
@@ -463,14 +463,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
   hists.clear();
@@ -482,12 +482,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete plotpad;
   delete fullpad;
   delete c;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     hist_files[i]->Close();
   }
   hist_files.clear();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   return errors;
 }
 
