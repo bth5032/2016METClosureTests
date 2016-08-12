@@ -191,7 +191,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("normalize") == "true")
   {
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
-    //Do special normalization
+    
+    //This if statement is used when there is 
+    //special normalization being done. This part of
+    //the code makes a proxy for the BG sum and for the
+    //primary hist (hists[0]). The primary proxy is just a clone,
+    //the BG proxy is the sum of all the hists that are named in 
+    //hist_nums_for_norm. If subrtact_non_normed is also true then
+    //the hists not marked to be normalized will be subtracted from the 
+    //primary before the scale factors are calculated.
     if (hist_nums_for_norm != ""){
       for (int i=1; i<num_hists; i++){
         if (hist_nums_for_norm.Contains(to_string(i))){
@@ -227,22 +235,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     double scaleFactor;
     if (conf->get("norm_0_50") == "true")
     {
-      numEventsData = hists[0]->Integral(hists[0]->FindBin(1),hists[0]->FindBin(49.9));
-      numEventsMC = bg_sum->Integral(bg_sum->FindBin(1),bg_sum->FindBin(49.9));
+      numEventsData = clonedPrimary->Integral(clonedPrimary->FindBin(1),clonedPrimary->FindBin(49.9));
+      numEventsMC = clonedBG->Integral(clonedBG->FindBin(1),clonedBG->FindBin(49.9));
     }
 
     else{
-      numEventsData = hists[0]->Integral();
-      numEventsMC = bg_sum->Integral();
+      numEventsData = clonedPrimary->Integral();
+      numEventsMC = clonedBG->Integral();
     }
     //cout<<__LINE__<<endl;
 
+    //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
       hists[i]->Scale(scaleFactor);  
     }
     bg_sum->Scale(scaleFactor);
   }
+  delete clonedPrimary;
+  delete clonedBG;
   //cout<<__LINE__<<endl;
 
   //===========================
