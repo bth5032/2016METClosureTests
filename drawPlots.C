@@ -9,7 +9,7 @@
 #include "THStack.h"
 #include "TGaxis.h"
 #include "TCut.h"
-#include "TH1D.h"
+#include "TH1D.h"lamb
 
 #include "ConfigParser.C"
 
@@ -132,16 +132,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
 
-  //Create sum of background samples
-  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
-  bg_sum->SetTitle("Sum of background samples");
-  
-  //cout<<__LINE__<<endl;
-  
-  for (int i=2; i<num_hists; i++){
-    bg_sum->Add(hists[i]);
-  }
-
   //============================================
   // Draw Data-MC Plots
   //============================================
@@ -178,8 +168,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   for (int i = 0; i<num_hists; i++){
     hists[i]->Rebin(bin_size);
   }
-  bg_sum->Rebin(bin_size);
-  //cout<<__LINE__<<endl;
 
   //===========================
   // Normalize
@@ -219,7 +207,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
     }
     else{
-      clonedBG_norm = (TH1D*) bg_sum->Clone("clonedBG_forNorm_"+plot_name);
+      clonedBG_norm = (TH1D*) hists[1]->Clone("clonedBG_forNorm_"+plot_name);
+      for (int i=2; i<num_hists; i++){
+        clonedBG_norm->Add(hists[i]);
+      }
     }
     //cout<<__LINE__<<endl;
 
@@ -259,10 +250,20 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
-      hists[i]->Scale(scaleFactor);  
+      if (hist_nums_for_norm.Contains(to_string(i))) hists[i]->Scale(scaleFactor);  
     }
     bg_sum->Scale(scaleFactor);
   }
+
+  //Create sum of background samples
+  TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
+  bg_sum->SetTitle("Sum of background samples");
+  
+  //cout<<__LINE__<<endl;
+  for (int i=2; i<num_hists; i++){
+    bg_sum->Add(hists[i]);
+  }
+  //cout<<__LINE__<<endl;
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
