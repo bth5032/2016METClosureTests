@@ -486,14 +486,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
       stats_string = "Number of Events in "+hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
       cout<<"STATS: "<<stats_string<<endl;
-      drawLatexFromTString(stats_string, .52,.5+(0.02*i));
+      drawLatexFromTString(stats_string, .4,.5+(0.02*i));
     }
     stats_string = "Sum of BG Events from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval_sum)+" Error: "+to_string(err_evts_in_interval_sum)+" Ratio: "+to_string((double) num_evts_in_interval_sum/num_evts_in_interval_primary);
     cout<<"STATS: "<<stats_string<<endl;
-    drawLatexFromTString(stats_string, .52,.5+(0.02*num_hists));
+    drawLatexFromTString(stats_string, .4,.5-0.02);
     //cout<<__LINE__<<endl;
   }
-  
+
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
