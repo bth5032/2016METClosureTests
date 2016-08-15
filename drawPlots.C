@@ -126,7 +126,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   for (int i = 0; i<num_hists; i++){
     hists[i] = (TH1D*) ((TH1D*) hist_files[i]->Get(hist_prefix[i]+"_"+hist_names[i]))->Clone("hist_"+to_string(i)+"_"+plot_name);
     cout<<hist_names[i]<<" found in "<<hist_files[i]->GetName()<<endl;
-    cout<<hist_label[i]<<" Bin 1 Content: "<<hists[i]->GetBinContent(1)<<endl;
+    cout<<hist_labels[i]<<" Bin 1 Content: "<<hists[i]->GetBinContent(1)<<endl;
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
