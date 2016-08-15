@@ -177,6 +177,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   
+  //Add scale factors like RSFOF
+  for (int i=0; i < num_hists; i++){
+    if (conf->get("hist_"+to_string(i)+"_scale") != ""){
+      hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
+    }
+  }
+
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
