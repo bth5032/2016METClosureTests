@@ -251,7 +251,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsMC = clonedBG_norm->Integral();
     }
     //cout<<__LINE__<<endl;
-
+    cout<<"Num Events Primary: "<<numEventsData<<endl;
+    cout<<"Num Events BG: "<<numEventsMC<<endl;
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
     for (int i = 1; i<num_hists; i++){
