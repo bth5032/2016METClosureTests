@@ -207,12 +207,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           if (clonedBG_norm == NULL){ //Make new clonedBG
             //cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
-            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            //cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           else{
             //cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]); //Add to clonedBG
-            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            //cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           //cout<<__LINE__<<endl;
         }
@@ -238,7 +238,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
           //cout<<__LINE__<<endl;
-          cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
+          //cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
@@ -265,7 +265,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     for (int i = 1; i<num_hists; i++){
       if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ){
         hists[i]->Scale(scaleFactor);  //if hist is marked for norm or no hists marked for norms.
-        cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(1)<<endl;
+        //cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(1)<<endl;
       }
     }
   }
@@ -280,9 +280,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
 
-  for (int i = 0; i<num_hists; i++){
+  /*for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
-  }
+  }*/
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
@@ -366,6 +366,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     Double_t err_evts_in_interval; 
     double num_evts_in_interval;
+    Double_t err_evts_in_interval_sum = 0; 
+    double num_evts_in_interval_sum = 0;
     //cout<<__LINE__<<endl;
     for (int i=0; i<num_hists; i++){
       num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
@@ -373,11 +375,18 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         num_evts_in_interval_primary = num_evts_in_interval;
         err_evts_in_interval_primary = err_evts_in_interval;
       }
+      else{
+        num_evts_in_interval_sum+=num_evts_in_interval;
+        err_evts_in_interval_sum+=err_evts_in_interval;
+      }
       //cout<<__LINE__<<endl;
       stats_string = "Number of Events in "+hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
       cout<<"STATS: "<<stats_string<<endl;
       drawLatexFromTString(stats_string, .52,.5+(0.02*i));
     }
+    stats_string = "Sum of BG Events from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval_sum)+" Error: "+to_string(err_evts_in_interval_sum)+" Ratio: "+to_string(double num_evts_in_interval_sum/num_evts_in_interval_primary);
+    cout<<"STATS: "<<stats_string<<endl;
+    drawLatexFromTString(stats_string, .52,.5+(0.02*num_hists));
     //cout<<__LINE__<<endl;
   }
   
