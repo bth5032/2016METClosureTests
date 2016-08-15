@@ -194,7 +194,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){ //for each hist
         if (hist_nums_for_norm.Contains(to_string(i))){ //if hist is in list to be normed
-          //cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
+          cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
           //cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){ //Make new clonedBG
             //cout<<__LINE__<<endl;
