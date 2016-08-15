@@ -374,7 +374,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         err_evts_in_interval_primary = err_evts_in_interval;
       }
       //cout<<__LINE__<<endl;
-      stats_string = "Number of Events in "+hist_names[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
+      stats_string = "Number of Events in "+hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
       cout<<"STATS: "<<stats_string<<endl;
       drawLatexFromTString(stats_string, .52,.5+(0.02*i));
     }
