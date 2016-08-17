@@ -1,9 +1,8 @@
-DEFAULT::num_hists=2
 DEFAULT::norm_0_50=true
 # Config For Ratio Plots
 # 
 # This file holds all the information to make the ratio plots, for simplicity
-# there are two files of this type, the other simply has file_1_path replaced
+# there are two files of this type, the other simply has secondary_path replaced
 # with the non reweighted gjets sample so that we can have a before/after picture
 # of reweighting.
 
@@ -17,11 +16,11 @@ DEFAULT::luminosity_fb=1
 # Basic defaults
 DEFAULT::overflow=true
 DEFAULT::normalize=true
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/A/Bveto/Ratio/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/EdgeZ/Ratio/
 
 #Histo locations
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_A_bveto.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_EdgeZ.root
+DEFAULT::secondary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EdgeZ.root
 
 #Sample Names
 DEFAULT::primary_name=zjets
@@ -73,8 +72,9 @@ print_stats=true
 stats_low_val=100
 stats_high_val=150
 
-Name=t1met_log_150225
-plot_name=Type1MET_Log_150225
+
+Name=t1met_log_150Inf
+plot_name=Type1MET_Log_150Inf
 title=Type 1 MET (Log Axis)
 xmin=0
 xmax=500
@@ -85,32 +85,4 @@ logy=true
 hist_name=type1MET
 print_stats=true
 stats_low_val=150
-stats_high_val=225
-
-Name=t1met_log_225300
-plot_name=Type1MET_Log_225300
-title=Type 1 MET (Log Axis)
-xmin=0
-xmax=500
-xlabel=E^{miss}_{T} [GeV]
-ylabel=Count / 5 GeV
-bin_size=5
-logy=true
-hist_name=type1MET
-print_stats=true
-stats_low_val=225
-stats_high_val=300
-
-Name=t1met_log_300Inf
-plot_name=Type1MET_Log_300Inf
-title=Type 1 MET (Log Axis)
-xmin=0
-xmax=500
-xlabel=E^{miss}_{T} [GeV]
-ylabel=Count / 5 GeV
-bin_size=5
-logy=true
-hist_name=type1MET
-print_stats=true
-stats_low_val=300
 stats_high_val=6001

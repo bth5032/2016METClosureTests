@@ -1,4 +1,3 @@
-DEFAULT::num_hists=2
 # Config For Ratio Plots
 # 
 # This file holds all the information to make the ratio plots, for simplicity
@@ -16,11 +15,11 @@ DEFAULT::luminosity_fb=1
 # Basic defaults
 DEFAULT::overflow=true
 DEFAULT::normalize=true
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/EdgeZ/Ratio/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/A/Bveto/Ratio/
 
 #Histo locations
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_EdgeZ.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EdgeZ.root
+DEFAULT::primary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_A_bveto.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root
 
 #Sample Names
 DEFAULT::primary_name=zjets
