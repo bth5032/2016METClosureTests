@@ -1,3 +1,4 @@
+DEFAULT::num_hists=2
 # Config For Ratio Plots
 # 
 # This file holds all the information to make the ratio plots, for simplicity
@@ -18,12 +19,12 @@ DEFAULT::normalize=true
 DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/atlas/Ratio/
 
 #Histo locations
-DEFAULT::primary_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_ATLAS.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_ATLAS.root
 DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root
 
 #Sample Names
 DEFAULT::primary_name=zjets
-DEFAULT::secondary_name=gjets
+DEFAULT::hist_1_name=gjets
 
 #====================
 # Ratio Histos
