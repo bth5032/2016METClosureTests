@@ -319,7 +319,7 @@ function closureTable {
 }
 
 function getPredictionTable {
-	grep STATS | sed -e 's/Data Yield/Signal/g' -e 's/Flavor Symmetric/FSBKG/g' -e 's/Z prediction/ZJets/g' | cut -d' ' -f 2,4,6,8,10 > lines.tmp
+	cat $1 | grep STATS | sed -e 's/Data Yield/Signal/g' -e 's/Flavor Symmetric/FSBKG/g' -e 's/Z prediction/ZJets/g' | cut -d' ' -f 2,4,6,8,10 > lines.tmp
 
 	title[0]="Sample" # Holds the bin
 	signal[0]="Signal"
