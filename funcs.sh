@@ -407,32 +407,36 @@ function getPredictionTable {
 	do
 		echo -n ${zjets[$k]}" "
 	done
+	echo ""
 
 	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${FSBKG[$k]}" "
 	done
+	echo ""
 
 	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${ZZ[$k]}" "
 	done
+	echo ""
 
 	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${WZ[$k]}" "
 	done
+	echo ""
 
 	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${TTV[$k]}" "
 	done
+	echo ""
 
 	for k in `seq 0 $((i-1))`
 	do
 		echo -n ${VVV[$k]}" "
 	done
-
 	echo ""
 
 	#	Cleanup
