@@ -69,7 +69,9 @@ function makeAllForDir {
 function makeHistosForDir {
 	if [[ -a $1/run_modes.conf ]]
 	then
-		makeHistos all $1/run_modes.conf
+		makeHistos Z_Base $1/run_modes.conf
+		makeHistos G_Base $1/run_modes.conf
+		#makeHistos all $1/run_modes.conf
 	else
 		echo "Can not find $1/run_modes.conf"
 	fi
