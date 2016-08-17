@@ -1,3 +1,5 @@
+DEFAULT::hist_1_label=Gjets
+DEFAULT::hist_0_label=Zjets
 DEFAULT::num_hists=2
 DEFAULT::norm_0_50=true
 # Config For Ratio Plots
@@ -24,8 +26,8 @@ DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_
 DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root
 
 #Sample Names
-DEFAULT::primary_name=zjets
-DEFAULT::hist_1_name=gjets
+DEFAULT::hist_0_prefix=zjets
+DEFAULT::hist_1_prefix=gjets
 
 #====================
 # Ratio Histos
