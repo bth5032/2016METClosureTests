@@ -323,13 +323,13 @@ function getPredictionTable {
 
 	title[0]="Sample" # Holds the bin
 	signal[0]="Signal"
-	zjets[0]="MET Template"
-	FSBKG[0]="Flavor Symmetric"
+	zjets[0]="MET_Template"
+	FSBKG[0]="Flavor_Symmetric"
 	ZZ[0]="ZZ"
 	WZ[0]="WZ"
 	TTV[0]="TTV"
 	VVV[0]="VVV"
-	SumBG[0]="Sum of BG"
+	SumBG[0]="Sum_of_BG"
 	i=1 #number for columns, equal to number of MET regions
 	j=0 #number for BGs/Signal. equal to a row number
 
