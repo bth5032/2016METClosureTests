@@ -317,3 +317,7 @@ function closureTable {
 	unset j
 	rm lines.tmp
 }
+
+function getPredictionTable {
+	grep STATS | sed -e 's/Data Yield/Signal/g' -e 's/Flavor Symmetric/FSBKG/g' -e 's/Z prediction/ZJets/g' | cut -d' ' -f 2,4,6,8,10
+}
