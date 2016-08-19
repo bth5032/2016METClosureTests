@@ -71,8 +71,8 @@ function makeHistosForDir {
 	then
 		#makeHistos Z_Base $1/run_modes.conf
 		#makeHistos G_Base $1/run_modes.conf
-		#makeHistos G_Reweight $1/run_modes.conf
-		makeHistos all $1/run_modes.conf
+		makeHistos G_Reweight $1/run_modes.conf
+		#makeHistos all $1/run_modes.conf
 	else
 		echo "Can not find $1/run_modes.conf"
 	fi
@@ -225,6 +225,8 @@ function getSRs {
 
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
+	rm ${OutputDir}L1PrescaleWeight*.root
+
 	for j in nVert_HLT_Photon22_R9Id90_HE10_IsoM nVert_HLT_Photon30_R9Id90_HE10_IsoM nVert_HLT_Photon36_R9Id90_HE10_IsoM
 	do
 		for i in `getSRs`
