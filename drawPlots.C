@@ -348,6 +348,47 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
   //cout<<__LINE__<<endl;  
+
+  TString stats_string;
+
+  //===========================
+  // Print Closure Stats
+  //===========================
+
+
+  if (conf->get("print_stats") == "true")
+  {
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
+    //cout<<__LINE__<<endl;
+    Double_t err_evts_in_interval_primary;
+    double num_evts_in_interval_primary;
+
+    Double_t err_evts_in_interval; 
+    double num_evts_in_interval;
+    Double_t err_evts_in_interval_sum = 0; 
+    double num_evts_in_interval_sum = 0;
+    //cout<<__LINE__<<endl;
+    for (int i=0; i<num_hists; i++){
+      num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
+      if (i == 0){
+        num_evts_in_interval_primary = num_evts_in_interval;
+        err_evts_in_interval_primary = err_evts_in_interval;
+      }
+      else{
+        num_evts_in_interval_sum+=num_evts_in_interval;
+        err_evts_in_interval_sum+=err_evts_in_interval;
+      }
+      //cout<<__LINE__<<endl;
+      stats_string = hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
+      cout<<"STATS: "<<stats_string<<endl;
+      drawLatexFromTString(stats_string, .4,.5+(0.02*i));
+    }
+    stats_string = "SumBG from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval_sum)+" Error: "+to_string(err_evts_in_interval_sum)+" Ratio: "+to_string((double) num_evts_in_interval_sum/num_evts_in_interval_primary);
+    cout<<"STATS: "<<stats_string<<endl;
+    drawLatexFromTString(stats_string, .4,.5-0.02);
+    //cout<<__LINE__<<endl;
+  }
   
   //----------------------
   // ADD OVERFLOW BIN
@@ -452,47 +493,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
   //cout<<__LINE__<<endl;
-  
-    TString stats_string;
-
-  //===========================
-  // Print Closure Stats
-  //===========================
-
-
-  if (conf->get("print_stats") == "true")
-  {
-    int low_val = stoi(conf->get("stats_low_val"));
-    int high_val = stoi(conf->get("stats_high_val"));
-    //cout<<__LINE__<<endl;
-    Double_t err_evts_in_interval_primary;
-    double num_evts_in_interval_primary;
-
-    Double_t err_evts_in_interval; 
-    double num_evts_in_interval;
-    Double_t err_evts_in_interval_sum = 0; 
-    double num_evts_in_interval_sum = 0;
-    //cout<<__LINE__<<endl;
-    for (int i=0; i<num_hists; i++){
-      num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
-      if (i == 0){
-        num_evts_in_interval_primary = num_evts_in_interval;
-        err_evts_in_interval_primary = err_evts_in_interval;
-      }
-      else{
-        num_evts_in_interval_sum+=num_evts_in_interval;
-        err_evts_in_interval_sum+=err_evts_in_interval;
-      }
-      //cout<<__LINE__<<endl;
-      stats_string = hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
-      cout<<"STATS: "<<stats_string<<endl;
-      drawLatexFromTString(stats_string, .4,.5+(0.02*i));
-    }
-    stats_string = "SumBG from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval_sum)+" Error: "+to_string(err_evts_in_interval_sum)+" Ratio: "+to_string((double) num_evts_in_interval_sum/num_evts_in_interval_primary);
-    cout<<"STATS: "<<stats_string<<endl;
-    drawLatexFromTString(stats_string, .4,.5-0.02);
-    //cout<<__LINE__<<endl;
-  }
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
