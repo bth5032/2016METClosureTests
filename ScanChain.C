@@ -817,6 +817,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 // Define Histograms
 //=======================================
 
+  clear_list(); //Event duplicate removal clear list
+
   cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
   TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
 
