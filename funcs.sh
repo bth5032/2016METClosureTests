@@ -445,14 +445,14 @@ function getPredictionTable {
 	echo ""
 
 
-	echo -n "SumRares"
+	echo -n "SumRares "
 	for k in `seq 1 $((i-1))`
 	do
 		vvv=${VVV[$k]}
 		ttv=${TTV[$k]}
 		wz=${WZ[$k]}
 		zz=${ZZ[$k]}
-		echo -n `echo ${vvv%\+*}+${ttv%\+*}+${wz%\+*}+${zz%\+*}" " | bc`
+		echo -n `echo ${vvv%\+*}+${ttv%\+*}+${wz%\+*}+${zz%\+*} | bc`" "
 	done
 	echo ""
 
