@@ -452,7 +452,7 @@ function getPredictionTable {
 		ttv=${TTV[$k]}
 		wz=${WZ[$k]}
 		zz=${ZZ[$k]}
-		echo -n ${vvv%+}+${ttv%+}+${wz%+}+${zz%+}" "
+		echo -n ${vvv%\+}+${ttv%\+}+${wz%\+}+${zz%\+}" "
 	done
 	echo ""
 
