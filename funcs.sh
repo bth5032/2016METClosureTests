@@ -448,8 +448,11 @@ function getPredictionTable {
 	echo -n "SumRares"
 	for k in `seq 1 $((i-1))`
 	do
-		echo "${VVV[$k]%+} + ${TTV[$k]%+} + ${WZ[$k]%+} + ${ZZ[$k]%+}"
-		#echo -n $sumofrares" "
+		vvv=${VVV[$k]}
+		ttv=${TTV[$k]}
+		wz=${WZ[$k]}
+		zz=${ZZ[$k]}
+		echo -n ${vvv%+}+${ttv%+}+${wz%+}+${zz%+}" "
 	done
 	echo ""
 
@@ -463,6 +466,10 @@ function getPredictionTable {
 	unset WZ
 	unset TTV
 	unset VVV
+	unset vvv
+	unset zz
+	unset wz
+	unset ttv
 	unset i
 	unset j
 	rm lines.tmp
