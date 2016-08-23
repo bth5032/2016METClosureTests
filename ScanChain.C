@@ -218,9 +218,9 @@ bool passElectronTriggers(){
 }
 
 bool passHLTs(){
-  if (conf->get("data_set") == "em"){
+  if (conf->get("FSBKG") == "true"){
     //if (printStats) { cout<<"HLT_MuEG: "<<phys.HLT_MuEG()<<" HLT_MuEG_noiso: "<<phys.HLT_MuEG_noiso()<<" "; }
-    if (phys.HLT_MuEG() /*|| phys.HLT_MuEG_2()*/ || phys.HLT_MuEG_noiso()){
+    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
       //good Mu/E event
       //cout<<__LINE__<<endl;
     }
@@ -354,7 +354,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("data_set") == "em"){ //only true for ttbar estimate
+  if (conf->get("FSBKG") == "true"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(20); 
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
