@@ -976,7 +976,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     cout<<"Pileup reweighting with pileup_jul21_nominalUpDown.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/pileup_jul21_nominalUpDown.root", "READ");
     cout<<__LINE__<<endl;
-    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
+    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("weightsNominal")->Clone("h_pileup_weight");
     cout<<__LINE__<<endl;
     g_pileup_hist->SetDirectory(rootdir);
     cout<<__LINE__<<endl;
