@@ -448,7 +448,8 @@ function getPredictionTable {
 	echo -n "SumRares"
 	for k in `seq 1 $((i-1))`
 	do
-		echo -n `echo scale=4; ${VVV[k]} + ${TTV[k]} + ${WZ[k]} + ${ZZ[k]} | bc`
+		sumofrares=`echo "scale=4; ${VVV[k]} + ${TTV[k]} + ${WZ[k]} + ${ZZ[k]}" | bc`
+		echo -n $sumofrares" "
 	done
 	echo ""
 
