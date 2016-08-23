@@ -8,21 +8,28 @@
 
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=1
+DEFAULT::luminosity_fb=4.0
 DEFAULT::data=true
 DEFAULT::FSBKG=true
 
 #============================
-# EdgeZ Region
+# ATLAS Region
 #============================
 
 DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
-DEFAULT::signal_region=EdgeZ
-DEFAULT::Njets_min=2
+DEFAULT::signal_region=ATLAS
+
+DEFAULT::sum_HT_pt_pt=600
+
+DEFAULT::dPhi_MET_j1=0.4
+DEFAULT::dPhi_MET_j2=0.4
+
+DEFAULT::lep1_pt_min=50
+DEFAULT::lep2_pt_min=25
 
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=ee_mm_em
+data_set=em
 zjets=true
 gjets=false

@@ -13,16 +13,17 @@ DEFAULT::data=true
 DEFAULT::FSBKG=true
 
 #============================
-# EdgeZ Region
+# Region B with B Veto
 #============================
 
 DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
-DEFAULT::signal_region=EdgeZ
-DEFAULT::Njets_min=2
+DEFAULT::signal_region=B_bveto
+DEFAULT::NBjets_max=0
+DEFAULT::Njets_min=4
 
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=ee_mm_em
+data_set=em
 zjets=true
 gjets=false
