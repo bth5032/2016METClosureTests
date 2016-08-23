@@ -110,6 +110,12 @@ namespace zmet {
 	const vector<int> &lep_convVeto() { return phys.lep_convVeto(); }
 	const vector<int> &lep_tightCharge() { return phys.lep_tightCharge(); }
 	const vector<float> &lep_MVA() { return phys.lep_MVA(); }
+	const vector<float> &lep_validfraction() { return phys.lep_validfraction(); }
+	const vector<float> &lep_pterr() { return phys.lep_pterr(); }
+	const int &nisoTrack_5gev() { return phys.nisoTrack_5gev(); }
+	const int &nisoTrack_10gev() { return phys.nisoTrack_10gev(); }
+	const int &nisoTrack_lowmt() { return phys.nisoTrack_lowmt(); }
+	const int &nisoTrack_himt() { return phys.nisoTrack_himt(); }
 	const int &ngamma() { return phys.ngamma(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4() { return phys.gamma_p4(); }
 	const vector<float> &gamma_pt() { return phys.gamma_pt(); }
@@ -125,6 +131,9 @@ namespace zmet {
 	const vector<float> &gamma_r9() { return phys.gamma_r9(); }
 	const vector<float> &gamma_hOverE() { return phys.gamma_hOverE(); }
 	const vector<int> &gamma_idCutBased() { return phys.gamma_idCutBased(); }
+	const vector<float> &gamma_ecpfclusiso() { return phys.gamma_ecpfclusiso(); }
+	const vector<float> &gamma_hcpfclusiso() { return phys.gamma_hcpfclusiso(); }
+	const vector<float> &gamma_hollowtkiso03() { return phys.gamma_hollowtkiso03(); }
 	const int &ngenPart() { return phys.ngenPart(); }
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4() { return phys.genPart_p4(); }
 	const vector<float> &genPart_pt() { return phys.genPart_pt(); }
@@ -186,7 +195,7 @@ namespace zmet {
 	const float &mbb_bpt() { return phys.mbb_bpt(); }
 	const float &dphi_jj() { return phys.dphi_jj(); }
 	const float &dphi_ll() { return phys.dphi_ll(); }
-	const float &mlbmin() { return phys.mlbmin(); }
+	const float &sum_mlb() { return phys.sum_mlb(); }
 	const float &deta_jj() { return phys.deta_jj(); }
 	const float &dR_jj() { return phys.dR_jj(); }
 	const float &dphi_metj1() { return phys.dphi_metj1(); }
@@ -260,4 +269,14 @@ namespace zmet {
 	const int &mass_gluino() { return phys.mass_gluino(); }
 	const int &mass_LSP() { return phys.mass_LSP(); }
 	const float &isrboost() { return phys.isrboost(); }
+	const int &isr_njets() { return phys.isr_njets(); }
+	const float &isr_weight() { return phys.isr_weight(); }
+	const float &isr_unc() { return phys.isr_unc(); }
+	const vector<float> &weightsf_lepid() { return phys.weightsf_lepid(); }
+	const vector<float> &weightsf_lepiso() { return phys.weightsf_lepiso(); }
+	const vector<float> &weightsf_lepip() { return phys.weightsf_lepip(); }
+	const vector<float> &weightsf_lepreco() { return phys.weightsf_lepreco(); }
+	const vector<float> &weightsf_lepid_FS() { return phys.weightsf_lepid_FS(); }
+	const vector<float> &weightsf_lepiso_FS() { return phys.weightsf_lepiso_FS(); }
+	const vector<float> &weightsf_lepip_FS() { return phys.weightsf_lepip_FS(); }
 }

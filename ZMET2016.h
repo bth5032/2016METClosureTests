@@ -345,6 +345,24 @@ protected:
 	vector<float> *lep_MVA_;
 	TBranch *lep_MVA_branch;
 	bool lep_MVA_isLoaded;
+	vector<float> *lep_validfraction_;
+	TBranch *lep_validfraction_branch;
+	bool lep_validfraction_isLoaded;
+	vector<float> *lep_pterr_;
+	TBranch *lep_pterr_branch;
+	bool lep_pterr_isLoaded;
+	int	nisoTrack_5gev_;
+	TBranch *nisoTrack_5gev_branch;
+	bool nisoTrack_5gev_isLoaded;
+	int	nisoTrack_10gev_;
+	TBranch *nisoTrack_10gev_branch;
+	bool nisoTrack_10gev_isLoaded;
+	int	nisoTrack_lowmt_;
+	TBranch *nisoTrack_lowmt_branch;
+	bool nisoTrack_lowmt_isLoaded;
+	int	nisoTrack_himt_;
+	TBranch *nisoTrack_himt_branch;
+	bool nisoTrack_himt_isLoaded;
 	int	ngamma_;
 	TBranch *ngamma_branch;
 	bool ngamma_isLoaded;
@@ -390,6 +408,15 @@ protected:
 	vector<int> *gamma_idCutBased_;
 	TBranch *gamma_idCutBased_branch;
 	bool gamma_idCutBased_isLoaded;
+	vector<float> *gamma_ecpfclusiso_;
+	TBranch *gamma_ecpfclusiso_branch;
+	bool gamma_ecpfclusiso_isLoaded;
+	vector<float> *gamma_hcpfclusiso_;
+	TBranch *gamma_hcpfclusiso_branch;
+	bool gamma_hcpfclusiso_isLoaded;
+	vector<float> *gamma_hollowtkiso03_;
+	TBranch *gamma_hollowtkiso03_branch;
+	bool gamma_hollowtkiso03_isLoaded;
 	int	ngenPart_;
 	TBranch *ngenPart_branch;
 	bool ngenPart_isLoaded;
@@ -573,9 +600,9 @@ protected:
 	float	dphi_ll_;
 	TBranch *dphi_ll_branch;
 	bool dphi_ll_isLoaded;
-	float	mlbmin_;
-	TBranch *mlbmin_branch;
-	bool mlbmin_isLoaded;
+	float	sum_mlb_;
+	TBranch *sum_mlb_branch;
+	bool sum_mlb_isLoaded;
 	float	deta_jj_;
 	TBranch *deta_jj_branch;
 	bool deta_jj_isLoaded;
@@ -795,6 +822,36 @@ protected:
 	float	isrboost_;
 	TBranch *isrboost_branch;
 	bool isrboost_isLoaded;
+	int	isr_njets_;
+	TBranch *isr_njets_branch;
+	bool isr_njets_isLoaded;
+	float	isr_weight_;
+	TBranch *isr_weight_branch;
+	bool isr_weight_isLoaded;
+	float	isr_unc_;
+	TBranch *isr_unc_branch;
+	bool isr_unc_isLoaded;
+	vector<float> *weightsf_lepid_;
+	TBranch *weightsf_lepid_branch;
+	bool weightsf_lepid_isLoaded;
+	vector<float> *weightsf_lepiso_;
+	TBranch *weightsf_lepiso_branch;
+	bool weightsf_lepiso_isLoaded;
+	vector<float> *weightsf_lepip_;
+	TBranch *weightsf_lepip_branch;
+	bool weightsf_lepip_isLoaded;
+	vector<float> *weightsf_lepreco_;
+	TBranch *weightsf_lepreco_branch;
+	bool weightsf_lepreco_isLoaded;
+	vector<float> *weightsf_lepid_FS_;
+	TBranch *weightsf_lepid_FS_branch;
+	bool weightsf_lepid_FS_isLoaded;
+	vector<float> *weightsf_lepiso_FS_;
+	TBranch *weightsf_lepiso_FS_branch;
+	bool weightsf_lepiso_FS_isLoaded;
+	vector<float> *weightsf_lepip_FS_;
+	TBranch *weightsf_lepip_FS_branch;
+	bool weightsf_lepip_FS_isLoaded;
 public: 
 void Init(TTree *tree) {
 	lep_p4_branch = 0;
@@ -1388,6 +1445,36 @@ void Init(TTree *tree) {
 		lep_MVA_branch = tree->GetBranch("lep_MVA");
 		if (lep_MVA_branch) {lep_MVA_branch->SetAddress(&lep_MVA_);}
 	}
+	lep_validfraction_branch = 0;
+	if (tree->GetBranch("lep_validfraction") != 0) {
+		lep_validfraction_branch = tree->GetBranch("lep_validfraction");
+		if (lep_validfraction_branch) {lep_validfraction_branch->SetAddress(&lep_validfraction_);}
+	}
+	lep_pterr_branch = 0;
+	if (tree->GetBranch("lep_pterr") != 0) {
+		lep_pterr_branch = tree->GetBranch("lep_pterr");
+		if (lep_pterr_branch) {lep_pterr_branch->SetAddress(&lep_pterr_);}
+	}
+	nisoTrack_5gev_branch = 0;
+	if (tree->GetBranch("nisoTrack_5gev") != 0) {
+		nisoTrack_5gev_branch = tree->GetBranch("nisoTrack_5gev");
+		if (nisoTrack_5gev_branch) {nisoTrack_5gev_branch->SetAddress(&nisoTrack_5gev_);}
+	}
+	nisoTrack_10gev_branch = 0;
+	if (tree->GetBranch("nisoTrack_10gev") != 0) {
+		nisoTrack_10gev_branch = tree->GetBranch("nisoTrack_10gev");
+		if (nisoTrack_10gev_branch) {nisoTrack_10gev_branch->SetAddress(&nisoTrack_10gev_);}
+	}
+	nisoTrack_lowmt_branch = 0;
+	if (tree->GetBranch("nisoTrack_lowmt") != 0) {
+		nisoTrack_lowmt_branch = tree->GetBranch("nisoTrack_lowmt");
+		if (nisoTrack_lowmt_branch) {nisoTrack_lowmt_branch->SetAddress(&nisoTrack_lowmt_);}
+	}
+	nisoTrack_himt_branch = 0;
+	if (tree->GetBranch("nisoTrack_himt") != 0) {
+		nisoTrack_himt_branch = tree->GetBranch("nisoTrack_himt");
+		if (nisoTrack_himt_branch) {nisoTrack_himt_branch->SetAddress(&nisoTrack_himt_);}
+	}
 	ngamma_branch = 0;
 	if (tree->GetBranch("ngamma") != 0) {
 		ngamma_branch = tree->GetBranch("ngamma");
@@ -1457,6 +1544,21 @@ void Init(TTree *tree) {
 	if (tree->GetBranch("gamma_idCutBased") != 0) {
 		gamma_idCutBased_branch = tree->GetBranch("gamma_idCutBased");
 		if (gamma_idCutBased_branch) {gamma_idCutBased_branch->SetAddress(&gamma_idCutBased_);}
+	}
+	gamma_ecpfclusiso_branch = 0;
+	if (tree->GetBranch("gamma_ecpfclusiso") != 0) {
+		gamma_ecpfclusiso_branch = tree->GetBranch("gamma_ecpfclusiso");
+		if (gamma_ecpfclusiso_branch) {gamma_ecpfclusiso_branch->SetAddress(&gamma_ecpfclusiso_);}
+	}
+	gamma_hcpfclusiso_branch = 0;
+	if (tree->GetBranch("gamma_hcpfclusiso") != 0) {
+		gamma_hcpfclusiso_branch = tree->GetBranch("gamma_hcpfclusiso");
+		if (gamma_hcpfclusiso_branch) {gamma_hcpfclusiso_branch->SetAddress(&gamma_hcpfclusiso_);}
+	}
+	gamma_hollowtkiso03_branch = 0;
+	if (tree->GetBranch("gamma_hollowtkiso03") != 0) {
+		gamma_hollowtkiso03_branch = tree->GetBranch("gamma_hollowtkiso03");
+		if (gamma_hollowtkiso03_branch) {gamma_hollowtkiso03_branch->SetAddress(&gamma_hollowtkiso03_);}
 	}
 	ngenPart_branch = 0;
 	if (tree->GetBranch("ngenPart") != 0) {
@@ -1738,10 +1840,10 @@ void Init(TTree *tree) {
 		dphi_ll_branch = tree->GetBranch("dphi_ll");
 		if (dphi_ll_branch) {dphi_ll_branch->SetAddress(&dphi_ll_);}
 	}
-	mlbmin_branch = 0;
-	if (tree->GetBranch("mlbmin") != 0) {
-		mlbmin_branch = tree->GetBranch("mlbmin");
-		if (mlbmin_branch) {mlbmin_branch->SetAddress(&mlbmin_);}
+	sum_mlb_branch = 0;
+	if (tree->GetBranch("sum_mlb") != 0) {
+		sum_mlb_branch = tree->GetBranch("sum_mlb");
+		if (sum_mlb_branch) {sum_mlb_branch->SetAddress(&sum_mlb_);}
 	}
 	deta_jj_branch = 0;
 	if (tree->GetBranch("deta_jj") != 0) {
@@ -2093,6 +2195,56 @@ void Init(TTree *tree) {
 		isrboost_branch = tree->GetBranch("isrboost");
 		if (isrboost_branch) {isrboost_branch->SetAddress(&isrboost_);}
 	}
+	isr_njets_branch = 0;
+	if (tree->GetBranch("isr_njets") != 0) {
+		isr_njets_branch = tree->GetBranch("isr_njets");
+		if (isr_njets_branch) {isr_njets_branch->SetAddress(&isr_njets_);}
+	}
+	isr_weight_branch = 0;
+	if (tree->GetBranch("isr_weight") != 0) {
+		isr_weight_branch = tree->GetBranch("isr_weight");
+		if (isr_weight_branch) {isr_weight_branch->SetAddress(&isr_weight_);}
+	}
+	isr_unc_branch = 0;
+	if (tree->GetBranch("isr_unc") != 0) {
+		isr_unc_branch = tree->GetBranch("isr_unc");
+		if (isr_unc_branch) {isr_unc_branch->SetAddress(&isr_unc_);}
+	}
+	weightsf_lepid_branch = 0;
+	if (tree->GetBranch("weightsf_lepid") != 0) {
+		weightsf_lepid_branch = tree->GetBranch("weightsf_lepid");
+		if (weightsf_lepid_branch) {weightsf_lepid_branch->SetAddress(&weightsf_lepid_);}
+	}
+	weightsf_lepiso_branch = 0;
+	if (tree->GetBranch("weightsf_lepiso") != 0) {
+		weightsf_lepiso_branch = tree->GetBranch("weightsf_lepiso");
+		if (weightsf_lepiso_branch) {weightsf_lepiso_branch->SetAddress(&weightsf_lepiso_);}
+	}
+	weightsf_lepip_branch = 0;
+	if (tree->GetBranch("weightsf_lepip") != 0) {
+		weightsf_lepip_branch = tree->GetBranch("weightsf_lepip");
+		if (weightsf_lepip_branch) {weightsf_lepip_branch->SetAddress(&weightsf_lepip_);}
+	}
+	weightsf_lepreco_branch = 0;
+	if (tree->GetBranch("weightsf_lepreco") != 0) {
+		weightsf_lepreco_branch = tree->GetBranch("weightsf_lepreco");
+		if (weightsf_lepreco_branch) {weightsf_lepreco_branch->SetAddress(&weightsf_lepreco_);}
+	}
+	weightsf_lepid_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepid_FS") != 0) {
+		weightsf_lepid_FS_branch = tree->GetBranch("weightsf_lepid_FS");
+		if (weightsf_lepid_FS_branch) {weightsf_lepid_FS_branch->SetAddress(&weightsf_lepid_FS_);}
+	}
+	weightsf_lepiso_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepiso_FS") != 0) {
+		weightsf_lepiso_FS_branch = tree->GetBranch("weightsf_lepiso_FS");
+		if (weightsf_lepiso_FS_branch) {weightsf_lepiso_FS_branch->SetAddress(&weightsf_lepiso_FS_);}
+	}
+	weightsf_lepip_FS_branch = 0;
+	if (tree->GetBranch("weightsf_lepip_FS") != 0) {
+		weightsf_lepip_FS_branch = tree->GetBranch("weightsf_lepip_FS");
+		if (weightsf_lepip_FS_branch) {weightsf_lepip_FS_branch->SetAddress(&weightsf_lepip_FS_);}
+	}
   tree->SetMakeClass(0);
 }
 void GetEntry(unsigned int idx) 
@@ -2208,6 +2360,12 @@ void GetEntry(unsigned int idx)
 		lep_convVeto_isLoaded = false;
 		lep_tightCharge_isLoaded = false;
 		lep_MVA_isLoaded = false;
+		lep_validfraction_isLoaded = false;
+		lep_pterr_isLoaded = false;
+		nisoTrack_5gev_isLoaded = false;
+		nisoTrack_10gev_isLoaded = false;
+		nisoTrack_lowmt_isLoaded = false;
+		nisoTrack_himt_isLoaded = false;
 		ngamma_isLoaded = false;
 		gamma_p4_isLoaded = false;
 		gamma_pt_isLoaded = false;
@@ -2223,6 +2381,9 @@ void GetEntry(unsigned int idx)
 		gamma_r9_isLoaded = false;
 		gamma_hOverE_isLoaded = false;
 		gamma_idCutBased_isLoaded = false;
+		gamma_ecpfclusiso_isLoaded = false;
+		gamma_hcpfclusiso_isLoaded = false;
+		gamma_hollowtkiso03_isLoaded = false;
 		ngenPart_isLoaded = false;
 		genPart_p4_isLoaded = false;
 		genPart_pt_isLoaded = false;
@@ -2284,7 +2445,7 @@ void GetEntry(unsigned int idx)
 		mbb_bpt_isLoaded = false;
 		dphi_jj_isLoaded = false;
 		dphi_ll_isLoaded = false;
-		mlbmin_isLoaded = false;
+		sum_mlb_isLoaded = false;
 		deta_jj_isLoaded = false;
 		dR_jj_isLoaded = false;
 		dphi_metj1_isLoaded = false;
@@ -2358,6 +2519,16 @@ void GetEntry(unsigned int idx)
 		mass_gluino_isLoaded = false;
 		mass_LSP_isLoaded = false;
 		isrboost_isLoaded = false;
+		isr_njets_isLoaded = false;
+		isr_weight_isLoaded = false;
+		isr_unc_isLoaded = false;
+		weightsf_lepid_isLoaded = false;
+		weightsf_lepiso_isLoaded = false;
+		weightsf_lepip_isLoaded = false;
+		weightsf_lepreco_isLoaded = false;
+		weightsf_lepid_FS_isLoaded = false;
+		weightsf_lepiso_FS_isLoaded = false;
+		weightsf_lepip_FS_isLoaded = false;
 	}
 
 void LoadAllBranches() 
@@ -2472,6 +2643,12 @@ void LoadAllBranches()
 	if (lep_convVeto_branch != 0) lep_convVeto();
 	if (lep_tightCharge_branch != 0) lep_tightCharge();
 	if (lep_MVA_branch != 0) lep_MVA();
+	if (lep_validfraction_branch != 0) lep_validfraction();
+	if (lep_pterr_branch != 0) lep_pterr();
+	if (nisoTrack_5gev_branch != 0) nisoTrack_5gev();
+	if (nisoTrack_10gev_branch != 0) nisoTrack_10gev();
+	if (nisoTrack_lowmt_branch != 0) nisoTrack_lowmt();
+	if (nisoTrack_himt_branch != 0) nisoTrack_himt();
 	if (ngamma_branch != 0) ngamma();
 	if (gamma_p4_branch != 0) gamma_p4();
 	if (gamma_pt_branch != 0) gamma_pt();
@@ -2487,6 +2664,9 @@ void LoadAllBranches()
 	if (gamma_r9_branch != 0) gamma_r9();
 	if (gamma_hOverE_branch != 0) gamma_hOverE();
 	if (gamma_idCutBased_branch != 0) gamma_idCutBased();
+	if (gamma_ecpfclusiso_branch != 0) gamma_ecpfclusiso();
+	if (gamma_hcpfclusiso_branch != 0) gamma_hcpfclusiso();
+	if (gamma_hollowtkiso03_branch != 0) gamma_hollowtkiso03();
 	if (ngenPart_branch != 0) ngenPart();
 	if (genPart_p4_branch != 0) genPart_p4();
 	if (genPart_pt_branch != 0) genPart_pt();
@@ -2548,7 +2728,7 @@ void LoadAllBranches()
 	if (mbb_bpt_branch != 0) mbb_bpt();
 	if (dphi_jj_branch != 0) dphi_jj();
 	if (dphi_ll_branch != 0) dphi_ll();
-	if (mlbmin_branch != 0) mlbmin();
+	if (sum_mlb_branch != 0) sum_mlb();
 	if (deta_jj_branch != 0) deta_jj();
 	if (dR_jj_branch != 0) dR_jj();
 	if (dphi_metj1_branch != 0) dphi_metj1();
@@ -2622,6 +2802,16 @@ void LoadAllBranches()
 	if (mass_gluino_branch != 0) mass_gluino();
 	if (mass_LSP_branch != 0) mass_LSP();
 	if (isrboost_branch != 0) isrboost();
+	if (isr_njets_branch != 0) isr_njets();
+	if (isr_weight_branch != 0) isr_weight();
+	if (isr_unc_branch != 0) isr_unc();
+	if (weightsf_lepid_branch != 0) weightsf_lepid();
+	if (weightsf_lepiso_branch != 0) weightsf_lepiso();
+	if (weightsf_lepip_branch != 0) weightsf_lepip();
+	if (weightsf_lepreco_branch != 0) weightsf_lepreco();
+	if (weightsf_lepid_FS_branch != 0) weightsf_lepid_FS();
+	if (weightsf_lepiso_FS_branch != 0) weightsf_lepiso_FS();
+	if (weightsf_lepip_FS_branch != 0) weightsf_lepip_FS();
 }
 
 	int &run()
@@ -4041,6 +4231,84 @@ void LoadAllBranches()
 		}
 		return *lep_MVA_;
 	}
+	const vector<float> &lep_validfraction()
+	{
+		if (not lep_validfraction_isLoaded) {
+			if (lep_validfraction_branch != 0) {
+				lep_validfraction_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_validfraction_branch does not exist!\n");
+				exit(1);
+			}
+			lep_validfraction_isLoaded = true;
+		}
+		return *lep_validfraction_;
+	}
+	const vector<float> &lep_pterr()
+	{
+		if (not lep_pterr_isLoaded) {
+			if (lep_pterr_branch != 0) {
+				lep_pterr_branch->GetEntry(index);
+			} else { 
+				printf("branch lep_pterr_branch does not exist!\n");
+				exit(1);
+			}
+			lep_pterr_isLoaded = true;
+		}
+		return *lep_pterr_;
+	}
+	int &nisoTrack_5gev()
+	{
+		if (not nisoTrack_5gev_isLoaded) {
+			if (nisoTrack_5gev_branch != 0) {
+				nisoTrack_5gev_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_5gev_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_5gev_isLoaded = true;
+		}
+		return nisoTrack_5gev_;
+	}
+	int &nisoTrack_10gev()
+	{
+		if (not nisoTrack_10gev_isLoaded) {
+			if (nisoTrack_10gev_branch != 0) {
+				nisoTrack_10gev_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_10gev_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_10gev_isLoaded = true;
+		}
+		return nisoTrack_10gev_;
+	}
+	int &nisoTrack_lowmt()
+	{
+		if (not nisoTrack_lowmt_isLoaded) {
+			if (nisoTrack_lowmt_branch != 0) {
+				nisoTrack_lowmt_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_lowmt_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_lowmt_isLoaded = true;
+		}
+		return nisoTrack_lowmt_;
+	}
+	int &nisoTrack_himt()
+	{
+		if (not nisoTrack_himt_isLoaded) {
+			if (nisoTrack_himt_branch != 0) {
+				nisoTrack_himt_branch->GetEntry(index);
+			} else { 
+				printf("branch nisoTrack_himt_branch does not exist!\n");
+				exit(1);
+			}
+			nisoTrack_himt_isLoaded = true;
+		}
+		return nisoTrack_himt_;
+	}
 	int &ngamma()
 	{
 		if (not ngamma_isLoaded) {
@@ -4235,6 +4503,45 @@ void LoadAllBranches()
 			gamma_idCutBased_isLoaded = true;
 		}
 		return *gamma_idCutBased_;
+	}
+	const vector<float> &gamma_ecpfclusiso()
+	{
+		if (not gamma_ecpfclusiso_isLoaded) {
+			if (gamma_ecpfclusiso_branch != 0) {
+				gamma_ecpfclusiso_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_ecpfclusiso_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_ecpfclusiso_isLoaded = true;
+		}
+		return *gamma_ecpfclusiso_;
+	}
+	const vector<float> &gamma_hcpfclusiso()
+	{
+		if (not gamma_hcpfclusiso_isLoaded) {
+			if (gamma_hcpfclusiso_branch != 0) {
+				gamma_hcpfclusiso_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_hcpfclusiso_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_hcpfclusiso_isLoaded = true;
+		}
+		return *gamma_hcpfclusiso_;
+	}
+	const vector<float> &gamma_hollowtkiso03()
+	{
+		if (not gamma_hollowtkiso03_isLoaded) {
+			if (gamma_hollowtkiso03_branch != 0) {
+				gamma_hollowtkiso03_branch->GetEntry(index);
+			} else { 
+				printf("branch gamma_hollowtkiso03_branch does not exist!\n");
+				exit(1);
+			}
+			gamma_hollowtkiso03_isLoaded = true;
+		}
+		return *gamma_hollowtkiso03_;
 	}
 	int &ngenPart()
 	{
@@ -5029,18 +5336,18 @@ void LoadAllBranches()
 		}
 		return dphi_ll_;
 	}
-	float &mlbmin()
+	float &sum_mlb()
 	{
-		if (not mlbmin_isLoaded) {
-			if (mlbmin_branch != 0) {
-				mlbmin_branch->GetEntry(index);
+		if (not sum_mlb_isLoaded) {
+			if (sum_mlb_branch != 0) {
+				sum_mlb_branch->GetEntry(index);
 			} else { 
-				printf("branch mlbmin_branch does not exist!\n");
+				printf("branch sum_mlb_branch does not exist!\n");
 				exit(1);
 			}
-			mlbmin_isLoaded = true;
+			sum_mlb_isLoaded = true;
 		}
-		return mlbmin_;
+		return sum_mlb_;
 	}
 	float &deta_jj()
 	{
@@ -5991,6 +6298,136 @@ void LoadAllBranches()
 		}
 		return isrboost_;
 	}
+	int &isr_njets()
+	{
+		if (not isr_njets_isLoaded) {
+			if (isr_njets_branch != 0) {
+				isr_njets_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_njets_branch does not exist!\n");
+				exit(1);
+			}
+			isr_njets_isLoaded = true;
+		}
+		return isr_njets_;
+	}
+	float &isr_weight()
+	{
+		if (not isr_weight_isLoaded) {
+			if (isr_weight_branch != 0) {
+				isr_weight_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_weight_branch does not exist!\n");
+				exit(1);
+			}
+			isr_weight_isLoaded = true;
+		}
+		return isr_weight_;
+	}
+	float &isr_unc()
+	{
+		if (not isr_unc_isLoaded) {
+			if (isr_unc_branch != 0) {
+				isr_unc_branch->GetEntry(index);
+			} else { 
+				printf("branch isr_unc_branch does not exist!\n");
+				exit(1);
+			}
+			isr_unc_isLoaded = true;
+		}
+		return isr_unc_;
+	}
+	const vector<float> &weightsf_lepid()
+	{
+		if (not weightsf_lepid_isLoaded) {
+			if (weightsf_lepid_branch != 0) {
+				weightsf_lepid_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepid_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepid_isLoaded = true;
+		}
+		return *weightsf_lepid_;
+	}
+	const vector<float> &weightsf_lepiso()
+	{
+		if (not weightsf_lepiso_isLoaded) {
+			if (weightsf_lepiso_branch != 0) {
+				weightsf_lepiso_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepiso_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepiso_isLoaded = true;
+		}
+		return *weightsf_lepiso_;
+	}
+	const vector<float> &weightsf_lepip()
+	{
+		if (not weightsf_lepip_isLoaded) {
+			if (weightsf_lepip_branch != 0) {
+				weightsf_lepip_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepip_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepip_isLoaded = true;
+		}
+		return *weightsf_lepip_;
+	}
+	const vector<float> &weightsf_lepreco()
+	{
+		if (not weightsf_lepreco_isLoaded) {
+			if (weightsf_lepreco_branch != 0) {
+				weightsf_lepreco_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepreco_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepreco_isLoaded = true;
+		}
+		return *weightsf_lepreco_;
+	}
+	const vector<float> &weightsf_lepid_FS()
+	{
+		if (not weightsf_lepid_FS_isLoaded) {
+			if (weightsf_lepid_FS_branch != 0) {
+				weightsf_lepid_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepid_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepid_FS_isLoaded = true;
+		}
+		return *weightsf_lepid_FS_;
+	}
+	const vector<float> &weightsf_lepiso_FS()
+	{
+		if (not weightsf_lepiso_FS_isLoaded) {
+			if (weightsf_lepiso_FS_branch != 0) {
+				weightsf_lepiso_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepiso_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepiso_FS_isLoaded = true;
+		}
+		return *weightsf_lepiso_FS_;
+	}
+	const vector<float> &weightsf_lepip_FS()
+	{
+		if (not weightsf_lepip_FS_isLoaded) {
+			if (weightsf_lepip_FS_branch != 0) {
+				weightsf_lepip_FS_branch->GetEntry(index);
+			} else { 
+				printf("branch weightsf_lepip_FS_branch does not exist!\n");
+				exit(1);
+			}
+			weightsf_lepip_FS_isLoaded = true;
+		}
+		return *weightsf_lepip_FS_;
+	}
 
   static void progress( int nEventsTotal, int nEventsChain ){
     int period = 1000;
@@ -6128,6 +6565,12 @@ namespace zmet {
 	const vector<int> &lep_convVeto();
 	const vector<int> &lep_tightCharge();
 	const vector<float> &lep_MVA();
+	const vector<float> &lep_validfraction();
+	const vector<float> &lep_pterr();
+	const int &nisoTrack_5gev();
+	const int &nisoTrack_10gev();
+	const int &nisoTrack_lowmt();
+	const int &nisoTrack_himt();
 	const int &ngamma();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &gamma_p4();
 	const vector<float> &gamma_pt();
@@ -6143,6 +6586,9 @@ namespace zmet {
 	const vector<float> &gamma_r9();
 	const vector<float> &gamma_hOverE();
 	const vector<int> &gamma_idCutBased();
+	const vector<float> &gamma_ecpfclusiso();
+	const vector<float> &gamma_hcpfclusiso();
+	const vector<float> &gamma_hollowtkiso03();
 	const int &ngenPart();
 	const vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > > &genPart_p4();
 	const vector<float> &genPart_pt();
@@ -6204,7 +6650,7 @@ namespace zmet {
 	const float &mbb_bpt();
 	const float &dphi_jj();
 	const float &dphi_ll();
-	const float &mlbmin();
+	const float &sum_mlb();
 	const float &deta_jj();
 	const float &dR_jj();
 	const float &dphi_metj1();
@@ -6278,5 +6724,15 @@ namespace zmet {
 	const int &mass_gluino();
 	const int &mass_LSP();
 	const float &isrboost();
+	const int &isr_njets();
+	const float &isr_weight();
+	const float &isr_unc();
+	const vector<float> &weightsf_lepid();
+	const vector<float> &weightsf_lepiso();
+	const vector<float> &weightsf_lepip();
+	const vector<float> &weightsf_lepreco();
+	const vector<float> &weightsf_lepid_FS();
+	const vector<float> &weightsf_lepiso_FS();
+	const vector<float> &weightsf_lepip_FS();
 }
 #endif
