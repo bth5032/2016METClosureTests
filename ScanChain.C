@@ -591,6 +591,7 @@ double getWeight(){
     weight*=phys.weightsf_lepip().at(1);
     
     weight*=phys.weight_btagsf();
+    weight*=stod(conf->get("luminosity_fb"));
   }
   //cout<<__LINE__<<endl;
 
