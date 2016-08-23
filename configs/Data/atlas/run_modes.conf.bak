@@ -29,7 +29,7 @@ DEFAULT::lep2_pt_min=25
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=ee_mm_em
+data_set=ee_mm
 zjets=true
 gjets=false
 

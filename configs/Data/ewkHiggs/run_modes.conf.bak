@@ -8,28 +8,23 @@
 
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=2.058
+DEFAULT::luminosity_fb=1
 DEFAULT::data=true
 
 #============================
-# ATLAS Region
+# EWK Higgs Region
 #============================
 
 DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
-DEFAULT::signal_region=ATLAS
-
-DEFAULT::sum_HT_pt_pt=600
-
-DEFAULT::dPhi_MET_j1=0.4
-DEFAULT::dPhi_MET_j2=0.4
-
-DEFAULT::lep1_pt_min=50
-DEFAULT::lep2_pt_min=25
+DEFAULT::signal_region=EWK_Higgs
+DEFAULT::mbb_mh_diff=25
+DEFAULT::NBjets_min=2
+DEFAULT::MT2b=200
 
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=ee_mm_em
+data_set=ee_mm
 zjets=true
 gjets=false
 

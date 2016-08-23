@@ -8,28 +8,24 @@
 
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=2.058
+DEFAULT::luminosity_fb=1
 DEFAULT::data=true
 
 #============================
-# ATLAS Region
+# Region A with Btag
 #============================
 
 DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
-DEFAULT::signal_region=ATLAS
-
-DEFAULT::sum_HT_pt_pt=600
-
-DEFAULT::dPhi_MET_j1=0.4
-DEFAULT::dPhi_MET_j2=0.4
-
-DEFAULT::lep1_pt_min=50
-DEFAULT::lep2_pt_min=25
+DEFAULT::signal_region=A_btag
+DEFAULT::NBjets_min=1
+DEFAULT::Njets_min=2
+DEFAULT::Njets_max=3
+DEFAULT::HT_min=400
 
 #Zjets Only Base Config
 Name=Z_Base
+data_set=ee_mm
 data_type=zjets
-data_set=ee_mm_em
 zjets=true
 gjets=false
 
