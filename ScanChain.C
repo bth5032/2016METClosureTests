@@ -581,14 +581,16 @@ double getWeight(){
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
     
-    weight*=phys.weightsf_lepid().at(0);
-    weight*=phys.weightsf_lepid().at(1);
-
-    weight*=phys.weightsf_lepiso().at(0);
-    weight*=phys.weightsf_lepiso().at(1);
-
-    weight*=phys.weightsf_lepip().at(0);
-    weight*=phys.weightsf_lepip().at(1);
+    if (phys.nlep() > 1){
+      weight*=phys.weightsf_lepid().at(0);
+      weight*=phys.weightsf_lepid().at(1);
+  
+      weight*=phys.weightsf_lepiso().at(0);
+      weight*=phys.weightsf_lepiso().at(1);
+  
+      weight*=phys.weightsf_lepip().at(0);
+      weight*=phys.weightsf_lepip().at(1);
+    }
     
     weight*=phys.weight_btagsf();
   }
