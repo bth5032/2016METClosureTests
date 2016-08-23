@@ -7,18 +7,16 @@
 #
 
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=12.9
+DEFAULT::luminosity_fb=1
 DEFAULT::rares=true
 
 #============================
-# EWK Higgs Region
+# EdgeZ Region
 #============================
 
 DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/
-DEFAULT::signal_region=EWK_Higgs
-DEFAULT::mbb_mh_diff=25
-DEFAULT::NBjets_min=2
-DEFAULT::MT2b=200
+DEFAULT::signal_region=EdgeZ
+DEFAULT::Njets_min=2
 
 #VVV
 Name=VVV

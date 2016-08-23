@@ -577,9 +577,20 @@ double getWeight(){
 
   if (conf->get("rares") == "true"){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
-    if (phys.hyp_type() == 0) weight *= 0.970;
-    if (phys.hyp_type() == 1) weight *= 0.920;
-    if (phys.hyp_type() == 2) weight *= 0.886;
+    if (phys.hyp_type() == 0) weight *= 0.963;
+    if (phys.hyp_type() == 1) weight *= 0.947;
+    if (phys.hyp_type() == 2) weight *= 0.899;
+    
+    weight*=phys.weightsf_lepid().at(0);
+    weight*=phys.weightsf_lepid().at(1);
+
+    weight*=phys.weightsf_lepiso().at(0);
+    weight*=phys.weightsf_lepiso().at(1);
+
+    weight*=phys.weightsf_lepip().at(0);
+    weight*=phys.weightsf_lepip().at(1);
+    
+    weight*=phys.weight_btagsf();
   }
   //cout<<__LINE__<<endl;
 
@@ -962,8 +973,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   }
 
   if( conf->get("rares") == "true" ){
-    cout<<"Pileup reweighting with nvtx_ratio_6p26fb.root"<<endl;
-    g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_6p26fb.root", "READ");
+    cout<<"Pileup reweighting with pileup_jul21_nominalUpDown.root"<<endl;
+    g_pileup_hist_file = TFile::Open("auxFiles/pileup_jul21_nominalUpDown.root", "READ");
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
     g_pileup_hist->SetDirectory(rootdir);
     g_pileup_hist_file->Close();

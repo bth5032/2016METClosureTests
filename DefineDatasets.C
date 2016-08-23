@@ -100,18 +100,18 @@ TChain * getRareChain(TString data_set){
   TChain *ch_rares = new TChain("t");
  
   if (data_set.Contains("wz")){
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/wz_3lnu_powheg*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/wz_3lnu_powheg*.root");
   }
 
   if (data_set.Contains("zz")) {
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/zz_2l2n_powheg*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/zz_2l2n_powheg*.root");
   }
 
   if (data_set.Contains("vvv")){
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/www_incl_mgmlm*.root");
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/wwz_incl_mgmlm*.root");
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/wzz_incl_mgmlm*.root");
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/zzz_incl_mgmlm*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/www_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/wwz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/wzz_incl_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/zzz_incl_amcnlo*.root");
   }
 
   if (data_set.Contains("ttv")){
