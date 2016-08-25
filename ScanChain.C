@@ -1169,19 +1169,20 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
 // Debugging And Odd Corrections After Cuts
 //=======================================
-      if (conf->get("rares") == "true"){
+      /*if (conf->get("rares") == "true"){
         //cout<<__LINE__<<endl;
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
           //cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
         eventCount++;
-        /*if ( inVinceNotMine.count(phys.evt()) != 0){
+        if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
-        }*/
-      }
+        }
+      }*/
+      eventCount++;
       
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
 
@@ -1252,7 +1253,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     //cout<<__LINE__<<endl;
     file.Close();
   }
-
+  cout<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }  
