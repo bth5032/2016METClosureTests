@@ -1028,6 +1028,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
   int eventCount=0;
+  cout<<"DATASET: "<<conf->get("data_set")<<endl;
   if( nEvents >= 0 ) nEventsChain = nEvents;
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
@@ -1173,6 +1174,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
           //cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
+        eventCount++;
         /*if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
