@@ -115,8 +115,8 @@ TChain * getRareChain(TString data_set){
   }
 
   if (data_set.Contains("ttv")){
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttz_2l2n_amcnlo*.root");
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttz_qq_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/ttz_2l2n_amcnlo*.root");
+    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-05_ichep/ttz_qq_amcnlo*.root");
   }
 
   return ch_rares;
