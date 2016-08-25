@@ -1142,7 +1142,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 // Analysis Code
 //=======================================
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
-      //cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;
+      cout<<"Event Weight "<<weight<<endl;      
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
       //cout<<__LINE__<<endl;      
