@@ -1173,12 +1173,12 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
           //cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
-        if ( inVinceNotMine.count(phys.evt()) != 0){
+        /*if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
-        }
-        if ( inMineNotVince.count(phys.evt()) != 0){
+        }*/
+        /*if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
-        }
+        }*/
       }
       /*
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
