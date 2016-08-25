@@ -1027,6 +1027,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   // Loop over events to Analyze
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
+  int eventCount=0;
   if( nEvents >= 0 ) nEventsChain = nEvents;
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
@@ -1167,21 +1168,19 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
 // Debugging And Odd Corrections After Cuts
 //=======================================
-      /*if (conf->get("data_set") == "ttv"){
+      if (conf->get("rares") == "true"){
         //cout<<__LINE__<<endl;
-        cout<<"EVENT-LIST "<<phys.evt()<<endl;
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
+        //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
           //cout<<__LINE__<<endl;
-          cout<<"EVENT-LIST "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
-        }
+        cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
           //printPass = true;
         }
         if ( inMineNotVince.count(phys.evt()) != 0){
           printFail = true;
         }
-      }*/
-
+      }
+      /*
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
 
       //if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
