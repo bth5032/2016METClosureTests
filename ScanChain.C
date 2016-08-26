@@ -170,6 +170,19 @@ bool passBaseCut(){
   return pass;
 }
 
+bool passPhotonEmulatedTrigger() {
+  if( phys.nisoTrack_5gev()           > 0    ) return false;
+  if( phys.gamma_r9()            .at(0) < 0.92 ) return false;
+  if( phys.gamma_hOverE()        .at(0) > 0.2  ) return false;
+  if( phys.gamma_hollowtkiso03() .at(0) > 5    ) return false;
+  if( abs(phys.gamma_eta().at(0)) < 1.4 && phys.gamma_ecpfclusiso().at(0) > 4 + phys.gamma_pt().at(0) * 0.0053  ) return false;
+  if( abs(phys.gamma_eta().at(0)) < 1.4 && phys.gamma_hcpfclusiso().at(0) > 8 + phys.gamma_pt().at(0) * 0.014   ) return false;
+  if( abs(phys.gamma_eta().at(0)) > 1.6 && phys.gamma_ecpfclusiso().at(0) > 4 + phys.gamma_pt().at(0) * 0.0034  ) return false;
+  if( abs(phys.gamma_eta().at(0)) > 1.6 && phys.gamma_hcpfclusiso().at(0) > 8 + phys.gamma_pt().at(0) * 0.0139  ) return false;
+
+  return true;
+}
+
 bool passPhotonTriggers(){
 
   if((phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180 ) return true;
@@ -180,7 +193,6 @@ bool passPhotonTriggers(){
   else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55 && phys.gamma_pt().at(0) > 40 ) return true;
   else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40 && phys.gamma_pt().at(0) > 33 ) return true;
   else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) return true;
-
   return false;
 }
 
@@ -467,7 +479,13 @@ bool hasGoodPhoton(){
 
   if (! passPhotonTriggers()){
     numEvents->Fill(52);
-    //if (printFail) cout<<phys.evt()<<" :Failed nleps in photon cut for REALMET"<<endl;
+    //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
+    return false;
+  }
+
+  if (! passPhotonEmulatedTrigger() ){
+    numEvents->Fill(53);
+    //if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
   }
   
