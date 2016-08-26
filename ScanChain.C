@@ -76,7 +76,6 @@ double getPrescaleWeight(){
   if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) {
     return g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) * 1667;
   }
-  // else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 ) return 0;
   //cout<<__LINE__<<endl;
   return 0; // should not get here
 }
@@ -463,7 +462,7 @@ bool hasGoodPhoton(){
   if (phys.nlep() > 0 ){
     numEvents->Fill(49);
     //if (printFail) cout<<phys.evt()<<" :Failed nleps in photon cut for REALMET"<<endl;
-    return false; // veto pixel match 
+    return false; // lepton veto
   }
 
   if (! passPhotonTriggers()){
@@ -604,9 +603,9 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  /*if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
+  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
-  }*/
+  }
   //cout<<__LINE__<<endl;
 
   return weight;
