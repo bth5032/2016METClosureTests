@@ -965,7 +965,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     met_300->SetDirectory(rootdir);
     met_300->Sumw2();
   }
-  
+
 
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
@@ -1179,10 +1179,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
 
-        if (weight < 0){
-          cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
-        }
-
+      /*if (weight < 0){
+         cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
+      }
+      */
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) {
         t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
         t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
