@@ -135,10 +135,10 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_ph_v2*");
 
     //EWK Subtraction
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/wgjets_incl_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltbr_mgmlm*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltop_mgmlm*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/znunugamma_ptg130_mgmlm*.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/wgjets_incl_amcnlo*.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltbr_mgmlm*.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/ttbar_1ltop_mgmlm*.root");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04/znunugamma_ptg130_mgmlm*.root");
   }
 
   if (trigger.Contains("GammaRealMET")){
