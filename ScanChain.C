@@ -623,6 +623,9 @@ double getWeight(){
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
+    if (getPrescaleWeight() < 0){
+      cout<<"Negative Weight: "<<phys.evt()<<endl;
+    }
   }
   //cout<<__LINE__<<endl;
 
