@@ -68,13 +68,13 @@ double getPrescaleWeight(){
   else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
   //cout<<__LINE__<<endl;
   if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55 && phys.gamma_pt().at(0) > 40 ) {
-    return g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) * 134;
+    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) * */ 134;
   }
   else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40 && phys.gamma_pt().at(0) > 33 ){
-    return g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) * 269;
+    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) * */ 269;
   }
   if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) {
-    return g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) * 1667;
+    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) * */ 1667;
   }
   //cout<<__LINE__<<endl;
   return 0; // should not get here
