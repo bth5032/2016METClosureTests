@@ -478,7 +478,7 @@ bool hasGoodPhoton(){
     return false; // lepton veto
   }
 
-  if (! passPhotonTriggers()){
+  if (phys.isData() && (! passPhotonTriggers()) ){
     numEvents->Fill(52);
     //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
     return false;
@@ -630,9 +630,9 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (weight < 0){
+  /*if (weight < 0){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
-  }
+  }*/
 
   return weight;
 }
@@ -1137,7 +1137,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       //cout<<__LINE__<<endl;      
       //Set up event weight
-      double weight = getWeight();
       /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
       }*/
@@ -1170,7 +1169,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           //cout<<"Failed Rare Cuts"<<endl;
           continue;
         } //Rare Sample Selections
-      }      
+      }
+
+      double weight = getWeight();
 //=======================================
 // Analysis Code
 //=======================================
