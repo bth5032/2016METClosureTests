@@ -47,6 +47,7 @@ TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_h
 TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
+TFile* currentFile = 0;
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
@@ -588,6 +589,9 @@ double getWeight(){
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
     }
+    if (conf->get("data_set")=="SinglePhoton" && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+      weight *= -12.9; //EWK Subtraction
+    }
   }
   //cout<<__LINE__<<endl;
 
@@ -1062,7 +1066,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   if( nEvents >= 0 ) nEventsChain = nEvents;
   TObjArray *listOfFiles = chain->GetListOfFiles();
   TIter fileIter(listOfFiles);
-  TFile *currentFile = 0;
   //cout<<__LINE__<<endl;
 //==============
 // File Loop
