@@ -965,6 +965,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     met_300->SetDirectory(rootdir);
     met_300->Sumw2();
   }
+  
 
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
