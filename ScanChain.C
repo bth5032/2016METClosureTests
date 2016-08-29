@@ -626,6 +626,10 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
+  if (weight < 0){
+    cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
+  }
+
   return weight;
 }
 
@@ -1174,9 +1178,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
 
-    if (weight < 0){
-      cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
-    }
+        if (weight < 0){
+          cout<<"Negative Weight2: "<<weight<<" "<<phys.evt()<<endl;
+        }
 
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) {
         t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
