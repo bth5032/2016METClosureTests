@@ -623,9 +623,6 @@ double getWeight(){
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
-    if (getPrescaleWeight() < 0){
-      cout<<"Negative Weight: "<<phys.evt()<<endl;
-    }
   }
   //cout<<__LINE__<<endl;
 
@@ -1176,6 +1173,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
       //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
+
+    if (weight < 0){
+      cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
+    }
+
       if (phys.met_T1CHS_miniAOD_CORE_pt() != 0) {
         t1met->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
         t1met_widebin->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
