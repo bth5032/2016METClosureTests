@@ -911,11 +911,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   const int n_ptbins = 23;
   const double ptbins[n_ptbins+1] = {0, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 120, 130, 140, 150, 225, 300, 6000};
 
-  const int n_ptbins_std = 9;
-  const double ptbins_std[n_ptbins_std+1] = {0, 33, 50, 75, 90, 120, 165, 200, 300, 6000};
+  const int n_ptbins_std = 10;
+  const double ptbins_std[n_ptbins_std+1] = {0, 33, 40, 55, 85, 105, 135, 180, 200, 300, 6000};
 
-  const int n_ptbins_atlas = 8;
-  const double ptbins_atlas[n_ptbins_atlas+1] = {0, 33, 50, 75, 90, 120, 165, 200, 6000};
+  const int n_ptbins_atlas = 9;
+  const double ptbins_atlas[n_ptbins_atlas+1] = {0, 33, 40, 55, 85, 105, 135, 180, 200, 6000};
 
   TH1D *vpt;
   
