@@ -39,6 +39,7 @@ void makePtReweightHisto(ConfigParser * conf)
   cout<<"Found input files for reweighting"<<endl;
   TH1D * h_primary;
   TH1D * h_secondary;
+  TH1D * h_subtractor;
   TH1D * h_primary_scaled;
   TH1D * h_secondary_scaled;
 
