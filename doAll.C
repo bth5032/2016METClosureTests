@@ -2,7 +2,7 @@
 #include "ScanChain.C"
 #include "DefineDatasets.C"
 #include "ConfigParser.C"
-#include "makeWeightHisto.C"
+#include "makePtReweightHisto.C"
 
 void runScanChain(ConfigParser* conf){
   cout<<"Using config:"<<endl;
@@ -10,7 +10,7 @@ void runScanChain(ConfigParser* conf){
 
   if (conf->get("reweight") == "true"){
     cout<<"Making Reweight Histogram"<<endl;
-    makeWeightHisto(conf);
+    makePtReweightHisto(conf);
   }
 
   if (conf->get("data") == "true"){
