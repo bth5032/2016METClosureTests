@@ -358,8 +358,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   if (conf->get("print_stats") == "true")
   {
-    int low_val = stoi(conf->get("stats_low_val"));
-    int high_val = stoi(conf->get("stats_high_val"));
+    vector<int> stats_bins;
+    int i = 0;
+    while (conf->get("stats_"+to_string(i)+"_low_val") != "" ){
+      stats_bins.push_back(stoi(conf->get("stats_"+to_string(i)+"_low_val")));
+      stats_bins.push_back(stoi(conf->get("stats_"+to_string(i)+"_high_val")));
+    }
+    
     //cout<<__LINE__<<endl;
     Double_t err_evts_in_interval_primary;
     double num_evts_in_interval_primary;
