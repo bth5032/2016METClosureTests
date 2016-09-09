@@ -18,6 +18,7 @@ void makePtReweightHisto(ConfigParser * conf)
   TString primary_histos = conf->get("histo_output_dir")+"ct_Z_Base_"+conf->get("signal_region")+".root";
   TString subtractor_histos = primary_histos;
   subtractor_histos.ReplaceAll("/Data/", "/FSBKG/");
+  subtractor_histos.ReplaceAll("/Data_NoEWKSub/", "/FSBKG/");
   
   TString weight_from;
   

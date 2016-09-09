@@ -129,23 +129,18 @@ TChain * getDataPhotonChain(TString trigger){
   TChain *ch_Data = new TChain("t");
 
   //Single Photon Trigger
-  if (trigger.Contains("SinglePhoton_EWKSub")){
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016B_Prompt_ph_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016C_Prompt_ph_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_ph_v2*");
-
-    //EWK Subtraction
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/wgjets_incl_amcnlo*.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttbar_1ltbr_mgmlm*.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttbar_1ltop_mgmlm*.root");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/znunugamma_ptg130_mgmlm*.root");
-  }
-
-  //Single Photon Trigger
   if (trigger.Contains("SinglePhoton")){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016B_Prompt_ph_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016C_Prompt_ph_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_ph_v2*");
+    
+    //EWK Subtraction
+    if (trigger.Contains("EWKSub")){
+      ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/wgjets_incl_amcnlo*.root");
+      ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttbar_1ltbr_mgmlm*.root");
+      ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/ttbar_1ltop_mgmlm*.root");
+      ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/znunugamma_ptg130_mgmlm*.root");
+    }
   }
 
   if (trigger.Contains("GammaRealMET")){
