@@ -6,11 +6,11 @@
 using namespace std;
 
 void printDiff(TString a, TString b){
-  TFile sub_file = TFile::Open(a);
-  TFile no_sub_file = TFile::Open(b); 
+  TFile* sub_file = TFile::Open(a);
+  TFile* no_sub_file = TFile::Open(b); 
 
-  TH1D sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
-  TH1D no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));
+  TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
+  TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));
 
   vector<double> bins;
 
