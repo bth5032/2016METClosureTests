@@ -7,6 +7,10 @@ configParser *conf;
 double getMetTemplatesError(std::vector<double> sample_statistical_errors, double normalization_uncertainty){
   //need MC closure bins
   //need EWK subtraction bins
+
+  double EWK_Error = sqrt(178.2*178.2 + 539*539 + 2365*2365 + 766*766 + 21700*21700 + 1916*1916 + 752*752);
+  double MC_Closure_Error;
+
   
 }
 
@@ -31,7 +35,7 @@ void produceErrorTable(){
   while (conf->get("bin_"+to_string(bin)+"_low") != "" ){
     low = stoi(conf->get("bin_"+to_string(bin)+"_low"));
     high = stoi(conf->get("bin_"+to_string(bin)+"_high"));
-    
+
   }
 }
 
