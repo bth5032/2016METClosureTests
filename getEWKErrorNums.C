@@ -14,6 +14,8 @@ void printDiff(TString a, TString b){
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));
 
+  double count_in_sub, count_in_no;
+
   vector<double> bins;
 
   if(a.Contains("ATLAS")){
