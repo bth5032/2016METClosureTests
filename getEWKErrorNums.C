@@ -46,19 +46,19 @@ void printDiff(TString a, TString b){
 void getEWKErrorNums(){
   vector<pair<TString, TString>> files;
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_ATLAS.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_ATLAS.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_bveto.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_bveto.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_btag.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_btag.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_btag.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_btag.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_bveto.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_bveto.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_bveto.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_bveto.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_btag.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_btag.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_btag.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_btag.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_EdgeZ.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_EdgeZ.root"));
 
-  file.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EWK_Higgs.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_EWK_Higgs.root"));
+  files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EWK_Higgs.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_EWK_Higgs.root"));
 
   for(vector<pair<TString, TString>>::iterator it = files.begin(); it != files.end(); ++it) {
     printDiff(it->first, it->second);
