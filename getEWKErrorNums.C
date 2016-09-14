@@ -35,7 +35,7 @@ void printDiff(TString a, TString b){
     bins.push_back(300);
     bins.push_back(6001);
   }
-
+  cout<<sub_hist->GetName()<<endl;
   for (std::vector<double>::iterator i = bins.begin(); (i+1) != bins.end(); i++){
     count_in_sub = sub_hist->Integral(sub_hist->FindBin(*i), sub_hist->FindBin(*(i+1))-.05);
     count_in_no = no_sub_hist->Integral(no_sub_hist->FindBin(*i), no_sub_hist->FindBin(*(i+1))-.05);
