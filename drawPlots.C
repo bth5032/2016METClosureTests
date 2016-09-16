@@ -11,6 +11,7 @@
 #include "TCut.h"
 #include "TH1D.h"
 
+#include "computeErrors.C"
 #include "ConfigParser.C"
 
 using namespace std;
@@ -40,7 +41,7 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
 
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
-  height=1.02-gPad->GetTopMargin();
+  double height=1.02-gPad->GetTopMargin();
   float left_margin = gPad->GetLeftMargin();
 
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );    
@@ -349,8 +350,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitle(ylabel);
   //cout<<__LINE__<<endl;  
 
-  TString stats_string;
-
   //===========================
   // Print Closure Stats
   //===========================
@@ -358,41 +357,55 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   if (conf->get("print_stats") == "true")
   {
-    vector<int> stats_bins;
-    int i = 0;
-    while (conf->get("stats_"+to_string(i)+"_low_val") != "" ){
-      stats_bins.push_back(stoi(conf->get("stats_"+to_string(i)+"_low_val")));
-      stats_bins.push_back(stoi(conf->get("stats_"+to_string(i)+"_high_val")));
+    vector<pair<int,int>> stats_bins;
+    int j = 0;
+    while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
+      stats_bins.push_back(make_pair(stoi(conf->get("stats_"+to_string(j)+"_low_val")),stoi(conf->get("stats_"+to_string(j)+"_high_val"))));
+      j++;
     }
-    
-    //cout<<__LINE__<<endl;
-    Double_t err_evts_in_interval_primary;
-    double num_evts_in_interval_primary;
 
-    Double_t err_evts_in_interval; 
-    double num_evts_in_interval;
-    Double_t err_evts_in_interval_sum = 0; 
-    double num_evts_in_interval_sum = 0;
-    //cout<<__LINE__<<endl;
-    for (int i=0; i<num_hists; i++){
-      num_evts_in_interval = hists[i]->IntegralAndError(hists[i]->FindBin(low_val), hists[i]->FindBin(high_val-.001), err_evts_in_interval);
-      if (i == 0){
-        num_evts_in_interval_primary = num_evts_in_interval;
-        err_evts_in_interval_primary = err_evts_in_interval;
-      }
-      else{
-        num_evts_in_interval_sum+=num_evts_in_interval;
-        err_evts_in_interval_sum+=err_evts_in_interval;
-      }
-      //cout<<__LINE__<<endl;
-      stats_string = hist_labels[i]+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval)+" Error: "+to_string(err_evts_in_interval);
-      cout<<"STATS: "<<stats_string<<endl;
-      drawLatexFromTString(stats_string, .4,.5+(0.02*i));
+    double normalization_error = sqrt((double) hists[0]->Integral(0,49.9));
+
+    vector<double> template_count;
+    vector<double> template_error;
+    double t_err; //placeholder for template error
+
+    vector<double> rare_count;
+    vector<double> rare_error;
+    double r_err; //placeholder for rare error
+
+    vector<double> FS_count;
+
+    vector<double> signal_count;
+
+
+    //Fill in all the bin counts here
+    for (int i = 0; i < stats_bins.size(); i++){
+      signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].first - 0.001)));
+      FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].first - 0.001)));
+
+      template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].first - 0.001), t_err));
+      template_error.push_back(t_err);
+
+      rare_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].first - 0.001), r_err));
+      rare_error.push_back(r_err);
+
+      rare_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_error[i] += r_err;
+
+      rare_count[i] += hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_error[i] += r_err;
+
+      rare_count[i] += hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_error[i] += r_err;
     }
-    stats_string = "SumBG from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(num_evts_in_interval_sum)+" Error: "+to_string(err_evts_in_interval_sum)+" Ratio: "+to_string((double) num_evts_in_interval_sum/num_evts_in_interval_primary);
-    cout<<"STATS: "<<stats_string<<endl;
-    drawLatexFromTString(stats_string, .4,.5-0.02);
-    //cout<<__LINE__<<endl;
+
+    vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization_error, conf->get("SR"));
+    pair<vector<double>,vector<double>> FS_err = getFSError(FS_count);
+    vector<double> rare_err = getRareSamplesError(rare_err, rare_count);
+
+    printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count);
+
   }
   
   //----------------------
