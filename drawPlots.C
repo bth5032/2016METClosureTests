@@ -208,12 +208,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           if (clonedBG_norm == NULL){ //Make new clonedBG
             //cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
-            //cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           else{
             //cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]); //Add to clonedBG
-            //cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
+            cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           //cout<<__LINE__<<endl;
         }
@@ -239,7 +239,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
           //cout<<__LINE__<<endl;
-          //cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
+          cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
@@ -251,8 +251,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     double scaleFactor;
     if (conf->get("norm_0_50") == "true")
     {
-      numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(1),clonedPrimary_norm->FindBin(49.9));
-      numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(1),clonedBG_norm->FindBin(49.9));
+      numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
+      numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9));
     }
     else{
       numEventsData = clonedPrimary_norm->Integral();
@@ -266,7 +266,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     for (int i = 1; i<num_hists; i++){
       if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ){
         hists[i]->Scale(scaleFactor);  //if hist is marked for norm or no hists marked for norms.
-        //cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(1)<<endl;
+        cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(1)<<endl;
       }
     }
   }
@@ -281,9 +281,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
 
-  /*for (int i = 0; i<num_hists; i++){
+  for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
-  }*/
+  }
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
