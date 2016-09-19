@@ -125,7 +125,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   for (int i=0; i<stat_err.size(); i++){
     cout<<"TRACE| Bin "<<i<<" ";
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
-    cout<<"Stat Error: "<< stat_err[i]
+    cout<<"Stat Error: "<< stat_err[i];
     err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
     cout<<" Closure Error: "<<bin_count[i]*MC_Closure_Error[i];
     err_bin += ((sqrt(normalization)*bin_count[i])/(normalization))*((sqrt(normalization)*bin_count[i])/(normalization)); //Normalization of Zjets
