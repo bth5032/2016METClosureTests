@@ -200,32 +200,32 @@ void printErrors(vector<double> temp_err, vector<double> rare_err, pair<vector<d
 }
 
 void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<int,int>> bin_low, vector<double> data_count){
-  cout<<"Sample ";
+  cout<<"STATTABLE: Sample ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
   }
   cout<<endl;
-  cout<<"Template ";
+  cout<<"STATTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
-  cout<<"FS ";
+  cout<<"STATTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
     cout<<fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
   }
   cout<<endl;
-  cout<<"Rares ";
+  cout<<"STATTABLE: Rares ";
   for (int i = 0; i<rare_err.size(); i++){
     cout<<rare_count[i]<<"+/-"<<rare_err[i]<<" ";
   }
   cout<<endl;
-  cout<<"Sum ";
+  cout<<"STATTABLE: Sum ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<temp_count[i]+fs_count[i]+rare_count[i]<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
-  cout<<"Data ";
+  cout<<"STATTABLE: Data ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<data_count[i]<<" ";
   }
