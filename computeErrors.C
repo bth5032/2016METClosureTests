@@ -199,7 +199,7 @@ void printErrors(vector<double> temp_err, vector<double> rare_err, pair<vector<d
   cout<<endl;
 }
 
-void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<int,int>> bin_low, vector<double> data_count){
+void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count){
   cout<<"STATTABLE: Sample ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
