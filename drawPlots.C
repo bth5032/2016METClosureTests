@@ -381,32 +381,32 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     //Fill in all the bin counts here
     for (int i = 0; i < stats_bins.size(); i++){
-      signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].first - 0.001)));
-      FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].first - 0.001)));
+      signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
+      FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
       
       //cout<<__LINE__<<endl;
       
-      template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].first - 0.001), t_err));
+      template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
       template_error.push_back(t_err);
       
       //cout<<__LINE__<<endl;
       
-      rare_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].first - 0.001), r_err));
+      rare_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), r_err));
       rare_error.push_back(r_err);
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
       rare_error[i] += r_err;
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_count[i] += hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), r_err);
       rare_error[i] += r_err;
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].first - 0.001), r_err);
+      rare_count[i] += hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), r_err);
       rare_error[i] += r_err;
 
       //cout<<__LINE__<<endl;
