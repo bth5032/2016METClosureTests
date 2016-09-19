@@ -364,7 +364,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       j++;
     }
 
-    double normalization_error = sqrt((double) hists[0]->Integral(0,49.9));
+    double normalization_error = sqrt((double) hists[0]->Integral(0,hists[0]->FindBin(49.9)));
 
     vector<double> template_count;
     vector<double> template_error;
