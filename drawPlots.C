@@ -416,7 +416,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     cout<<__LINE__<<endl;
     pair<vector<double>,vector<double>> FS_err = getFSError(FS_count);
     cout<<__LINE__<<endl;
-    vector<double> rare_err = getRareSamplesError(rare_err, rare_count);
+    vector<double> rare_err = getRareSamplesError(rare_error, rare_count);
     cout<<__LINE__<<endl;
 
     printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count);
