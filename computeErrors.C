@@ -199,7 +199,7 @@ void printErrors(vector<double> temp_err, vector<double> rare_err, pair<vector<d
   cout<<endl;
 }
 
-void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count){
+void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
   cout<<"STATTABLE: Sample ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
@@ -212,7 +212,7 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
   cout<<"STATTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
-    cout<<fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
+    cout<<RSFOF*fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Rares ";

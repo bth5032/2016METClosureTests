@@ -426,7 +426,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     vector<double> rare_err = getRareSamplesError(rare_error, rare_count);
     //cout<<__LINE__<<endl;
 
-    printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count);
+    printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
     //cout<<__LINE__<<endl;
 
     for (int i=0; i < num_hists; i++){
