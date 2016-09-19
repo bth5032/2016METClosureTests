@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization_uncertainty, TString SR){
+vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, TString SR){
 
   vector<double> output_errors;
 
@@ -125,7 +125,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   for (int i=0; i<stat_err.size(); i++){
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
     err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
-    err_bin += normalization_uncertainty*normalization_uncertainty; //Normalization of Zjets
+    err_bin += ((sqrt(normalization)*bin_count[i])/(normalization))*((sqrt(normalization)*bin_count[i])/(normalization)); //Normalization of Zjets
     err_bin += EWK_Error[i]*EWK_Error[i]; //Normalization of Zjets
 
     output_errors.push_back(sqrt(err_bin));
@@ -134,7 +134,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   return output_errors;
 }
 
-pair<vector<double>,vector<double>> getFSError(vector<double> bin_count){
+pair<vector<double>,vector<double>> getFSError(vector<double> bin_count, double RSFOF){
   double RSFOF_unc = 0.026; //ICHEP 2016
 
   vector<double> error_up;
@@ -142,11 +142,11 @@ pair<vector<double>,vector<double>> getFSError(vector<double> bin_count){
 
   double bin_up, bin_dn;
   for (int i = 0; i<bin_count.size(); i++){
-    RooHistError::instance().getPoissonInterval(bin_count[i], bin_up, bin_dn);
+    RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl; 
-    bin_up = (bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
-    bin_dn = (bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
+    bin_up = RSFOF*RSFOF*(bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
+    bin_dn = RSFOF*RSFOF*(bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
