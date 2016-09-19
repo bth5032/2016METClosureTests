@@ -357,10 +357,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   if (conf->get("print_stats") == "true")
   {
-    vector<pair<int,int>> stats_bins;
+    vector<pair<double,double>> stats_bins;
     int j = 0;
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
-      stats_bins.push_back(make_pair(stoi(conf->get("stats_"+to_string(j)+"_low_val")),stoi(conf->get("stats_"+to_string(j)+"_high_val"))));
+      stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
     }
 
