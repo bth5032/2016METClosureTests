@@ -7,14 +7,24 @@
 
 using namespace std;
 
-void printDiff(TString a, TString b){
+void printDiff(TString a, TString b, TString c){
+  TFile* norm_file = TFile::Open(c);
   TFile* sub_file = TFile::Open(a);
   TFile* no_sub_file = TFile::Open(b); 
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));
+  TH1D* norm_hist = (TH1D*) ((TH1D*) norm_file->Get("zjets_type1MET"));
 
-  double count_in_sub, count_in_no;
+  double count_in_sub, count_in_no, norm_count;
+
+  norm_count = norm_hist->Integral(norm_hist->FindBin(0), norm_hist->FindBin(49.9));
+  double scale_sub = norm_count/(sub_hist->Integral(sub_hist->FindBin(0), sub_hist->FindBin(49.9)));
+  double scale_no_sub = norm_count/(no_sub_hist->Integral(no_sub_hist->FindBin(0), no_sub_hist->FindBin(49.9)));
+
+  sub_hist->Scale(scale_sub);
+  no_sub_hist->Scale(scale_no_sub);
+
 
   vector<double> bins;
 
@@ -46,6 +56,8 @@ void printDiff(TString a, TString b){
 void getEWKErrorNums(){
   vector<pair<TString, TString>> files;
 
+  TString norm_file;
+
   files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_bveto.root"));
 
   files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_btag.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_btag.root"));
@@ -61,6 +73,9 @@ void getEWKErrorNums(){
   files.push_back(make_pair("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EWK_Higgs.root", "/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_EWK_Higgs.root"));
 
   for(vector<pair<TString, TString>>::iterator it = files.begin(); it != files.end(); ++it) {
+    norm_file = it->first;
+    norm_file.Replace_All("G_Reweight", "Z_Base");
+    cout<<"Using norm file: "<<norm_file<<endl;
     printDiff(it->first, it->second);
     cout<<"==========="<<endl;
  }
