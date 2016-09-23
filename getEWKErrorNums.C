@@ -76,7 +76,7 @@ void getEWKErrorNums(){
     norm_file = it->first;
     norm_file.Replace_All("G_Reweight", "Z_Base");
     cout<<"Using norm file: "<<norm_file<<endl;
-    printDiff(it->first, it->second);
+    printDiff(it->first, it->second, norm_file);
     cout<<"==========="<<endl;
  }
 }
