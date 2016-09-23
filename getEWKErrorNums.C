@@ -74,7 +74,7 @@ void getEWKErrorNums(){
 
   for(vector<pair<TString, TString>>::iterator it = files.begin(); it != files.end(); ++it) {
     norm_file = it->first;
-    norm_file.Replace_All("G_Reweight", "Z_Base");
+    norm_file.ReplaceAll("G_Reweight", "Z_Base");
     cout<<"Using norm file: "<<norm_file<<endl;
     printDiff(it->first, it->second, norm_file);
     cout<<"==========="<<endl;
