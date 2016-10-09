@@ -26,6 +26,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //=========
 
   vector<double> EWK_Error;
+  double EWK_LowBin;
   vector<double> MC_Closure_Error;
 
   if (SR == "A_btag"){
