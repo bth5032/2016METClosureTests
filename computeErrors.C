@@ -288,7 +288,7 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
   cout<<" \\\\" <<endl;
   cout<<"LATEXTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
-    cout<<" & "<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"} ";
+    cout<<" & "<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"}$ ";
   }
   cout<<" \\\\" <<endl;
     cout<<"LATEXTABLE: Rares ";
