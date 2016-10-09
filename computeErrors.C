@@ -155,7 +155,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
 
   for (int i=0; i<stat_err.size(); i++){
 
-    ewk_err = bin_count[i] - EWK_Norm*No_EWK_BinCount[i];
+    ewk_err = abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]);
 
     cout<<"TRACE| Bin "<<i<<" ";
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
