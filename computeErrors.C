@@ -25,7 +25,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   // Input EWK and Closure Errors
   //=========
 
-  vector<double> EWK_Error;
+  vector<double> No_EWK_BinCount;
   double EWK_LowBin;
   vector<double> MC_Closure_Error;
 
@@ -37,12 +37,14 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.4);
     MC_Closure_Error.push_back(.4);
 
-    EWK_Error.push_back(35.2428);
-    EWK_Error.push_back(73.5586);
-    EWK_Error.push_back(33.9857);
-    EWK_Error.push_back(9.37907);
-    EWK_Error.push_back(7.98075);
-    EWK_Error.push_back(18.0243);
+    EWK_LowBin = 42700.4;
+
+    No_EWK_BinCount.push_back(42735.6);
+    No_EWK_BinCount.push_back(13040.3);
+    No_EWK_BinCount.push_back(961.179);
+    No_EWK_BinCount.push_back(275.403);
+    No_EWK_BinCount.push_back(29.7439);
+    No_EWK_BinCount.push_back(45.7242);
   }
   else if(SR == "A_bveto"){
     MC_Closure_Error.push_back(.02);
@@ -52,12 +54,14 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.25);
 
-    EWK_Error.push_back(4.39784);
-    EWK_Error.push_back(244.131);
-    EWK_Error.push_back(114.411);
-    EWK_Error.push_back(96.1903);
-    EWK_Error.push_back(47.231);
-    EWK_Error.push_back(32.8677);
+    EWK_LowBin = 267770;
+
+    No_EWK_BinCount.push_back(267774);
+    No_EWK_BinCount.push_back(74647.7);
+    No_EWK_BinCount.push_back(5435.29);
+    No_EWK_BinCount.push_back(968.266);
+    No_EWK_BinCount.push_back(654.698);
+    No_EWK_BinCount.push_back(115.101);
   }
   else if (SR == "B_btag"){
     MC_Closure_Error.push_back(.01);
@@ -66,13 +70,15 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.3);
     MC_Closure_Error.push_back(.3);
-
-    EWK_Error.push_back(721.195);
-    EWK_Error.push_back(958.259);
-    EWK_Error.push_back(388.289);
-    EWK_Error.push_back(170.377);
-    EWK_Error.push_back(72.4261);
-    EWK_Error.push_back(54.3328);
+    
+    EWK_LowBin = 164153;
+    
+    No_EWK_BinCount.push_back(164874);
+    No_EWK_BinCount.push_back(33269.5);
+    No_EWK_BinCount.push_back(2271.01);
+    No_EWK_BinCount.push_back(452.511);
+    No_EWK_BinCount.push_back(141.151);
+    No_EWK_BinCount.push_back(19.4316);
   }
   else if(SR == "B_bveto"){
     MC_Closure_Error.push_back(.01);
@@ -82,12 +88,14 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.35);
     MC_Closure_Error.push_back(.35);
 
-    EWK_Error.push_back(137.293);
-    EWK_Error.push_back(271.125);
-    EWK_Error.push_back(212.483);
-    EWK_Error.push_back(99.2568);
-    EWK_Error.push_back(35.4253);
-    EWK_Error.push_back(10.2263);
+    EWK_LowBin = 600576;
+
+    No_EWK_BinCount.push_back(600713);
+    No_EWK_BinCount.push_back(110604);
+    No_EWK_BinCount.push_back(5438.1);
+    No_EWK_BinCount.push_back(874.468);
+    No_EWK_BinCount.push_back(132.358);
+    No_EWK_BinCount.push_back(145.25);
   }
   else if(SR == "ATLAS"){
     MC_Closure_Error.push_back(.02);
@@ -96,11 +104,13 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.35);
     MC_Closure_Error.push_back(.4);
 
-    EWK_Error.push_back(190.301);
-    EWK_Error.push_back(248.185);
-    EWK_Error.push_back(141.267);
-    EWK_Error.push_back(90.1497);
-    EWK_Error.push_back(82.3914);
+    EWK_LowBin = 162062;
+
+    No_EWK_BinCount.push_back(162253);
+    No_EWK_BinCount.push_back(38349.1);
+    No_EWK_BinCount.push_back(2206.38);
+    No_EWK_BinCount.push_back(387.413);
+    No_EWK_BinCount.push_back(221.375);
   }
   else if(SR == "TChiWZ"){
     MC_Closure_Error.push_back(.25);
@@ -110,12 +120,14 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
 
-    EWK_Error.push_back(429.72);
-    EWK_Error.push_back(746.685);
-    EWK_Error.push_back(401.665);
-    EWK_Error.push_back(209.264);
-    EWK_Error.push_back(62.5741);
-    EWK_Error.push_back(65.9222);
+    EWK_LowBin = 267770;
+
+    No_EWK_BinCount.push_back(429.72);
+    No_EWK_BinCount.push_back(746.685);
+    No_EWK_BinCount.push_back(401.665);
+    No_EWK_BinCount.push_back(209.264);
+    No_EWK_BinCount.push_back(62.5741);
+    No_EWK_BinCount.push_back(65.9222);
   }
   else if(SR == "EdgeZ"){
     MC_Closure_Error.push_back(.25);
@@ -125,13 +137,18 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
 
-    EWK_Error.push_back(3749.37);
-    EWK_Error.push_back(10119.1);
-    EWK_Error.push_back(4455.25);
-    EWK_Error.push_back(2006.42);
-    EWK_Error.push_back(892.348);
-    EWK_Error.push_back(451.202);
+    EWK_LowBin = 31076500;
+
+    No_EWK_BinCount.push_back(31080300);
+    No_EWK_BinCount.push_back(2967940);
+    No_EWK_BinCount.push_back(62709);
+    No_EWK_BinCount.push_back(9635.23);
+    No_EWK_BinCount.push_back(2689.45);
+    No_EWK_BinCount.push_back(1058.18);
   }
+
+  double EWK_Norm = bin_count[0]/EWK_LowBin;
+  //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
 
   double err_bin; //error in bin
 
