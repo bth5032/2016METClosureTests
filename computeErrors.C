@@ -295,7 +295,7 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
   for (int i = 0; i<rare_err.size(); i++){
     cout<<" & "<<rare_count[i]<<"$\\pm$"<<rare_err[i];
   }
-  cout<<" \\\\" <<endl;
+  cout<<" \\\\ \\hline" <<endl;
   cout<<"LATEXTABLE: Sum ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ ";
