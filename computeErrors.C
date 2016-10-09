@@ -140,8 +140,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     cout<<"Stat Error: "<< stat_err[i];
     err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
     cout<<" Closure Error: "<<bin_count[i]*MC_Closure_Error[i];
-    err_bin += normalization*normalization; //Normalization of Zjets
-    cout<<" Normalization: "<<normalization;
+    err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
+    cout<<" Normalization: "<<normalization*bin_count[i];
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
     err_bin += EWK_Error[i]*EWK_Error[i]; //EWK Subtraction
     cout<<" EWK Subtraction: "<<EWK_Error[i];
