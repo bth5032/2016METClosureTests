@@ -368,6 +368,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     vector<double> template_count;
     vector<double> template_error;
+
+
     double t_err; //placeholder for template error
 
     vector<double> rare_count;
