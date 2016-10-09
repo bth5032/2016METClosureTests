@@ -589,7 +589,7 @@ double getWeight(){
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
     }
-    if (conf->get("data_set")=="SinglePhoton" && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+    if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
       weight *= -12.9; //EWK Subtraction
     }
   }
