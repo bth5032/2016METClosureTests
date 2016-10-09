@@ -9,7 +9,7 @@
 using namespace std;
 
 void printDiff(TString a, TString b, TString c){
-  cout<<setprecision(10);
+  cout<<setprecision(15);
 
   TFile* norm_file = TFile::Open(c);
   TFile* sub_file = TFile::Open(a);
