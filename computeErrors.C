@@ -248,12 +248,12 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
   cout<<"STATTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
+    cout<<temp_count[i]<<"$\pm$"<<temp_err[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
-    cout<<RSFOF*fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
+    cout<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"} ";
   }
   cout<<endl;
     cout<<"STATTABLE: Rares ";
