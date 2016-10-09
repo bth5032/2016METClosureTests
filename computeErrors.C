@@ -248,27 +248,61 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
   cout<<"STATTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<temp_count[i]<<"$\pm$"<<temp_err[i]<<" ";
+    cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: FS ";
   for (int i = 0; i<fs_err.first.size(); i++){
-    cout<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"} ";
+    cout<<RSFOF*fs_count[i]<<"+"<<fs_err.first[i]<<"-"<<fs_err.second[i]<<" ";
   }
   cout<<endl;
     cout<<"STATTABLE: Rares ";
   for (int i = 0; i<rare_err.size(); i++){
-    cout<<rare_count[i]<<"$\pm$"<<rare_err[i]<<" ";
+    cout<<rare_count[i]<<"+/-"<<rare_err[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Sum ";
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ ";
+    cout<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"+"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"-"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Data ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<data_count[i]<<" ";
+  }
+  cout<<endl;
+}
+
+void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
+  cout<<"LATEXTABLE: \\begin{tabular} {l | l | l | l | l | l | l }"
+  cout<<"LATEXTABLE: Sample ";
+  for (int i = 0; i<temp_err.size(); i++){
+    cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" & ";
+  }
+  cout<<" \\\\ \\hline "<<endl;
+  cout<<"LATEXTABLE: Template ";
+  for (int i = 0; i<temp_err.size(); i++){
+    cout<<temp_count[i]<<"$\\pm$"<<temp_err[i]<<" & ";
+  }
+  cout<<" \\\\" <<endl;
+  cout<<"LATEXTABLE: FS ";
+  for (int i = 0; i<fs_err.first.size(); i++){
+    cout<<"$"<<RSFOF*fs_count[i]<<"^{"<<fs_err.first[i]<<"}_{"<<fs_err.second[i]<<"} ";
+  }
+  cout<<" \\\\" <<endl;
+    cout<<"LATEXTABLE: Rares ";
+  for (int i = 0; i<rare_err.size(); i++){
+    cout<<rare_count[i]<<"$\\pm$"<<rare_err[i]<<" & ";
+  }
+  cout<<" \\\\" <<endl;
+  cout<<"LATEXTABLE: Sum ";
+  for (int i = 0; i<temp_err.size(); i++){
+    cout<<"$"<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"^{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.first[i]*fs_err.first[i])<<"}_{"<<sqrt(temp_err[i]*temp_err[i]+rare_err[i]*rare_err[i]+fs_err.second[i]*fs_err.second[i])<<"}$ & ";
+  }
+  cout<<"\\\\ \\hline"<<endl;
+  cout<<"LATEXTABLE: Data ";
+  for (int i = 0; i<temp_err.size(); i++){
+    cout<<data_count[i]<<" & ";
   }
   cout<<endl;
 }

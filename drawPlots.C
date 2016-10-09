@@ -429,6 +429,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //cout<<__LINE__<<endl;
 
     printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+    printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
     //cout<<__LINE__<<endl;
 
     for (int i=0; i < num_hists; i++){
