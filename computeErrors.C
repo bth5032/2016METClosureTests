@@ -263,7 +263,7 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
   cout<<"STATTABLE: Sum ";
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<temp_count[i]+fs_count[i]+rare_count[i]<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
+    cout<<temp_count[i]+RSFOF*fs_count[i]+rare_count[i]<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
   cout<<"STATTABLE: Data ";
