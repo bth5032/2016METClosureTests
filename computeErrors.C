@@ -151,8 +151,12 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
 
   double err_bin; //error in bin
+  double ewk_err; //EWK error in bin
 
   for (int i=0; i<stat_err.size(); i++){
+
+    ewk_err = bin_count[i] - EWK_Norm*No_EWK_BinCount[i];
+
     cout<<"TRACE| Bin "<<i<<" ";
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
     cout<<"Stat Error: "<< stat_err[i];
@@ -161,8 +165,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
     cout<<" Normalization: "<<normalization*bin_count[i];
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
-    err_bin += EWK_Error[i]*EWK_Error[i]; //EWK Subtraction
-    cout<<" EWK Subtraction: "<<EWK_Error[i];
+    err_bin += ewk_err*ewk_err; //EWK Subtraction
+    cout<<" EWK Subtraction: "<<ewk_err;
     cout<<" Stat+Norm+Closure+EWK: "<<sqrt(err_bin)<<endl;
 
     output_errors.push_back(sqrt(err_bin));
