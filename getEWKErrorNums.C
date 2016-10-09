@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 void printDiff(TString a, TString b, TString c){
   cout<<setprecision(15);
 
