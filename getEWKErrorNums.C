@@ -23,7 +23,8 @@ void printDiff(TString a, TString b, TString c){
   double scale_no_sub = norm_count/(no_sub_hist->Integral(no_sub_hist->FindBin(0), no_sub_hist->FindBin(49.9)));
 
   sub_hist->Scale(scale_sub);
-  no_sub_hist->Scale(scale_no_sub);
+  //no_sub_hist->Scale(scale_no_sub);
+  no_sub_hist->Scale(scale_sub);
 
 
   vector<double> bins;
