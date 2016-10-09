@@ -147,8 +147,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     No_EWK_BinCount.push_back(1058.18303606238);
   }
 
-  double EWK_Norm = bin_count[0]/EWK_LowBin;
-  //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
+  //double EWK_Norm = bin_count[0]/EWK_LowBin;
+  double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
 
   double err_bin; //error in bin
   double ewk_err; //EWK error in bin
