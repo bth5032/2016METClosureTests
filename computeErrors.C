@@ -304,8 +304,8 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
   for (int i = 0; i<temp_err.size(); i++){
     cout<<data_count[i]<<" & ";
   }
-  cout<<endl;
-  cout<<"\\end{tabular}"<<endl;
+  cout<<" \\\\ "<<endl;
+  cout<<"LATEXTABLE: \\end{tabular}"<<endl;
 }
 
 void computeErrors(){
