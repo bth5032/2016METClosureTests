@@ -4,10 +4,13 @@
 #include <vector>
 #include <utility>
 #include <iostream>
+#include <iomanip> 
 
 using namespace std;
 
 void printDiff(TString a, TString b, TString c){
+  cout<<setprecision(10);
+
   TFile* norm_file = TFile::Open(c);
   TFile* sub_file = TFile::Open(a);
   TFile* no_sub_file = TFile::Open(b); 
