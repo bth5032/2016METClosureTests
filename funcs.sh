@@ -324,5 +324,10 @@ function closureTable {
 }
 
 function getPredictionTable {
-	cat $1 | grep STATTABLE | cut -d' ' -f2- | mt
+	if [[ $2 == "l" ]]
+	then
+		cat $1 | grep LATEXTABLE | cut -d' ' -f2-
+	else
+		cat $1 | grep STATTABLE | cut -d' ' -f2- | mt
+	fi
 }
