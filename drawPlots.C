@@ -409,7 +409,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       //cout<<__LINE__<<endl;
 
-      ZZ_count += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
+      ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
       ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
       //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
 
