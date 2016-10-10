@@ -30,8 +30,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   vector<double> MC_Closure_Error;
 
   if (SR == "A_btag"){
-    MC_Closure_Error.push_back(.02);
-    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.01);
+    MC_Closure_Error.push_back(.05);
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.4);
@@ -130,12 +130,12 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     No_EWK_BinCount.push_back(65.9222);
   }
   else if(SR == "EdgeZ"){
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.01);
+    MC_Closure_Error.push_back(.05);
+    MC_Closure_Error.push_back(.05);
+    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.07);
 
     EWK_LowBin = 31076507.4929719;
 

@@ -372,9 +372,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     double t_err; //placeholder for template error
 
-    vector<double> rare_count;
-    vector<double> rare_error;
-    double r_err; //placeholder for rare error
+    vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
+    vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
 
     vector<double> FS_count;
 
@@ -399,34 +398,38 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       
       //cout<<__LINE__<<endl;
       
-      rare_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), r_err));
-      rare_error.push_back(r_err*r_err);
+      ZZ_count[i].push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
-      rare_error[i] += r_err*r_err;
+      WZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]);
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), r_err);
-      rare_error[i] += r_err*r_err;
+      VVV_count[i] += hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]);
 
       //cout<<__LINE__<<endl;
 
-      rare_count[i] += hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), r_err);
-      rare_error[i] += r_err*r_err;
-
-      rare_error[i] = sqrt(rare_error[i]);
+      TTV_count[i] += hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]);
       //cout<<__LINE__<<endl;
     }
+
+    //Compute Rare Sample Errors
+    ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
+    WZ_err = getRareSamplesError(WZ_err, WZ_count);
+    VVV_err = getRareSamplesError(VVV_err, VVV_count);
+    TTV_err = getRareSamplesError(TTV_err, TTV_count);
+
 
     vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
     //cout<<__LINE__<<endl;
     pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
     //cout<<__LINE__<<endl;
-    vector<double> rare_err = getRareSamplesError(rare_error, rare_count);
-    //cout<<__LINE__<<endl;
+
+    for (int i = 0; i < ZZ_err.size(); i++){
+      rare_count[i]=ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i];
+      rare_err=sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]);
+    }
 
     printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
     printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
