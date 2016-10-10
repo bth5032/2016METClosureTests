@@ -432,8 +432,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     cout<<__LINE__<<endl;
 
     for (int i = 0; i < ZZ_err.size(); i++){
-      rare_count[i]=ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i];
-      rare_err[i]=sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]);
+      rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
+      rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
     }
 
     printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
