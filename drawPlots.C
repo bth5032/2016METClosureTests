@@ -398,6 +398,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       
       cout<<__LINE__<<endl;
       
+      ZZ_err.push_back(0);
+      WZ_err.push_back(0);
+      VVV_err.push_back(0);
+      TTV_err.push_back(0);
+
       ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
 
       cout<<__LINE__<<endl;
