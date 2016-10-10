@@ -619,6 +619,9 @@ double getWeight(){
   
       weight*=phys.weightsf_lepip().at(0);
       weight*=phys.weightsf_lepip().at(1);
+
+      weight*=phys.weightsf_lepreco().at(0);
+      weight*=phys.weightsf_lepreco().at(1);
     }
     
     weight*=phys.weight_btagsf();
