@@ -198,11 +198,12 @@ pair<vector<double>,vector<double>> getFSError(vector<double> bin_count, double 
 
 vector<double> getRareSamplesError(vector<double> stat_err, vector<double> bin_count){
   double catch_all_error = .5; //This is the amount of error to assign as a catchall number for the MC prediction. That is, we expect MC to correctly predict the answer to within this percentage.
-  double err_bin = 0;
+  double err_bin;
 
   vector<double> error;
 
   for(int i=0; i<stat_err.size(); i++){
+    err_bin = 0;
     err_bin += catch_all_error*catch_all_error*bin_count[i]*bin_count[i];
     err_bin += stat_err[i]*stat_err[i];
 
