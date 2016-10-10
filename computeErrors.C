@@ -249,6 +249,9 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
   cout<<"STATTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
+    if (temp_count[i] < 0){
+      temp_count[i] = 0;
+    }
     cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
