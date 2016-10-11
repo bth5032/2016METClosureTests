@@ -263,6 +263,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     cout<<"Num Events BG: "<<numEventsMC<<endl;
     //rescale everything to scale factor
     scaleFactor = ((double) numEventsData/numEventsMC);
+    cout<<"Applying scale factor "<<scaleFactor<<" to MET templates hist."<<endl;
     for (int i = 1; i<num_hists; i++){
       if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ){
         hists[i]->Scale(scaleFactor);  //if hist is marked for norm or no hists marked for norms.

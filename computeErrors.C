@@ -99,6 +99,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   double EWK_Norm = bin_count[0]/EWK_LowBin;
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
 
+  cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
+
   double err_bin; //error in bin
   double ewk_err; //EWK error in bin
 
