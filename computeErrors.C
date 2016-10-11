@@ -26,6 +26,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //=========
 
   vector<double> No_EWK_BinCount;
+  
+  pair<double, vector<double>> EWK_Data;
   double EWK_LowBin;
   vector<double> MC_Closure_Error;
 
@@ -36,15 +38,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.4);
     MC_Closure_Error.push_back(.4);
-
-    EWK_LowBin = 42700.4034049053;
-
-    No_EWK_BinCount.push_back(42735.6462299816);
-    No_EWK_BinCount.push_back(13040.3035059966);
-    No_EWK_BinCount.push_back(961.179201767482);
-    No_EWK_BinCount.push_back(275.403015374794);
-    No_EWK_BinCount.push_back(29.7438917754633);
-    No_EWK_BinCount.push_back(45.7241551041078);
   }
   else if(SR == "A_bveto"){
     MC_Closure_Error.push_back(.02);
@@ -53,15 +46,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.2);
     MC_Closure_Error.push_back(.25);
-
-    EWK_LowBin = 267769.503918135;
-
-    No_EWK_BinCount.push_back(267773.901753913);
-    No_EWK_BinCount.push_back(74647.7423379096);
-    No_EWK_BinCount.push_back(5435.29060061884);
-    No_EWK_BinCount.push_back(968.266188748323);
-    No_EWK_BinCount.push_back(654.697936344355);
-    No_EWK_BinCount.push_back(115.101182467609);
   }
   else if (SR == "B_btag"){
     MC_Closure_Error.push_back(.01);
@@ -70,15 +54,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.3);
     MC_Closure_Error.push_back(.3);
-    
-    EWK_LowBin = 164153.245918587;
-    
-    No_EWK_BinCount.push_back(164874.440945203);
-    No_EWK_BinCount.push_back(33269.4533825993);
-    No_EWK_BinCount.push_back(2271.01231960854);
-    No_EWK_BinCount.push_back(452.51087730012);
-    No_EWK_BinCount.push_back(141.150849300329);
-    No_EWK_BinCount.push_back(19.431625988652);
   }
   else if(SR == "B_bveto"){
     MC_Closure_Error.push_back(.01);
@@ -87,15 +62,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.1);
     MC_Closure_Error.push_back(.35);
     MC_Closure_Error.push_back(.35);
-
-    EWK_LowBin = 600575.996079145;
-
-    No_EWK_BinCount.push_back(600713.289517667);
-    No_EWK_BinCount.push_back(110603.531253203);
-    No_EWK_BinCount.push_back(5438.10365165714);
-    No_EWK_BinCount.push_back(874.468338071326);
-    No_EWK_BinCount.push_back(132.357553895084);
-    No_EWK_BinCount.push_back(145.249685506808);
   }
   else if(SR == "ATLAS"){
     MC_Closure_Error.push_back(.02);
@@ -103,14 +69,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.35);
     MC_Closure_Error.push_back(.4);
-
-    EWK_LowBin = 162062.45358702;
-
-    No_EWK_BinCount.push_back(162252.754145217);
-    No_EWK_BinCount.push_back(38349.076835869);
-    No_EWK_BinCount.push_back(2206.38123230649);
-    No_EWK_BinCount.push_back(387.413146916147);
-    No_EWK_BinCount.push_back(221.374639691808);
   }
   else if(SR == "TChiWZ"){
     MC_Closure_Error.push_back(.25);
@@ -119,15 +77,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
-
-    EWK_LowBin = 267770;
-
-    No_EWK_BinCount.push_back(429.72);
-    No_EWK_BinCount.push_back(746.685);
-    No_EWK_BinCount.push_back(401.665);
-    No_EWK_BinCount.push_back(209.264);
-    No_EWK_BinCount.push_back(62.5741);
-    No_EWK_BinCount.push_back(65.9222);
   }
   else if(SR == "EdgeZ"){
     MC_Closure_Error.push_back(.01);
@@ -136,17 +85,16 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.07);
     MC_Closure_Error.push_back(.07);
     MC_Closure_Error.push_back(.07);
-
-    EWK_LowBin = 31076507.4929719;
-
-    No_EWK_BinCount.push_back(31080256.8594184);
-    No_EWK_BinCount.push_back(2967944.23267151);
-    No_EWK_BinCount.push_back(62709.0494743355);
-    No_EWK_BinCount.push_back(9635.22882731112);
-    No_EWK_BinCount.push_back(2689.44657056686);
-    No_EWK_BinCount.push_back(1058.18303606238);
   }
 
+  EWK_Data = getEWKNumsForSample(SR);
+  EWK_LowBin = EWK_Data.first;
+  No_EWK_BinCount = EWK_Data.second;
+
+  //The following are two ways to normalize the sample.
+  //The first derives the scale factor for the EWK subtracted sample.
+  //The second derives it for the non EWK subtracted sample.
+  //The first is only there for testing purposes.
   double EWK_Norm = bin_count[0]/EWK_LowBin;
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
 

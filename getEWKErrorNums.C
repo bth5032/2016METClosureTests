@@ -10,19 +10,19 @@ using namespace std;
 
 vector<TString> getFileLocation(TString sample_name){
   vector<TString> fnames;
-  if (sample_name=="A_Btag"){
+  if (sample_name=="A_btag"){
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_btag.root");
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_btag.root");
   }
-  else if (sample_name=="A_Bveto"){
+  else if (sample_name=="A_bveto"){
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_A_bveto.root");
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_A_bveto.root");
   }
-  else if (sample_name=="B_Btag"){
+  else if (sample_name=="B_btag"){
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_btag.root");
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_btag.root");
   }
-  else if (sample_name=="B_Bveto"){
+  else if (sample_name=="B_bveto"){
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_B_bveto.root");
     fnames.push_back("/nfs-7/userdata/bobak/GJetsClosureTests2016/Data_NoEWKSub/ct_G_Reweight_B_bveto.root");
   }
@@ -46,12 +46,12 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   cout<<setprecision(15);
   vector<TString> fnames = getFileLocation(sample_name);
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   TFile* sub_file = TFile::Open(fnames[0]);
   TFile* no_sub_file = TFile::Open(fnames[1]);
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));   
@@ -59,7 +59,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   vector<double> bins, noSubNums;
   double lowbin_withEwkSub;
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if(sample_name == "ATLAS"){
     bins.push_back(0);
@@ -85,7 +85,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   for (std::vector<double>::iterator i = bins.begin(); (i+1) != bins.end(); i++){
     count_in_sub = sub_hist->Integral(sub_hist->FindBin(*i), sub_hist->FindBin(*(i+1))-.05);
     count_in_no = no_sub_hist->Integral(no_sub_hist->FindBin(*i), no_sub_hist->FindBin(*(i+1))-.05);
-    
+
     cout<<"bin: "<<*i<<"-"<<*(i+1)<<" sub: "<<count_in_sub<<" no sub: "<<count_in_no<<" diff: "<<count_in_no - count_in_sub<<endl;
 
     if (i == bins.begin()){
@@ -149,10 +149,10 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
 void getEWKErrorNums(){
   vector<TString> SR;
 
-  SR.push_back("A_Btag");
-  SR.push_back("A_Bveto");
-  SR.push_back("B_Btag");
-  SR.push_back("B_Bveto");
+  SR.push_back("A_btag");
+  SR.push_back("A_bveto");
+  SR.push_back("B_btag");
+  SR.push_back("B_bveto");
   SR.push_back("ATLAS");
   SR.push_back("EdgeZ");
 
