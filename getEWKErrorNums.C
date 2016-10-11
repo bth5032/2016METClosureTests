@@ -46,14 +46,20 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   cout<<setprecision(15);
   vector<TString> fnames = getFileLocation(sample_name);
 
+  cout<<__LINE__<<endl;
+
   TFile* sub_file = TFile::Open(fnames[0]);
   TFile* no_sub_file = TFile::Open(fnames[1]);
+
+  cout<<__LINE__<<endl;
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("gjets_type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("gjets_type1MET"));   
 
   vector<double> bins, noSubNums;
   double lowbin_withEwkSub;
+
+  cout<<__LINE__<<endl;
 
   if(sample_name == "ATLAS"){
     bins.push_back(0);
@@ -74,6 +80,8 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   }
 
   cout<<"Deriving EWK Subtraction numbers:"<<endl;
+
+  double count_in_sub, count_in_no;
   for (std::vector<double>::iterator i = bins.begin(); (i+1) != bins.end(); i++){
     count_in_sub = sub_hist->Integral(sub_hist->FindBin(*i), sub_hist->FindBin(*(i+1))-.05);
     count_in_no = no_sub_hist->Integral(no_sub_hist->FindBin(*i), no_sub_hist->FindBin(*(i+1))-.05);
