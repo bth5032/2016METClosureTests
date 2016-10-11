@@ -2,6 +2,7 @@
 #include <utility>
 #include "TString.h"
 #include "RooHistError.h"
+#include "getEWKErrorNums.C"
 
 using namespace std;
 
