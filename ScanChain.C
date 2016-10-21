@@ -1022,7 +1022,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_pileup_hist_file->Close();
   }
   //cout<<__LINE__<<endl;
-  if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("FSBKG") == "true")) ){
+  /*if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("FSBKG") == "true")) ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
@@ -1036,7 +1036,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_l1prescale_hist22->SetDirectory(rootdir);
 
     g_l1prescale_file->Close();
-  }
+  }*/
   //cout<<__LINE__<<endl;
   
   if( conf->get("reweight_eff") == "true" ){
