@@ -22,8 +22,8 @@ DEFAULT::normalize=true
 DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/higgs/Ratio/
 
 #Histo locations
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_EWK_Higgs.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_EWK_Higgs.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Data/ct_Z_Base_EWK_Higgs.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Data/ct_G_Reweight_EWK_Higgs.root
 
 #Sample Names
 DEFAULT::hist_0_prefix=zjets
@@ -42,7 +42,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 print_stats=true
 stats_low_val=0
 stats_high_val=60
@@ -56,7 +56,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 print_stats=true
 stats_low_val=60
 stats_high_val=80
@@ -70,7 +70,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 print_stats=true
 stats_low_val=80
 stats_high_val=100
@@ -84,7 +84,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 print_stats=true
 stats_low_val=100
 stats_high_val=6001

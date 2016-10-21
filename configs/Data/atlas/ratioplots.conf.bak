@@ -21,8 +21,8 @@ DEFAULT::normalize=true
 DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Data/SR/atlas/Ratio/
 
 #Histo locations
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_Z_Base_ATLAS.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/ct_G_Reweight_ATLAS.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Data/ct_Z_Base_ATLAS.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Data/ct_G_Reweight_ATLAS.root
 
 #Sample Names
 DEFAULT::hist_0_prefix=zjets
@@ -40,7 +40,7 @@ xmax=6000
 bin_size=1
 xlabel=P_{T} [GeV]
 ylabel=Count / 5 GeV
-hist_name=vpt
+hist_0_name=vpt
 
 Name=vpt_ratio
 plot_name=BosonPT
@@ -50,7 +50,7 @@ xmax=500
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
 bin_size=1
-hist_name=vpt
+hist_0_name=vpt
 
 Name=t1met_longtail
 plot_name=Type1MET_longtail
@@ -60,7 +60,7 @@ xmax=6000
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=type1MET
+hist_0_name=type1MET
 
 Name=t1met
 plot_name=Type1MET
@@ -70,7 +70,7 @@ xmax=150
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=type1MET
+hist_0_name=type1MET
 
 Name=t1met_log
 plot_name=Type1MET_Log
@@ -81,7 +81,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 
 Name=t1met_log_wide
 plot_name=Type1MET_Log_wide
@@ -92,7 +92,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
 logy=true
-hist_name=type1MET
+hist_0_name=type1MET
 
 Name=rawmet_longtail
 plot_name=RawMET_longtail
@@ -102,7 +102,7 @@ xmax=6000
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=rawMET
+hist_0_name=rawMET
 
 Name=rawmet
 plot_name=RawMET
@@ -112,7 +112,7 @@ xmax=150
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=rawMET
+hist_0_name=rawMET
 
 Name=ht_longtail
 plot_name=HT_longtail
@@ -122,7 +122,7 @@ xmax=6000
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=ht
+hist_0_name=ht
 
 Name=ht
 plot_name=HT
@@ -132,7 +132,7 @@ xmax=500
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count / 5 GeV
 bin_size=5
-hist_name=ht
+hist_0_name=ht
 
 Name=njets
 plot_name=NJets
@@ -142,7 +142,7 @@ xmax=10
 xlabel=Number of Jets
 ylabel=Count
 bin_size=1
-hist_name=njets
+hist_0_name=njets
 
 Name=nbtags_t
 plot_name=NBtags_tight
@@ -152,7 +152,7 @@ xmax=5
 xlabel=Number of Jets
 ylabel=Count
 bin_size=1
-hist_name=nbtags_t
+hist_0_name=nbtags_t
 
 Name=nbtags_m
 plot_name=NBtags_medium
@@ -162,7 +162,7 @@ xmax=5
 xlabel=Number of Jets
 ylabel=Count
 bin_size=1
-hist_name=nbtags_m
+hist_0_name=nbtags_m
 
 Name=nbtags_l
 plot_name=NBtags_loose
@@ -172,7 +172,7 @@ xmax=5
 xlabel=Number of Jets
 ylabel=Count
 bin_size=1
-hist_name=nbtags_l
+hist_0_name=nbtags_l
 
 Name=nVert
 plot_name=nVert
@@ -182,7 +182,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert
+hist_0_name=nVert
 
 Name=nVert_HLT_Photon165_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon165_R9Id90_HE10_IsoM
@@ -192,7 +192,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon165_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon165_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon120_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon120_R9Id90_HE10_IsoM
@@ -202,7 +202,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon120_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon120_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon90_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon90_R9Id90_HE10_IsoM
@@ -212,7 +212,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon90_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon90_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon75_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon75_R9Id90_HE10_IsoM
@@ -222,7 +222,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon75_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon75_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon50_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon50_R9Id90_HE10_IsoM
@@ -232,7 +232,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon50_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon50_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon36_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon36_R9Id90_HE10_IsoM
@@ -242,7 +242,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon36_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon36_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon30_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon30_R9Id90_HE10_IsoM
@@ -252,7 +252,7 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon30_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon30_R9Id90_HE10_IsoM
 
 Name=nVert_HLT_Photon22_R9Id90_HE10_IsoM
 plot_name=nVert_HLT_Photon22_R9Id90_HE10_IsoM
@@ -262,4 +262,4 @@ xmax=50
 xlabel=Number of Verticies
 ylabel=Count
 bin_size=1
-hist_name=nVert_HLT_Photon22_R9Id90_HE10_IsoM
+hist_0_name=nVert_HLT_Photon22_R9Id90_HE10_IsoM
