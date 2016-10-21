@@ -16,7 +16,7 @@ DEFAULT::FSBKG=true
 # Region B with Btag
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/FSBKG/
 DEFAULT::signal_region=B_btag
 DEFAULT::NBjets_min=1
 DEFAULT::Njets_min=4
@@ -24,6 +24,6 @@ DEFAULT::Njets_min=4
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=em
+data_set=ee_mm_em
 zjets=true
 gjets=false

@@ -590,7 +590,7 @@ double getWeight(){
       weight *= stod(conf->get("scaleTofb"));
     }
     if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
-      weight *= -12.9; //EWK Subtraction
+      weight *= -26.4; //EWK Subtraction
     }
   }
   //cout<<__LINE__<<endl;
@@ -1056,7 +1056,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   //cout<<__LINE__<<endl;
   //set goodrun list
-  const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // 12.9 fb
+  const char* json_file = "auxFiles/golden_json_260916_26p4fb_snt.txt"; // 26.4 fb
   cout<<"Setting good run list: "<<json_file<<endl;
   set_goodrun_file(json_file);
 

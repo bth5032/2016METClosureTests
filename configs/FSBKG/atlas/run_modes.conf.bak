@@ -16,7 +16,7 @@ DEFAULT::FSBKG=true
 # ATLAS Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/FSBKG/
 DEFAULT::signal_region=ATLAS
 
 DEFAULT::sum_HT_pt_pt=600
@@ -30,6 +30,6 @@ DEFAULT::lep2_pt_min=25
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=em
+data_set=ee_mm_em
 zjets=true
 gjets=false

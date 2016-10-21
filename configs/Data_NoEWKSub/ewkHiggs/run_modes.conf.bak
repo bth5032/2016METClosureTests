@@ -15,7 +15,7 @@ DEFAULT::data=true
 # EWK Higgs Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Data_NoEWKSub/
 DEFAULT::signal_region=EWK_Higgs
 DEFAULT::mbb_mh_diff=25
 DEFAULT::NBjets_min=2

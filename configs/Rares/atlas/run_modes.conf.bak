@@ -7,14 +7,14 @@
 #
 
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=2.058
+DEFAULT::scaleTofb=12.9
 DEFAULT::rares=true
 
 #============================
 # ATLAS Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares/
 DEFAULT::signal_region=ATLAS
 
 DEFAULT::sum_HT_pt_pt=600

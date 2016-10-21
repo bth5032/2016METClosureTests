@@ -16,7 +16,7 @@ DEFAULT::FSBKG=true
 # Region A with B Veto
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/FSBKG/
 DEFAULT::signal_region=A_bveto
 DEFAULT::NBjets_max=0
 DEFAULT::Njets_min=2
@@ -26,6 +26,6 @@ DEFAULT::HT_min=400
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=em
+data_set=ee_mm_em
 zjets=true
 gjets=false

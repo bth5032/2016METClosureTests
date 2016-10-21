@@ -7,14 +7,14 @@
 #
 
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=12.9
+DEFAULT::scaleTofb=12.9
 DEFAULT::rares=true
 
 #============================
 # Region A with Btag
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares/
 DEFAULT::signal_region=A_btag
 DEFAULT::NBjets_min=1
 DEFAULT::Njets_min=2

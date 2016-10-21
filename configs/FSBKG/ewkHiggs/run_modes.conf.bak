@@ -16,7 +16,7 @@ DEFAULT::FSBKG=true
 # EWK Higgs Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/GJetsClosureTests2016/FSBKG/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/FSBKG/
 DEFAULT::signal_region=EWK_Higgs
 DEFAULT::mbb_mh_diff=25
 DEFAULT::NBjets_min=2
@@ -25,6 +25,6 @@ DEFAULT::MT2b=200
 #Zjets Only Base Config
 Name=Z_Base
 data_type=zjets
-data_set=em
+data_set=ee_mm_em
 zjets=true
 gjets=false
