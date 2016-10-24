@@ -16,13 +16,13 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
 
 	h_nVert_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_nVert_d->SetMarkerStyle(20);
 	h_nVert_d->Draw("E1");
 	sf = h_nVert_d->Integral()/h_nVert_mc->Integral();
 	h_nVert_mc->Scale(sf);
 	h_nVert_mc->SetFillColor(9);
 	h_nVert_mc->SetLineColor(9);
 	h_nVert_mc->Draw("HIST SAME");
-
 
 	TLegend *l_nVert;
 	l_nVert = new TLegend(0.73, 0.73, 0.88, 0.88);
@@ -33,5 +33,68 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	l_nVert->AddEntry(h_nVert_d, "Data", "p");
 	l_nVert->AddEntry(h_nVert_mc, "MC", "f");
 
+	l_nVert->Draw("SAME");
+
 	c_nVert->SaveAs(out_dir+"nvert.png");
+
+//------------------
+// nJets Checking
+//------------------
+	TH1D *h_njets_d = (TH1D*) ((TH1D*) (f_data->Get("zjets_njets")))->Clone("h_njets_d");
+	TH1D *h_njets_mc = (TH1D*) ((TH1D*) (f_MC->Get("zjets_njets")))->Clone("h_njets_mc");
+
+	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
+
+	h_njets_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_njets_d->SetMarkerStyle(20);
+	h_njets_d->Draw("E1");
+	sf = h_njets_d->Integral()/h_njets_mc->Integral();
+	h_njets_mc->Scale(sf);
+	h_njets_mc->SetFillColor(9);
+	h_njets_mc->SetLineColor(9);
+	h_njets_mc->Draw("HIST SAME");
+
+	TLegend *l_nVert;
+	l_nVert = new TLegend(0.73, 0.73, 0.88, 0.88);
+
+	l_nVert->SetLineColor(kWhite);  
+	l_nVert->SetShadowColor(kWhite);
+	l_nVert->SetFillColor(kWhite);
+	l_nVert->AddEntry(h_njets_d, "Data", "p");
+	l_nVert->AddEntry(h_njets_mc, "MC", "f");
+
+	l_nVert->Draw("SAME");
+
+	c_nVert->SaveAs(out_dir+"njets.png");
+
+//------------------
+// HT Checking
+//------------------
+	TH1D *h_ht_d = (TH1D*) ((TH1D*) (f_data->Get("zjets_ht")))->Clone("h_ht_d");
+	TH1D *h_ht_mc = (TH1D*) ((TH1D*) (f_MC->Get("zjets_ht")))->Clone("h_ht_mc");
+
+	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
+
+	h_ht_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_ht_d->SetAxisRange(0,1000);
+	h_ht_d->SetMarkerStyle(20);
+	h_ht_d->Draw("E1");
+	sf = h_ht_d->Integral()/h_ht_mc->Integral();
+	h_ht_mc->Scale(sf);
+	h_ht_mc->SetFillColor(9);
+	h_ht_mc->SetLineColor(9);
+	h_ht_mc->Draw("HIST SAME");
+
+	TLegend *l_ht;
+	l_ht = new TLegend(0.73, 0.73, 0.88, 0.88);
+
+	l_ht->SetLineColor(kWhite);  
+	l_ht->SetShadowColor(kWhite);
+	l_ht->SetFillColor(kWhite);
+	l_ht->AddEntry(h_ht_d, "Data", "p");
+	l_ht->AddEntry(h_ht_mc, "MC", "f");
+
+	l_ht->Draw("SAME");
+
+	c_nVert->SaveAs(out_dir+"ht.png");
 }
