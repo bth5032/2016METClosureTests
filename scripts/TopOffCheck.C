@@ -7,6 +7,9 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	TFile *f_data = TFile::Open(dir_loc+"Data/ct_Z_Base_EdgeZ.root");
 	TFile *f_MC = TFile::Open(dir_loc+"ct_Z_Base_EdgeZ.root");
 	double sf = 0;
+
+	gStyle->SetOptStat(kFALSE);
+
 //------------------
 // nVert Checking
 //------------------
