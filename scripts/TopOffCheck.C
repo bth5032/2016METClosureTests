@@ -15,14 +15,17 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 
 	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
 
-	h_nVert_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_nVert_d->SetMarkerStyle(20);
-	h_nVert_d->Draw("E1");
+	
 	sf = h_nVert_d->Integral()/h_nVert_mc->Integral();
 	h_nVert_mc->Scale(sf);
+	
+	h_nVert_mc->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_nVert_mc->SetFillColor(9);
 	h_nVert_mc->SetLineColor(9);
-	h_nVert_mc->Draw("HIST SAME");
+	
+	h_nVert_mc->Draw("HIST");
+	h_nVert_d->Draw("E1 SAME");
 
 	TLegend *l_nVert;
 	l_nVert = new TLegend(0.73, 0.73, 0.88, 0.88);
@@ -45,14 +48,17 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 
 	TCanvas * c_njets = new TCanvas("c_njets", "", 2000, 2000);
 
-	h_njets_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_njets_d->SetMarkerStyle(20);
-	h_njets_d->Draw("E1");
+	
 	sf = h_njets_d->Integral()/h_njets_mc->Integral();
 	h_njets_mc->Scale(sf);
+	
+	h_njets_mc->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_njets_mc->SetFillColor(9);
 	h_njets_mc->SetLineColor(9);
+	
 	h_njets_mc->Draw("HIST SAME");
+	h_njets_d->Draw("E1 SAME");
 
 	TLegend *l_njets;
 	l_njets = new TLegend(0.73, 0.73, 0.88, 0.88);
@@ -75,15 +81,18 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 
 	TCanvas * c_ht = new TCanvas("c_ht", "", 2000, 2000);
 
-	h_ht_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
-	h_ht_d->SetAxisRange(0,1000);
 	h_ht_d->SetMarkerStyle(20);
-	h_ht_d->Draw("E1");
+	
 	sf = h_ht_d->Integral()/h_ht_mc->Integral();
 	h_ht_mc->Scale(sf);
+	
+	h_ht_mc->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_ht_mc->SetAxisRange(0,1000);
 	h_ht_mc->SetFillColor(9);
 	h_ht_mc->SetLineColor(9);
-	h_ht_mc->Draw("HIST SAME");
+	
+	h_ht_mc->Draw("HIST");
+	h_ht_d->Draw("E1 SAME");
 
 	TLegend *l_ht;
 	l_ht = new TLegend(0.73, 0.73, 0.88, 0.88);
