@@ -14,7 +14,7 @@ DEFAULT::luminosity_fb=1
 # Z Histos
 #====================
 
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ClosureTests/Rares/SR/B/Bveto/combined/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ZMET2016_PostICHEP/Rares/SR/B/Bveto/combined/
 
 DEFAULT::histogram_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares/ct_combined_B_bveto.root
 
