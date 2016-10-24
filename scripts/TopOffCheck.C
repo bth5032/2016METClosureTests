@@ -33,5 +33,5 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	l_nVert->AddEntry(h_nVert_d, "Data", "p");
 	l_nVert->AddEntry(h_nVert_mc, "MC", "f");
 
-	c_nVert->Draw(out_dir+"nvert.png");
+	c_nVert->SaveAs(out_dir+"nvert.png");
 }
