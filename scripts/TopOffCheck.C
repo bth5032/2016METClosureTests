@@ -24,6 +24,7 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	h_nVert_mc->Scale(sf);
 	
 	h_nVert_mc->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_njets_mc->SetAxisRange(0,50);
 	h_nVert_mc->SetFillColor(9);
 	h_nVert_mc->SetLineColor(9);
 	
@@ -56,7 +57,8 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	sf = h_njets_d->Integral()/h_njets_mc->Integral();
 	h_njets_mc->Scale(sf);
 	
-	h_njets_mc->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
+	h_njets_mc->SetTitle("Number of Jets Data Vs. MC in Zjets.");
+	h_njets_mc->SetAxisRange(0,12);
 	h_njets_mc->SetFillColor(9);
 	h_njets_mc->SetLineColor(9);
 	
