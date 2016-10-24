@@ -43,7 +43,7 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	TH1D *h_njets_d = (TH1D*) ((TH1D*) (f_data->Get("zjets_njets")))->Clone("h_njets_d");
 	TH1D *h_njets_mc = (TH1D*) ((TH1D*) (f_MC->Get("zjets_njets")))->Clone("h_njets_mc");
 
-	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
+	TCanvas * c_njets = new TCanvas("c_njets", "", 2000, 2000);
 
 	h_njets_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_njets_d->SetMarkerStyle(20);
@@ -54,18 +54,18 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	h_njets_mc->SetLineColor(9);
 	h_njets_mc->Draw("HIST SAME");
 
-	TLegend *l_nVert;
-	l_nVert = new TLegend(0.73, 0.73, 0.88, 0.88);
+	TLegend *l_njets;
+	l_njets = new TLegend(0.73, 0.73, 0.88, 0.88);
 
-	l_nVert->SetLineColor(kWhite);  
-	l_nVert->SetShadowColor(kWhite);
-	l_nVert->SetFillColor(kWhite);
-	l_nVert->AddEntry(h_njets_d, "Data", "p");
-	l_nVert->AddEntry(h_njets_mc, "MC", "f");
+	l_njets->SetLineColor(kWhite);  
+	l_njets->SetShadowColor(kWhite);
+	l_njets->SetFillColor(kWhite);
+	l_njets->AddEntry(h_njets_d, "Data", "p");
+	l_njets->AddEntry(h_njets_mc, "MC", "f");
 
-	l_nVert->Draw("SAME");
+	l_njets->Draw("SAME");
 
-	c_nVert->SaveAs(out_dir+"njets.png");
+	c_njets->SaveAs(out_dir+"njets.png");
 
 //------------------
 // HT Checking
@@ -73,7 +73,7 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 	TH1D *h_ht_d = (TH1D*) ((TH1D*) (f_data->Get("zjets_ht")))->Clone("h_ht_d");
 	TH1D *h_ht_mc = (TH1D*) ((TH1D*) (f_MC->Get("zjets_ht")))->Clone("h_ht_mc");
 
-	TCanvas * c_nVert = new TCanvas("c_nVert", "", 2000, 2000);
+	TCanvas * c_ht = new TCanvas("c_ht", "", 2000, 2000);
 
 	h_ht_d->SetTitle("Number of Verticies Data Vs. MC in Zjets.");
 	h_ht_d->SetAxisRange(0,1000);
@@ -96,5 +96,5 @@ void TopOffCheck(TString dir_loc="/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP
 
 	l_ht->Draw("SAME");
 
-	c_nVert->SaveAs(out_dir+"ht.png");
+	c_ht->SaveAs(out_dir+"ht.png");
 }
