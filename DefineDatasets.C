@@ -34,7 +34,7 @@ TChain * getZJetsChain(TString data_set) {
 
   if (data_set.Contains("fullmc")){
     //ZZ Sample
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/zz_2l2q_amcnlo*.root" ));
+    ch_Zjets->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/zz_2l2q_amcnlo*.root" ));
     //WZ Sample
     ch_Zjets->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/wz_2l2q_amcnlo*.root" ));
   }

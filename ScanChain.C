@@ -1196,9 +1196,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;
       mt2b->Fill(phys.mt2b(), weight);
       //cout<<__LINE__<<endl;
-      dphi_jet1_met->Fill(acos(cos(leptons.phi() - phys.jets_p4().at(0).phi())), weight);
+      dphi_jet1_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(0).phi())), weight);
       //cout<<__LINE__<<endl;
-      dphi_jet2_met->Fill(acos(cos(leptons.phi() - phys.jets_p4().at(1).phi())), weight);
+      dphi_jet2_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(1).phi())), weight);
       //cout<<__LINE__<<endl;
 
 //=======================================
@@ -1224,22 +1224,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
-
-      //Vince's Photon plots
-      if (conf->get("signal_region") == "VincePhotonPT" && phys.HLT_Photon165_R9Id90_HE10_IsoM()){
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 150){
-          met_150->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt_150->Fill(bosonPt(), weight);
-        } 
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 225){
-          met_225->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt_225->Fill(bosonPt(), weight);
-        } 
-        if (phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
-          met_300->Fill(phys.met_T1CHS_miniAOD_CORE_pt(), weight);
-          vpt_300->Fill(bosonPt(), weight);
-        } 
-      }
 
       if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
