@@ -895,6 +895,26 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
 
+  TH1D *mt2 = new TH1D(sampleName+"_mt2", "MT2 for "+sampleName, 500,0,500);
+  mt2->SetDirectory(rootdir);
+  mt2->Sumw2();
+
+  TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 500,0,500);
+  mt2b->SetDirectory(rootdir);
+  mt2b->Sumw2();
+
+  TH1D *nlep = new TH1D(sampleName+"_nlep", "Number of Leptons for "+sampleName, 20,0,20);
+  nlep->SetDirectory(rootdir);
+  nlep->Sumw2();
+
+  TH1D *dphi_jet1_met = new TH1D(sampleName+"_dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  dphi_jet1_met->SetDirectory(rootdir);
+  dphi_jet1_met->Sumw2();
+
+  TH1D *dphi_jet2_met = new TH1D(sampleName+"_dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  dphi_jet2_met->SetDirectory(rootdir);
+  dphi_jet2_met->Sumw2();
+
   TH1D *ht = new TH1D(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
@@ -936,43 +956,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
-
-  TH1D *vpt_150;
-  TH1D *vpt_225;
-  TH1D *vpt_300;
-
-  TH1D *met_150;
-  TH1D *met_225;
-  TH1D *met_300;
-
-  if (conf->get("signal_region") == "VincePhotonPT"){
-    vpt_150 = new TH1D(sampleName+"_vpt150", "Boson Pt for events with > 150GeV of MET in "+sampleName, 6000, 0, 6000);  
-    vpt_225 = new TH1D(sampleName+"_vpt225", "Boson Pt for events with > 225GeV of MET in "+sampleName, 6000, 0, 6000);  
-    vpt_300 = new TH1D(sampleName+"_vpt300", "Boson Pt for events with > 300GeV of MET in "+sampleName, 6000, 0, 6000);  
-
-    met_150 = new TH1D(sampleName+"_met150", "MET for events with > 150GeV of MET in "+sampleName, 6000, 0, 6000);  
-    met_225 = new TH1D(sampleName+"_met225", "MET for events with > 225GeV of MET in "+sampleName, 6000, 0, 6000);  
-    met_300 = new TH1D(sampleName+"_met300", "MET for events with > 300GeV of MET in "+sampleName, 6000, 0, 6000);  
-
-    vpt_150->SetDirectory(rootdir);
-    vpt_150->Sumw2();
-
-    vpt_225->SetDirectory(rootdir);
-    vpt_225->Sumw2();
-
-    vpt_300->SetDirectory(rootdir);
-    vpt_300->Sumw2();
-
-    met_150->SetDirectory(rootdir);
-    met_150->Sumw2();
-
-    met_225->SetDirectory(rootdir);
-    met_225->Sumw2();
-
-    met_300->SetDirectory(rootdir);
-    met_300->Sumw2();
-  }
-
 
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
@@ -1206,9 +1189,18 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_l->Fill(phys.nBJetLoose(), weight);
       nbtags_t->Fill(phys.nBJetTight(), weight);
       nVert->Fill(phys.nVert(), weight);
+      nlep->Fill(phys.nlep(), weight);
+      njets->Fill(phys.njets(), weight);
+      //cout<<__LINE__<<endl;
+      mt2->Fill(phys.mt2(), weight);
+      //cout<<__LINE__<<endl;
+      mt2b->Fill(phys.mt2b(), weight);
+      //cout<<__LINE__<<endl;
+      dphi_jet1_met->Fill(acos(cos(leptons.phi() - phys.jets_p4().at(0).phi())), weight);
+      //cout<<__LINE__<<endl;
+      dphi_jet2_met->Fill(acos(cos(leptons.phi() - phys.jets_p4().at(1).phi())), weight);
       //cout<<__LINE__<<endl;
 
-      //cout<<__LINE__<<endl;
 //=======================================
 // Debugging And Odd Corrections After Cuts
 //=======================================
@@ -1336,15 +1328,17 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   //cout<<__LINE__<<endl;
   nVert->Write();
   //cout<<__LINE__<<endl;
-  if (conf->get("signal_region") == "VincePhotonPT"){
-    met_150->Write();
-    vpt_150->Write();
-    met_225->Write();
-    vpt_225->Write();
-    met_300->Write();
-    vpt_300->Write();
-  }
+  njets->Write();
   //cout<<__LINE__<<endl;
+  mt2->Write();
+  //cout<<__LINE__<<endl;
+  mt2b->Write();
+  //cout<<__LINE__<<endl;
+  dphi_jet1_met->Write();
+  //cout<<__LINE__<<endl;
+  dphi_jet2_met->Write();
+  //cout<<__LINE__<<endl;
+
 
   if ( conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
   {

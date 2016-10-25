@@ -32,6 +32,13 @@ TChain * getZJetsChain(TString data_set) {
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/dy_m50_mgmlm_ht600_ext1*");
   }
 
+  if (data_set.Contains("fullmc")){
+    //ZZ Sample
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/zz_2l2q_amcnlo*.root" ));
+    //WZ Sample
+    ch_Zjets->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/wz_2l2q_amcnlo*.root" ));
+  }
+
   return ch_Zjets;
 }
 
@@ -91,6 +98,27 @@ TChain * getGJetsChain(TString data_set){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_1ltop_mgmlm.root");
   }
   return ch_Gjets;
+}
+
+//====================================
+// Flavor Symmetric MC
+//====================================
+TChain * getFSMCChain(TString data_set){
+  TChain *ch_fs = new TChain("t");
+
+  //TTbar
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_dilep_mgmlm*.root"));
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_1ltbr_mgmlm*.root"));
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_1ltop_mgmlm*.root"));
+ 
+  //Single Top
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/sttw_antitop_powheg*.root"));
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/sttw_top_powheg*.root"));
+
+  //WW
+  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ww_2l2nu_powheg*.root"));
+
+  return ch_fs;
 }
 
 //====================================
