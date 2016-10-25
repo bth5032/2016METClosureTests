@@ -29,7 +29,7 @@ void runScanChain(ConfigParser* conf){
     if (conf->get("FSBKG") == "true"){
       mc_chain->Add(getFSMCChain(conf->get("data_set")));
     }
-    if (conf->get("zjets") == "true") {
+    if (conf->get("zjets") == "true" && ! (conf->get("FSBKG") == "true") ) {
       mc_chain->Add(getZJetsChain(conf->get("data_set")));
     }
     if (conf->get("gjets") == "true") {
