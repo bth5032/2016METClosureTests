@@ -1190,7 +1190,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_t->Fill(phys.nBJetTight(), weight);
       nVert->Fill(phys.nVert(), weight);
       nlep->Fill(phys.nlep(), weight);
-      njets->Fill(phys.njets(), weight);
       //cout<<__LINE__<<endl;
       mt2->Fill(phys.mt2(), weight);
       //cout<<__LINE__<<endl;
@@ -1311,8 +1310,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nbtags_t->Write();
   //cout<<__LINE__<<endl;
   nVert->Write();
-  //cout<<__LINE__<<endl;
-  njets->Write();
   //cout<<__LINE__<<endl;
   mt2->Write();
   //cout<<__LINE__<<endl;
