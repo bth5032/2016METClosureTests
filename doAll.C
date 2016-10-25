@@ -25,18 +25,21 @@ void runScanChain(ConfigParser* conf){
     ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);
   }
   else{
+    TChain * mc_chain = new TChain("t");
+    if (conf->get("FSBKG") == "true"){
+      mc_chain->Add(getFSMCChain(conf->get("data_set")));
+    }
     if (conf->get("zjets") == "true") {
-      ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
+      mc_chain->Add(getZJetsChain(conf->get("data_set")));
     }
     if (conf->get("gjets") == "true") {
-      ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
+      mc_chain->Add(getGJetsChain(conf->get("data_set")));
     }
     if (conf->get("rare") == "true"){
-      ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);   
+      mc_chain->Add(getRareChain(conf->get("data_set")));
     }
-    if (conf->get("FSBKG") == "true"){
-      ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);   
-    }
+
+    ScanChain(mc_chain, conf->get("data_set"), conf);
   }
 }
 
