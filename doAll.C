@@ -39,7 +39,7 @@ void runScanChain(ConfigParser* conf){
       mc_chain->Add(getRareChain(conf->get("data_set")));
     }
 
-    ScanChain(mc_chain, conf->get("data_set"), conf);
+    ScanChain(mc_chain, conf->get("data_type"), conf);
   }
 }
 
