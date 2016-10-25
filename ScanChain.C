@@ -899,6 +899,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   mt2->SetDirectory(rootdir);
   mt2->Sumw2();
 
+  TH1D *dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+  dilmass->SetDirectory(rootdir);
+  dilmass->Sumw2();
+
   TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 500,0,500);
   mt2b->SetDirectory(rootdir);
   mt2b->Sumw2();
@@ -1199,6 +1203,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;
       dphi_jet2_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(1).phi())), weight);
       //cout<<__LINE__<<endl;
+      dilmass->Fill(phys.dilmass(), weight);
 
 //=======================================
 // Debugging And Odd Corrections After Cuts
@@ -1318,6 +1323,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   dphi_jet1_met->Write();
   //cout<<__LINE__<<endl;
   dphi_jet2_met->Write();
+  //cout<<__LINE__<<endl;
+  dilmass->Write();
   //cout<<__LINE__<<endl;
 
 
