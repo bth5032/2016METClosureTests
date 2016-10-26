@@ -220,9 +220,9 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_ee_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_ee_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_ee_v2*");*/
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016B_Prompt_ee_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016C_Prompt_ee_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_ee_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_ee_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_ee_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_ee_v2*");
   }
 
   if (trigger.Contains("em")){
@@ -233,9 +233,9 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em_v2*");*/
 
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016B_Prompt_em_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016C_Prompt_em_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_em_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_em_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_em_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_em_v2*");
   }
 
   if (trigger.Contains("mm")){
@@ -246,9 +246,9 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_mm_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_mm_v2*");*/
 
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016B_Prompt_mm_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016C_Prompt_mm_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-04_ichep/data_2016D_Prompt_mm_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_mm_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_mm_v2*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_mm_v2*");
   }
 
   return ch_Data;
