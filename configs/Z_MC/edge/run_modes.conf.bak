@@ -10,7 +10,7 @@ DEFAULT::scaleTofb=26.4
 DEFAULT::data_set=40100_100200_200400_400600_600Inf_inclusive_fullmc
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::scaleTofb=12.9
+DEFAULT::scaleTofb=11.7
 
 #============================
 # EdgeZ Region
