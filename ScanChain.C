@@ -1308,6 +1308,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   //cout<<__LINE__<<endl;
   njets->Write();
   //cout<<__LINE__<<endl;
+  nlep->Write();
+  //cout<<__LINE__<<endl;
   nbtags_m->Write();
   //cout<<__LINE__<<endl;
   nbtags_l->Write();
