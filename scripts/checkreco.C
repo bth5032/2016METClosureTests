@@ -30,12 +30,12 @@ void checkreco(){
 	TH1D* h_em_pr = new TH1D("h_em_pr", "", 20,81,101);
 
 	ch_ee_rereco->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 0 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
-	ch_mm_rereco->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 1 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
-	ch_em_rereco->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 2 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
+	ch_mm_rereco->Draw("dilmass>>h_mm_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 1 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
+	ch_em_rereco->Draw("dilmass>>h_em_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 2 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
 	
-	ch_ee_prompt->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 0 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
-	ch_mm_prompt->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 1 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
-	ch_em_prompt->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 2 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
+	ch_ee_prompt->Draw("dilmass>>h_ee_pr", "dilmass >= 81 && dilmass <= 101 && hyp_type == 0 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
+	ch_mm_prompt->Draw("dilmass>>h_mm_pr", "dilmass >= 81 && dilmass <= 101 && hyp_type == 1 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
+	ch_em_prompt->Draw("dilmass>>h_em_pr", "dilmass >= 81 && dilmass <= 101 && hyp_type == 2 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && (abs(abs(lep_p4[1].eta()) - 1.5) > 0.1)");
 
 	/*ch_ee_rereco->Draw("dilmass>>h_ee_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 0 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && ( ! abs(lep_p4[1].eta()) > 1.4 && abs(phys.lep_p4[1].eta()) < 1.6 ) && ( ! abs(lep_p4[0].eta()) > 1.4 && abs(phys.lep_p4[0].eta()) < 1.6 )");
 	ch_mm_rereco->Draw("dilmass>>h_mm_re", "dilmass >= 81 && dilmass <= 101 && hyp_type == 1 && lep_pt[0] >= 25 && lep_pt[1] >= 20 && abs(lep_p4[0].eta()) < 2.4 && abs(lep_p4[1].eta()) < 2.4 && evt_type == 0 && ( ! abs(lep_p4[1].eta()) > 1.4 && abs(phys.lep_p4[1].eta()) < 1.6 ) && ( ! abs(lep_p4[0].eta()) > 1.4 && abs(phys.lep_p4[0].eta()) < 1.6 ) ");
