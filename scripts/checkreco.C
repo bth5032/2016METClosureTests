@@ -40,3 +40,4 @@ void checkreco(){
 	cout<<"E E in Prompt: "<<h_ee_pr->Integral()<<" in Rereco: "<<h_ee_re->Integral()<<endl;
 	cout<<"Mu Mu in Prompt: "<<h_mm_pr->Integral()<<" in Rereco: "<<h_mm_re->Integral()<<endl;
 	cout<<"E Mu in Prompt: "<<h_em_pr->Integral()<<" in Rereco: "<<h_em_re->Integral()<<endl;
+}
