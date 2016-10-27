@@ -1,2 +1,0 @@
-mkdir /Volumes/uaf
-sshfs bhashemi@uaf-8.t2.ucsd.edu:/home/users/bhashemi/ /Volumes/uaf/
