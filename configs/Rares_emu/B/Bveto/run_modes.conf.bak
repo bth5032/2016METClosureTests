@@ -1,3 +1,4 @@
+DEFAULT::dilmass_high=-1
 DEFAULT::dilmass_low=20
 ## Configuration file for ConfigParser.
 #
