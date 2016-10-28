@@ -296,8 +296,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
-  //sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  
+  TLegend *l1;
+  l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
+  
+  l1->SetLineColor(kWhite);  
+  l1->SetShadowColor(kWhite);
+  l1->SetFillColor(kWhite);
+  //cout<<__LINE__<<endl;
+  l1->AddEntry(hists[0], hist_labels[0], "p");
+  for (int i = 1; i<num_hists; i++){
+    l1->AddEntry(hists[i], hist_labels[i], "f");
+  }
+  //cout<<__LINE__<<endl;
 
+  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  
   for (int i=1; i<num_hists; i++)
   {
     stack->Add(hists[i]);
@@ -499,18 +513,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   hists[0]->Draw("E1 SAME");
 
   plotpad->RedrawAxis();
-  //cout<<__LINE__<<endl;
-  TLegend *l1;
-  l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
-  
-  l1->SetLineColor(kWhite);  
-  l1->SetShadowColor(kWhite);
-  l1->SetFillColor(kWhite);
-  //cout<<__LINE__<<endl;
-  l1->AddEntry(hists[0], hist_labels[0], "p");
-  for (int i = 1; i<num_hists; i++){
-    l1->AddEntry(hists[i], hist_labels[i], "f");
-  }
   //cout<<__LINE__<<endl;
 
   l1->Draw("same");
