@@ -290,13 +290,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete clonedBG_norm;
   //cout<<__LINE__<<endl;
 
+
+
+
+
   //===========================
-  // MAKE STACK
+  // SET MC COLORS
   //===========================
-  //Add all the background hists to a stack.
-  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
-  
+  for (int i = 1; i<num_hists; i++){
+    hists[i]->SetFillColor(ROOTCOLORPALATE[(i-1) % ROOTCOLORPALATE.size()]);
+    hists[i]->SetFillStyle(1001);
+  }
+  //cout<<__LINE__<<endl;
+  hists[0]->SetMarkerStyle(20);
+
+  //===========================
+  // BUILD LEGEND
+  //===========================
+
   TLegend *l1;
   l1 = new TLegend(0.73, 0.73, 0.88, 0.88);
   
@@ -310,6 +322,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
 
+  //===========================
+  // MAKE STACK
+  //===========================
+  //Add all the background hists to a stack.
+  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
+  //cout<<__LINE__<<endl;
+  
+
   sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
   
   for (int i=1; i<num_hists; i++)
@@ -317,16 +337,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     stack->Add(hists[i]);
   } 
 
-  //===========================
-  // SET MC COLORS
-  //===========================
-  //cout<<__LINE__<<endl;
-  for (int i = 1; i<num_hists; i++){
-    hists[i]->SetFillColor(ROOTCOLORPALATE[(i-1) % ROOTCOLORPALATE.size()]);
-    hists[i]->SetFillStyle(1001);
-  }
-  //cout<<__LINE__<<endl;
-  hists[0]->SetMarkerStyle(20);
+
 
   //===========================
   // Find Plot Maxima
