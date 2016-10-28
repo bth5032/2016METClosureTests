@@ -327,7 +327,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
   //cout<<__LINE__<<endl;
   if (conf->get("ymax") != ""){
-    ymax = stod(conf->get(ymax));
+    ymax = stod(conf->get("ymax"));
   }
   else{
     if (clonedBG->GetMaximum() < clonedPrimary->GetMaximum()){
