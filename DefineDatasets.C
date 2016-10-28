@@ -226,9 +226,9 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_em_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_em_v2*");
+    /*ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_em_v1*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em_v1*");*/
   }
 
   if (trigger.Contains("mm")){
