@@ -319,17 +319,30 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   double ymax = 0;
+  double ymin = 0.001;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
   //cout<<__LINE__<<endl;
   clonedPrimary->GetXaxis()->SetRangeUser(xmin, xmax);
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
   //cout<<__LINE__<<endl;
-  if (clonedBG->GetMaximum() < clonedPrimary->GetMaximum()){
-      ymax = 1.2*clonedPrimary->GetMaximum();
+  if (conf->get("ymax") != ""){
+    ymax = stod(conf->get(ymax));
   }
-  else {
-      ymax = 1.2*clonedBG->GetMaximum();   
+  else{
+    if (clonedBG->GetMaximum() < clonedPrimary->GetMaximum()){
+        ymax = 1.2*clonedPrimary->GetMaximum();
+    }
+    else {
+        ymax = 1.2*clonedBG->GetMaximum();   
+    }
+    if (conf->get("logy") == "true"){
+      ymax *= 10;
+    }
+  }
+
+  if (conf->get("ymin") != ""){
+    ymin = stod(conf->get("ymin"));
   }
   //cout<<__LINE__<<endl;
   cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
@@ -339,7 +352,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete clonedPrimary;
   //cout<<__LINE__<<endl;
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,ymin,ymax);
   
   
   //-----------------------

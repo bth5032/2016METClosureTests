@@ -167,6 +167,8 @@ bool passBaseCut(){
     numEvents->Fill(9);
   }
 
+  /*if( !(phys.nveto_leptons() < 1 && phys.nlep() == 2 ) ) return false; // 3rd lep veto*/
+
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
   return pass;
 }
@@ -396,8 +398,29 @@ bool hasGoodZ(){
   //if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
 
   //cout<<__LINE__<<endl;
-  
-  if( !(phys.dilmass() > 81 && phys.dilmass() < 101) ) {
+  //Set up Dilepton Masses
+  double dilmass_low, dilmass_high;
+
+  if (conf->get("dilmass_low") == "") {
+    dilmass_low = 86;
+  }
+  else{
+    dilmass_low = stod(conf->get("dilmass_low"));
+  }
+
+  if (conf->get("dilmass_high") == ""){
+    dilmass_high = 96;
+  }
+  else{
+    dilmass_high = stod(conf->get("dilmass_high"));
+  }
+
+  if( phys.dilmass() < dilmass_low ) {
+    numEvents->Fill(22); 
+    //if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
+    return false; // on-Z
+  }
+  if( phys.dilmass() > dilmass_high && dilmass_high != -1 ) {
     numEvents->Fill(22); 
     //if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return false; // on-Z
