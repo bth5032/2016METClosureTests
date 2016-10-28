@@ -319,7 +319,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //cout<<__LINE__<<endl;
   double ymax = 0;
-  double ymin = 0.001;
+  double ymin = 0.1;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
   //cout<<__LINE__<<endl;
