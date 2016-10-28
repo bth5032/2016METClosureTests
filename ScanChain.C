@@ -240,6 +240,9 @@ bool passHLTs(){
       //good Mu/E event
       //cout<<__LINE__<<endl;
     }
+    else if (! phys.isData()){
+      return true;
+    }
     else{
       //cout<<__LINE__<<endl;
       //if (printFail) cout<<phys.evt()<<" :Failed good Mu/E cut"<<endl;
