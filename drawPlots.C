@@ -290,10 +290,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete clonedBG_norm;
   //cout<<__LINE__<<endl;
 
-
-
-
-
   //===========================
   // SET MC COLORS
   //===========================
