@@ -16,7 +16,7 @@ DEFAULT::rares=true
 # ATLAS Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares_emu/
 DEFAULT::signal_region=ATLAS
 
 DEFAULT::sum_HT_pt_pt=600

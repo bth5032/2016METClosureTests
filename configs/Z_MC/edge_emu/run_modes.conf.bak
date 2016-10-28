@@ -1,6 +1,4 @@
-DEFAULT::FSBKG=true
-DEFAULT::dilmass_high=-1
-DEFAULT::dilmass_low=20
+DEFAULT::scaleTofb=26.4
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes
@@ -9,30 +7,23 @@ DEFAULT::dilmass_low=20
 # into ScanChain and doAll.
 #
 
+DEFAULT::data_set=40100_100200_200400_400600_600Inf_inclusive_fullmc
+DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
 DEFAULT::scaleTofb=26.4
-DEFAULT::rares=true
 
 #============================
 # EdgeZ Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares_emu/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Z_MC/emu/
 DEFAULT::signal_region=EdgeZ
 DEFAULT::Njets_min=2
 
-#VVV
-Name=VVV
-data_set=vvv
-
-#ttv
-Name=ttv
-data_set=ttv
-
-#zz
-Name=zz
-data_set=zz
-
-#wz
-Name=wz
-data_set=wz
+#Zjets Only Base Config
+Name=Z_Base
+zjets=true
+gjets=false
+data_type=zjets
+dilmass_low=20
+dilmass_high=-1

@@ -16,7 +16,7 @@ DEFAULT::rares=true
 # EWK Higgs Region
 #============================
 
-DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares/
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/Rares_emu/
 DEFAULT::signal_region=EWK_Higgs
 DEFAULT::mbb_mh_diff=25
 DEFAULT::NBjets_min=2
