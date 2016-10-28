@@ -214,6 +214,7 @@ TChain * getDataZChain(TString trigger){
 
   // E/Mu Trigger
   if (trigger.Contains("ee")){
+    cout<<"Adding EE Trigger Data"<<endl;
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_ee_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_ee_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_ee_v2*");
@@ -223,15 +224,17 @@ TChain * getDataZChain(TString trigger){
   }
 
   if (trigger.Contains("em")){
+    cout<<"Adding EMu Trigger Data"<<endl;
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_em_v2*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_em_v2*");
+    /*ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016E_Prompt_em_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016F_Prompt_em_v1*");
-    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em_v1*");
+    ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016G_Prompt_em_v1*");*/
   }
 
   if (trigger.Contains("mm")){
+    cout<<"Adding MuMu Trigger Data"<<endl;
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016B_Prompt_mm_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016C_Prompt_mm_v2*");
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/data_2016D_Prompt_mm_v2*");
