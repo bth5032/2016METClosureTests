@@ -392,6 +392,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   gStyle->SetTitleW(0.6);
   gStyle->SetTitleH(0.06);
+  gStyle->SetTitleFont(12);
 
   //===========================
   // Print Closure Stats
