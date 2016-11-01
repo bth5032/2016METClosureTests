@@ -598,7 +598,6 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
-    cout<<"Here"<<endl;
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
