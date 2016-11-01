@@ -895,7 +895,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *dilmass;
   
   if (conf->get("FSBKG") == "true"){
-    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 200,0,200);
+    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 500,0,500);
   }
   else{
     dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
