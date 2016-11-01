@@ -45,7 +45,7 @@ void drawCMSLatex(double luminosity){
   float left_margin = gPad->GetLeftMargin();
 
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );
-  if (luminosity < 1000){  
+  if (luminosity < 1){  
     lumitex = new TLatex(.9-left_margin, height , Form("%.1f pb^{-1} (13 TeV)", luminosity*1000) );    
   }
   else{  
