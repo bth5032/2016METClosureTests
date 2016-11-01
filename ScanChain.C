@@ -999,7 +999,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     readyReweightHists();
   }
 
-  if( conf->get("data") == "false" && conf->get("gjets") != true ){
+  if( conf->get("data") == "false" && conf->get("gjets") != "true" ){
     cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
     //cout<<__LINE__<<endl;
