@@ -999,11 +999,11 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     readyReweightHists();
   }
 
-  if( conf->get("rares") == "true" ){
-    cout<<"Pileup reweighting with pileup_jul21_nominalUpDown.root"<<endl;
-    g_pileup_hist_file = TFile::Open("auxFiles/pileup_jul21_nominalUpDown.root", "READ");
+  if( conf->get("data") == "false" && conf->get("gjets") != true ){
+    cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
+    g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
     //cout<<__LINE__<<endl;
-    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("weightsNominal")->Clone("h_pileup_weight");
+    g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
     //cout<<__LINE__<<endl;
     g_pileup_hist->SetDirectory(rootdir);
     //cout<<__LINE__<<endl;
