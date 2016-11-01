@@ -597,7 +597,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
+/*  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
     weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
@@ -620,7 +620,7 @@ double getWeight(){
     weight*=phys.weight_btagsf();
   }
   //cout<<__LINE__<<endl;
-
+*/
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
   }
