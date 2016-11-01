@@ -31,7 +31,7 @@ bool hasKey(map<string, string> m, string key){
 
 string cleanedArg(string arg){
 	string cleaned = arg.substr(0,arg.find("#")); //get argument before comment
-	cleaned = cleaned.substr(0, ret.find_last_not_of(" \t")+1); //strip off tabs and spaces.
+	cleaned = cleaned.substr(0, cleaned.find_last_not_of(" \t")+1); //strip off tabs and spaces.
 
 	return cleaned;
 }
