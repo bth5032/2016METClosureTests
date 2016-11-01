@@ -233,51 +233,31 @@ bool passElectronTriggers(){
   }
 }
 
-bool passHLTs(){
+bool passEMuTriggers(){
+  if (! phys.isData()){
+    return true;
+  }
+  else{
+    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso());
+  }
+}
+
+bool passLeptonHLTs(){
   if (conf->get("FSBKG") == "true"){
-    //if (printStats) { cout<<"HLT_MuEG: "<<phys.HLT_MuEG()<<" HLT_MuEG_noiso: "<<phys.HLT_MuEG_noiso()<<" "; }
-    if (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso()){
-      //good Mu/E event
-      //cout<<__LINE__<<endl;
-    }
-    else if (! phys.isData()){
-      return true;
-    }
-    else{
-      //cout<<__LINE__<<endl;
-      //if (printFail) cout<<phys.evt()<<" :Failed good Mu/E cut"<<endl;
-      return false;
-    }
+    return passEMuTriggers();
   }
   else{
     //cout<<__LINE__<<endl;
     if ( phys.hyp_type() == 1 ){ //Muon Event
-      //cout<<__LINE__<<endl;
-      if ( ! passMuonTriggers() ){
-        //cout<<__LINE__<<endl;
-        //if (printFail) cout<<phys.evt()<<" :Failed Muon Trigger cuts"<<endl;
-        return false; 
-      }
+      return passMuonTriggers();
     }
-    else if ( phys.hyp_type() == 0 ){
-      //cout<<__LINE__<<endl;
-      if ( ! passElectronTriggers() ){
-        //cout<<__LINE__<<endl;
-        //if (printFail) cout<<phys.evt()<<" :Failed electron trigger cuts"<<endl;
-        return false;
-      }
+    else if ( phys.hyp_type() == 0 ){ //Electron Event
+      return passElectronTriggers();
     }
-    else{ //hyp_type == 2 and it's not an emu event for the TTbar estimate.
-      //cout<<__LINE__<<endl;
-      //if (printFail) cout<<phys.evt()<<" :Failed not E/Mu event with hyp_type 2 in TTBar estimate cut"<<endl;
+    else{ //Emu event, should never happen since this is only called from hasGoodZ()
       return false; 
     }
   }
-
-  //cout<<__LINE__<<endl;
-
-  //if (printPass) cout<<phys.evt()<<": Passes HLT Cuts"<<endl;
-  return true;
 }
 
 bool hasGoodZ(){
@@ -326,27 +306,14 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (! passHLTs()){
+  if (! passLeptonHLTs()){
     numEvents->Fill(15);
     //if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return false;
   }
 
   //cout<<__LINE__<<endl;
-  /*
-  //This is the augmented cut selection.
-  LorentzVector zp4 = phys.lep_p4().at(1) + phys.lep_p4().at(2);
-  if( abs(zp4.eta()) > 1.4 && abs(zp4.eta())   < 1.6) {
-    pass = false; // veto xition region
-    numEvents->Fill(15); 
-  }
-  
-  if( abs(zp4.eta())   > 2.4   ) {
-    pass = false; // Z in EC or EB
-    numEvents->Fill(16); 
-  } 
-  */
-  
+
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
@@ -925,7 +892,15 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   mt2->SetDirectory(rootdir);
   mt2->Sumw2();
 
-  TH1D *dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+  TH1D *dilmass;
+  
+  if (conf->get("FSBKG") == "true"){
+    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 200,0,200);
+  }
+  else{
+    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+  }  
+  
   dilmass->SetDirectory(rootdir);
   dilmass->Sumw2();
 
