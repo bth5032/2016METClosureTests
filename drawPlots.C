@@ -41,7 +41,7 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
 
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
-  double height=1.02-gPad->GetTopMargin();
+  double height=1.01-gPad->GetTopMargin();
   float left_margin = gPad->GetLeftMargin();
 
   // lumitex = new TLatex(0.66,0.955, Form("%.1f fb^{-1} (13 TeV)", luminosity) );
