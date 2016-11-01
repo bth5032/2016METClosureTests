@@ -598,7 +598,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
-    //weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    /*weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
@@ -617,7 +617,7 @@ double getWeight(){
       weight*=phys.weightsf_lepreco().at(1);
     }
     
-    weight*=phys.weight_btagsf();
+    weight*=phys.weight_btagsf();*/
   }
   //cout<<__LINE__<<endl;
 
