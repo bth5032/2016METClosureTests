@@ -390,8 +390,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitle(ylabel);
   //cout<<__LINE__<<endl;  
 
-  gStyle->SetTitleW(0.7);
-  gStyle->SetTitleH(0.1);
+  gStyle->SetTitleW(0.5);
+  gStyle->SetTitleH(0.05);
 
   //===========================
   // Print Closure Stats
