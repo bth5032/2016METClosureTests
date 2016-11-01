@@ -118,6 +118,8 @@ TChain * getFSMCChain(TString data_set){
   //WW
   ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
 
+  cout<<"Number of FS Entries "<<ch_fs->GetEntries()<<endl;
+
   return ch_fs;
 }
 
