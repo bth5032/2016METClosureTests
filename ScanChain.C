@@ -69,13 +69,13 @@ double getPrescaleWeight(){
   else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
   //cout<<__LINE__<<endl;
   if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55 && phys.gamma_pt().at(0) > 40 ) {
-    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) * */ 134;
+    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) * */ 155.6;
   }
   else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40 && phys.gamma_pt().at(0) > 33 ){
-    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) * */ 269;
+    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) * */ 330.475;
   }
   if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ) {
-    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) * */ 1667;
+    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) * */ 1839;
   }
   //cout<<__LINE__<<endl;
   return 0; // should not get here
@@ -167,7 +167,13 @@ bool passBaseCut(){
     numEvents->Fill(9);
   }
 
-  /*if( !(phys.nveto_leptons() < 1 && phys.nlep() == 2 ) ) return false; // 3rd lep veto*/
+  int nLepVeto = (conf->get("gjets") == "true") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
+
+  if( (phys.nisoTrack_mt2() + phys.nlep_p4().size()) >= nLepVeto){
+    pass=false; //third lepton veto
+    //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+    numEvents->Fill(54);
+  }
 
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
   return pass;
@@ -598,7 +604,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
-    /*weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
@@ -617,7 +623,7 @@ double getWeight(){
       weight*=phys.weightsf_lepreco().at(1);
     }
     
-    weight*=phys.weight_btagsf();*/
+    weight*=phys.weight_btagsf();
   }
   //cout<<__LINE__<<endl;
 
@@ -962,6 +968,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
+  TH1D *vpt_flat = new TH1D(sampleName+"_vpt_flat", "Boson P_{T} for events in "+sampleName, 6000,0,6000);
+  vpt_flat->SetDirectory(rootdir);
+  vpt_flat->Sumw2();
+
   TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
@@ -1188,7 +1198,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         ht_wide->Fill(phys.ht(), weight);
       }
       if (phys.gen_ht() != 0) gen_ht->Fill(phys.gen_ht(), weight);
-      if (bosonPt() != 0) vpt->Fill(bosonPt(), weight);
+      if (bosonPt() != 0){ 
+        vpt->Fill(bosonPt(), weight); 
+        vpt_flat->Fill(bosonPt(), weight); 
+      }
       njets->Fill(phys.njets(), weight);
       nbtags_m->Fill(phys.nBJetMedium(), weight);
       nbtags_l->Fill(phys.nBJetLoose(), weight);
@@ -1306,6 +1319,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   gen_ht->Write();
   //cout<<__LINE__<<endl;
   vpt->Write();
+  //cout<<__LINE__<<endl;
+  vpt_flat->Write();
   //cout<<__LINE__<<endl;
   njets->Write();
   //cout<<__LINE__<<endl;

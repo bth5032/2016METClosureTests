@@ -69,6 +69,13 @@ TChain * getGJetsChain(TString data_set){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/gjetsht600_dr0p4_mgmlm*");
   }
 
+  if (data_set.Contains("wjets_inclusive")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/wjets_incl_amcnlo*.root");
+  }
+  if (data_set.Contains("gammaZtoNuNu")){
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/znunugamma*.root");
+  }
+
   if (data_set.Contains("GammaRealMET")){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_1ltbr_mgmlm.root");
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttbar_1ltop_mgmlm.root");
@@ -105,20 +112,21 @@ TChain * getGJetsChain(TString data_set){
 //====================================
 TChain * getFSMCChain(TString data_set){
   TChain *ch_fs = new TChain("t");
-
-  //TTbar
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
- 
-  //Single Top
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
-
-  //WW
-  ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
-
-  cout<<"Number of FS Entries "<<ch_fs->GetEntries()<<endl;
+  
+  if (data_set.Contains("dilep")){
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+  }
+  if (data_set.Contains("1lep")){
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
+  }
+  if (data_set.Contains("singletop")){
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
+  }
+  if (data_set.Contains("ww")){
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
+  }
 
   return ch_fs;
 }
