@@ -628,7 +628,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
-    weight *= getPrescaleWeight();
+    //weight *= getPrescaleWeight();
   }
   //cout<<__LINE__<<endl;
 
