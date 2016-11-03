@@ -11,7 +11,7 @@ function makePlots {
 
 function makeHistos {	
 	mkdirs $2
-	root -l -b -q "doAll.C++(\"$1\", \"$2\")"
+	root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
 function mkdirs {
