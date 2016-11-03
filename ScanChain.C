@@ -997,7 +997,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
   TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
 
-  TH1D *pt_HLT_Photon165_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
@@ -1251,7 +1251,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
 
-      if(phys.HLT_Photon165_HE10_IsoM() > 0) pt_HLT_Photon165_HE10_IsoM->Fill(bosonPt(), weight);
+      if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
       if(phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon120_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
       if(phys.HLT_Photon90_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon90_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
       if(phys.HLT_Photon75_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon75_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
@@ -1375,7 +1375,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
 
 
-    pt_HLT_Photon165_HE10_IsoM->Write();
+    pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
