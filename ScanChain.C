@@ -1365,7 +1365,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   if ( conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
   {
-    nVert_HLT_Photon165_HE10_IsoM->Write();
+    nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon90_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon75_R9Id90_HE10_IsoM->Write();
@@ -1375,7 +1375,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
 
 
-    pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon165_HE10_IsoM->Write();
     pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
