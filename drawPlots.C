@@ -116,7 +116,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //Get labels for TLegend
   vector<TString> hist_labels (num_hists);
   for (int i = 0; i<num_hists; i++){
-    hist_labels[i]=conf->get("hist_"+to_string(i)+"_label");    
+    hist_labels[i]=getLatex(conf,"hist_"+to_string(i)+"_label");    
   }  
 
   //Set prefix for retriving histogram
