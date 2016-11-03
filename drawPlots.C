@@ -322,7 +322,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetLineColor(kWhite);  
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
-  l1->SetTextSize(.01);
+  l1->SetTextSize(.02);
   //cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "p");
   for (int i = 1; i<num_hists; i++){
