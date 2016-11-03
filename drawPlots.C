@@ -23,10 +23,10 @@ TString parseLatex(TString opt){
   return opt;
 }
 
-vector<double> parseVector(TString opt){
-
+/*vector<double> parseVector(TString opt){
+*
 }
-
+*/
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
