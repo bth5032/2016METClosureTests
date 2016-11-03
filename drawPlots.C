@@ -586,7 +586,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetXaxis()->SetTitleSize(0.005);
   h_axis_ratio->GetXaxis()->SetLabelSize(0.);
 
-  h_axis_ratio->GetYaxis()->CenterLabels();
+  h_axis_ratio->GetYaxis()->CenterTitle();
   
   //cout<<__LINE__<<endl;
   TLine* line1 = new TLine(xmin,1,xmax,1);
