@@ -54,19 +54,19 @@ TChain * getGJetsChain(TString data_set){
   }
   if (data_set.Contains("100200") && (!data_set.Contains("REALMETISO"))){
     //HT 100-200 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht100_dr0p5_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht100_dr0p05_mgmlm*");
   }
   if (data_set.Contains("200400") && (!data_set.Contains("REALMETISO"))){
     //HT 200-400 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht200_dr0p5_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht200_dr0p05_mgmlm*");
   }
   if (data_set.Contains("400600") && (!data_set.Contains("REALMETISO"))){
     //HT 400-600 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht400_dr0p5_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht400_dr0p05_mgmlm*");
   }
   if (data_set.Contains("600Inf") && (!data_set.Contains("REALMETISO"))){
     //HT 600-Inf 
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht600_dr0p5_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht600_dr0p05_mgmlm*");
   }
 
   if (data_set.Contains("wjets_inclusive")){

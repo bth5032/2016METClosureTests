@@ -18,6 +18,12 @@ using namespace std;
 
 vector<int> ROOTCOLORPALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
+TString getLatex(ConfigParser *conf, TString opt){
+  TString l = conf->get(opt.Data());
+  l.ReplaceAll("\\","#");
+  return l;
+}
+
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
@@ -567,7 +573,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
   //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
   h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
-  h_axis_ratio->GetYaxis()->SetTitle("#frac{Signal}{Prediction}");
+  
+  if(conf->get("ratio_yaxis") != ""){
+    h_axis_ratio->GetYaxis()->SetTitle(getLatex(conf, "ratio_yaxis"));  
+  }
+  else{
+    h_axis_ratio->GetYaxis()->SetTitle("#frac{Signal}{Prediction}");
+  }
+
   h_axis_ratio->GetXaxis()->SetTickLength(0.07);
   h_axis_ratio->GetXaxis()->SetTitleSize(0.005);
   h_axis_ratio->GetXaxis()->SetLabelSize(0.);
