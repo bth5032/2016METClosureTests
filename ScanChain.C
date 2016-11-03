@@ -1093,6 +1093,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //===========================================
 // Loop over Events in current file
 //===========================================
+    cout<<"WEIGHT ALWAYS 1"<<endl;
     if( nEventsTotal >= nEventsChain ) continue;
     unsigned int nEventsTree = tree->GetEntriesFast();
     for( unsigned int event = 0; event < nEventsTree; ++event) {
@@ -1180,8 +1181,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         } //Rare Sample Selections
       }
-
-      double weight = getWeight();
+      double weight=1;
+      //double weight = getWeight();
 //=======================================
 // Analysis Code
 //=======================================
