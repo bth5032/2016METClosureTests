@@ -558,7 +558,7 @@ double getReweight(){
   TH1D* rwt_hist;
   TString rwt_var;
   //cout<<"Size: "<<g_reweight_pairs.size()<<endl;
-  for (int i=0; i<g_reweight_pairs.size(); i++){
+  for (int i=0; i<(int)g_reweight_pairs.size(); i++){
     rwt_hist = g_reweight_pairs.at(i).first;
     rwt_var = g_reweight_pairs.at(i).second;
     //cout<<rwt_var<<endl;
