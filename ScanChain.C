@@ -80,7 +80,7 @@ double getPrescaleWeight(){
     return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1839 /*1667*/;
   }
   //cout<<__LINE__<<endl;
-  return 0; // should not get here
+  return 1; // should not get here
 }
 
 bool passMETFilters(){
