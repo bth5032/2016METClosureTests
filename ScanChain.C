@@ -1251,14 +1251,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
 
-      if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon120_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon90_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon90_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon75_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon75_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon50_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon50_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon36_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon36_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
-      if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt(), weight);
+      if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon120_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon90_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon90_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon75_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon75_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon50_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon50_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon36_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon36_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());
 
       if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
