@@ -62,7 +62,7 @@ bool printFail = false;
 
 double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
-  cout<<"Getting Prescale Weights"<<endl;
+  //cout<<"Getting Prescale Weights"<<endl;
   
   if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180. ) return 1;
   else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135. ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
