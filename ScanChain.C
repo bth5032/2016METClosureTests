@@ -69,7 +69,6 @@ double getPrescaleWeight(){
   else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105. ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
   else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85. ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
   else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55. ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
-  cout<<__LINE__<<endl;
   else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55. && phys.gamma_pt().at(0) > 40. ) {
     return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) */ 155.6 /*134*/;
   }
