@@ -18,10 +18,13 @@ using namespace std;
 
 vector<int> ROOTCOLORPALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
-TString getLatex(ConfigParser *conf, TString opt){
-  TString l = conf->get(opt.Data());
-  l.ReplaceAll("\\","#");
-  return l;
+TString parseLatex(TString opt){
+  opt.ReplaceAll("\\","#");
+  return opt;
+}
+
+vector<double> parseVector(TString opt){
+
 }
 
 double errMult(double A, double B, double errA, double errB, double C) {
@@ -116,7 +119,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //Get labels for TLegend
   vector<TString> hist_labels (num_hists);
   for (int i = 0; i<num_hists; i++){
-    hist_labels[i]=getLatex(conf,"hist_"+to_string(i)+"_label");    
+    hist_labels[i]=parseLatex(conf->get("hist_"+to_string(i)+"_label"));    
   }  
 
   //Set prefix for retriving histogram
@@ -576,7 +579,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->GetYaxis()->SetRangeUser(0.001,2.0);
   
   if(conf->get("ratio_yaxis") != ""){
-    h_axis_ratio->GetYaxis()->SetTitle(getLatex(conf, "ratio_yaxis"));  
+    h_axis_ratio->GetYaxis()->SetTitle(parseLatex(conf->get("ratio_yaxis")));  
   }
   else{
     h_axis_ratio->GetYaxis()->SetTitle("#frac{Signal}{Prediction}");
