@@ -62,7 +62,8 @@ bool printFail = false;
 
 double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
-  cout<<"here"<<endl;
+  cout<<"Getting Prescale Weights"<<endl;
+  
   if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180. ) return 1;
   else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135. ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
   else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105. ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
@@ -478,11 +479,11 @@ bool hasGoodPhoton(){
     return false; // lepton veto
   }
 
-  if (phys.isData() && (! passPhotonTriggers()) ){
+  /*if (phys.isData() && (! passPhotonTriggers()) ){
     numEvents->Fill(52);
     //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
     return false;
-  }
+  }*/
 
   if (! passPhotonEmulatedTrigger() ){
     numEvents->Fill(53);
@@ -629,7 +630,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
   if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
-    //weight *= getPrescaleWeight();
+    weight *= getPrescaleWeight();
   }
   //cout<<__LINE__<<endl;
 
@@ -1093,7 +1094,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //===========================================
 // Loop over Events in current file
 //===========================================
-    cout<<"WEIGHT ALWAYS 1"<<endl;
     if( nEventsTotal >= nEventsChain ) continue;
     unsigned int nEventsTree = tree->GetEntriesFast();
     for( unsigned int event = 0; event < nEventsTree; ++event) {
@@ -1181,8 +1181,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         } //Rare Sample Selections
       }
-      double weight=1;
-      //double weight = getWeight();
+      //double weight=1;
+      double weight = getWeight();
 //=======================================
 // Analysis Code
 //=======================================
