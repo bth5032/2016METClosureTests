@@ -28,7 +28,7 @@ vector<double> parseVector(TString opt){
   TString token;
   Ssiz_t from=0;
   while(opt.Tokenize(token, from, "[,]")){
-    ret.push_back(stod(token));
+    ret.push_back(stod(token.Data()));
   }
   return ret;
 }
