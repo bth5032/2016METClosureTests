@@ -187,8 +187,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->SetLogy();
   }
   //cout<<__LINE__<<endl;
-  for (int i = 0; i<num_hists; i++){
-    hists[i]->Rebin(bin_size);
+  if (conf->get("bin_size") != ""){
+    for (int i = 0; i<num_hists; i++){
+      hists[i]->Rebin(bin_size);
+    }
+  }
+  else if (conf->get("binning") != ""){
+    vector<double> binning = parseVector(conf->get("binning"));
+    for (int i = 0; i<num_hists; i++){
+      hists[i] = hists[i]->Rebin(binning.size()-1, TString(hist_names[i]+"_rebin"), &binning[0]);
+    }
   }
 
   //===========================
