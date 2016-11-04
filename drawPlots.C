@@ -195,6 +195,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
   }
   else if (conf->get("binning") != ""){
+    cout<<"here"<<endl;
     vector<double> binning = parseVector(conf->get("binning"));
     for (int i = 0; i<num_hists; i++){
       hists[i] = (TH1D*) hists[i]->Rebin(binning.size()-1, TString(hist_names[i]+"_rebin"), &binning[0]);
