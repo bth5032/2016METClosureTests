@@ -27,7 +27,9 @@ vector<double> parseVector(TString opt){
   vector<double> ret;
   TString token;
   Ssiz_t from=0;
+  cout<<"got vector in string form: "<<opt<<endl;
   while(opt.Tokenize(token, from, "[,]")){
+    cout<<"token: "<<token<<endl;
     ret.push_back(stod(token.Data()));
   }
   return ret;
