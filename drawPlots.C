@@ -146,10 +146,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }  
 
   cout<<"Hist names set"<<endl;
-  TString xlabel=conf->get("xlabel");
-  TString ylabel=conf->get("ylabel");
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=conf->get("save_dir");
-  TString plot_title=conf->get("title");
+  TString plot_title=parseLatex(conf->get("title"));
 
 
   cout << "Making Plots for: "<<plot_name<<endl;
