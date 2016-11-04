@@ -548,8 +548,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       hists[i]->SetBinContent(hists[i]->FindBin(xmax-.001), max+overflow);
     }
     overflow = bg_sum->GetBinContent(n_bins + 1);
-    max = bg_sum->Integral(hists[i]->FindBin(xmax-.001), n_bins);
-    bg_sum->SetBinContent(hists[i]->FindBin(xmax-.001), max+overflow);
+    max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
+    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);
     //cout<<__LINE__<<endl;
   }
   
