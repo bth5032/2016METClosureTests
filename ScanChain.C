@@ -1113,9 +1113,23 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 //=======================================
       printStats = false;
       printFail = false;
+      
+      //Low HT from Zjets inclusive sample
       if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
         //cout<<"Zjets MC event"<<endl;
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
+          //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+          if( phys.gen_ht() > 100 ) {
+            //cout<<"skipped"<<endl;
+            numEvents->Fill(44);
+            continue;
+          }
+        }
+      }
+      //Low HT from Wjets inclusive sample
+      if ( conf->get("data_set") == "wjets_inclusive"  && conf->get("gjets") == "true" ){
+        //cout<<"Zjets MC event"<<endl;
+        if( TString(currentFile->GetTitle()).Contains("wjets_incl") ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
           if( phys.gen_ht() > 100 ) {
             //cout<<"skipped"<<endl;

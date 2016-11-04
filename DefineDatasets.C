@@ -69,8 +69,17 @@ TChain * getGJetsChain(TString data_set){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht600_dr0p05_mgmlm*");
   }
 
-  if (data_set.Contains("wjets_inclusive")){
-    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_incl_amcnlo*.root");
+  if (data_set.Contains("wjets_inclusive")){ 
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_incl_mgmlm*");
+    
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht100_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht200_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht400_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht600_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht800_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht1200_mgmlm*");
+    ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht2500_mgmlm*");
+
   }
   if (data_set.Contains("gammaZtoNuNu")){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/znunugamma*.root");
