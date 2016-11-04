@@ -23,29 +23,6 @@ TString parseLatex(TString opt){
   return opt;
 }
 
-vector<double> autoBin(TH1D* h, double after=0){
-  // Finds binning for the histogram after x value after which keeps the 
-  // error bars of the bin less than 1/8 the count in the bin.
-  
-  vector<double> bins;
-
-  for(int i = 1; i <= h->GetNbinsX()+1; i++){
-    bins.push_back(h->GetBinLowEdge(i));
-  }
-
-  /*for each bin in the historam after "after"
-    if bin error > 1/8 bin count
-      rebin by adding one more bin to this one
-      stay on same bin (subtract one from for counter)*/
-
-  for (int i = h->FindBin(after); i<h->GetNbinsX(); i++ ){
-    if (h->GetBinError() < .125*h->GetBinContent()){
-
-    }
-  }
-
-}
-
 vector<double> parseVector(TString opt){
   vector<double> ret;
   TString token;
