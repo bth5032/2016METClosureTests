@@ -70,13 +70,13 @@ double getPrescaleWeight(){
   else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85. ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
   else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55. ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
   else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55. && phys.gamma_pt().at(0) > 40. ) {
-    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) */ 155.6 /*134*/;
+    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) */ 166 /*134*/;
   }
   else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40. && phys.gamma_pt().at(0) > 33. ){
-    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) */ 330.475 /*269*/;
+    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) */ 354 /*269*/;
   }
   else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33. ) {
-    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1839 /*1667*/;
+    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1871 /*1667*/;
   }
   //cout<<__LINE__<<endl;
   return 1; // should not get here
@@ -478,11 +478,11 @@ bool hasGoodPhoton(){
     return false; // lepton veto
   }
 
-  /*if (phys.isData() && (! passPhotonTriggers()) ){
+  if (phys.isData() && (! passPhotonTriggers()) ){
     numEvents->Fill(52);
     //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
     return false;
-  }*/
+  }
 
   if (! passPhotonEmulatedTrigger() ){
     numEvents->Fill(53);
