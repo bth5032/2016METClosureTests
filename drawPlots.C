@@ -111,8 +111,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TString plot_name = conf->get("plot_name");
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
-  double bin_size = stod(conf->get("bin_size"));
-  
+  double bin_size;
+  if (conf->get("bin_size") != ""){
+    bin_size = stod(conf->get("bin_size"));
+  }
+  else{
+    bin_size=1;
+  }
   //Get name of hist to read from file
   vector<TString> hist_names (num_hists);
   for (int i = 0; i<num_hists; i++){
