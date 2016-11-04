@@ -435,8 +435,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
 
 
-  if (conf->get("print_stats") == "true")
-  {
+  if (conf->get("print_stats") == "true"){
     vector<pair<double,double>> stats_bins;
     int j = 0;
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
@@ -532,7 +531,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
       }
     }
-
   }
   
   //----------------------
