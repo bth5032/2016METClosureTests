@@ -27,13 +27,13 @@ vector<double> parseVector(TString opt){
   vector<double> ret;
   TString token;
   Ssiz_t from=0;
-  cout<<"got vector in string form: "<<opt<<endl;
+  //cout<<"got vector in string form: "<<opt<<endl;
   while(opt.Tokenize(token, from, "[,]")){
     token.ReplaceAll("[", "");
     token.ReplaceAll("]", "");
     token.ReplaceAll(",", "");
     token.ReplaceAll(" ", "");
-    cout<<"token: "<<token<<endl;
+    //cout<<"token: "<<token<<endl;
     ret.push_back(stod(token.Data()));
   }
   return ret;
