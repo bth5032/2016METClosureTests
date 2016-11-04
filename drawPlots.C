@@ -23,6 +23,15 @@ TString parseLatex(TString opt){
   return opt;
 }
 
+/*vector<double> autoBin(TH1D* h, double after=0){
+  // Finds binning for the histogram after x value after which keeps the 
+  // error bars of the bin less than 1/8 the count in the bin.
+  
+  vector<double> bins;
+
+  for 
+}*/
+
 vector<double> parseVector(TString opt){
   vector<double> ret;
   TString token;
