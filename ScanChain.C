@@ -60,9 +60,9 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 bool printStats = false;
 bool printFail = false;
 
-double getPTbb(){
+/*double getPTbb(){
 
-}
+}*/
 
 double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
