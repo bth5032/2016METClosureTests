@@ -9,5 +9,9 @@ outputs/
 *.d
 *.pcm
 
+
 #mac crap
 .DS_Store
+
+#UAF stuff
+*.nfs*
