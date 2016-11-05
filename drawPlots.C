@@ -599,7 +599,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
   //cout<<__LINE__<<endl;
   h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
-  h_axis_ratio->GetYaxis()->SetTitleSize(0.18);
+  h_axis_ratio->GetYaxis()->SetTitleSize(0.16);
+  h_axis_ratio->GetYaxis()->SetTitleFont(12);
   h_axis_ratio->GetYaxis()->SetNdivisions(5);
   h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
   //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
