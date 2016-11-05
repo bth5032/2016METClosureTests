@@ -1453,7 +1453,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   dilmass->Write();
   //cout<<__LINE__<<endl;
 
-  if (conf->Get("signal_region") == "TChiZH"){
+  if (conf->get("signal_region") == "TChiZH"){
     sum_mlb->Write();
     //cout<<__LINE__<<endl;
     m_bb_csv->Write();
