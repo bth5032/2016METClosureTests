@@ -1025,7 +1025,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
 
   TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb;
-  if(conf->get("signal_region") == "TChiZH"){
+  if(conf->get("signal_region") == "TChiHZ"){
     sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
     sum_mlb->SetDirectory(rootdir);
     sum_mlb->Sumw2();
@@ -1286,7 +1286,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 // Signal Region Specific Histos
 //=======================================
       double pt_bb;
-      if (conf->get("signal_region") == "TChiZH"){
+      if (conf->get("signal_region") == "TChiHZ"){
         sum_mlb->Fill(phys.sum_mlb(), weight);
 
         m_bb_csv->Fill(phys.mbb_csv(), weight);
@@ -1455,7 +1455,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   dilmass->Write();
   //cout<<__LINE__<<endl;
 
-  if (conf->get("signal_region") == "TChiZH"){
+  if (conf->get("signal_region") == "TChiHZ"){
     sum_mlb->Write();
     //cout<<__LINE__<<endl;
     m_bb_csv->Write();
