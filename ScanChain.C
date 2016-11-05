@@ -849,6 +849,17 @@ bool passRareCuts(){
   return true;
 }
 
+bool passSUSYSingalCuts(){
+  //Njets Min Cut
+  if (conf->get("mass_chi") != ""){
+    if (phys.mass_chi() != stod(conf->get("mass_chi"))){
+      numEvents->Fill(55);
+      //if (printFail) cout<<phys.evt()<<" :Failed mass chi cut"<<endl;
+      return false;
+    }
+  }  
+}
+
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
