@@ -273,7 +273,7 @@ TChain * getSignalChain(TString signal){
 
   // SUSY Signal
   if (signal.Contains("TChiHZ")){
-    ch_signal->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-01/tchihz_80x_v2*.root");
+    ch_signal->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
   }
 
   return ch_signal;
