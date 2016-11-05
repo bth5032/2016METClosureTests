@@ -21,9 +21,6 @@ void runScanChain(ConfigParser* conf){
       ScanChain(getDataPhotonChain(conf->get("data_set")), conf->get("data_type"), conf);  
     }
   }
-  else if (conf->get("rares") == "true"){
-    ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);
-  }
   else{
     TChain * mc_chain = new TChain("t");
     if (conf->get("FSBKG") == "true"){
@@ -38,7 +35,7 @@ void runScanChain(ConfigParser* conf){
     if (conf->get("gjets") == "true") {
       mc_chain->Add(getGJetsChain(conf->get("data_set")));
     }
-    if (conf->get("rare") == "true"){
+    if (conf->get("rares") == "true"){
       mc_chain->Add(getRareChain(conf->get("data_set")));
     }
 
