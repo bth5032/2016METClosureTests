@@ -600,7 +600,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
   h_axis_ratio->GetYaxis()->SetTitleSize(0.16);
-  h_axis_ratio->GetYaxis()->SetTitleFont(12);
+  //h_axis_ratio->GetYaxis()->SetTitleFont(12);
   h_axis_ratio->GetYaxis()->SetNdivisions(5);
   h_axis_ratio->GetYaxis()->SetLabelSize(0.15);
   //h_axis_ratio->GetYaxis()->SetRangeUser(0.5,1.5);
