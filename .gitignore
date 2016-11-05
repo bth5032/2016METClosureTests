@@ -3,3 +3,8 @@ histos/
 
 #Output of commands
 outputs/
+
+#compiled stuff
+*.so
+*.d
+*.pcm
