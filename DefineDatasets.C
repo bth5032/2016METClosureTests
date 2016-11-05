@@ -40,7 +40,7 @@ TChain * getZJetsChain(TString data_set) {
   }
 
   return ch_Zjets;
-}
+} 
 
 //====================================
 // Gamma Jets
@@ -263,4 +263,18 @@ TChain * getDataZChain(TString trigger){
   }
 
   return ch_Data;
+}
+
+//====================================
+// Leptonic Data
+//====================================
+TChain * getSignalChain(TString signal){
+  TChain *ch_signal = new TChain("t");
+
+  // SUSY Signal
+  if (signal.Contains("TChiHZ")){
+    ch_signal->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-01/tchihz_80x_v2*.root");
+  }
+
+  return ch_signal;
 }

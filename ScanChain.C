@@ -60,6 +60,10 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 bool printStats = false;
 bool printFail = false;
 
+double getPTbb(){
+
+}
+
 double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
   //cout<<"Getting Prescale Weights"<<endl;
@@ -911,7 +915,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   dilmass->SetDirectory(rootdir);
   dilmass->Sumw2();
 
-  TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 500,0,500);
+  TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 6000,0,6000);
   mt2b->SetDirectory(rootdir);
   mt2b->Sumw2();
 
@@ -998,14 +1002,37 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
   TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
 
-  TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
+  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
+
+  TH1D * sum_mlb, m_bb_csv, m_bb_bpt, mt2j, sum_pt_z_bb;
+  if(conf->get("signal_region") == "TChiZH"){
+    sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
+    sum_mlb->SetDirectory(rootdir);
+    sum_mlb->Sumw2();
+
+    m_bb_csv = new TH1D(sampleName+"_m_bb_csv", "M_{bb} by CSV for "+sampleName, 6000,0,6000);
+    m_bb_csv->SetDirectory(rootdir);
+    m_bb_csv->Sumw2();
+
+    m_bb_bpt = new TH1D(sampleName+"_m_bb_bpt", "M_{bb} by B P_{T} for "+sampleName, 6000,0,6000);
+    m_bb_bpt->SetDirectory(rootdir);
+    m_bb_bpt->Sumw2();
+
+    mt2j = new TH1D(sampleName+"_mt2j", "MT2j for "+sampleName, 6000,0,6000);
+    mt2j->SetDirectory(rootdir);
+    mt2j->Sumw2();
+
+    sum_pt_z_bb = new TH1D(sampleName+"_sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
+    sum_pt_z_bb->SetDirectory(rootdir);
+    sum_pt_z_bb->Sumw2();
+  }
 
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
@@ -1243,6 +1270,44 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       dilmass->Fill(phys.dilmass(), weight);
 
 //=======================================
+// Signal Region Specific Histos
+//=======================================
+      double pt_bb;
+      if (conf->get("signal_region") == "TChiZH"){
+        sum_mlb->Fill(phys.sum_mlb(), weight);
+
+        m_bb_csv->Fill(phys.mbb_csv(), weight);
+        m_bb_bpt->Fill(phys.mbb_bpt(), weight);
+    
+        mt2j->Fill(phys.mt2j(), weight);
+        
+        int most_blike, second_most_blike;
+        if (phys.nBJetMedium() >= 2){
+          if (phys.jets_csv().at(0) > phys.jets_csv().at(1)){
+            most_blike = 0;
+            second_most_blike = 1;
+          }
+          else{
+            most_blike = 1;
+            second_most_blike = 0;
+          }
+          for(int i = 2; i < phys.jets_csv().size(); i++){
+            if (phys.jets_csv().at(i) > phys.jets_csv().at(second_most_blike)){
+              if (phys.jets_csv().at(i) > phys.jets_csv().at(most_blike)){
+                second_most_blike = most_blike;
+                most_blike = i;
+              }
+              else{
+                second_most_blike = i;
+              }
+            }
+          }
+          double bb_pt = (phys.jets_p4().at(most_blike) + phys.jets_p4().at(second_most_blike)).pt();
+          sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
+        }
+    }
+
+//=======================================
 // Debugging And Odd Corrections After Cuts
 //=======================================
       /*if (conf->get("rares") == "true"){
@@ -1266,14 +1331,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
 
-      if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt());
+      /*if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon120_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon90_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon90_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon75_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon75_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon50_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon50_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon36_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon36_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());
+      if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());*/
 
       if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
@@ -1377,6 +1442,18 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   dilmass->Write();
   //cout<<__LINE__<<endl;
 
+  if (conf->Get("signal_region") == "TChiZH"){
+    sum_mlb->Write();
+    //cout<<__LINE__<<endl;
+    m_bb_csv->Write();
+    //cout<<__LINE__<<endl;
+    m_bb_bpt->Write();
+    //cout<<__LINE__<<endl;
+    mt2j->Write();
+    //cout<<__LINE__<<endl;
+    sum_pt_z_bb->Write();
+    //cout<<__LINE__<<endl;
+  }
 
   if ( conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
   {
@@ -1390,14 +1467,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
 
 
-    pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
+    /*pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon50_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon36_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon30_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();*/
   }
   //cout<<__LINE__<<endl;
 
