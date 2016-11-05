@@ -857,7 +857,9 @@ bool passSUSYSingalCuts(){
       //if (printFail) cout<<phys.evt()<<" :Failed mass chi cut"<<endl;
       return false;
     }
-  }  
+  } 
+
+  return true; 
 }
 
 int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
