@@ -588,7 +588,12 @@ double getWeight(){
   //cout<<__LINE__<<endl;
   // If we don't have data use scale to 1 fb^-1. 
   if ( ! ( phys.isData() ) ) {
-    weight *= phys.evt_scale1fb();
+    if (phys.evt_scale1fb() > 1){
+      weight=0;
+    }
+    else{
+      weight *= phys.evt_scale1fb();
+    }
     //Weight to some other lumi
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
