@@ -447,13 +447,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     if(conf->get("simple_errors") == "true"){
       for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         double count, error;
-        cout<<"Bin "<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<":"<<endl;
+        cout<<"ERRORS: Bin "<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<":"<<endl;
         for(int i = 0 ; i < (int)hists.size(); i++){
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
-          cout<<"\t"<<hist_labels[i]<<": "<<count<<"+/-"<<error<<endl;
+          cout<<"ERRORS: \t"<<hist_labels[i]<<": "<<count<<"+/-"<<error<<endl;
         }
         count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
-        cout<<"\t"<<"Sum BG: "<<count<<"+/-"<<error<<endl;
+        cout<<"ERRORS: \t"<<"Sum BG: "<<count<<"+/-"<<error<<endl;
       }
     }
     else{  
