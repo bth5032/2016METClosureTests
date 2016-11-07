@@ -943,6 +943,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nlep->SetDirectory(rootdir);
   nlep->Sumw2();
 
+  TH1D *nisotrack = new TH1D(sampleName+"_nisotrack", "Number of Iso Track Leptons (MT2 style) for "+sampleName, 20,0,20);
+  nisotrack->SetDirectory(rootdir);
+  nisotrack->Sumw2();
+
   TH1D *dphi_jet1_met = new TH1D(sampleName+"_dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
@@ -1278,6 +1282,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_t->Fill(phys.nBJetTight(), weight);
       nVert->Fill(phys.nVert(), weight);
       nlep->Fill(phys.nlep(), weight);
+      nisotrack->Fill(phys.nisoTrack_mt2(), weight);
       //cout<<__LINE__<<endl;
       mt2->Fill(phys.mt2(), weight);
       //cout<<__LINE__<<endl;
@@ -1442,6 +1447,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   njets->Write();
   //cout<<__LINE__<<endl;
   nlep->Write();
+  //cout<<__LINE__<<endl;
+  nisotrack->Write();
   //cout<<__LINE__<<endl;
   nbtags_m->Write();
   //cout<<__LINE__<<endl;
