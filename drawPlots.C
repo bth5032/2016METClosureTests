@@ -468,7 +468,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
 
       //print out head row:
-      cout<<"ERRORS: "<<"Sample \t"
+      cout<<"ERRORS: "<<"Sample \t";
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second;
       }
@@ -477,13 +477,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       for(int row = 0; row < (int) hists.size(); row++ ){
         cout<<"ERRORS: "<<hist_labels[row]<<"\t";
         for(int col=0; col < (int) stats_bins.size(); col++){
-          cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first
+          cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first;
         }
         cout<<endl;
       }
       cout<<"ERRORS: SumBG\t";
       for(int col=0; col < (int) stats_bins.size(); col++){
-        cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first
+        cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
       }
       cout<<endl;
     }
