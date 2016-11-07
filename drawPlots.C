@@ -450,7 +450,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         cout<<"Bin "<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<":"<<endl;
         for(int i = 0 ; i < (int)hists.size(); i++){
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
-          cout<<"\t"<<hist_names[i]<<": "<<count<<"+/-"<<error<<endl;
+          cout<<"\t"<<hist_labels[i]<<": "<<count<<"+/-"<<error<<endl;
         }
       }
     }
