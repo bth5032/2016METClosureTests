@@ -805,6 +805,14 @@ bool passSignalRegionCuts(){
     }
   }
 
+  if (conf->get("MET_min") != ""){
+    if ( phys.met_T1CHS_miniAOD_CORE_pt() < stod( conf->get("MET_min") )){
+      numEvents->Fill(56);
+      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      return false;
+    }
+  }
+
 
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
