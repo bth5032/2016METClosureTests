@@ -614,7 +614,9 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
-    weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    if (conf->get("susy_mc") != "true"){
+      weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    }
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
