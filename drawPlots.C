@@ -482,7 +482,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
       cout<<"ERRORS: "<<"Sample \t";
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-        cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second;
+        cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<" ";
       }
       cout<<endl;
       //cout<<__LINE__<<endl;
@@ -491,7 +491,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //cout<<__LINE__<<endl;
         cout<<"ERRORS: "<<hist_labels[row]<<"\t";
         for(int col=0; col < (int) stats_bins.size(); col++){
-          cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first;
+          cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first<<" ";
         }
         cout<<endl;
         //cout<<__LINE__<<endl;
