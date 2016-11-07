@@ -454,38 +454,50 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     if(conf->get("simple_errors") == "true"){
       vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
-
+      cout<<__LINE__<<endl;
       //Loop over the stats bins
       for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         double count, error;
+        cout<<__LINE__<<endl;
         //Loop over the samples
         for(int i = 0 ; i < (int)hists.size(); i++){
+          cout<<__LINE__<<endl;
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
           stats[st_bin].push_back(make_pair(count,error));
         }
+        cout<<__LINE__<<endl;
         count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
         stats[st_bin].push_back(make_pair(count,error));
       }
 
       //print out head row:
+      cout<<__LINE__<<endl;
       cout<<"ERRORS: "<<"Sample \t";
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        cout<<__LINE__<<endl;
         cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second;
       }
       cout<<endl;
+      cout<<__LINE__<<endl;
 
       for(int row = 0; row < (int) hists.size(); row++ ){
+        cout<<__LINE__<<endl;
         cout<<"ERRORS: "<<hist_labels[row]<<"\t";
         for(int col=0; col < (int) stats_bins.size(); col++){
+          cout<<__LINE__<<endl;
           cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first;
         }
         cout<<endl;
+        cout<<__LINE__<<endl;
       }
+      cout<<__LINE__<<endl;
       cout<<"ERRORS: SumBG\t";
       for(int col=0; col < (int) stats_bins.size(); col++){
+        cout<<__LINE__<<endl;
         cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
       }
       cout<<endl;
+      cout<<__LINE__<<endl;
     }
     else{  
       double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
