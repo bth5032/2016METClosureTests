@@ -458,16 +458,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //Loop over the stats bins
       for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         double count, error;
+        vector<pair<double,double>> stat_row;
+
         cout<<__LINE__<<endl;
         //Loop over the samples
         for(int i = 0 ; i < (int)hists.size(); i++){
           cout<<__LINE__<<endl;
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
-          stats[st_bin].push_back(make_pair(count,error));
+          stat_row.push_back(make_pair(count,error));
         }
         cout<<__LINE__<<endl;
         count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
-        stats[st_bin].push_back(make_pair(count,error));
+        stat_row.push_back(make_pair(count,error));
+        stats.push_back(stat_row);
       }
 
       //print out head row:
