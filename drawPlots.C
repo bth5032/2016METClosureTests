@@ -438,97 +438,110 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("print_stats") == "true"){
     vector<pair<double,double>> stats_bins;
     int j = 0;
+    
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
       stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
     }
 
-    double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
-
-    vector<double> template_count;
-    vector<double> template_error;
-
-
-    double t_err; //placeholder for template error
-
-    double r_err;
-
-    vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
-    vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
-
-    vector<double> FS_count;
-
-    for (int i=0; i < num_hists; i++){
-      if (conf->get("hist_"+to_string(i)+"_scale") != ""){
-        hists[i]->Scale(1/stod(conf->get("hist_"+to_string(i)+"_scale")));
+    if(conf->get("simple_errors") == "true"){
+      for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        double count, error;
+        cout<<"Bin "<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<":"<<endl;
+        for(int i = 0 ; i < (int)hists.size(); i++){
+          count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), &error);
+          cout<<"\t"<<hist_names[i]<<": "<<count<<"+/-"<<error<<endl;
+        }
       }
     }
+    else{  
+      double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
 
-    vector<double> signal_count;
-    //cout<<__LINE__<<endl;
+      vector<double> template_count;
+      vector<double> template_error;
 
-    //Fill in all the bin counts here
-    for (int i = 0; i < stats_bins.size(); i++){
-      signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
-      FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
-      
-      //cout<<__LINE__<<endl;
-      
-      template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
-      template_error.push_back(t_err);
-      
-      //cout<<__LINE__<<endl;
-      
-      ZZ_err.push_back(0);
-      WZ_err.push_back(0);
-      VVV_err.push_back(0);
-      TTV_err.push_back(0);
 
-      ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
+      double t_err; //placeholder for template error
 
-      //cout<<__LINE__<<endl;
+      double r_err;
 
-      ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
-      ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
-      //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+      vector<double> rare_count, TTV_count, VVV_count, WZ_count, ZZ_count;
+      vector<double> rare_err, TTV_err, VVV_err, WZ_err, ZZ_err;
 
+      vector<double> FS_count;
+
+      for (int i=0; i < num_hists; i++){
+        if (conf->get("hist_"+to_string(i)+"_scale") != ""){
+          hists[i]->Scale(1/stod(conf->get("hist_"+to_string(i)+"_scale")));
+        }
+      }
+
+      vector<double> signal_count;
       //cout<<__LINE__<<endl;
 
-      VVV_count.push_back(hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]));
+      //Fill in all the bin counts here
+      for (int i = 0; i < stats_bins.size(); i++){
+        signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
+        FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
+        
+        //cout<<__LINE__<<endl;
+        
+        template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
+        template_error.push_back(t_err);
+        
+        //cout<<__LINE__<<endl;
+        
+        ZZ_err.push_back(0);
+        WZ_err.push_back(0);
+        VVV_err.push_back(0);
+        TTV_err.push_back(0);
 
+        ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
+
+        //cout<<__LINE__<<endl;
+
+        ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
+        ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
+        //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+
+        //cout<<__LINE__<<endl;
+
+        VVV_count.push_back(hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]));
+
+        //cout<<__LINE__<<endl;
+
+        TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
+        //cout<<__LINE__<<endl;
+      }
+
+      //Compute Rare Sample Errors
+      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
+      //WZ_err = getRareSamplesError(WZ_err, WZ_count);
+      VVV_err = getRareSamplesError(VVV_err, VVV_count);
+      TTV_err = getRareSamplesError(TTV_err, TTV_count);
+
+
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
+      //cout<<__LINE__<<endl;
+      pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
 
-      TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
+      for (int i = 0; i < ZZ_err.size(); i++){
+        //rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
+        //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+
+        rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
+        rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+      }
+
+      printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
+      printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
-    }
 
-    //Compute Rare Sample Errors
-    ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
-    //WZ_err = getRareSamplesError(WZ_err, WZ_count);
-    VVV_err = getRareSamplesError(VVV_err, VVV_count);
-    TTV_err = getRareSamplesError(TTV_err, TTV_count);
-
-
-    vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
-    //cout<<__LINE__<<endl;
-    pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
-    //cout<<__LINE__<<endl;
-
-    for (int i = 0; i < ZZ_err.size(); i++){
-      //rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
-      //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
-
-      rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
-      rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
-    }
-
-    printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-    printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-    //cout<<__LINE__<<endl;
-
-    for (int i=0; i < num_hists; i++){
-      if (conf->get("hist_"+to_string(i)+"_scale") != ""){
-        hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
+      for (int i=0; i < num_hists; i++){
+        if (conf->get("hist_"+to_string(i)+"_scale") != ""){
+          hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
+        }
       }
     }
   }
