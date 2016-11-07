@@ -43,6 +43,14 @@ double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
+//____________________________________________________________________________
+// returns the error on C = A/(A+B) 
+// note that if A and B are integers, simplifies to sqrt((C * (1-C)) / (A+B))
+// or thinking of an efficiency, sqrt((eff * (1-eff)) / N)
+float err_binomial(float A, float B, float errA, float errB) {
+ return (1/pow(A+B,2)) * sqrt(pow(B*errA,2) + pow(A*errB,2));
+}
+
 void drawLatexFromTString(TString text, double x_low, double y_low){
   TLatex *lumitex = NULL;
   
@@ -445,16 +453,39 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
 
     if(conf->get("simple_errors") == "true"){
+      vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
+
+      //Loop over the stats bins
       for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         double count, error;
-        cout<<"ERRORS: Bin "<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<":"<<endl;
+        //Loop over the samples
         for(int i = 0 ; i < (int)hists.size(); i++){
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
-          cout<<"ERRORS: \t"<<hist_labels[i]<<": "<<count<<"+/-"<<error<<endl;
+          stats[st_bin].push_back(make_pair(count,error));
         }
         count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
-        cout<<"ERRORS: \t"<<"Sum BG: "<<count<<"+/-"<<error<<endl;
+        stats[st_bin].push_back(make_pair(count,error));
       }
+
+      //print out head row:
+      cout<<"ERRORS: "<<"Sample \t"
+      for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second;
+      }
+      cout<<endl;
+
+      for(int row = 0; row < (int) hists.size(); row++ ){
+        cout<<"ERRORS: "<<hist_labels[row]<<"\t";
+        for(int col=0; col < (int) stats_bins.size(); col++){
+          cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first
+        }
+        cout<<endl;
+      }
+      cout<<"ERRORS: SumBG\t";
+      for(int col=0; col < (int) stats_bins.size(); col++){
+        cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first
+      }
+      cout<<endl;
     }
     else{  
       double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
