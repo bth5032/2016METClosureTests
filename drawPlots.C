@@ -499,7 +499,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
       cout<<"ERRORS: SumBG\t";
       for(int col=0; col < (int) stats_bins.size(); col++){
-        cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
+        cout<<stats[stats.size()][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()][0].first;
       }
       cout<<endl;
       //cout<<__LINE__<<endl;
