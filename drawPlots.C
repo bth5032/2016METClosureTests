@@ -469,6 +469,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         stats.push_back(stat_row);
         stat_row.clear();
       }
+      //Tack on BG sum row
       for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
         stat_row.push_back(make_pair(count,error)); 
@@ -478,30 +479,30 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       // Print Table =========================================================
       //print out head row:
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       cout<<"ERRORS: "<<"Sample \t";
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second;
       }
       cout<<endl;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
 
       for(int row = 0; row < (int) hists.size(); row++ ){
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
         cout<<"ERRORS: "<<hist_labels[row]<<"\t";
         for(int col=0; col < (int) stats_bins.size(); col++){
           cout<<stats[row][col].first<<"+/-"<<stats[row][col].second<<" Eff: "<<stats[row][col].first/stats[row][0].first;
         }
         cout<<endl;
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
       }
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       cout<<"ERRORS: SumBG\t";
       for(int col=0; col < (int) stats_bins.size(); col++){
         cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
       }
       cout<<endl;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
     }
     else{  
       double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
