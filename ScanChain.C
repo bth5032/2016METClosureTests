@@ -947,6 +947,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nisotrack->SetDirectory(rootdir);
   nisotrack->Sumw2();
 
+  cout<<"Added nisotrack"<<endl;
+
   TH1D *dphi_jet1_met = new TH1D(sampleName+"_dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
@@ -1282,6 +1284,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       nbtags_t->Fill(phys.nBJetTight(), weight);
       nVert->Fill(phys.nVert(), weight);
       nlep->Fill(phys.nlep(), weight);
+      cout<<"Filling nisotrack"<<endl;
       nisotrack->Fill(phys.nisoTrack_mt2(), weight);
       //cout<<__LINE__<<endl;
       mt2->Fill(phys.mt2(), weight);
@@ -1449,6 +1452,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nlep->Write();
   //cout<<__LINE__<<endl;
   nisotrack->Write();
+  cout<<"wrote nisotrack"<<endl;
   //cout<<__LINE__<<endl;
   nbtags_m->Write();
   //cout<<__LINE__<<endl;
