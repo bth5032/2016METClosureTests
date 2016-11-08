@@ -739,8 +739,8 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
-  if (conf->get("MT2b") != ""){
-    if (phys.mt2b() < stod(conf->get("MT2b")) && g_sample_name == "zjets"){
+  if (conf->get("MT2b_min") != ""){
+    if (phys.mt2b() < stod(conf->get("MT2b_min")) && g_sample_name != "gjets"){
       numEvents->Fill(40);
       //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
@@ -808,6 +808,14 @@ bool passSignalRegionCuts(){
   if (conf->get("MET_min") != ""){
     if ( phys.met_T1CHS_miniAOD_CORE_pt() < stod( conf->get("MET_min") )){
       numEvents->Fill(56);
+      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      return false;
+    }
+  }
+
+  if (conf->get("Mbb_min") != ""){
+    if ( phys.mbb_bpt() < stod( conf->get("mbb_bpt") )){
+      numEvents->Fill(57);
       //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
