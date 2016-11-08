@@ -19,7 +19,7 @@
 
 using namespace std;
 
-vector<int> ROOTCOLORPALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
+vector<int> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
 TString parseLatex(TString opt){
   opt.ReplaceAll("\\","#");
@@ -347,7 +347,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
     cout<<__LINE__<<endl;
-    //hists[i]->SetFillColor(ROOTCOLORPALATE[(i-1) % ROOTCOLORPALATE.size()]);
+    //hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i-1) % ROOT_COLOR_PALATE.size()]);
     cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
