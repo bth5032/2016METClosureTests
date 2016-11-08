@@ -1263,6 +1263,13 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           continue;
         } //Rare Sample Selections
       }
+
+      if (conf->get("susy_mc") == "true"){
+        if (! passSUSYSingalCuts()){
+          //cout<<"Failed SUSY Signal"<<endl;
+          continue;  
+        }
+      }
       //double weight=1;
       double weight = getWeight();
 //=======================================
