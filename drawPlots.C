@@ -373,23 +373,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
 
   //===========================
-  // MAKE STACK
-  //===========================
-  //Add all the background hists to a stack.
-  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
-  //cout<<__LINE__<<endl;
-  
-
-  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
-  
-  for (int i=1; i<num_hists; i++)
-  {
-    stack->Add(hists[i]);
-  } 
-
-
-
-  //===========================
   // Find Plot Maxima
   //===========================
   //cout<<__LINE__<<endl;
@@ -634,9 +617,23 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  stack->Draw("HIST SAME");
   hists[0]->Draw("E1 SAME");
 
+  //===========================
+  // MAKE STACK
+  //===========================
+  //Add all the background hists to a stack.
+  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
+  //cout<<__LINE__<<endl;
+  
+
+  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  
+  for (int i=1; i<num_hists; i++)
+  {
+    stack->Add(hists[i]);
+  } 
+  stack->Draw("HIST SAME");
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
 
