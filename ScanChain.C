@@ -813,8 +813,8 @@ bool passSignalRegionCuts(){
     }
   }
 
-  if (conf->get("Mbb_min") != ""){
-    if ( phys.mbb_bpt() < stod( conf->get("mbb_bpt") )){
+  if (conf->get("Mbb_max") != ""){
+    if ( phys.mbb_bpt() > stod( conf->get("Mbb_max") )){
       numEvents->Fill(57);
       //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
