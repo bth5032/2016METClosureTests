@@ -507,7 +507,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       cout<<endl;
       //cout<<__LINE__<<endl;*/
 
-      CTable t;
+      CTable table;
       //Set Column Labels
       table.setTitle(Form("Efficiencies for %s",plot_name));
       table.setColLabel("Sample",0);
