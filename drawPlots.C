@@ -508,6 +508,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
       //cout<<__LINE__<<endl;
 
+      table.setPrecision(2);
+
       table.print();
       table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
 
