@@ -11,7 +11,6 @@
 #include "TCut.h"
 #include "TH1D.h"
 
-#include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.h"
 #include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.cpp"
 
 #include "computeErrors.C"
