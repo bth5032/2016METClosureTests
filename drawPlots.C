@@ -345,7 +345,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
+    cout<<__LINE__<<endl;
     hists[i]->SetFillColor(ROOTCOLORPALATE[(i-1) % ROOTCOLORPALATE.size()]);
+    cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
   cout<<__LINE__<<endl;
