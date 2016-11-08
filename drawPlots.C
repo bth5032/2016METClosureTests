@@ -509,9 +509,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       CTable table;
       //Set Column Labels
-      table.setTitle(Form("Efficiencies for %s",plot_name));
+      table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-        table.setColLabel(Form("%d-%d",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
+        table.setColLabel(Form("%f-%f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
       }
 
       //Output Rows for samples
