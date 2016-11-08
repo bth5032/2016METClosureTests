@@ -306,8 +306,8 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9));
     }
     else{
-      numEventsData = clonedPrimary_norm->Integral();
-      numEventsMC = clonedBG_norm->Integral();
+      numEventsData = clonedPrimary_norm->Integral(0,-1);
+      numEventsMC = clonedBG_norm->Integral(0,-1);
     }
     //cout<<__LINE__<<endl;
     cout<<"Num Events Primary: "<<numEventsData<<endl;
@@ -625,7 +625,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
   //cout<<__LINE__<<endl;
-  
 
   sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
   
