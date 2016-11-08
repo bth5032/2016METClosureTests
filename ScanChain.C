@@ -739,8 +739,8 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
-  if (conf->get("MT2b_min") != ""){
-    if (phys.mt2b() < stod(conf->get("MT2b_min")) && g_sample_name != "gjets"){
+  if (conf->get("MT2b_min") != "" && g_sample_name != "gjets"){
+    if (phys.mt2b() < stod(conf->get("MT2b_min"))){
       numEvents->Fill(40);
       //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
