@@ -617,8 +617,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
-  hists[0]->Draw("E1 SAME");
-
   //===========================
   // MAKE STACK
   //===========================
@@ -633,6 +631,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     stack->Add(hists[i]);
   } 
   stack->Draw("HIST SAME");
+  hists[0]->Draw("E1 SAME");
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
 
