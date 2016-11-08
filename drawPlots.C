@@ -484,6 +484,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       // Print Table =========================================================
       CTable table;
+      table.setPrecision(2);
       //Set Column Labels
       //cout<<__LINE__<<endl;
       table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
@@ -507,8 +508,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         }
       }
       //cout<<__LINE__<<endl;
-
-      table.setPrecision(2);
 
       table.print();
       table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
