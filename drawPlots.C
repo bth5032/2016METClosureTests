@@ -14,6 +14,8 @@
 #include "computeErrors.C"
 #include "ConfigParser.C"
 
+#include "/home/users/bhashemi/Projects/GIT/Software/tableMaker/CTable.h"
+
 using namespace std;
 
 vector<int> ROOTCOLORPALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
@@ -480,6 +482,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // Print Table =========================================================
       //print out head row:
       //cout<<__LINE__<<endl;
+      /*
       cout<<"ERRORS: "<<"Sample \t";
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         cout<<stats_bins[st_bin].first<<"-"<<stats_bins[st_bin].second<<" ";
@@ -502,7 +505,31 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
       }
       cout<<endl;
-      //cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;*/
+
+      CTable t;
+      //Set Column Labels
+      table.setTitle(Form("Efficiencies for %s",plot_name));
+      table.setColLabel("Sample",0);
+      for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        table.setColLabel(Form("%d-%d",stats_bins[st_bin].first, stats_bins[st_bin].second));
+      }
+
+      //Output Rows for samples
+      for(int row = 0; row <= (int) hists.size(); row++ ){
+        if (row == hists.size()){
+          table.setRowLabel("Sum of BG", hists.size());  
+        }
+        else{
+          table.setRowLabel(hist_labels[row], row);
+        }
+        for(int col=0; col < (int) stats_bins.size(); col++){
+          table.setCell(Form("%f+/-%f; Eff: %f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+        }
+      }
+
+      table.print();
+
     }
     else{  
       double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
