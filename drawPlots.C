@@ -471,9 +471,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //Set Column Labels
       //cout<<__LINE__<<endl;
       table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
+      table.useTitle();
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
         //cout<<__LINE__<<endl;
-        table.setColLabel(Form("%f-%f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
+        table.setColLabel(Form("%.2f-%.2f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
       }
       //cout<<__LINE__<<endl;
 
@@ -487,7 +488,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         }
         for(int col=0; col < (int) stats_bins.size(); col++){
           //cout<<__LINE__<<endl;
-          table.setCell(Form("%f+/-%f; Eff: %f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+          table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
         }
       }
       //cout<<__LINE__<<endl;

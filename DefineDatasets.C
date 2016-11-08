@@ -148,6 +148,7 @@ TChain * getFSMCChain(TString data_set){
   if (data_set.Contains("ww")){
     //cout<<"Adding WW Sample"<<endl;
     ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
+    ch_fs->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
@@ -170,7 +171,6 @@ TChain * getRareChain(TString data_set){
   }
 
   if (data_set.Contains("vvv")){
-    ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wwz_incl_amcnlo*.root");
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wzz_incl_amcnlo*.root");
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zzz_incl_amcnlo*.root");
