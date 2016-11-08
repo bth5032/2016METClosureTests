@@ -505,14 +505,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         cout<<stats[stats.size()-1][col].first<<"+/-"<<stats[stats.size()-1][col].second<<" Eff: "<<stats[stats.size()-1][col].first/stats[stats.size()-1][0].first;
       }
       cout<<endl;
-      //cout<<__LINE__<<endl;*/
+      */
 
       CTable table;
       //Set Column Labels
+      cout<<__LINE__<<endl;
       table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        cout<<__LINE__<<endl;
         table.setColLabel(Form("%f-%f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
       }
+      cout<<__LINE__<<endl;
 
       //Output Rows for samples
       for(int row = 0; row <= (int) hists.size(); row++ ){
@@ -523,9 +526,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           table.setRowLabel(hist_labels[row], row);
         }
         for(int col=0; col < (int) stats_bins.size(); col++){
+          cout<<__LINE__<<endl;
           table.setCell(Form("%f+/-%f; Eff: %f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
         }
       }
+      cout<<__LINE__<<endl;
 
       table.print();
 
