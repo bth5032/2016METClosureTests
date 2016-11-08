@@ -19,7 +19,7 @@
 
 using namespace std;
 
-int ROOT_COLOR_PALATE[14] = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
+std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
 TString parseLatex(TString opt){
   opt.ReplaceAll("\\","#");
