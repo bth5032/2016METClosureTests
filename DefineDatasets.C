@@ -124,7 +124,8 @@ TChain * getFSMCChain(TString data_set){
   
   if (data_set.Contains("dilep")){
     //cout<<"Adding Dilepton Sample"<<endl;
-    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    //ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
