@@ -15,7 +15,7 @@ DEFAULT::luminosity_fb=26.4
 # Basic defaults
 DEFAULT::overflow=true
 DEFAULT::normalize=false
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ZMET2016_PostICHEP/ZH_Signal_Studies/SR/TChiHZ/b_met_dphi/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ZMET2016_PostICHEP/ZH_Signal_Studies/SR/TChiHZ/b_met/
 DEFAULT::num_hists=7
 DEFAULT::ratio_yaxis=\frac{Signal}{Standard Model}
 DEFAULT::ymin=0.001
@@ -27,13 +27,13 @@ DEFAULT::ymin=0.001
 #File 2 is the location of the TTbar background, this is in FSBKG
 #File 1 is the location of the rare samples. 
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_TChiHZ_TChiHZ.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_Z_Base_TChiHZ.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_TT_Base_TChiHZ.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_VVV_TChiHZ.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_ttv_TChiHZ.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_zz_TChiHZ.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met_dphi/ct_wz_TChiHZ.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_TChiHZ_TChiHZ.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_Z_Base_TChiHZ.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_TT_Base_TChiHZ.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_VVV_TChiHZ.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_ttv_TChiHZ.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_zz_TChiHZ.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_wz_TChiHZ.root
 
 
 #Histogram labels
@@ -41,7 +41,7 @@ DEFAULT::hist_0_label=SUSY TChiHZ
 DEFAULT::hist_6_label=Z+Jets
 DEFAULT::hist_5_label=Flavor Symmetric
 DEFAULT::hist_4_label=VVV
-DEFAULT::hist_3_label=T\bar{T} Z
+DEFAULT::hist_3_label=T\bar{T} V
 DEFAULT::hist_2_label=ZZ
 DEFAULT::hist_1_label=WZ
 
@@ -96,23 +96,6 @@ stats_1_high_val=6001
 stats_2_low_val=200
 stats_2_high_val=6001
 
-Name=mt2j
-plot_name=mt2j
-title=M_{T2} Jet
-xmin=0
-xmax=200
-xlabel=M_{T2}j [GeV]
-ylabel=Count
-xmin=0
-xmax=500
-bin_size=1
-hist_0_name=mt2j
-stats_0_low_val=0
-stats_0_high_val=6001
-stats_1_low_val=180
-stats_1_high_val=6001
-stats_2_low_val=200
-stats_2_high_val=6001
 
 Name=sum_pt_z_bb
 plot_name=sum_pt_z_bb
@@ -152,50 +135,4 @@ stats_3_low_val=250
 stats_3_high_val=300
 stats_4_low_val=300
 stats_4_high_val=6001
-
-
-Name=M_bb_csv
-plot_name=M_bb_csv
-title=DiBjet Mass (jets chosen by B Discriminator)
-xmin=0
-xmax=600
-xlabel=M_{bb}
-ylabel=Count / 2 GeV
-bin_size=2
-hist_0_name=m_bb_csv
-stats_0_low_val=0
-stats_0_high_val=6001
-stats_1_low_val=0
-stats_1_high_val=100
-stats_2_low_val=0
-stats_2_high_val=125
-stats_3_low_val=0
-stats_3_high_val=150
-stats_4_low_val=0
-stats_4_high_val=175
-stats_4_low_val=0
-stats_4_high_val=200
-
-Name=M_bb_bpt
-plot_name=M_bb_bpt
-title=DiBjet Mass (jets chosen by Pt)
-xmin=0
-xmax=600
-xlabel=M_{bb}
-ylabel=Count / 2 GeV
-bin_size=2
-hist_0_name=m_bb_bpt
-stats_0_low_val=0
-stats_0_high_val=6001
-stats_1_low_val=0
-stats_1_high_val=100
-stats_2_low_val=0
-stats_2_high_val=125
-stats_3_low_val=0
-stats_3_high_val=150
-stats_4_low_val=0
-stats_4_high_val=175
-stats_4_low_val=0
-stats_4_high_val=200
-
 

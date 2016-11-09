@@ -15,7 +15,7 @@ DEFAULT::luminosity_fb=26.4
 # Basic defaults
 DEFAULT::overflow=true
 DEFAULT::normalize=true
-DEFAULT::save_dir=/home/users/bhashemi/public_html/ZMET2016_PostICHEP/ZH_Signal_Studies/SR/TChiHZ/b_met/
+DEFAULT::save_dir=/home/users/bhashemi/public_html/ZMET2016_PostICHEP/ZH_Signal_Studies/SR/TChiHZ/WithBjetCut/
 DEFAULT::num_hists=7
 DEFAULT::ratio_yaxis=\frac{Signal}{Standard Model}
 DEFAULT::ymin=0.001
@@ -27,13 +27,13 @@ DEFAULT::ymin=0.001
 #File 2 is the location of the TTbar background, this is in FSBKG
 #File 1 is the location of the rare samples. 
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_TChiHZ_TChiHZ.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_Z_Base_TChiHZ.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_TT_Base_TChiHZ.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_VVV_TChiHZ.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_ttv_TChiHZ.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_zz_TChiHZ.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/b_met/ct_wz_TChiHZ.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_TChiHZ_TChiHZ.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_Z_Base_TChiHZ.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_TT_Base_TChiHZ.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_VVV_TChiHZ.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_ttv_TChiHZ.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_zz_TChiHZ.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/ZH_Signal_Studies/withbjetcut/ct_wz_TChiHZ.root
 
 
 #Histogram labels
@@ -41,7 +41,7 @@ DEFAULT::hist_0_label=SUSY TChiHZ
 DEFAULT::hist_6_label=Z+Jets
 DEFAULT::hist_5_label=Flavor Symmetric
 DEFAULT::hist_4_label=VVV
-DEFAULT::hist_3_label=T\bar{T} Z
+DEFAULT::hist_3_label=T\bar{T} V
 DEFAULT::hist_2_label=ZZ
 DEFAULT::hist_1_label=WZ
 
@@ -85,8 +85,7 @@ Name=vpt_ratio_bin1
 plot_name=BosonPT_bin1
 title=Boson P_{T}
 xmin=0
-xmax=5	00
-binning=[0,25,50,75,100,150,200,250,300,400,500]
+xmax=100
 logy=true
 xlabel=P_{T} [GeV]
 ylabel=Count
