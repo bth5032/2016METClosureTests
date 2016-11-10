@@ -152,6 +152,11 @@ TChain * getFSMCChain(TString data_set){
     ch_fs->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
   }
 
+  if (data_set.Contains("ttw")){
+    ch_fs->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_ln_amcnlo*.root");
+    ch_fs->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_qq_amcnlo*.root");
+  }
+
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
 
   return ch_fs;
