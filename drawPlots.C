@@ -1070,6 +1070,9 @@ TString drawSingleTH2(ConfigParser *conf){
   gPad->SetRightMargin(0.05);
   gPad->Modified();
   gStyle->SetOptStat(kFALSE);
+  gStyle->SetTitleW(0.6);
+  gStyle->SetTitleH(0.06);
+  gStyle->SetTitleFont(12);
   TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
   
   fullpad->Draw();
