@@ -1087,6 +1087,8 @@ TString drawSingleTH2(ConfigParser *conf){
   h->GetXaxis()->SetTitle(xlabel);
   h->GetYaxis()->SetTitle(ylabel);
 
+  h->Draw("colz");
+
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
