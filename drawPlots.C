@@ -1038,18 +1038,24 @@ TString drawCutDebug(ConfigParser *conf){
 
 TString drawSingleTH2(ConfigParser *conf){
   TString errors="";
-  
+  cout<<__LINE__<<endl;
   TString plot_name = conf->get("plot_name");
+  cout<<__LINE__<<endl;
   TString plot_title = parseLatex(conf->get("title"));
-  
+  cout<<__LINE__<<endl;
   double xmax = (conf->get("xmax") != "") ? stod(conf->get("xmax")) : 500;
+  cout<<__LINE__<<endl;
   double xmin = (conf->get("xmin") != "") ? stod(conf->get("xmin")) : 500;
+  cout<<__LINE__<<endl;
   double ymax = (conf->get("ymax") != "") ? stod(conf->get("ymax")) : 500;
+  cout<<__LINE__<<endl;
   double ymin = (conf->get("ymin") != "") ? stod(conf->get("ymin")) : 500;
-  
+  cout<<__LINE__<<endl;
   double bin_size_x = (conf->get("bin_size_x") != "") ? stod(conf->get("bin_size_x")) : 1;
+  cout<<__LINE__<<endl;
   double bin_size_y = (conf->get("bin_size_y") != "") ? stod(conf->get("bin_size_y")) : 1;
-
+  cout<<__LINE__<<endl;
+  
   TString hist_name=conf->get("hist_name");
   TString hist_prefix=conf->get("hist_prefix");
   TString xlabel=parseLatex(conf->get("xlabel"));
