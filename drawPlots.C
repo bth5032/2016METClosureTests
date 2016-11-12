@@ -1085,6 +1085,7 @@ TString drawSingleTH2(ConfigParser *conf){
   h->GetYaxis()->SetRange(h->GetYaxis()->FindBin(ymin), h->GetYaxis()->FindBin(ymax));
 
   h->GetXaxis()->SetTitle(xlabel);
+  h->GetYaxis()->SetTitleOffset(1.2);
   h->GetYaxis()->SetTitle(ylabel);
 
   h->Draw("colz");
