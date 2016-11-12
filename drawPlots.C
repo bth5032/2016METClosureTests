@@ -1040,7 +1040,7 @@ TString drawSingleTH2(ConfigParser *conf){
   TString errors="";
   
   TString plot_name = conf->get("plot_name");
-  TString plot_title = getLatex(conf->get("title"));
+  TString plot_title = parseLatex(conf->get("title"));
   
   double xmax = (conf->get("xmax") != "") ? stod(conf->get("xmax")) : 500;
   double xmin = (conf->get("xmin") != "") ? stod(conf->get("xmin")) : 500;
@@ -1052,8 +1052,8 @@ TString drawSingleTH2(ConfigParser *conf){
 
   TString hist_name=conf->get("hist_name");
   TString hist_prefix=conf->get("hist_prefix");
-  TString xlabel=getLatex(conf->get("xlabel"));
-  TString ylabel=getLatex(conf->get("ylabel"));
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=conf->get("save_dir");
 
   cout<<"Options set"<<endl;
