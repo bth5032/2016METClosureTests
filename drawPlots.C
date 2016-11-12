@@ -1062,7 +1062,7 @@ TString drawSingleTH2(ConfigParser *conf){
 
   cout << "Found files "<<endl;
 
-  TH2D *h = (TH1D*) ((TH1D*) f_primary->Get(hist_prefix+"_"+hist_name))->Clone("hist_"+plot_name);
+  TH2D *h = (TH2D*) ((TH2D*) f_primary->Get(hist_prefix+"_"+hist_name))->Clone("hist_"+plot_name);
 
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
