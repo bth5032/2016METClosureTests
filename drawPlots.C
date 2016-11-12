@@ -1083,6 +1083,7 @@ TString drawSingleTH2(ConfigParser *conf){
   h->Rebin2D(bin_size_x, bin_size_y);
 
   h->SetTitle(plot_title);
+  h->SetTitleSize(1.5);
 
   h->GetXaxis()->SetRange(h->GetXaxis()->FindBin(xmin), h->GetXaxis()->FindBin(xmax));
   h->GetYaxis()->SetRange(h->GetYaxis()->FindBin(ymin), h->GetYaxis()->FindBin(ymax));
