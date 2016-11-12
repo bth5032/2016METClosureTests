@@ -20,6 +20,8 @@
 #include "TROOT.h"
 #include "TTreeCache.h"
 #include "TEfficiency.h"
+#include "TH1.h"
+#include "TH2.h"
 
 // ZMET2016
 #include "ZMET2016.cc"
@@ -72,7 +74,7 @@ pair<int, int> getMostBlike(){
     second_index = 0;
   }
 
-  for (int i = 2; i < (int) phys.jets_p4.size(); i++){
+  for (int i = 2; i < (int) phys.jets_p4().size(); i++){
     if (phys.jets_csv().at(first_index) < phys.jets_csv().at(i)){
       second_index = first_index;
       first_index = i;
@@ -86,17 +88,17 @@ pair<int, int> getMostBlike(){
 }
 
 pair<int,int> getClosestBPairToHiggsMass(){
-  int first = 0,
+  int first = 0;
   int second = 1;
   
   if (phys.jets_p4().size()<2){
     cout<<"Going to throw error finding closest B pair: Less than two jets!"<<endl;
   }
 
-  double dist = abs((phys.jets_p4().at(i)+phys.jets_p4().at(j)).M() - 125.0);
+  double dist = abs((phys.jets_p4().at(0)+phys.jets_p4().at(1)).M() - 125.0);
 
-  for (int i = 0; i < phys.jets_p4().size(); i++) {
-    for (int j = i+1; j < phys.jets_p4().size(); j++) {
+  for (int i = 0; i < (int) phys.jets_p4().size(); i++) {
+    for (int j = i+1; j < (int) phys.jets_p4().size(); j++) {
       if (abs((phys.jets_p4().at(i)+phys.jets_p4().at(j)).M() - 125 ) < dist){
         first = i;
         second = j;
@@ -104,8 +106,9 @@ pair<int,int> getClosestBPairToHiggsMass(){
     }
   }
 
-  return make_pair(i,j);
+  return make_pair(first,second);
 }
+
 double getMT2ForBjets(bool select_highest_csv=false){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
@@ -1128,8 +1131,8 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
 
-  TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, mt2_fromb;
-  TH2D* MT2_MT2B, MT2_MT2_fromb, MT2_MT2_HZ;
+  TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, *mt2_fromb, *mt2_hz;
+  TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
 
   if(conf->get("signal_region") == "TChiHZ"){
     sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
