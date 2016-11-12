@@ -1063,6 +1063,8 @@ TString drawSingleTH2(ConfigParser *conf){
 
   TH2D *h = (TH2D*) ((TH2D*) f_primary->Get(hist_prefix+"_"+hist_name))->Clone("hist_"+plot_name);
 
+  cout<<"Found histogram "<<hist_prefix<<"_"<<hist_name<<" with "<<h->GetEntries()<<" entries"<<endl;
+
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
   gPad->SetRightMargin(0.05);
