@@ -1036,27 +1036,94 @@ TString drawCutDebug(ConfigParser *conf){
   return errors;
 }
 
-void drawPlots(TString config_file)
-{
-  vector<TString> plot_names;
+TString drawSingleTH2(ConfigParser *conf){
   TString errors="";
   
+  TString plot_name = conf->get("plot_name");
+  TString plot_title = getLatex(conf->get("title"));
+  
+  double xmax = (conf->get("xmax") != "") ? stod(conf->get("xmax")) : 500;
+  double xmin = (conf->get("xmin") != "") ? stod(conf->get("xmin")) : 500;
+  double ymax = (conf->get("ymax") != "") ? stod(conf->get("ymax")) : 500;
+  double ymin = (conf->get("ymin") != "") ? stod(conf->get("ymin")) : 500;
+  
+  double bin_size_x = (conf->get("bin_size_x") != "") ? stod(conf->get("bin_size_x")) : 1;
+  double bin_size_y = (conf->get("bin_size_y") != "") ? stod(conf->get("bin_size_y")) : 1;
+
+  TString hist_name=conf->get("hist_name");
+  TString hist_prefix=conf->get("hist_prefix");
+  TString xlabel=getLatex(conf->get("xlabel"));
+  TString ylabel=getLatex(conf->get("ylabel"));
+  TString save_dir=conf->get("save_dir");
+
+  cout<<"Options set"<<endl;
+
+  TFile* f_primary = new TFile(TString(conf->get("file_path")));
+
+  cout << "Found files "<<endl;
+
+  TH2D *h = (TH1D*) ((TH1D*) f_primary->Get(hist_prefix+"_"+hist_name))->Clone("hist_"+plot_name);
+
+  TCanvas * c = new TCanvas("c","",2000,2000);
+  c->cd();
+  gPad->SetRightMargin(0.05);
+  gPad->Modified();
+  gStyle->SetOptStat(kFALSE);
+  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
+  
+  fullpad->Draw();
+  fullpad->cd();
+    
+  fullpad->SetRightMargin(0.05);
+
+  h->Rebin2D(bin_size_x, bin_size_y);
+
+  h->SetTitle(plot_title);
+
+  h->GetXaxis()->SetRange(h->GetXaxis()->FindBin(xmin), h->GetXaxis()->FindBin(xmax));
+  h->GetYaxis()->SetRange(h->GetYaxis()->FindBin(ymin), h->GetYaxis()->FindBin(ymax));
+
+  h->GetXaxis()->SetTitle(xlabel);
+  h->GetYaxis()->SetTitle(ylabel);
+
+  cout<<"Saving..."<<endl;
+  c->SaveAs(save_dir+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+plot_name+TString(".png"));
+  //c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+plot_name+TString(".C"));
+  
+  cout<<"Cleaning up plot variables"<<endl;
+  delete h;
+  delete fullpad;
+  delete c;
+
+  f_primary->Close();
+  delete f_primary;
+
+  return errors;
+
+}
+
+void drawPlots(TString config_file){
+  TString errors="";
 
   ConfigParser *configs=new ConfigParser(config_file.Data());
   
   TGaxis::SetExponentOffset(-0.07, 0, "y"); // X and Y offset for Y axis
   TGaxis::SetExponentOffset(-.8, -0.07, "x"); // X and Y offset for X axis
 
-
   while(configs->loadNextConfig()) {
     if (configs->get("PLOT_TYPE") == "ratio"){
-      errors=drawArbitraryNumberWithResidual(configs);
+      errors+=drawArbitraryNumberWithResidual(configs);
     }
     else if (configs->get("PLOT_TYPE") == "single"){
-      errors=drawSingleTH1(configs);
+      errors+=drawSingleTH1(configs);
     }
     else if (configs->get("PLOT_TYPE") == "debug"){
-      errors=drawCutDebug(configs);
+      errors+=drawCutDebug(configs);
+    }
+    else if (configs->get("PLOT_TYPE") == "single2D"){
+      errors+=drawSingleTH2(configs);
     }
   }
   
