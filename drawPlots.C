@@ -1090,8 +1090,8 @@ TString drawSingleTH2(ConfigParser *conf){
   h->GetYaxis()->SetTitleOffset(1.3);
 
   h->SetTitle(plot_title);
-  gStyle->SetTitleW(0.5); //title width 
-  gStyle->SetTitleH(0.1); //title height 
+  gStyle->SetTitleW(1.5); //title width 
+  gStyle->SetTitleH(1); //title height 
   //h->SetTitleSize(2);
 
   h->Draw("colz");
