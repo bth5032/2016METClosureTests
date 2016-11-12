@@ -9,13 +9,13 @@ void AddRareHists(TString sample_name, TString location){
   TFile* f_tt_base = new TFile(location+"/ct_TT_Base_"+sample_name+".root", "READ");
 
   TIter n(f_vvv->GetListOfKeys());
-  TH1D* combined;
+  TH2D* combined;
   TString name;
   TKey *key;
   int i = 0; //Make sure don't get infinite loops if something is messed up.
   while ((key=(TKey*)n()) && i<500){
     cout<<"Found Object "<<key->GetName()<<endl;
-    combined = (TH1D*) ((TH1D*) key->ReadObj())->Clone("combined");
+    combined = (TH2D*) ((TH2D*) key->ReadObj())->Clone("combined");
     name=key->GetName();
 
     name.ReplaceAll("vvv", "combined");
