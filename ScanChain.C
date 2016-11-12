@@ -28,6 +28,8 @@
 //You can not include headers!!! This is not compiled code.
 #include "CoreTools/dorky.cc"
 #include "CoreTools/goodrun.cc"
+#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2Utility.cc"
+#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2.cc"
 // Configuration parsing
 #include "ConfigParser.C"
 
@@ -60,9 +62,82 @@ TH1I *numEvents; //Holds the number of events in the whole script and the number
 bool printStats = false;
 bool printFail = false;
 
-/*double getPTbb(){
+pair<int, int> getMostBlike(){
+  /* returns two most B-like jet indicies */
+  int first_index = 0;
+  int second_index = 1;
 
-}*/
+  if (phys.jets_csv().at(first_index) < phys.jets_csv().at(second_index)){
+    first_index = 1;
+    second_index = 0;
+  }
+
+  for (int i = 2; i < (int) phys.jets_p4.size(); i++){
+    if (phys.jets_csv().at(first_index) < phys.jets_csv().at(i)){
+      second_index = first_index;
+      first_index = i;
+    }
+    else if (phys.jets_csv().at(second_index) < phys.jets_csv().at(i)){
+      second_index = i;
+    }
+  }
+
+  return make_pair(first_index, second_index);
+}
+
+pair<int,int> getClosestBPairToHiggsMass(){
+  int first = 0,
+  int second = 1;
+  
+  if (phys.jets_p4().size()<2){
+    cout<<"Going to throw error finding closest B pair: Less than two jets!"<<endl;
+  }
+
+  double dist = abs((phys.jets_p4().at(i)+phys.jets_p4().at(j)).M() - 125.0);
+
+  for (int i = 0; i < phys.jets_p4().size(); i++) {
+    for (int j = i+1; j < phys.jets_p4().size(); j++) {
+      if (abs((phys.jets_p4().at(i)+phys.jets_p4().at(j)).M() - 125 ) < dist){
+        first = i;
+        second = j;
+      }
+    }
+  }
+
+  return make_pair(i,j);
+}
+double getMT2ForBjets(bool select_highest_csv=false){
+  /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
+  double mt2;
+  if (select_highest_csv){
+    pair<int, int> b_index = getMostBlike();
+    //make sure first index points to the higher csv of the first two jets
+    mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(b_index.first), phys.jets_p4().at(b_index.second), 0, 0);
+  }
+  else{
+    // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
+    mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_medb_p4().at(0), phys.jets_medb_p4().at(1), 0, 0);
+  }
+
+  return mt2;
+}
+
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
+
+  double mt2; 
+
+  if(select_highest_closest_higgs_mass){
+    pair<int, int> jet_indexes = getClosestBPairToHiggsMass();
+    // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
+    mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_p4().at(jet_indexes.first)+phys.jets_p4().at(jet_indexes.second), lep_p4().at(0)+lep_p4().at(1), 0, 0);
+  }
+  else{
+    // MT2( MET_MAGNITUDE, MET_PHI, P4_LEPTON_1, P4_LEPTON_2, MASS_INVISIBLE_PARTICLE, Bool Verbose)
+    mt2=MT2(phys.met_T1CHS_miniAOD_CORE_pt(), phys.met_T1CHS_miniAOD_CORE_phi(), phys.jets_medb_p4().at(0)+phys.jets_medb_p4().at(1), lep_p4().at(0)+lep_p4().at(1), 0, 0);
+  }
+
+  return mt2;
+}
 
 double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
@@ -1053,7 +1128,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
   TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
 
-  TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb;
+  TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, mt2_fromb;
+  TH2D* MT2_MT2B, MT2_MT2_fromb, MT2_MT2_HZ;
+
   if(conf->get("signal_region") == "TChiHZ"){
     sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
     sum_mlb->SetDirectory(rootdir);
@@ -1071,9 +1148,29 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     mt2j->SetDirectory(rootdir);
     mt2j->Sumw2();
 
+    mt2_fromb = new TH1D(sampleName+"_mt2_fromb", "MT2 From Bjets for "+sampleName, 6000,0,6000);
+    mt2_fromb->SetDirectory(rootdir);
+    mt2_fromb->Sumw2();
+
+    mt2_hz = new TH1D(sampleName+"_mt2_hz", "MT2 From Higgs and Z for "+sampleName, 6000,0,6000);
+    mt2_hz->SetDirectory(rootdir);
+    mt2_hz->Sumw2();
+
     sum_pt_z_bb = new TH1D(sampleName+"_sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
     sum_pt_z_bb->SetDirectory(rootdir);
     sum_pt_z_bb->Sumw2();
+
+    MT2_MT2B = new TH2D(sampleName+"_MT2_MT2B", "MT2 vs. MT2b for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2B->SetDirectory(rootdir);
+    MT2_MT2B->Sumw2();
+
+    MT2_MT2_fromb = new TH2D(sampleName+"_MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_fromb->SetDirectory(rootdir);
+    MT2_MT2_fromb->Sumw2();
+
+    MT2_MT2_HZ = new TH2D(sampleName+"_MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_HZ->SetDirectory(rootdir);
+    MT2_MT2_HZ->Sumw2();
   }
 
   cout<<"Histograms initialized"<<endl;
@@ -1310,9 +1407,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<"Filling nisotrack"<<endl;
       nisotrack->Fill(phys.nisoTrack_mt2(), weight);
       //cout<<__LINE__<<endl;
-      mt2->Fill(phys.mt2(), weight);
+      if (phys.mt2() != 0 ) mt2->Fill(phys.mt2(), weight);
       //cout<<__LINE__<<endl;
-      mt2b->Fill(phys.mt2b(), weight);
+      if (phys.mt2b() != 0 ) mt2b->Fill(phys.mt2b(), weight);
       //cout<<__LINE__<<endl;
       dphi_jet1_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(0).phi())), weight);
       //cout<<__LINE__<<endl;
@@ -1330,30 +1427,24 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         m_bb_csv->Fill(phys.mbb_csv(), weight);
         m_bb_bpt->Fill(phys.mbb_bpt(), weight);
     
-        mt2j->Fill(phys.mt2j(), weight);
+        if (phys.mt2j() != 0 ) mt2j->Fill(phys.mt2j(), weight);
+
+        double mt2_val_fromb = getMT2ForBjets();
+        if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         
-        int most_blike, second_most_blike;
+        double mt2_val_hz = getMT2HiggsZ();
+        if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
+
+        if (phys.mt2() != 0 && phys.mt2b() != 0 ) MT2_MT2B->Fill(phys.mt2(), phys.mt2b(), weight);
+
+        if (phys.mt2() != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(phys.mt2(), mt2_val_fromb, weight);
+
+        if (phys.mt2() != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(phys.mt2(), mt2_val_hz, weight);
+
         if (phys.nBJetMedium() >= 2){
-          if (phys.jets_csv().at(0) > phys.jets_csv().at(1)){
-            most_blike = 0;
-            second_most_blike = 1;
-          }
-          else{
-            most_blike = 1;
-            second_most_blike = 0;
-          }
-          for(int i = 2; i < phys.jets_csv().size(); i++){
-            if (phys.jets_csv().at(i) > phys.jets_csv().at(second_most_blike)){
-              if (phys.jets_csv().at(i) > phys.jets_csv().at(most_blike)){
-                second_most_blike = most_blike;
-                most_blike = i;
-              }
-              else{
-                second_most_blike = i;
-              }
-            }
-          }
-          double bb_pt = (phys.jets_p4().at(most_blike) + phys.jets_p4().at(second_most_blike)).pt();
+          pair<int,int> b_index = getMostBlike();
+          
+          double bb_pt = (phys.jets_p4().at(b_index.first) + phys.jets_p4().at(b_index.second)).pt();
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
         }
     }
@@ -1475,7 +1566,6 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   nlep->Write();
   //cout<<__LINE__<<endl;
   nisotrack->Write();
-  cout<<"wrote nisotrack"<<endl;
   //cout<<__LINE__<<endl;
   nbtags_m->Write();
   //cout<<__LINE__<<endl;
@@ -1505,7 +1595,19 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     //cout<<__LINE__<<endl;
     mt2j->Write();
     //cout<<__LINE__<<endl;
+    mt2_fromb->Write();
+    //cout<<__LINE__<<endl;
+    mt2_hz->Write();
+    //cout<<__LINE__<<endl;
     sum_pt_z_bb->Write();
+    //cout<<__LINE__<<endl;
+
+    //2D hists
+    MT2_MT2B->Write();
+    //cout<<__LINE__<<endl;
+    MT2_MT2_fromb->Write();
+    //cout<<__LINE__<<endl;
+    MT2_MT2_HZ->Write();
     //cout<<__LINE__<<endl;
   }
 
