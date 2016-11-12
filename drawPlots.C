@@ -1083,14 +1083,14 @@ TString drawSingleTH2(ConfigParser *conf){
   h->Rebin2D(bin_size_x, bin_size_y);
 
   h->SetTitle(plot_title);
-  h->SetTitleSize(1.5);
+  h->SetTitleSize(2);
 
   h->GetXaxis()->SetRange(h->GetXaxis()->FindBin(xmin), h->GetXaxis()->FindBin(xmax));
   h->GetYaxis()->SetRange(h->GetYaxis()->FindBin(ymin), h->GetYaxis()->FindBin(ymax));
 
   h->GetXaxis()->SetTitle(xlabel);
-  h->GetYaxis()->SetTitleOffset(1.3);
   h->GetYaxis()->SetTitle(ylabel);
+  h->GetYaxis()->SetTitleOffset(1.3);
 
   h->Draw("colz");
 
