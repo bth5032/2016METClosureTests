@@ -1090,7 +1090,7 @@ TString drawSingleTH2(ConfigParser *conf){
   h->GetYaxis()->SetTitleOffset(1.3);
 
   h->SetTitle(plot_title);
-  gStyle->SetTitleW(.9); //title width 
+  //gStyle->SetTitleW(.9); //title width 
   gStyle->SetTitleSize(.5); //title size 
   gStyle->SetTitleH(.1); //title height 
   //h->SetTitleSize(2);
