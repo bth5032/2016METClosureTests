@@ -891,9 +891,17 @@ bool passSignalRegionCuts(){
     }
   }
 
+  if (conf->get("MET_max") != ""){
+    if ( phys.met_T1CHS_miniAOD_CORE_pt() > stod( conf->get("MET_max") )){
+      numEvents->Fill(57);
+      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      return false;
+    }
+  }
+
   if (conf->get("Mbb_max") != ""){
     if ( phys.mbb_bpt() > stod( conf->get("Mbb_max") )){
-      numEvents->Fill(57);
+      numEvents->Fill(58);
       //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
