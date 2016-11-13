@@ -1067,7 +1067,6 @@ TString drawSingleTH2(ConfigParser *conf){
 
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
-  gPad->SetRightMargin(0.05);
   gPad->Modified();
   gStyle->SetOptStat(kFALSE);
   //gStyle->SetTitleW(0.6);
@@ -1088,7 +1087,7 @@ TString drawSingleTH2(ConfigParser *conf){
 
   h->GetXaxis()->SetTitle(xlabel);
   h->GetYaxis()->SetTitle(ylabel);
-  h->GetYaxis()->SetTitleOffset(1.3);
+  h->GetYaxis()->SetTitleOffset(1.5);
 
   h->SetTitle(plot_title);
   gStyle->SetTitleW(.9); //title width 
