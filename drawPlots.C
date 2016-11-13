@@ -1078,7 +1078,7 @@ TString drawSingleTH2(ConfigParser *conf){
   fullpad->cd();
     
   fullpad->SetRightMargin(0.1);
-  fullpad->SetLeftMargin(0.15);
+  
 
   h->Rebin2D(bin_size_x, bin_size_y);
 
@@ -1087,7 +1087,14 @@ TString drawSingleTH2(ConfigParser *conf){
 
   h->GetXaxis()->SetTitle(xlabel);
   h->GetYaxis()->SetTitle(ylabel);
-  h->GetYaxis()->SetTitleOffset(1.5);
+  if (ymax >= 1000){
+    fullpad->SetLeftMargin(0.15);
+    h->GetYaxis()->SetTitleOffset(1.6);
+  }
+  else{
+    fullpad->SetLeftMargin(0.1);
+    h->GetYaxis()->SetTitleOffset(1.3); 
+  }
 
   h->SetTitle(plot_title);
   gStyle->SetTitleW(.9); //title width 
