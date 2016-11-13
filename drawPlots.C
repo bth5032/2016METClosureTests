@@ -1089,7 +1089,7 @@ TString drawSingleTH2(ConfigParser *conf){
   h->GetYaxis()->SetTitle(ylabel);
   if (ymax >= 1000){
     fullpad->SetLeftMargin(0.15);
-    h->GetYaxis()->SetTitleOffset(1.6);
+    h->GetYaxis()->SetTitleOffset(1.8);
   }
   else{
     fullpad->SetLeftMargin(0.1);
