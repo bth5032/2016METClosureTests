@@ -1077,7 +1077,6 @@ TString drawSingleTH2(ConfigParser *conf){
   fullpad->Draw();
   fullpad->cd();
     
-  fullpad->SetRightMargin(0.1);
   
 
   h->Rebin2D(bin_size_x, bin_size_y);
@@ -1094,6 +1093,12 @@ TString drawSingleTH2(ConfigParser *conf){
   else{
     fullpad->SetLeftMargin(0.1);
     h->GetYaxis()->SetTitleOffset(1.3); 
+  }
+  if (h->GetMaximum > 100){
+    fullpad->SetRightMargin(0.15);
+  }
+  else{
+    fullpad->SetRightMargin(0.1);
   }
 
   h->SetTitle(plot_title);
