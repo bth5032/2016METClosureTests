@@ -1078,7 +1078,8 @@ TString drawSingleTH2(ConfigParser *conf){
   fullpad->Draw();
   fullpad->cd();
     
-  fullpad->SetRightMargin(0.05);
+  fullpad->SetRightMargin(0.08);
+  fullpad->SetLeftMargin(0.05);
 
   h->Rebin2D(bin_size_x, bin_size_y);
 
