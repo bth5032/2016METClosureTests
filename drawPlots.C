@@ -1094,7 +1094,7 @@ TString drawSingleTH2(ConfigParser *conf){
     fullpad->SetLeftMargin(0.1);
     h->GetYaxis()->SetTitleOffset(1.3); 
   }
-  if (h->GetMaximum > 100){
+  if (h->GetMaximum() > 100){
     fullpad->SetRightMargin(0.15);
   }
   else{
