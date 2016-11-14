@@ -3,3 +3,15 @@ histos/
 
 #Output of commands
 outputs/
+
+#compiled stuff
+*.so
+*.d
+*.pcm
+
+
+#mac crap
+.DS_Store
+
+#UAF stuff
+*.nfs*

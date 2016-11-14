@@ -11,7 +11,7 @@ function makePlots {
 
 function makeHistos {	
 	mkdirs $2
-	root -l -b -q "doAll.C(\"$1\", \"$2\")"
+	root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
 function mkdirs {
@@ -69,9 +69,10 @@ function makeAllForDir {
 function makeHistosForDir {
 	if [[ -a $1/run_modes.conf ]]
 	then
-		makeHistos Z_Base $1/run_modes.conf
-		makeHistos G_Base $1/run_modes.conf
-		makeHistos G_Reweight $1/run_modes.conf
+		#makeHistos Z_Base $1/run_modes.conf
+		#makeHistos G_Base $1/run_modes.conf
+		#makeHistos G_Reweight $1/run_modes.conf
+		makeHistos all $1/run_modes.conf
 	else
 		echo "Can not find $1/run_modes.conf"
 	fi
@@ -99,6 +100,11 @@ function makePlotsForDir {
 		echo "Can not find $1/ratioplots_nowt.conf"
 	fi
 
+	if [[ -a $1/ratioplots_HT.conf ]]
+	then
+		makePlots $1/ratioplots_HT.conf
+	fi
+
 	if [[ -a $1/cuts.conf ]]
 	then
 		makePlots $1/cuts.conf
@@ -123,12 +129,12 @@ function addIndexToDirTree {
 	#Adds the file at ~/public_html/ZMET2016/index.php into everything inside of the ~/public_html/ClosureTests/ directory for the directory given as $1.
 	topdir=$1
 
-	while [[ ${topdir%ClosureTests*} == "/home/users/bhashemi/public_html/" ]]
+	while [[ ${topdir%ZMET2016_PostICHEP*} == "/home/users/bhashemi/public_html/" ]]
 	do
 		
 		if [[ ! -a ${topdir}/index.php ]]
 		then
-			cp ~/public_html/ZMET2016/index.php ${topdir}/index.php
+			cp ~/public_html/index.php ${topdir}/index.php
 		fi
 
 		topdir=`dirname $topdir`
@@ -176,7 +182,7 @@ function pullOutput {
 }
 
 function killjobs {
-	kill -9 `numjobs -v | grep "root -l" | xargs`
+	kill -9 `ps aux | grep "^bhashemi" | grep "root" | head -n-1 | cut -d' ' -f2 | xargs`
 }
 
 function addRareHists {
@@ -219,6 +225,8 @@ function getSRs {
 
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
+	rm ${OutputDir}L1PrescaleWeight*.root
+
 	for j in nVert_HLT_Photon22_R9Id90_HE10_IsoM nVert_HLT_Photon30_R9Id90_HE10_IsoM nVert_HLT_Photon36_R9Id90_HE10_IsoM
 	do
 		for i in `getSRs`
@@ -232,4 +240,94 @@ function makeL1PrescaleWeightHists {
 			root -l -b -q "makeWeightHisto_noconf.C(\"${output_location}\",\"${infile1}\",\"${infile2}\",\"${hist1}\",\"${hist2}\",\"${output_hist_name}\")"
 		done
 	done
+}
+
+function closureTable {
+	if [[ $# < 1 ]]
+	then
+		echo "closureTable <path_to_plots_file>"
+		return
+	fi
+
+	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 > lines.tmp
+
+	title[0]="Sample" # Holds the bin
+	zjets[0]="Zjets"
+	gjets[0]="Gjets"
+	ratio[0]="Ratio"
+	i=1
+	j=0
+
+	while read -r l 
+	do
+		#echo "$l"
+		if [[ $j == "0" ]]
+		then
+			title[$i]=`echo $l | cut -d' ' -f 7,9 | sed 's/\([[:digit:]]*\) \([[:digit:]]*\)/\1-\2/g' `
+			zjets[$i]=`echo $l | cut -d' ' -f 11`
+			zjets[$i]=${zjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
+			#echo $j $i
+			j=$((j+1))
+		elif [[ $j == "1" ]]
+		then
+			gjets[$i]=`echo $l | cut -d' ' -f 11`
+			gjets[$i]=${gjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
+			#echo $j $i
+			j=$((j+1))
+		elif [[ $j == "2" ]]
+		then
+			ratio[$i]=`echo $l | cut -d' ' -f 2`
+			ratio[$i]=${ratio[$i]}"+/-"`echo $l | cut -d' ' -f 5`
+			#echo $j $i
+			i=$((i+1))
+			j=0
+		fi
+	done < lines.tmp
+	
+	#echo $i
+
+	echo "======================"
+
+	for k in `seq 0 $((i-1))`
+	do
+		echo -n ${title[$k]}" "
+	done
+	echo ""
+
+	for k in `seq 0 $((i-1))`
+	do
+		echo -n ${zjets[$k]}" "
+	done
+	echo ""
+
+	for k in `seq 0 $((i-1))`
+	do
+		echo -n ${gjets[$k]}" "
+	done
+	echo ""
+
+	for k in `seq 0 $((i-1))`
+	do
+		echo -n ${ratio[$k]}" "
+	done
+
+	echo ""
+
+	#	Cleanup
+	unset title
+	unset zjets
+	unset gjets
+	unset ratio
+	unset i
+	unset j
+	rm lines.tmp
+}
+
+function getPredictionTable {
+	if [[ $1 == "l" ]]
+	then
+		cat $2 | grep LATEXTABLE | cut -d' ' -f2-
+	else
+		cat $1 | grep STATTABLE | cut -d' ' -f2- | mt
+	fi
 }

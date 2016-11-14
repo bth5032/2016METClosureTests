@@ -10,7 +10,7 @@
 using namespace std;
 
 bool isWhiteSpace(string str){
-	for (int i = 0; i<str.size(); i++){
+	for (int i = 0; i<(int)str.size(); i++){
 		if ( (! (str[i] == ' ')) && (! (str[i] == '\t') ) ){
 			return false;	
 		}
@@ -37,6 +37,13 @@ private:
 	map<string, string> default_options;
 	int currentLocation=0;
 
+	string cleanedArg(string arg){
+		string cleaned = arg.substr(0,arg.find("#")); //get argument before comment
+		cleaned = cleaned.substr(0, cleaned.find_last_not_of(" \t")+1); //strip off tabs and spaces.
+
+		return cleaned;
+	}
+
 	void extractOptFromLine(string line, bool default_opt=false){
 		/*Extract a value from a line*/
 		string opt_key; // holds key from line
@@ -47,10 +54,10 @@ private:
 		if(opt_key != "" && opt_value != ""){
 			//if default option, add it to defaults dict
 			if (default_opt){
-				default_options[opt_key] = opt_value;	
+				default_options[opt_key] = cleanedArg(opt_value);	
 			} 
 			else{
-				options[opt_key] = opt_value;
+				options[opt_key] = cleanedArg(opt_value);
 			}
 		}
 		

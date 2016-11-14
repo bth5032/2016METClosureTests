@@ -4,12 +4,14 @@
 #include <TFile.h>
 #include <TH1D.h>
 #include <TString.h>
-
+#include <TDirectory.h>
 
 using namespace std;
 
 void makeWeightHisto_noconf(TString output_location, TString infile1, TString infile2, TString hist1, TString hist2, TString output_hist_name)
 {
+
+  TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 
   cout<<"\n\n";
   cout<<"Making new reweight histogram in file "<<output_location<<". Using "<<hist1<<" in "<<infile1<<" as target to make weights for "<<hist2<<" in "<<infile2<<"."<<endl;
@@ -45,14 +47,26 @@ void makeWeightHisto_noconf(TString output_location, TString infile1, TString in
   TH1D * h_ratio = (TH1D*) h_primary_scaled->Clone(output_hist_name);
   h_ratio->Divide(h_secondary_scaled);
 
+  h_ratio->SetDirectory(rootdir);
+  h_ratio_unscaled->SetDirectory(rootdir);
+  h_primary->SetDirectory(rootdir);
+  h_secondary->SetDirectory(rootdir);
+  h_primary_scaled->SetDirectory(rootdir);
+  h_secondary_scaled->SetDirectory(rootdir);
+
+  f_primary->Close();
+  f_secondary->Close();
+
   TFile * file = TFile::Open(output_location,"UPDATE");
   file->cd();
+  
   h_ratio->Write();
   h_ratio_unscaled->Write();
   h_primary->Write();
   h_secondary->Write();
   h_primary_scaled->Write();
   h_secondary_scaled->Write();
+
   file->Close();
 
   cout<<"Reweight histogram succesfully made at "<<output_location<<endl;

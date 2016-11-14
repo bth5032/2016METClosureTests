@@ -2,7 +2,7 @@
 #include "ScanChain.C"
 #include "DefineDatasets.C"
 #include "ConfigParser.C"
-#include "makeWeightHisto.C"
+#include "makePtReweightHisto.C"
 
 void runScanChain(ConfigParser* conf){
   cout<<"Using config:"<<endl;
@@ -10,7 +10,7 @@ void runScanChain(ConfigParser* conf){
 
   if (conf->get("reweight") == "true"){
     cout<<"Making Reweight Histogram"<<endl;
-    makeWeightHisto(conf);
+    makePtReweightHisto(conf);
   }
 
   if (conf->get("data") == "true"){
@@ -20,23 +20,27 @@ void runScanChain(ConfigParser* conf){
     if (conf->get("gjets") == "true"){
       ScanChain(getDataPhotonChain(conf->get("data_set")), conf->get("data_type"), conf);  
     }
-    if (conf->get("fsbkg") == "true"){
-      ScanChain(getDataZChain(conf->get("data_set")), conf->get("data_type"), conf);  
-    }
-  }
-  else if (conf->get("rares") == "true"){
-    ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);
   }
   else{
+    TChain * mc_chain = new TChain("t");
+    if (conf->get("FSBKG") == "true"){
+      mc_chain->Add(getFSMCChain(conf->get("data_set")));
+    }
+    if (conf->get("susy_mc") == "true"){
+      mc_chain->Add(getSignalChain(conf->get("data_set")));
+    }
     if (conf->get("zjets") == "true") {
-      ScanChain(getZJetsChain(conf->get("data_set")), "zjets", conf); 
+      mc_chain->Add(getZJetsChain(conf->get("data_set")));
     }
     if (conf->get("gjets") == "true") {
-      ScanChain(getGJetsChain(conf->get("data_set")), "gjets", conf);  
+      mc_chain->Add(getGJetsChain(conf->get("data_set")));
     }
-    if (conf->get("rare") == "true"){
-      ScanChain(getRareChain(conf->get("data_set")), conf->get("data_set"), conf);   
+    if (conf->get("rares") == "true"){
+      mc_chain->Add(getRareChain(conf->get("data_set")));
     }
+
+    ScanChain(mc_chain, conf->get("data_type"), conf);
+    mc_chain->~TChain();
   }
 }
 
