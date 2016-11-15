@@ -58,8 +58,11 @@ void FS_Mass_Window_Study(){
 //  Print Plots
 // ==================
 
+  int binning[11] = [0,25,50,75,100,150,200,250,300,400,500]
+  TH1D * onz_met_varbin = onz_met->Rebin(10, "onz_met_varbin", binning);
+  TH1D * offz_met_varbin = offz_met->Rebin(10, "offz_met_varbin", binning);
   //-------------
-  //MET
+  // MET 10GeV bins
   //-------------
 
   TCanvas *c1 = new TCanvas("c1", "", 2000, 2000);
@@ -72,7 +75,7 @@ void FS_Mass_Window_Study(){
 
   onz_met->SetTitle("OnZ MET / Off Z MET");
   onz_met->SetXTitle("Ratio");
-  onz_met->SetXTitle("Count");
+  onz_met->SetYTitle("OnZ/OffZ");
   
   onz_met->Rebin(10);
   offz_met->Rebin(10);
@@ -84,5 +87,32 @@ void FS_Mass_Window_Study(){
   onz_met->Draw("E1");
 
   c1->SaveAs(output_dir+"MET.png");
+
+  //-------------
+  // MET Variable bins
+  //-------------
+
+  TCanvas *c2 = new TCanvas("c2", "", 2000, 2000);
+  c2->cd();
+
+  cout<<__LINE__<<endl;
+
+  //gPad->SetLogy(1);
+  gStyle->SetOptStat(kFALSE);
+
+  onz_met_varbin->SetTitle("OnZ MET / Off Z MET");
+  onz_met_varbin->SetXTitle("Ratio");
+  onz_met_varbin->SetYTitle("OnZ/OffZ");
+
+  onz_met_varbin->Divide(offz_met_varbin);
+
+  onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
+
+  onz_met_varbin->Draw("E1");
+
+  c1->SaveAs(output_dir+"MET.png");
+
+  [0,25,50,75,100,150,200,250,300,400,500]
+
 
 }
