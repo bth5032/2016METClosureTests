@@ -1441,20 +1441,6 @@ TString drawCutDebug(ConfigParser *conf){
   
   
   //----------------------
-  // ADD OVERFLOW BIN
-  //----------------------
-  if (conf->get("overflow")=="true"){
-    cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = p_hist->GetNbinsX();
-    
-    double overflow_primary = p_hist->GetBinContent(n_bins + 1);
-
-    double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
-
-    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
-  }
-
-  //----------------------
   // SET AXIS LABELS
   //----------------------
   ConfigParser label_conf(conf->get("labels_file"));
@@ -1462,7 +1448,7 @@ TString drawCutDebug(ConfigParser *conf){
   TString bin_label;
   for (int i = xmin; i<xmax; i++)
   {
-    bin_label=label_conf[to_string(i)];
+    bin_label=parseLatex(label_conf[to_string(i)]);
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
     h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
   }  
