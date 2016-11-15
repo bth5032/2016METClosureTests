@@ -59,8 +59,12 @@ void FS_Mass_Window_Study(){
 // ==================
 
   double binning[11] = {0,25,50,75,100,150,200,250,300,400,500};
-  TH1D *onz_met_varbin = (TH1D*) onz_met->Rebin(10, "onz_met_varbin", binning);
-  TH1D *offz_met_varbin = (TH1D*) offz_met->Rebin(10, "offz_met_varbin", binning);
+  TH1D *onz_met_varbin = (TH1D*) onz_met->Clone("onz_met_varbin");
+  TH1D *offz_met_varbin = (TH1D*) offz_met->Clone("offz_met_varbin");
+
+
+  onz_met_varbin = (TH1D*) onz_met_varbin->Rebin(10, "onz_met_varbin2", binning);
+  offz_met_varbin = (TH1D*) offz_met_varbin->Rebin(10, "offz_met_varbin2", binning);
   //-------------
   // MET 10GeV bins
   //-------------
