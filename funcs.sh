@@ -17,7 +17,7 @@ function makeHistos {
 function setOutputLocations {
 	if [[ $# > 0 ]]
 	then
-		if [[ ${1:(-4)} == "*.conf" ]]
+		if [[ ${1:(-4)} == "conf" ]]
 		then
 			SR_IDENTITY=${1#*configs/}
 			SR_IDENTITY=`dirname $SR_IDENTITY`/
