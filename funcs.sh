@@ -149,7 +149,7 @@ function addIndexToDirTree {
 	#Adds the file at ~/public_html/ZMET2016/index.php into everything inside of the ~/public_html/ClosureTests/ directory for the directory given as $1.
 	topdir=$1
 
-	while [[ ${topdir%ZMET2016_PostICHEP*} == "/home/users/bhashemi/public_html/" ]]
+	while [[ ${topdir%ZMET2016_NovemberClean*} == "/home/users/bhashemi/public_html/" ]]
 	do
 		
 		if [[ ! -a ${topdir}/index.php ]]
