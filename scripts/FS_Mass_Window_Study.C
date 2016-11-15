@@ -67,7 +67,7 @@ void FS_Mass_Window_Study(){
 
   cout<<__LINE__<<endl;
 
-  gPad->SetLogy(1);
+  //gPad->SetLogy(1);
   gStyle->SetOptStat(kFALSE);
 
   onz_met->SetTitle("OnZ MET / Off Z MET");
