@@ -114,7 +114,7 @@ void FS_Mass_Window_Study(){
 
   onz_met_varbin->Draw("E1");
 
-  c1->SaveAs(output_dir+"MET_varbin.png");
+  c2->SaveAs(output_dir+"MET_varbin.png");
 
 
 }
