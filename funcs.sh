@@ -27,8 +27,8 @@ function setOutputLocations {
 		fi
 	fi
 	
-	HIST_OUTPUT_LOCATION=`sed '4q;d' ConfigHelper.C | sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
-	PLOT_OUTPUT_LOCATION=`sed '5q;d' ConfigHelper.C | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	HIST_OUTPUT_LOCATION=`sed '5q;d' ConfigHelper.C | sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	PLOT_OUTPUT_LOCATION=`sed '4q;d' ConfigHelper.C | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
 }
 
 function mkdirs {
@@ -54,8 +54,8 @@ function mkdirs {
 	setOutputLocations $conf_filename
 
 	mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
-	mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`
-	addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`
+	mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/"
+	addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/"
 }
 
 function _makeAllForDir {
