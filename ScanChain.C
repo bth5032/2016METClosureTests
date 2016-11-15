@@ -34,6 +34,7 @@
 #include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2.cc"
 // Configuration parsing
 #include "ConfigParser.C"
+#include "ConfigHelper.C"
 
 using namespace std;
 using namespace zmet;
@@ -250,7 +251,7 @@ bool passBaseCut(){
     numEvents->Fill(9);
   }
 
-  int nLepVeto = (conf->get("gjets") == "true") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
+  int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
   if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
     pass=false; //third lepton veto
@@ -332,7 +333,7 @@ bool passEMuTriggers(){
 }
 
 bool passLeptonHLTs(){
-  if (conf->get("FSBKG") == "true"){
+  if (conf->get("dil_sign") == "opposite"){
     return passEMuTriggers();
   }
   else{
@@ -429,7 +430,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("FSBKG") == "true"){ //only true for ttbar estimate
+  if (conf->get("dil_sign") == "opposite"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(20); 
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
@@ -577,7 +578,7 @@ bool hasGoodPhoton(){
 }
 
 bool hasGoodBoson() {
-  if (g_sample_name == "gjets") {
+  if ( conf->get("event_type") == "photon") {
     return hasGoodPhoton();
   }
   else {
@@ -587,7 +588,7 @@ bool hasGoodBoson() {
 
 double bosonPt(){
   // Returns boson Pt, determines whether sample is gjets or zjets first.
-  if (g_sample_name == "zjets") {
+  if (conf->get("event_type") == "dilepton") {
     return phys.dilpt();
   }
   else{
@@ -686,12 +687,12 @@ double getWeight(){
     weight *= getReweight();
   }
 
-  if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
+  if ( conf->get("reweight_eff") == "true" && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getEff();
   }
   //cout<<__LINE__<<endl;
 
- if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
+ if ((! phys.isData()) && conf->get("event_type") != "photon" ){
     if (conf->get("susy_mc") != "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
@@ -717,7 +718,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
+  if (phys.isData() && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
   }
   //cout<<__LINE__<<endl;
@@ -817,13 +818,25 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
-  if (conf->get("MT2b_min") != "" && g_sample_name != "gjets"){
+  if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
     if (phys.mt2b() < stod(conf->get("MT2b_min"))){
       numEvents->Fill(40);
       //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
     }
   }
+
+  //cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
+  //MT2 min
+  if (conf->get("MT2_min") != "" && conf->get("event_type") != "photon"){
+    if (phys.mt2() < stod(conf->get("MT2_min"))){
+      numEvents->Fill(59);
+      //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
+      return false;
+    }
+  }
+
 
   //cout<<__LINE__<<endl;
   //HT min
@@ -867,7 +880,7 @@ bool passSignalRegionCuts(){
     }
   }
   
-  if (conf->get("lep1_pt_min") != "" && g_sample_name != "gjets" ){
+  if (conf->get("lep1_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
       numEvents->Fill(45);
       //if (printFail) cout<<phys.evt()<<" :Failed lep1 min pt"<<endl;
@@ -875,7 +888,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  if (conf->get("lep2_pt_min") != "" && g_sample_name != "gjets" ){
+  if (conf->get("lep2_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
       numEvents->Fill(46);
       //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
@@ -971,7 +984,7 @@ bool passSUSYSingalCuts(){
   return true; 
 }
 
-int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
+int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
@@ -981,9 +994,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   */  
 
   //Set Global Vars
-  g_sample_name=sampleName;
+  g_sample_name=conf->get("Name");
   conf=configuration;
-  TString savePath = conf->get("histo_output_dir");
+
+  TString savePath = getOutputDir(conf, "hist");
 
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -994,84 +1008,84 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   clear_list(); //Event duplicate removal clear list
 
-  cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
-  TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
+  cout<<"Opening file "<<conf->get("Name")+".root"<<endl;
+  TFile * output = new TFile(conf->get("Name")+".root", "recreate");
 
-  numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 60, 0, 60);
+  numEvents = new TH1I("numEvents", "Number of events in "+sampleName, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
 
   //MET Histos
-  TH1D *t1met = new TH1D(sampleName+"_type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
+  TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
   const int n_metbins_wide_std = 6;
   const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 500};
 
-  TH1D *t1met_widebin = new TH1D(sampleName+"_type1MET_widebin", "Type 1 MET for "+sampleName, n_metbins_wide_std, metbins_wide_std);
+  TH1D *t1met_widebin = new TH1D("type1MET_widebin", "Type 1 MET for "+sampleName, n_metbins_wide_std, metbins_wide_std);
   t1met_widebin->SetDirectory(rootdir);
   t1met_widebin->Sumw2();
 
   //MET Histos
-  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 150,0,150);
+  TH1D *nVert = new TH1D("nVert", "Number of verticies in "+sampleName, 150,0,150);
   nVert->SetDirectory(rootdir);
   nVert->Sumw2();
 
-  TH1D *rawmet = new TH1D(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
+  TH1D *rawmet = new TH1D("rawMET", "Raw MET for "+sampleName, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
 
-  TH1D *mt2 = new TH1D(sampleName+"_mt2", "MT2 for "+sampleName, 500,0,500);
+  TH1D *mt2 = new TH1D("mt2", "MT2 for "+sampleName, 500,0,500);
   mt2->SetDirectory(rootdir);
   mt2->Sumw2();
 
   TH1D *dilmass;
   
   if (conf->get("wide_dilmass") == "true"){
-    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 500,0,500);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+sampleName, 500,0,500);
   }
   else{
-    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
   }  
   
   dilmass->SetDirectory(rootdir);
   dilmass->Sumw2();
 
-  TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 6000,0,6000);
+  TH1D *mt2b = new TH1D("mt2b", "MT2b for "+sampleName, 6000,0,6000);
   mt2b->SetDirectory(rootdir);
   mt2b->Sumw2();
 
-  TH1D *nlep = new TH1D(sampleName+"_nlep", "Number of Leptons for "+sampleName, 20,0,20);
+  TH1D *nlep = new TH1D("nlep", "Number of Leptons for "+sampleName, 20,0,20);
   nlep->SetDirectory(rootdir);
   nlep->Sumw2();
 
-  TH1D *nisotrack = new TH1D(sampleName+"_nisotrack", "Number of Iso Track Leptons (MT2 style) for "+sampleName, 20,0,20);
+  TH1D *nisotrack = new TH1D("nisotrack", "Number of Iso Track Leptons (MT2 style) for "+sampleName, 20,0,20);
   nisotrack->SetDirectory(rootdir);
   nisotrack->Sumw2();
 
   cout<<"Added nisotrack"<<endl;
 
-  TH1D *dphi_jet1_met = new TH1D(sampleName+"_dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet1_met = new TH1D("dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
 
-  TH1D *dphi_jet2_met = new TH1D(sampleName+"_dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet2_met = new TH1D("dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
   dphi_jet2_met->SetDirectory(rootdir);
   dphi_jet2_met->Sumw2();
 
-  TH1D *ht = new TH1D(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
+  TH1D *ht = new TH1D("ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
 
-  TH1D *ht_wide = new TH1D(sampleName+"_ht_wide", "Scalar sum of hadronic pt (HT) for "+sampleName, 60,0,6000);
+  TH1D *ht_wide = new TH1D("ht_wide", "Scalar sum of hadronic pt (HT) for "+sampleName, 60,0,6000);
   ht_wide->SetDirectory(rootdir);
   ht_wide->Sumw2();
 
-  TH1D *gen_ht = new TH1D(sampleName+"_genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
+  TH1D *gen_ht = new TH1D("genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
   gen_ht->SetDirectory(rootdir);
   gen_ht->Sumw2();
 
-  TH1D *numMETFilters = new TH1D(sampleName+"_numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
+  TH1D *numMETFilters = new TH1D("numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
   numMETFilters->SetDirectory(rootdir);
   numMETFilters->Sumw2();
 
@@ -1088,98 +1102,98 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   
   if (conf->get("signal_region") == "ATLAS")
   {
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_atlas, ptbins_atlas); 
+    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, n_ptbins_atlas, ptbins_atlas); 
   }
   else if (conf->get("signal_region") == "VincePhotonPT"){
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, 6000, 0, 6000);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, 6000, 0, 6000);  
   }
 
   else{
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_std, ptbins_std);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, n_ptbins_std, ptbins_std);  
   }
 
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
-  TH1D *vpt_flat = new TH1D(sampleName+"_vpt_flat", "Boson P_{T} for events in "+sampleName, 6000,0,6000);
+  TH1D *vpt_flat = new TH1D("vpt_flat", "Boson P_{T} for events in "+sampleName, 6000,0,6000);
   vpt_flat->SetDirectory(rootdir);
   vpt_flat->Sumw2();
 
-  TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
+  TH1D *njets = new TH1D("njets", "Number of jets for events in "+sampleName, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
 
-  TH1D *nbtags_m = new TH1D(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_m = new TH1D("nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_m->SetDirectory(rootdir);
   nbtags_m->Sumw2();
 
-  TH1D *nbtags_l = new TH1D(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_l = new TH1D("nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_l->SetDirectory(rootdir);
   nbtags_l->Sumw2();
 
-  TH1D *nbtags_t = new TH1D(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_t = new TH1D("nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 50,0,50);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
-  TH1D *nVert_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon165_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon165_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon120_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon120_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon90_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon90_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon75_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon75_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon50_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon50_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon36_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon36_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon165_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon165_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon120_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon120_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon90_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon90_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon75_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon75_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon50_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon50_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon36_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon36_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
 
-  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
+  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
 
   TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, *mt2_fromb, *mt2_hz;
   TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
 
   if(conf->get("signal_region") == "TChiHZ"){
-    sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
+    sum_mlb = new TH1D("sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
     sum_mlb->SetDirectory(rootdir);
     sum_mlb->Sumw2();
 
-    m_bb_csv = new TH1D(sampleName+"_m_bb_csv", "M_{bb} by CSV for "+sampleName, 6000,0,6000);
+    m_bb_csv = new TH1D("m_bb_csv", "M_{bb} by CSV for "+sampleName, 6000,0,6000);
     m_bb_csv->SetDirectory(rootdir);
     m_bb_csv->Sumw2();
 
-    m_bb_bpt = new TH1D(sampleName+"_m_bb_bpt", "M_{bb} by B P_{T} for "+sampleName, 6000,0,6000);
+    m_bb_bpt = new TH1D("m_bb_bpt", "M_{bb} by B P_{T} for "+sampleName, 6000,0,6000);
     m_bb_bpt->SetDirectory(rootdir);
     m_bb_bpt->Sumw2();
 
-    mt2j = new TH1D(sampleName+"_mt2j", "MT2j for "+sampleName, 6000,0,6000);
+    mt2j = new TH1D("mt2j", "MT2j for "+sampleName, 6000,0,6000);
     mt2j->SetDirectory(rootdir);
     mt2j->Sumw2();
 
-    mt2_fromb = new TH1D(sampleName+"_mt2_fromb", "MT2 From Bjets for "+sampleName, 6000,0,6000);
+    mt2_fromb = new TH1D("mt2_fromb", "MT2 From Bjets for "+sampleName, 6000,0,6000);
     mt2_fromb->SetDirectory(rootdir);
     mt2_fromb->Sumw2();
 
-    mt2_hz = new TH1D(sampleName+"_mt2_hz", "MT2 From Higgs and Z for "+sampleName, 6000,0,6000);
+    mt2_hz = new TH1D("mt2_hz", "MT2 From Higgs and Z for "+sampleName, 6000,0,6000);
     mt2_hz->SetDirectory(rootdir);
     mt2_hz->Sumw2();
 
-    sum_pt_z_bb = new TH1D(sampleName+"_sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
+    sum_pt_z_bb = new TH1D("sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
     sum_pt_z_bb->SetDirectory(rootdir);
     sum_pt_z_bb->Sumw2();
 
-    MT2_MT2B = new TH2D(sampleName+"_MT2_MT2B", "MT2 vs. MT2b for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2B = new TH2D("MT2_MT2B", "MT2 vs. MT2b for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2B->SetDirectory(rootdir);
     MT2_MT2B->Sumw2();
 
-    MT2_MT2_fromb = new TH2D(sampleName+"_MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_fromb = new TH2D("MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_fromb->SetDirectory(rootdir);
     MT2_MT2_fromb->Sumw2();
 
-    MT2_MT2_HZ = new TH2D(sampleName+"_MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_HZ = new TH2D("MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_HZ->SetDirectory(rootdir);
     MT2_MT2_HZ->Sumw2();
   }
@@ -1195,7 +1209,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     readyReweightHists();
   }
 
-  if( conf->get("data") == "false" && conf->get("gjets") != "true" ){
+  if( conf->get("data") == "false"){
     cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
     //cout<<__LINE__<<endl;
@@ -1206,7 +1220,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_pileup_hist_file->Close();
   }
   //cout<<__LINE__<<endl;
-  /*if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("FSBKG") == "true")) ){
+  /*if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("dil_sign") == "opposite")) ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
@@ -1292,7 +1306,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       printFail = false;
       
       //Low HT from Zjets inclusive sample
-      if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
+      if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
         //cout<<"Zjets MC event"<<endl;
         if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
@@ -1304,7 +1318,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         }
       }
       //Low HT from Wjets inclusive sample
-      if ( conf->get("data_set") == "wjets_inclusive"  && conf->get("gjets") == "true" ){
+      if ( conf->get("data_set") == "GammaMC-wjets-inclusive"  && conf->get("event_type") == "photon" ){
         //cout<<"Zjets MC event"<<endl;
         if( TString(currentFile->GetTitle()).Contains("wjets_incl") ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
@@ -1493,7 +1507,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());*/
 
-      if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
+      if ( phys.isData() && conf->get("event_type") == "photon" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
         //cout<<__LINE__<<endl;
         if( ( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ){
@@ -1622,7 +1636,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     //cout<<__LINE__<<endl;
   }
 
-  if ( conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
+  if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
   {
     nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();

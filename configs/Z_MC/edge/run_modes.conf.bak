@@ -10,7 +10,7 @@ DEFAULT::scaleTofb=26.4
 DEFAULT::data_set=40100_100200_200400_400600_600Inf_inclusive_fullmc
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::scaleTofb=13.5
+DEFAULT::scaleTofb=26.4
 
 #============================
 # EdgeZ Region
@@ -22,6 +22,6 @@ DEFAULT::Njets_min=2
 
 #Zjets Only Base Config
 Name=Z_Base
-zjets=true
+event_type=dilepton
 gjets=false
-data_type=zjets
+event_type=dilepton

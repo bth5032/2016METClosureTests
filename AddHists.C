@@ -1,4 +1,4 @@
-void AddRareHists(TString sample_name, TString location){
+void AddHists(TString sample_name, TString location){
   TFile* f_combined = new TFile(location+"/ct_bg_combined_"+sample_name+".root", "RECREATE");
 
   TFile* f_vvv = new TFile(location+"/ct_VVV_"+sample_name+".root", "READ");

@@ -1,0 +1,73 @@
+## Configuration file for ConfigParser.
+#
+# This file holds the configurations for histogram making. There are essentially two run modes
+# at the time of writing. The difference is whether there is a reweighting of the histograms.
+# Basically the point of this config is to have flags for all of the switches we could possibly put
+# into ScanChain and doAll.
+#
+
+DEFAULT::do_MET_filters=true
+DEFAULT::use_muon_DZ_triggers=false
+DEFAULT::scaleTofb=26.4
+DEFAULT::wide_dilmass=true
+
+#============================
+# EdgeZ Region
+#============================
+
+DEFAULT::histo_output_dir=/nfs-7/userdata/bobak/ZMET2016_Hists_PostICHEP/photon_closure/
+DEFAULT::signal_region=EdgeZ
+DEFAULT::Njets_min=2
+DEFAULT::event_type=photon
+
+# ------------------
+# Data Sample
+# ------------------
+Name=Photon_Data
+data=true
+data_set=SinglePhoton
+zjets=false
+event_type=photon
+
+# -----------------
+# Monte Carlo
+# -----------------
+Name=HT_GammaJets
+data=false
+data_set=40100_100200_200400_400600_600Inf_inclusive
+zjets=false
+event_type=photon
+
+Name=TTBar_Dilep
+data=false
+data_set=dilep
+FSBKG=true
+zjets=false
+event_type=photon
+
+Name=TTBar_SingleLep
+data=false
+data_set=1lep
+FSBKG=true
+zjets=false
+event_type=photon
+
+Name=SingleTop
+data=false
+data_set=singletop
+FSBKG=true
+zjets=false
+event_type=photon
+
+Name=Wjets
+data=false
+data_set=wjets_inclusive
+zjets=false
+event_type=photon
+
+Name=GammaZtoNuNu
+data=false
+data_set=gammaZtoNuNu
+zjets=false
+event_type=photon
+

@@ -26,6 +26,6 @@ DEFAULT::HT_min=400
 #Zjets Only Base Config
 Name=Z_Base
 data_set=ee_mm_em
-data_type=zjets
-zjets=true
+event_type=dilepton
+event_type=dilepton
 gjets=false
