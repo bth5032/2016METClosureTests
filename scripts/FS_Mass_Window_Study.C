@@ -43,7 +43,7 @@ void FS_Mass_Window_Study(){
   cout<<__LINE__<<endl;
   offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("type1MET")));
   cout<<__LINE__<<endl;
-  
+
 // ==================
 //  Fill Histograms
 // ==================
@@ -74,7 +74,12 @@ void FS_Mass_Window_Study(){
   onz_met->SetXTitle("Ratio");
   onz_met->SetXTitle("Count");
   
+  onz_met->Rebin(10);
+  offz_met->Rebin(10);
+
   onz_met->Divide(offz_met);
+
+  onz_met->GetXaxis()->SetRange(0,800);
 
   onz_met->Draw("HIST");
 
