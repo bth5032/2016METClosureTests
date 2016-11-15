@@ -833,7 +833,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     }
   }
   else if (conf->get("binning") != ""){
-    cout<<"here"<<endl;
+    cout<<"Rebinning plots with variable ranges"<<endl;
     vector<double> binning = parseVector(conf->get("binning"));
     for (int i = 1; i<num_hists; i++){
       hists[i] = (TH1D*) hists[i]->Rebin(binning.size()-1, TString(hist_names[i]+"_rebin"), &binning[0]);
