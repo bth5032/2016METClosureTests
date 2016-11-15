@@ -37,11 +37,11 @@ void FS_Mass_Window_Study(){
 // ==================
 //  Define Histograms
 // ==================
-  TH1D *onz_met = (TH1D*) ((TH1D*) on_files[0]->Get("met"))->Clone("onz_met");
+  TH1D *onz_met = (TH1D*) ((TH1D*) on_files[0]->Get("type1MET"))->Clone("onz_met");
   cout<<__LINE__<<endl;
-  TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("met"))->Clone("onz_met");
+  TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("type1MET"))->Clone("onz_met");
   cout<<__LINE__<<endl;
-  offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("met")));
+  offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("type1MET")));
   cout<<__LINE__<<endl;
   
 // ==================
@@ -49,9 +49,9 @@ void FS_Mass_Window_Study(){
 // ==================
   cout<<__LINE__<<endl;
   for (int i = 1; i < (int) on_files.size(); i++){
-    onz_met->Add((TH1D*) ((TH1D*) on_files[i]->Get("met")));
-    offz_met->Add((TH1D*) ((TH1D*) below_files[i]->Get("met")));
-    offz_met->Add((TH1D*) ((TH1D*) above_files[i]->Get("met")));
+    onz_met->Add((TH1D*) ((TH1D*) on_files[i]->Get("type1MET")));
+    offz_met->Add((TH1D*) ((TH1D*) below_files[i]->Get("type1MET")));
+    offz_met->Add((TH1D*) ((TH1D*) above_files[i]->Get("type1MET")));
   }
   cout<<__LINE__<<endl;
 // ==================
