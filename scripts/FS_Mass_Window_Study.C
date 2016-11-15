@@ -79,9 +79,9 @@ void FS_Mass_Window_Study(){
 
   onz_met->Divide(offz_met);
 
-  onz_met->GetXaxis()->SetRange(0,800);
+  onz_met->SetRangeUser(0,800);
 
-  onz_met->Draw("HIST");
+  onz_met->Draw("E1");
 
   c1->SaveAs(output_dir+"MET.png");
 
