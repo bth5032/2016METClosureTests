@@ -1063,8 +1063,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   nisotrack->SetDirectory(rootdir);
   nisotrack->Sumw2();
 
-  cout<<"Added nisotrack"<<endl;
-
   TH1D *dphi_jet1_met = new TH1D("dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
