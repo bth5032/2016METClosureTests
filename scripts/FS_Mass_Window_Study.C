@@ -109,6 +109,33 @@ void FS_Mass_Window_Study(){
   onz_met_varbin->SetTitle("OnZ MET / Off Z MET");
   onz_met_varbin->SetXTitle("Ratio");
   onz_met_varbin->SetYTitle("OnZ/OffZ");
+  
+  onz_met_varbin->Divide(offz_met_varbin);
+
+  onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
+
+  onz_met_varbin->Draw("E1");
+
+  c2->SaveAs(output_dir+"MET_varbin.png");
+
+
+
+  //-------------
+  // MET Variable bins
+  //-------------
+
+  TCanvas *c2 = new TCanvas("c2", "", 2000, 2000);
+  c2->cd();
+
+  cout<<__LINE__<<endl;
+
+  //gPad->SetLogy(1);
+  gStyle->SetOptStat(kFALSE);
+
+  onz_met_varbin->SetTitle("OnZ MET / Off Z MET");
+  onz_met_varbin->SetXTitle("Ratio");
+  onz_met_varbin->SetYTitle("OnZ/OffZ");
+  
   offz_met_varbin->Add(onz_met_varbin);
   
   onz_met_varbin->Divide(onz_met_varbin,offz_met_varbin,1,1,"B");
@@ -117,7 +144,7 @@ void FS_Mass_Window_Study(){
 
   onz_met_varbin->Draw("E1");
 
-  c2->SaveAs(output_dir+"MET_varbin.png");
+  c2->SaveAs(output_dir+"MET_varbinB.png");
 
 
 }
