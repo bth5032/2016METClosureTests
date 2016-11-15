@@ -333,7 +333,7 @@ bool passEMuTriggers(){
 }
 
 bool passLeptonHLTs(){
-  if (conf->get("dil_sign") == "opposite"){
+  if (conf->get("dil_sign") == "same"){
     return passEMuTriggers();
   }
   else{
@@ -430,7 +430,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("dil_sign") == "opposite"){ //only true for ttbar estimate
+  if (conf->get("dil_sign") == "same"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(20); 
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
