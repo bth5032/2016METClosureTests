@@ -1008,8 +1008,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
 
   clear_list(); //Event duplicate removal clear list
 
-  cout<<"Opening file "<<conf->get("Name")+".root"<<endl;
-  TFile * output = new TFile(TString(conf->get("Name")+".root"), "recreate");
+  cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
+  TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
 
   numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
