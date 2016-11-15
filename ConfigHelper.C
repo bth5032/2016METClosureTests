@@ -12,14 +12,19 @@ TString parseConfDir(TString conf_path){
 
 TString getOutputDir(ConfigParser *conf, TString type){
   /*Determines the proper output locations of files by parsing the option conf_path to get the directory structure above the level 'configs/'*/
-	if (type == "hist"){
+	cout<<__LINE__<<endl;
+  if (type == "hist"){
+    cout<<__LINE__<<endl;
 		if (conf->get("histo_output_dir") != ""){
+      cout<<__LINE__<<endl;
 			return TString(conf->get("histo_output_dir"));
 		}
 		else{
 			TString output_dir = parseConfDir(conf->get("conf_path"));
+      cout<<__LINE__<<endl;
 			return output_dir.Prepend(HIST_OUTPUT_LOCATION);
 		}
+    cout<<__LINE__<<endl;
 	}
 	else if (type == "plot" )
 	{

@@ -989,16 +989,16 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   
   Inputs:
   chain -- contains the files to make the histograms from, 
-  sampleName -- for bookkeeping since we make histograms from many different samples. 
   configuration -- pointer to the configuration object
   */  
-
+  cout<<__LINE__<<endl;
   //Set Global Vars
   g_sample_name=conf->get("Name");
+  cout<<__LINE__<<endl;
   conf=configuration;
 
   TString savePath = getOutputDir(conf, "hist");
-
+  cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
