@@ -112,7 +112,5 @@ void FS_Mass_Window_Study(){
 
   c1->SaveAs(output_dir+"MET.png");
 
-  [0,25,50,75,100,150,200,250,300,400,500]
-
 
 }
