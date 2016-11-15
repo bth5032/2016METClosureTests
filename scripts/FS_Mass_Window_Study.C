@@ -13,12 +13,16 @@ void FS_Mass_Window_Study(){
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/wz.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/zz.root", "read"));
 
+  cout<<__LINE__<<endl;
+
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/Z_Base.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/TT_Base.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/VVV.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/ttv.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/wz.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/zz.root", "read"));
+
+  cout<<__LINE__<<endl;
 
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/Z_Base.root", "read"));
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/TT_Base.root", "read"));
@@ -28,23 +32,28 @@ void FS_Mass_Window_Study(){
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/zz.root", "read"));
 
 
+  cout<<__LINE__<<endl;
+
 // ==================
 //  Define Histograms
 // ==================
   TH1D *onz_met = (TH1D*) ((TH1D*) on_files[0]->Get("met"))->Clone("onz_met");
+  cout<<__LINE__<<endl;
   TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("met"))->Clone("onz_met");
+  cout<<__LINE__<<endl;
   offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("met")));
+  cout<<__LINE__<<endl;
   
 // ==================
 //  Fill Histograms
 // ==================
-
+  cout<<__LINE__<<endl;
   for (int i = 1; i < (int) on_files.size(); i++){
     onz_met->Add((TH1D*) ((TH1D*) on_files[i]->Get("met")));
     offz_met->Add((TH1D*) ((TH1D*) below_files[i]->Get("met")));
     offz_met->Add((TH1D*) ((TH1D*) above_files[i]->Get("met")));
   }
-
+  cout<<__LINE__<<endl;
 // ==================
 //  Print Plots
 // ==================
