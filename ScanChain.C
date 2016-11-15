@@ -253,11 +253,11 @@ bool passBaseCut(){
 
   int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
-  /*if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
+  if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
     pass=false; //third lepton veto
     //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
     numEvents->Fill(54);
-  }*/
+  }
 
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
   return pass;
