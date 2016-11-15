@@ -54,8 +54,8 @@ function mkdirs {
 	setOutputLocations $conf_filename
 
 	mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
-	mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}
-	addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}
+	mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`
+	addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`
 }
 
 function _makeAllForDir {
