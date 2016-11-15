@@ -79,7 +79,7 @@ void FS_Mass_Window_Study(){
 
   onz_met->Divide(offz_met);
 
-  onz_met->SetRangeUser(0,800);
+  onz_met->GetXaxis()->SetRangeUser(0,800);
 
   onz_met->Draw("E1");
 
