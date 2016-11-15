@@ -173,7 +173,7 @@ TChain * getTChain(TString data_set) {
 //====================================
 
   //Single Photon Trigger
-  if (trigger.Contains("GammaData-SinglePhoton")){
+  if (data_set.Contains("GammaData-SinglePhoton")){
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016B_Prompt_ph_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016C_Prompt_ph_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016D_Prompt_ph_v2*");
@@ -182,7 +182,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016G_Prompt_ph_v1*");    
     
     //EWK Subtraction
-    if (trigger.Contains("GammaData-EWKSub")){
+    if (data_set.Contains("GammaData-EWKSub")){
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo*.root");
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
@@ -190,7 +190,7 @@ TChain * getTChain(TString data_set) {
     }
   }
 
-  if (trigger.Contains("GammaData-GammaRealMET")){
+  if (data_set.Contains("GammaData-GammaRealMET")){
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo.root");
@@ -202,7 +202,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht600_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht800_amcnlo.root");
   }
-  if (trigger.Contains("GammaData-JustWjetRealMET")){
+  if (data_set.Contains("GammaData-JustWjetRealMET")){
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht100_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht1200_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht200_amcnlo.root");
@@ -211,10 +211,10 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht600_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht800_amcnlo.root");
   }
-  if (trigger.Contains("GammaData-JustWGjetRealMET")){
+  if (data_set.Contains("GammaData-JustWGjetRealMET")){
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo.root");
   }
-  if (trigger.Contains("GammaData-JustTTBarRealMET")){
+  if (data_set.Contains("GammaData-JustTTBarRealMET")){
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
   }
@@ -223,7 +223,7 @@ TChain * getTChain(TString data_set) {
 // Leptonic Data
 //====================================
 
-  if (trigger.Contains("DileptonData-ee")){
+  if (data_set.Contains("DileptonData-ee")){
     cout<<"Adding EE Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016B_Prompt_ee_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016C_Prompt_ee_v2*");
@@ -233,7 +233,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016G_Prompt_ee_v1*");
   }
 
-  if (trigger.Contains("DileptonData-em")){
+  if (data_set.Contains("DileptonData-em")){
     cout<<"Adding EMu Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016B_Prompt_em_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016C_Prompt_em_v2*");
@@ -243,7 +243,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016G_Prompt_em_v1*");
   }
 
-  if (trigger.Contains("DileptonData-mm")){
+  if (data_set.Contains("DileptonData-mm")){
     cout<<"Adding MuMu Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016B_Prompt_mm_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016C_Prompt_mm_v2*");
