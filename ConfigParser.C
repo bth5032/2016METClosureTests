@@ -45,7 +45,7 @@ private:
 		return cleaned;
 	}
 
-	void addOpt(string opt_key, opt_value, bool default_opt=false){
+	bool addOpt(string opt_key, string opt_value, bool default_opt=false){
 		if(opt_key != "" && opt_value != ""){
 			//if default option, add it to defaults dict
 			if (default_opt){
@@ -54,10 +54,10 @@ private:
 			else{
 				options[opt_key] = cleanedArg(opt_value);
 			}
+			return true;
 		}
-		
 		else{
-			cout<<"Error parsing line number: "<<config_file->tellg()<<" : "<<line<<endl;
+			return false;
 		}
 	}
 
@@ -68,7 +68,9 @@ private:
 		opt_key=line.substr(0, line.find('='));
 		opt_value=line.substr(line.find('=')+1);
 
-		addOpt(opt_key, opt_value, default_opt);
+		if ( ! addOpt(opt_key, opt_value, default_opt)){
+			cout<<"Error parsing line number: "<<config_file->tellg()<<" : "<<line<<endl;
+		}
 	}
 
 public:

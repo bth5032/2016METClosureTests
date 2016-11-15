@@ -1009,83 +1009,83 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   clear_list(); //Event duplicate removal clear list
 
   cout<<"Opening file "<<conf->get("Name")+".root"<<endl;
-  TFile * output = new TFile(conf->get("Name")+".root", "recreate");
+  TFile * output = new TFile(TString(conf->get("Name")+".root"), "recreate");
 
-  numEvents = new TH1I("numEvents", "Number of events in "+sampleName, 60, 0, 60);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
 
   //MET Histos
-  TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
+  TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+g_sample_name, 6000,0,6000);
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
   const int n_metbins_wide_std = 6;
   const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 500};
 
-  TH1D *t1met_widebin = new TH1D("type1MET_widebin", "Type 1 MET for "+sampleName, n_metbins_wide_std, metbins_wide_std);
+  TH1D *t1met_widebin = new TH1D("type1MET_widebin", "Type 1 MET for "+g_sample_name, n_metbins_wide_std, metbins_wide_std);
   t1met_widebin->SetDirectory(rootdir);
   t1met_widebin->Sumw2();
 
   //MET Histos
-  TH1D *nVert = new TH1D("nVert", "Number of verticies in "+sampleName, 150,0,150);
+  TH1D *nVert = new TH1D("nVert", "Number of verticies in "+g_sample_name, 150,0,150);
   nVert->SetDirectory(rootdir);
   nVert->Sumw2();
 
-  TH1D *rawmet = new TH1D("rawMET", "Raw MET for "+sampleName, 6000,0,6000);
+  TH1D *rawmet = new TH1D("rawMET", "Raw MET for "+g_sample_name, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
 
-  TH1D *mt2 = new TH1D("mt2", "MT2 for "+sampleName, 500,0,500);
+  TH1D *mt2 = new TH1D("mt2", "MT2 for "+g_sample_name, 500,0,500);
   mt2->SetDirectory(rootdir);
   mt2->Sumw2();
 
   TH1D *dilmass;
   
   if (conf->get("wide_dilmass") == "true"){
-    dilmass = new TH1D("dilmass", "Dilepton Mass for "+sampleName, 500,0,500);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+g_sample_name, 500,0,500);
   }
   else{
-    dilmass = new TH1D("dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+g_sample_name, 20,81,101);
   }  
   
   dilmass->SetDirectory(rootdir);
   dilmass->Sumw2();
 
-  TH1D *mt2b = new TH1D("mt2b", "MT2b for "+sampleName, 6000,0,6000);
+  TH1D *mt2b = new TH1D("mt2b", "MT2b for "+g_sample_name, 6000,0,6000);
   mt2b->SetDirectory(rootdir);
   mt2b->Sumw2();
 
-  TH1D *nlep = new TH1D("nlep", "Number of Leptons for "+sampleName, 20,0,20);
+  TH1D *nlep = new TH1D("nlep", "Number of Leptons for "+g_sample_name, 20,0,20);
   nlep->SetDirectory(rootdir);
   nlep->Sumw2();
 
-  TH1D *nisotrack = new TH1D("nisotrack", "Number of Iso Track Leptons (MT2 style) for "+sampleName, 20,0,20);
+  TH1D *nisotrack = new TH1D("nisotrack", "Number of Iso Track Leptons (MT2 style) for "+g_sample_name, 20,0,20);
   nisotrack->SetDirectory(rootdir);
   nisotrack->Sumw2();
 
   cout<<"Added nisotrack"<<endl;
 
-  TH1D *dphi_jet1_met = new TH1D("dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet1_met = new TH1D("dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
 
-  TH1D *dphi_jet2_met = new TH1D("dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet2_met = new TH1D("dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
   dphi_jet2_met->SetDirectory(rootdir);
   dphi_jet2_met->Sumw2();
 
-  TH1D *ht = new TH1D("ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
+  TH1D *ht = new TH1D("ht", "Scalar sum of hadronic pt (HT) for "+g_sample_name, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
 
-  TH1D *ht_wide = new TH1D("ht_wide", "Scalar sum of hadronic pt (HT) for "+sampleName, 60,0,6000);
+  TH1D *ht_wide = new TH1D("ht_wide", "Scalar sum of hadronic pt (HT) for "+g_sample_name, 60,0,6000);
   ht_wide->SetDirectory(rootdir);
   ht_wide->Sumw2();
 
-  TH1D *gen_ht = new TH1D("genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
+  TH1D *gen_ht = new TH1D("genht", "Scalar sum of generated hadronic pt (Gen HT) for "+g_sample_name, 6000,0,6000);
   gen_ht->SetDirectory(rootdir);
   gen_ht->Sumw2();
 
-  TH1D *numMETFilters = new TH1D("numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
+  TH1D *numMETFilters = new TH1D("numMETFilters", "Number of MET Filters passed for events in "+g_sample_name, 50,0,50);
   numMETFilters->SetDirectory(rootdir);
   numMETFilters->Sumw2();
 
@@ -1102,36 +1102,36 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   
   if (conf->get("signal_region") == "ATLAS")
   {
-    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, n_ptbins_atlas, ptbins_atlas); 
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_atlas, ptbins_atlas); 
   }
   else if (conf->get("signal_region") == "VincePhotonPT"){
-    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, 6000, 0, 6000);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, 6000, 0, 6000);  
   }
 
   else{
-    vpt = new TH1D("vpt", "Boson Pt for events in "+sampleName, n_ptbins_std, ptbins_std);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_std, ptbins_std);  
   }
 
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
-  TH1D *vpt_flat = new TH1D("vpt_flat", "Boson P_{T} for events in "+sampleName, 6000,0,6000);
+  TH1D *vpt_flat = new TH1D("vpt_flat", "Boson P_{T} for events in "+g_sample_name, 6000,0,6000);
   vpt_flat->SetDirectory(rootdir);
   vpt_flat->Sumw2();
 
-  TH1D *njets = new TH1D("njets", "Number of jets for events in "+sampleName, 50,0,50);
+  TH1D *njets = new TH1D("njets", "Number of jets for events in "+g_sample_name, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
 
-  TH1D *nbtags_m = new TH1D("nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_m = new TH1D("nbtags_m", "Number of \"medium\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_m->SetDirectory(rootdir);
   nbtags_m->Sumw2();
 
-  TH1D *nbtags_l = new TH1D("nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_l = new TH1D("nbtags_l", "Number of \"loose\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_l->SetDirectory(rootdir);
   nbtags_l->Sumw2();
 
-  TH1D *nbtags_t = new TH1D("nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_t = new TH1D("nbtags_t", "Number of \"tight\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
@@ -1157,43 +1157,43 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
 
   if(conf->get("signal_region") == "TChiHZ"){
-    sum_mlb = new TH1D("sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
+    sum_mlb = new TH1D("sum_mlb", "#Sigma M_{lb} for "+g_sample_name, 6000,0,6000);
     sum_mlb->SetDirectory(rootdir);
     sum_mlb->Sumw2();
 
-    m_bb_csv = new TH1D("m_bb_csv", "M_{bb} by CSV for "+sampleName, 6000,0,6000);
+    m_bb_csv = new TH1D("m_bb_csv", "M_{bb} by CSV for "+g_sample_name, 6000,0,6000);
     m_bb_csv->SetDirectory(rootdir);
     m_bb_csv->Sumw2();
 
-    m_bb_bpt = new TH1D("m_bb_bpt", "M_{bb} by B P_{T} for "+sampleName, 6000,0,6000);
+    m_bb_bpt = new TH1D("m_bb_bpt", "M_{bb} by B P_{T} for "+g_sample_name, 6000,0,6000);
     m_bb_bpt->SetDirectory(rootdir);
     m_bb_bpt->Sumw2();
 
-    mt2j = new TH1D("mt2j", "MT2j for "+sampleName, 6000,0,6000);
+    mt2j = new TH1D("mt2j", "MT2j for "+g_sample_name, 6000,0,6000);
     mt2j->SetDirectory(rootdir);
     mt2j->Sumw2();
 
-    mt2_fromb = new TH1D("mt2_fromb", "MT2 From Bjets for "+sampleName, 6000,0,6000);
+    mt2_fromb = new TH1D("mt2_fromb", "MT2 From Bjets for "+g_sample_name, 6000,0,6000);
     mt2_fromb->SetDirectory(rootdir);
     mt2_fromb->Sumw2();
 
-    mt2_hz = new TH1D("mt2_hz", "MT2 From Higgs and Z for "+sampleName, 6000,0,6000);
+    mt2_hz = new TH1D("mt2_hz", "MT2 From Higgs and Z for "+g_sample_name, 6000,0,6000);
     mt2_hz->SetDirectory(rootdir);
     mt2_hz->Sumw2();
 
-    sum_pt_z_bb = new TH1D("sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
+    sum_pt_z_bb = new TH1D("sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+g_sample_name, 6000,0,6000);
     sum_pt_z_bb->SetDirectory(rootdir);
     sum_pt_z_bb->Sumw2();
 
-    MT2_MT2B = new TH2D("MT2_MT2B", "MT2 vs. MT2b for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2B = new TH2D("MT2_MT2B", "MT2 vs. MT2b for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2B->SetDirectory(rootdir);
     MT2_MT2B->Sumw2();
 
-    MT2_MT2_fromb = new TH2D("MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_fromb = new TH2D("MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_fromb->SetDirectory(rootdir);
     MT2_MT2_fromb->Sumw2();
 
-    MT2_MT2_HZ = new TH2D("MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_HZ = new TH2D("MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_HZ->SetDirectory(rootdir);
     MT2_MT2_HZ->Sumw2();
   }

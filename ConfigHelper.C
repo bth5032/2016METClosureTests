@@ -33,7 +33,7 @@ TString getOutputDir(ConfigParser *conf, TString type){
       conf_path = TString(conf_path(conf_path.Last('/')+1, conf_path.Last('.')-conf_path.Last('/')-1)); //get name of config file
       output_dir+=conf_path+"/";
       //also add filename for conf script
-      return output_dir
+      return output_dir;
 		}	
 	}
 }
