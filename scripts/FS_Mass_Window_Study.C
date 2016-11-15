@@ -111,7 +111,7 @@ void FS_Mass_Window_Study(){
   onz_met_varbin->SetYTitle("OnZ/OffZ");
   offz_met_varbin->Add(onz_met_varbin);
   
-  onz_met->Divide(onz_met_varbin,offz_met_varbin,1,1,"B");
+  onz_met_varbin->Divide(onz_met_varbin,offz_met_varbin,1,1,"B");
 
   onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
 
