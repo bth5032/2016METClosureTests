@@ -1,4 +1,7 @@
 void FS_Mass_Window_Study(){
+
+  TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/baseline_ratios/";
+
   vector<TFile*> on_files;
   vector<TFile*> above_files;
   vector<TFile*> below_files;
@@ -46,6 +49,26 @@ void FS_Mass_Window_Study(){
 //  Print Plots
 // ==================
 
+  //-------------
+  //MET
+  //-------------
 
+  TCanvas *c1 = new TCanvas("c1", "", 2000, 2000);
+  c1->cd();
+
+  cout<<__LINE__<<endl;
+
+  gPad->SetLogy(1);
+  gStyle->SetOptStat(kFALSE);
+
+  onz_met->SetTitle("OnZ MET / Off Z MET");
+  onz_met->SetXTitle("Ratio");
+  onz_met->SetXTitle("Count");
+  
+  onz_met->Divide(offz_met);
+
+  onz_met->Draw("HIST");
+
+  c1->SaveAs(output_dir+"MET.png");
 
 }
