@@ -50,7 +50,7 @@ TChain * getTChain(TString data_set) {
 //====================================
 // SUSY MC
 //====================================
-  if data_set.Contains("TChiHZ")){
+  if (data_set.Contains("TChiHZ")){
     //TChiHZ Signal
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
   }

@@ -13,7 +13,7 @@ void runScanChain(ConfigParser* conf){
     makePtReweightHisto(conf);
   }
 
-  ScanChain(GetTChain(conf->get("data_set")), conf);
+  ScanChain(getTChain(conf->get("data_set")), conf);
 }
 
 void doAll ( TString config_name, TString config_file="configs/run_modes.conf" ) {
