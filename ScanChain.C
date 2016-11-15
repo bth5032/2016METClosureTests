@@ -1207,7 +1207,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
     readyReweightHists();
   }
 
-  if( ! phys.isData() ){
+  if(conf->get("data") != "true"){
     cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
     cout<<__LINE__<<endl;
