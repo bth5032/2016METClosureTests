@@ -84,7 +84,9 @@ void FS_Mass_Window_Study(){
   onz_met->Rebin(10);
   offz_met->Rebin(10);
 
-  onz_met->Divide(offz_met->Add(onz_met));
+  offz_met->Add(onz_met);
+  
+  onz_met->Divide(onz_met,offz_met,1,1,"B");
 
   onz_met->GetXaxis()->SetRangeUser(0,800);
 
@@ -107,8 +109,9 @@ void FS_Mass_Window_Study(){
   onz_met_varbin->SetTitle("OnZ MET / Off Z MET");
   onz_met_varbin->SetXTitle("Ratio");
   onz_met_varbin->SetYTitle("OnZ/OffZ");
-
-  onz_met_varbin->Divide(offz_met_varbin->Add(onz_met_varbin));
+  offz_met_varbin->Add(onz_met_varbin);
+  
+  onz_met->Divide(onz_met_varbin,offz_met_varbin,1,1,"B");
 
   onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
 
