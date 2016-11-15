@@ -993,9 +993,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   */  
   cout<<__LINE__<<endl;
   //Set Global Vars
-  g_sample_name=conf->get("Name");
-  cout<<__LINE__<<endl;
   conf=configuration;
+  cout<<__LINE__<<endl;
+  g_sample_name=conf->get("Name");
 
   TString savePath = getOutputDir(conf, "hist");
   cout<<__LINE__<<endl;
