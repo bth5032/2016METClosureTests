@@ -106,7 +106,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
     }
     else{
-      sample_loc = default_hist_dir+conf->get("sample_"+to_string(i))+".root"
+      sample_loc = default_hist_dir+conf->get("sample_"+to_string(i))+".root";
     }
 
     hist_files[i]=new TFile(sample_loc);
@@ -740,7 +740,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
     }
     else{
-      sample_loc = default_hist_dir+conf->get("sample_"+to_string(i))+".root"
+      sample_loc = default_hist_dir+conf->get("sample_"+to_string(i))+".root";
     }
 
     hist_files[i]=new TFile(sample_loc);
@@ -865,9 +865,6 @@ TString drawArbitraryNumber(ConfigParser *conf){
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
   }
-
-  delete clonedBG_norm;
-  //cout<<__LINE__<<endl;
 
   //===========================
   // SET MC COLORS
@@ -1171,7 +1168,6 @@ TString drawArbitraryNumber(ConfigParser *conf){
   hists.clear();
   hist_names.clear();
   hist_labels.clear();
-  delete ratiopad;
   delete fullpad;
   delete c;
   //cout<<__LINE__<<endl;
@@ -1189,7 +1185,7 @@ TString drawSingleTH1(ConfigParser *conf){
 
   TString sample_loc;
   if (conf->get("file_path") != ""){
-      sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
+      sample_loc = TString(conf->get("file_path"));
   }
   else{
     sample_loc = TString(getDefaultHistDir(conf)+conf->get("sample")+".root");
@@ -1354,7 +1350,7 @@ TString drawCutDebug(ConfigParser *conf){
 
   TString sample_loc;
   if (conf->get("file_path") != ""){
-      sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
+      sample_loc = TString(conf->get("file_path"));
   }
   else{
     sample_loc = TString(getDefaultHistDir(conf)+conf->get("sample")+".root");
@@ -1523,7 +1519,7 @@ TString drawSingleTH2(ConfigParser *conf){
 
   TString sample_loc;
   if (conf->get("file_path") != ""){
-      sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
+      sample_loc = TString(conf->get("file_path"));
   }
   else{
     sample_loc = TString(getDefaultHistDir(conf)+conf->get("sample")+".root");
