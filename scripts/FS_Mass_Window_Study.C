@@ -62,11 +62,10 @@ void FS_Mass_Window_Study(){
   TH1D *onz_met_varbin = (TH1D*) onz_met->Clone("onz_met_varbin");
   TH1D *offz_met_varbin = (TH1D*) offz_met->Clone("offz_met_varbin");
 
-
   onz_met_varbin = (TH1D*) onz_met_varbin->Rebin(7, "onz_met_varbin2", binning);
   offz_met_varbin = (TH1D*) offz_met_varbin->Rebin(7, "offz_met_varbin2", binning);
 
-  onz_met_varbin3 = (TH1D*) onz_met->Clone("onz_met_varbin3");
+  onz_met_varbin3 = (TH1D*) onz_met_varbin->Clone("onz_met_varbin3");
   offz_met_varbin3 = (TH1D*) offz_met_varbin->Clone("offz_met_varbin3");
   //-------------
   // MET 10GeV bins
@@ -127,7 +126,7 @@ void FS_Mass_Window_Study(){
   // MET Variable bins
   //-------------
 
-  TCanvas *c3 = new TCanvas("c2", "", 2000, 2000);
+  TCanvas *c3 = new TCanvas("c3", "", 2000, 2000);
   c3->cd();
 
   cout<<__LINE__<<endl;
@@ -139,7 +138,7 @@ void FS_Mass_Window_Study(){
   onz_met_varbin3->SetXTitle("Ratio");
   onz_met_varbin3->SetYTitle("OnZ/OffZ");
   
-  onz_met_varbin3->Add(onz_met_varbin3);
+  offz_met_varbin3->Add(onz_met_varbin3);
   
   onz_met_varbin3->Divide(onz_met_varbin3,offz_met_varbin3,1,1,"B");
 
