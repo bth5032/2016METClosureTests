@@ -872,7 +872,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     //cout<<__LINE__<<endl;
-    hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i-1) % ROOT_COLOR_PALATE.size()]);
+    hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i) % ROOT_COLOR_PALATE.size()]);
     //cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
