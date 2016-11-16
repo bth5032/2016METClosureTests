@@ -128,8 +128,8 @@ void FS_Mass_Window_Study(){
   TH1D *onz_ht_varbin = (TH1D*) onz_ht->Clone("onz_ht_varbin");
   TH1D *offz_ht_varbin = (TH1D*) offz_ht->Clone("onz_ht_varbin");
 
-  onz_met_varbin = (TH1D*) onz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
-  offz_met_varbin = (TH1D*) offz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
+  onz_ht_varbin = (TH1D*) onz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
+  offz_ht_varbin = (TH1D*) offz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
 
   onz_ht_finebin = (TH1D*) onz_ht->Clone("onz_ht_finebin");
   offz_ht_finebin = (TH1D*) offz_ht->Clone("offz_ht_finebin");
