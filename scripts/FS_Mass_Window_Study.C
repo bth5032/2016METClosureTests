@@ -18,7 +18,11 @@ void FS_Mass_Window_Study(){
   vector<TFile*> below_files;
 
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/Z_Base.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/TT_Base.root", "read"));
+  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/TT_dilep.root", "read"));
+  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/TT_1lep.root", "read"));
+  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/ww.root", "read"));
+  //on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/singletop.root", "read"));
+  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/ttw.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/VVV.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/ttv.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/wz.root", "read"));
@@ -27,7 +31,11 @@ void FS_Mass_Window_Study(){
   //cout<<__LINE__<<endl;
 
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/Z_Base.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/TT_Base.root", "read"));
+  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/TT_dilep.root", "read"));
+  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/TT_1lep.root", "read"));
+  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/ww.root", "read"));
+  //above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/singletop.root", "read"));
+  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/ttw.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/VVV.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/ttv.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/wz.root", "read"));
@@ -36,7 +44,11 @@ void FS_Mass_Window_Study(){
   //cout<<__LINE__<<endl;
 
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/Z_Base.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/TT_Base.root", "read"));
+  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/TT_dilep.root", "read"));
+  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/TT_1lep.root", "read"));
+  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/ww.root", "read"));
+  //below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/singletop.root", "read"));
+  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/ttw.root", "read"));
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/VVV.root", "read"));
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/ttv.root", "read"));
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/wz.root", "read"));
