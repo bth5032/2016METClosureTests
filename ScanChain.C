@@ -661,6 +661,17 @@ double getReweight(){
   return weight;
 }
 
+double scale1fbFix(){
+  /*This method stores fixes to the evt_scale1fb in the event of file corruptions. It's basically just a lookup table*/
+
+  if TString(currentFile->GetTitle()).Contains("sttw_antitop_nofullhaddecay_powheg"){
+    return 1.03;
+  }
+  else{
+    return 1;
+  }
+}
+
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
@@ -726,6 +737,8 @@ double getWeight(){
   /*if (weight < 0){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
   }*/
+
+  weight *= scale1fbFix();
 
   return weight;
 }
