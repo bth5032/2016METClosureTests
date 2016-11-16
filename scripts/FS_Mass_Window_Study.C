@@ -107,7 +107,7 @@ void FS_Mass_Window_Study(){
   
   onz_met->Divide(onz_met,offz_met,1,1,"B");
 
-  onz_met->GetXaxis()->SetRangeUser(0,800);
+  onz_met->GetXaxis()->SetRangeUser(0,600);
 
   onz_met->Draw("E1");
 
@@ -134,7 +134,7 @@ void FS_Mass_Window_Study(){
 
   onz_met_varbin->Divide(offz_met_varbin);
 
-  onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
+  onz_met_varbin->GetXaxis()->SetRangeUser(0,600);
 
   onz_met_varbin->Draw("E1");
 
@@ -165,7 +165,7 @@ void FS_Mass_Window_Study(){
   
   onz_met_varbin3->Divide(onz_met_varbin3,offz_met_varbin3,1,1,"B");
 
-  onz_met_varbin3->GetXaxis()->SetRangeUser(0,800);
+  onz_met_varbin3->GetXaxis()->SetRangeUser(0,600);
 
   onz_met_varbin3->Draw("E1");
 
