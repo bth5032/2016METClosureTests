@@ -15,7 +15,7 @@ void FS_Mass_Window_Study(int dataset){
   
   if      ( dataset == 0 ) id = "baseline";
   else if ( dataset == 1 ) id = "baseline_MET100";
-  else if ( dataset == 2)  id = "baseline_MET100_MT2100_1B";
+  else                     id = "baseline_MET100_MT2100_1B";
 
   TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/"+id+"_ratios/";
 
