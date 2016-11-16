@@ -15,7 +15,13 @@ void FS_Mass_Window_Study(int dataset){
   
   if      ( dataset == 0 ) id = "baseline";
   else if ( dataset == 1 ) id = "baseline_MET100";
-  else                     id = "baseline_MET100_MT2100_1B";
+  else if ( dataset == 2 ) id = "baseline_MET100_MT2100_1B";
+  else if ( dataset == 3 ) id = "baseline_MET100_0B";
+  else if ( dataset == 4 ) id = "TChiHZ";
+  else{
+    cout<<"Please specify a valid ID less than 4"<<endl;
+    exit(1);
+  }
 
   TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/"+id+"_ratios/";
 
