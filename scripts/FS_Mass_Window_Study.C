@@ -9,11 +9,13 @@ void updateOverflow( TH1D * &hist, double xmax ){
   }
 }
 
-void FS_Mass_Window_Study(){
+void FS_Mass_Window_Study(int dataset){
 
-  TString id="baseline_MET100_MT2100_1B";
-  //TString id="baseline_MET100";
-  //TString id="baseline";
+  TString id;
+  
+  if      ( dataset == 0 ) id = "baseline";
+  else if ( dataset == 1 ) id = "baseline_MET100";
+  else if ( dataset == 2)  id = "baseline_MET100_MT2100_1B";
 
   TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/"+id+"_ratios/";
 
