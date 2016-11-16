@@ -316,7 +316,7 @@ void FS_Mass_Window_Study(){
     
     onz_njets->Divide(onz_njets,offz_njets,1,1,"B");
 
-    onz_njets->GetXaxis()->SetRangeUser(0,600);
+    onz_njets->GetXaxis()->SetRangeUser(0,10);
 
     onz_njets->Draw("E1");
 
@@ -346,7 +346,7 @@ void FS_Mass_Window_Study(){
     
     onz_nbjets->Divide(onz_nbjets,offz_nbjets,1,1,"B");
 
-    onz_nbjets->GetXaxis()->SetRangeUser(0,600);
+    onz_nbjets->GetXaxis()->SetRangeUser(0,10);
 
     onz_nbjets->Draw("E1");
 
