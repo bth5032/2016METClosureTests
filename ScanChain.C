@@ -664,7 +664,7 @@ double getReweight(){
 double scale1fbFix(){
   /*This method stores fixes to the evt_scale1fb in the event of file corruptions. It's basically just a lookup table*/
 
-  if TString(currentFile->GetTitle()).Contains("sttw_antitop_nofullhaddecay_powheg"){
+  if (TString(currentFile->GetTitle()).Contains("sttw_antitop_nofullhaddecay_powheg")){
     cout<<"Scale 1fb fixed for "<<TString(currentFile->GetTitle())<<endl;
     return 1.03;
   }
