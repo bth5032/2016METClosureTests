@@ -299,7 +299,7 @@ void FS_Mass_Window_Study(){
 
     onz_ht_varbin->Draw("E1");
 
-    c5->SaveAs(output_dir+"HT_finebin.png");
+    c5->SaveAs(output_dir+"HT.png");
 
   //-------------
   // NJets
