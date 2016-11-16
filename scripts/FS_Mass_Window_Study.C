@@ -1,3 +1,14 @@
+void updateOverflow( TH1D * &hist, double xmax ){
+
+  int overflowbin = hist->FindBin(xmax-0.01);
+  for( int bini = overflowbin; bini < hist->GetNbinsX(); bini++ ){
+    hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) ); 
+    hist->SetBinError  ( overflowbin, sqrt( pow(hist->GetBinError  ( overflowbin ), 2 ) + pow( hist->GetBinError( bini + 1 ), 2 ) ) );  
+    hist->SetBinContent( bini + 1, 0 );
+    hist->SetBinError  ( bini + 1, 0 );
+  }
+}
+
 void FS_Mass_Window_Study(){
 
   TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/baseline_ratios/";
@@ -13,7 +24,7 @@ void FS_Mass_Window_Study(){
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/wz.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_onZ/zz.root", "read"));
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/Z_Base.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/TT_Base.root", "read"));
@@ -22,7 +33,7 @@ void FS_Mass_Window_Study(){
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/wz.root", "read"));
   above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_aboveZ/zz.root", "read"));
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/Z_Base.root", "read"));
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/TT_Base.root", "read"));
@@ -32,28 +43,28 @@ void FS_Mass_Window_Study(){
   below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/baseline_belowZ/zz.root", "read"));
 
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
 // ==================
 //  Define Histograms
 // ==================
   TH1D *onz_met = (TH1D*) ((TH1D*) on_files[0]->Get("type1MET"))->Clone("onz_met");
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("type1MET"))->Clone("onz_met");
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("type1MET")));
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
 // ==================
 //  Fill Histograms
 // ==================
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   for (int i = 1; i < (int) on_files.size(); i++){
     onz_met->Add((TH1D*) ((TH1D*) on_files[i]->Get("type1MET")));
     offz_met->Add((TH1D*) ((TH1D*) below_files[i]->Get("type1MET")));
     offz_met->Add((TH1D*) ((TH1D*) above_files[i]->Get("type1MET")));
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 // ==================
 //  Print Plots
 // ==================
@@ -67,6 +78,9 @@ void FS_Mass_Window_Study(){
 
   onz_met_varbin3 = (TH1D*) onz_met_varbin->Clone("onz_met_varbin3");
   offz_met_varbin3 = (TH1D*) offz_met_varbin->Clone("offz_met_varbin3");
+
+  cout<<"601 bin: "<<onz_met_varbin->FindBin(601)<<" 6001 bin: "<<onz_met_varbin->FindBin(6001)<<endl;
+
   //-------------
   // MET 10GeV bins
   //-------------
@@ -74,7 +88,7 @@ void FS_Mass_Window_Study(){
   TCanvas *c1 = new TCanvas("c1", "", 2000, 2000);
   c1->cd();
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //gPad->SetLogy(1);
   gStyle->SetOptStat(kFALSE);
@@ -85,6 +99,9 @@ void FS_Mass_Window_Study(){
   
   onz_met->Rebin(10);
   offz_met->Rebin(10);
+
+  updateOverflow(onz_met, 600);
+  updateOverflow(offz_met, 600);
 
   offz_met->Add(onz_met);
   
@@ -103,7 +120,7 @@ void FS_Mass_Window_Study(){
   TCanvas *c2 = new TCanvas("c2", "", 2000, 2000);
   c2->cd();
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //gPad->SetLogy(1);
   gStyle->SetOptStat(kFALSE);
@@ -112,6 +129,9 @@ void FS_Mass_Window_Study(){
   onz_met_varbin->SetXTitle("Ratio");
   onz_met_varbin->SetYTitle("OnZ/OffZ");
   
+  updateOverflow(onz_met_varbin, 600);
+  updateOverflow(offz_met_varbin, 600);
+
   onz_met_varbin->Divide(offz_met_varbin);
 
   onz_met_varbin->GetXaxis()->SetRangeUser(0,800);
@@ -129,10 +149,13 @@ void FS_Mass_Window_Study(){
   TCanvas *c3 = new TCanvas("c3", "", 2000, 2000);
   c3->cd();
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //gPad->SetLogy(1);
   gStyle->SetOptStat(kFALSE);
+
+  updateOverflow(onz_met_varbin3, 600);
+  updateOverflow(offz_met_varbin3, 600);
 
   onz_met_varbin3->SetTitle("OnZ MET / Off Z MET (3)");
   onz_met_varbin3->SetXTitle("Ratio");
