@@ -176,7 +176,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in E^{miss}_{T}");
     onz_met->SetYTitle("Ratio (#kappa) / 10 GeV");
     onz_met->SetXTitle("E^{miss}_{T}");
-    onz_met->GetYaxis()->SetTitleOffset(1.4);
+    onz_met->GetYaxis()->SetTitleOffset(1.6);
     
     onz_met->Rebin(10);
     offz_met->Rebin(10);
@@ -211,7 +211,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin->SetTitle("Ratio of Events in Z M_{ll} Window to off Z, binned in E^{miss}_{T} (sum squared errors)");
     onz_met_varbin->SetXTitle("E^{miss}_{T}");
     onz_met_varbin->SetYTitle("Ratio (#kappa)");
-    onz_met_varbin->GetYaxis()->SetTitleOffset(1.4);
+    onz_met_varbin->GetYaxis()->SetTitleOffset(1.6);
     
     updateOverflow(onz_met_varbin, 600);
     updateOverflow(offz_met_varbin, 600);
@@ -244,7 +244,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin3->SetTitle("Ratio of Events in #pm 5 GeV Z M_{ll} window to M_{ll} #geq 20, binned in E^{miss}_{T}");
     onz_met_varbin3->SetXTitle("E^{miss}_{T}");
     onz_met_varbin3->SetYTitle("Ratio (#kappa)");
-    onz_met_varbin3->GetYaxis()->SetTitleOffset(1.4);
+    onz_met_varbin3->GetYaxis()->SetTitleOffset(1.6);
     
     offz_met_varbin3->Add(onz_met_varbin3);
     
@@ -276,7 +276,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_finebin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in H_{T}");
     onz_ht_finebin->SetXTitle("H_{T}");
     onz_ht_finebin->SetYTitle("Ratio (#kappa) / 10 GeV");
-    onz_ht_finebin->GetYaxis()->SetTitleOffset(1.4);
+    onz_ht_finebin->GetYaxis()->SetTitleOffset(1.6);
     
     offz_ht_finebin->Add(onz_ht_finebin);
     
@@ -308,7 +308,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in H_{T}");
     onz_ht_varbin->SetXTitle("H_{T}");
     onz_ht_varbin->SetYTitle("Ratio (#kappa) / 100 GeV");
-    onz_ht_varbin->GetYaxis()->SetTitleOffset(1.4);
+    onz_ht_varbin->GetYaxis()->SetTitleOffset(1.6);
 
     
     offz_ht_varbin->Add(onz_ht_varbin);
@@ -341,7 +341,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
     onz_njets->SetXTitle("Number of Jets");
     onz_njets->SetYTitle("Ratio (#kappa)");
-    onz_njets->GetYaxis()->SetTitleOffset(1.4);
+    onz_njets->GetYaxis()->SetTitleOffset(1.6);
     
     offz_njets->Add(onz_njets);
     
@@ -373,7 +373,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
     onz_njets_varbin->SetXTitle("Number of Jets");
     onz_njets_varbin->SetYTitle("Ratio (#kappa)");
-    onz_njets_varbin->GetYaxis()->SetTitleOffset(1.4);
+    onz_njets_varbin->GetYaxis()->SetTitleOffset(1.6);
     
     offz_njets_varbin->Add(onz_njets_varbin);
     
@@ -405,7 +405,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_nbjets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of B tags (csv medium)");
     onz_nbjets->SetXTitle("Number of B tags (csv medium)");
     onz_nbjets->SetYTitle("Ratio (#kappa)");
-    onz_nbjets->GetYaxis()->SetTitleOffset(1.4);
+    onz_nbjets->GetYaxis()->SetTitleOffset(1.6);
     
     offz_nbjets->Add(onz_nbjets);
     
