@@ -74,11 +74,11 @@ void FS_Mass_Window_Study(){
   offz_njets->Add((TH1D*) ((TH1D*) below_files[0]->Get("njets")));
   cout<<__LINE__<<endl;
 
-  TH1D *onz_nbjets = (TH1D*) ((TH1D*) on_files[0]->Get("nbjets"))->Clone("onz_nbjets");
+  TH1D *onz_nbjets = (TH1D*) ((TH1D*) on_files[0]->Get("nbtags_m"))->Clone("onz_nbjets");
   cout<<__LINE__<<endl;
-  TH1D *offz_nbjets = (TH1D*) ((TH1D*) above_files[0]->Get("nbjets"))->Clone("offz_nbjets");
+  TH1D *offz_nbjets = (TH1D*) ((TH1D*) above_files[0]->Get("nbtags_m"))->Clone("offz_nbjets");
   cout<<__LINE__<<endl;
-  offz_nbjets->Add((TH1D*) ((TH1D*) below_files[0]->Get("nbjets")));
+  offz_nbjets->Add((TH1D*) ((TH1D*) below_files[0]->Get("nbtags_m")));
   cout<<__LINE__<<endl;
 
   TH1D *onz_ht = (TH1D*) ((TH1D*) on_files[0]->Get("ht"))->Clone("onz_ht");
@@ -101,9 +101,9 @@ void FS_Mass_Window_Study(){
     offz_njets->Add((TH1D*) ((TH1D*) below_files[i]->Get("njets")));
     offz_njets->Add((TH1D*) ((TH1D*) above_files[i]->Get("njets")));
 
-    onz_nbjets->Add((TH1D*) ((TH1D*) on_files[i]->Get("nbjets")));
-    offz_nbjets->Add((TH1D*) ((TH1D*) below_files[i]->Get("nbjets")));
-    offz_nbjets->Add((TH1D*) ((TH1D*) above_files[i]->Get("nbjets")));
+    onz_nbjets->Add((TH1D*) ((TH1D*) on_files[i]->Get("nbtags_m")));
+    offz_nbjets->Add((TH1D*) ((TH1D*) below_files[i]->Get("nbtags_m")));
+    offz_nbjets->Add((TH1D*) ((TH1D*) above_files[i]->Get("nbtags_m")));
 
     onz_ht->Add((TH1D*) ((TH1D*) on_files[i]->Get("ht")));
     offz_ht->Add((TH1D*) ((TH1D*) below_files[i]->Get("ht")));
@@ -338,8 +338,8 @@ void FS_Mass_Window_Study(){
     updateOverflow(onz_nbjets, 1000);
     updateOverflow(offz_nbjets, 1000);
 
-    onz_nbjets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
-    onz_nbjets->SetXTitle("Number of Jets");
+    onz_nbjets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of B tags (csv medium)");
+    onz_nbjets->SetXTitle("Number of B tags (csv medium)");
     onz_nbjets->SetYTitle("Ratio");
     
     offz_nbjets->Add(onz_nbjets);
