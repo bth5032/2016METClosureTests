@@ -62,9 +62,30 @@ void FS_Mass_Window_Study(){
 // ==================
   TH1D *onz_met = (TH1D*) ((TH1D*) on_files[0]->Get("type1MET"))->Clone("onz_met");
   //cout<<__LINE__<<endl;
-  TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("type1MET"))->Clone("onz_met");
+  TH1D *offz_met = (TH1D*) ((TH1D*) above_files[0]->Get("type1MET"))->Clone("offz_met");
   //cout<<__LINE__<<endl;
   offz_met->Add((TH1D*) ((TH1D*) below_files[0]->Get("type1MET")));
+  //cout<<__LINE__<<endl;
+
+  TH1D *onz_njets = (TH1D*) ((TH1D*) on_files[0]->Get("njets"))->Clone("onz_njets");
+  //cout<<__LINE__<<endl;
+  TH1D *offz_njets = (TH1D*) ((TH1D*) above_files[0]->Get("njets"))->Clone("offz_njets");
+  //cout<<__LINE__<<endl;
+  offz_njets->Add((TH1D*) ((TH1D*) below_files[0]->Get("njets")));
+  //cout<<__LINE__<<endl;
+
+  TH1D *onz_nbjets = (TH1D*) ((TH1D*) on_files[0]->Get("nbjets"))->Clone("onz_nbjets");
+  //cout<<__LINE__<<endl;
+  TH1D *offz_nbjets = (TH1D*) ((TH1D*) above_files[0]->Get("nbjets"))->Clone("offz_nbjets");
+  //cout<<__LINE__<<endl;
+  offz_nbjets->Add((TH1D*) ((TH1D*) below_files[0]->Get("nbjets")));
+  //cout<<__LINE__<<endl;
+
+  TH1D *onz_ht = (TH1D*) ((TH1D*) on_files[0]->Get("ht"))->Clone("onz_ht");
+  //cout<<__LINE__<<endl;
+  TH1D *offz_ht = (TH1D*) ((TH1D*) above_files[0]->Get("ht"))->Clone("offz_ht");
+  //cout<<__LINE__<<endl;
+  offz_ht->Add((TH1D*) ((TH1D*) below_files[0]->Get("ht")));
   //cout<<__LINE__<<endl;
 
 // ==================
@@ -75,113 +96,261 @@ void FS_Mass_Window_Study(){
     onz_met->Add((TH1D*) ((TH1D*) on_files[i]->Get("type1MET")));
     offz_met->Add((TH1D*) ((TH1D*) below_files[i]->Get("type1MET")));
     offz_met->Add((TH1D*) ((TH1D*) above_files[i]->Get("type1MET")));
+
+    onz_njets->Add((TH1D*) ((TH1D*) on_files[i]->Get("njets")));
+    offz_njets->Add((TH1D*) ((TH1D*) below_files[i]->Get("njets")));
+    offz_njets->Add((TH1D*) ((TH1D*) above_files[i]->Get("njets")));
+
+    onz_nbjets->Add((TH1D*) ((TH1D*) on_files[i]->Get("nbjets")));
+    offz_nbjets->Add((TH1D*) ((TH1D*) below_files[i]->Get("nbjets")));
+    offz_nbjets->Add((TH1D*) ((TH1D*) above_files[i]->Get("nbjets")));
+
+    onz_ht->Add((TH1D*) ((TH1D*) on_files[i]->Get("ht")));
+    offz_ht->Add((TH1D*) ((TH1D*) below_files[i]->Get("ht")));
+    offz_ht->Add((TH1D*) ((TH1D*) above_files[i]->Get("ht")));
   }
   //cout<<__LINE__<<endl;
 // ==================
-//  Print Plots
+//  Rebin Hists
 // ==================
 
-  double binning[8] = {0,25,50,75,100,150,250,600};
+  double met_binning[8] = {0,25,50,75,100,150,250,600};
   TH1D *onz_met_varbin = (TH1D*) onz_met->Clone("onz_met_varbin");
   TH1D *offz_met_varbin = (TH1D*) offz_met->Clone("offz_met_varbin");
 
-  onz_met_varbin = (TH1D*) onz_met_varbin->Rebin(7, "onz_met_varbin2", binning);
-  offz_met_varbin = (TH1D*) offz_met_varbin->Rebin(7, "offz_met_varbin2", binning);
+  onz_met_varbin = (TH1D*) onz_met_varbin->Rebin(7, "onz_met_varbin2", met_binning);
+  offz_met_varbin = (TH1D*) offz_met_varbin->Rebin(7, "offz_met_varbin2", met_binning);
 
   onz_met_varbin3 = (TH1D*) onz_met_varbin->Clone("onz_met_varbin3");
   offz_met_varbin3 = (TH1D*) offz_met_varbin->Clone("offz_met_varbin3");
 
-  cout<<"601 bin: "<<onz_met_varbin->FindBin(601)<<" 6001 bin: "<<onz_met_varbin->FindBin(6001)<<endl;
+  double ht_binning[4] = {0,200,500,1000};
+  TH1D *onz_ht_varbin = (TH1D*) onz_ht->Clone("onz_ht_varbin");
+  TH1D *offz_ht_varbin = (TH1D*) offz_ht->Clone("onz_ht_varbin");
 
+  onz_met_varbin = (TH1D*) onz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
+  offz_met_varbin = (TH1D*) offz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
+
+  onz_ht_finebin = (TH1D*) onz_ht->Clone("onz_ht_finebin");
+  offz_ht_finebin = (TH1D*) offz_ht->Clone("offz_ht_finebin");
+
+  onz_ht->Rebin(100);
+  offz_ht->Rebin(100);
+
+  //cout<<"601 bin: "<<onz_met_varbin->FindBin(601)<<" 6001 bin: "<<onz_met_varbin->FindBin(6001)<<endl;
+
+// ==================
+//  Draw Errrrthang
+// ==================
   //-------------
   // MET 10GeV bins
   //-------------
+    TCanvas *c1 = new TCanvas("c1", "", 2000, 2000);
+    c1->cd();
 
-  TCanvas *c1 = new TCanvas("c1", "", 2000, 2000);
-  c1->cd();
+    //cout<<__LINE__<<endl;
 
-  //cout<<__LINE__<<endl;
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
 
-  //gPad->SetLogy(1);
-  gStyle->SetOptStat(kFALSE);
+    onz_met->SetTitle("OnZ MET / Off Z MET");
+    onz_met->SetXTitle("Ratio");
+    onz_met->SetYTitle("OnZ/OffZ");
+    
+    onz_met->Rebin(10);
+    offz_met->Rebin(10);
 
-  onz_met->SetTitle("OnZ MET / Off Z MET");
-  onz_met->SetXTitle("Ratio");
-  onz_met->SetYTitle("OnZ/OffZ");
-  
-  onz_met->Rebin(10);
-  offz_met->Rebin(10);
+    updateOverflow(onz_met, 600);
+    updateOverflow(offz_met, 600);
 
-  updateOverflow(onz_met, 600);
-  updateOverflow(offz_met, 600);
+    offz_met->Add(onz_met);
+    
+    onz_met->Divide(onz_met,offz_met,1,1,"B");
 
-  offz_met->Add(onz_met);
-  
-  onz_met->Divide(onz_met,offz_met,1,1,"B");
+    onz_met->GetXaxis()->SetRangeUser(0,600);
 
-  onz_met->GetXaxis()->SetRangeUser(0,600);
+    onz_met->Draw("E1");
 
-  onz_met->Draw("E1");
-
-  c1->SaveAs(output_dir+"MET.png");
-
-  //-------------
-  // MET Variable bins
-  //-------------
-
-  TCanvas *c2 = new TCanvas("c2", "", 2000, 2000);
-  c2->cd();
-
-  //cout<<__LINE__<<endl;
-
-  //gPad->SetLogy(1);
-  gStyle->SetOptStat(kFALSE);
-
-  onz_met_varbin->SetTitle("OnZ MET / Off Z MET (2)");
-  onz_met_varbin->SetXTitle("Ratio");
-  onz_met_varbin->SetYTitle("OnZ/OffZ");
-  
-  updateOverflow(onz_met_varbin, 600);
-  updateOverflow(offz_met_varbin, 600);
-
-  onz_met_varbin->Divide(offz_met_varbin);
-
-  onz_met_varbin->GetXaxis()->SetRangeUser(0,600);
-
-  onz_met_varbin->Draw("E1");
-
-  c2->SaveAs(output_dir+"MET_varbin.png");
-
-
+    c1->SaveAs(output_dir+"MET.png");
 
   //-------------
   // MET Variable bins
   //-------------
 
-  TCanvas *c3 = new TCanvas("c3", "", 2000, 2000);
-  c3->cd();
+    TCanvas *c2 = new TCanvas("c2", "", 2000, 2000);
+    c2->cd();
 
-  //cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
 
-  //gPad->SetLogy(1);
-  gStyle->SetOptStat(kFALSE);
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
 
-  updateOverflow(onz_met_varbin3, 600);
-  updateOverflow(offz_met_varbin3, 600);
+    onz_met_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in E^{miss}_{T} (sum squared errors)");
+    onz_met_varbin->SetXTitle("E^{miss}_{T}");
+    onz_met_varbin->SetYTitle("Ratio");
+    
+    updateOverflow(onz_met_varbin, 600);
+    updateOverflow(offz_met_varbin, 600);
 
-  onz_met_varbin3->SetTitle("OnZ MET / Off Z MET (3)");
-  onz_met_varbin3->SetXTitle("Ratio");
-  onz_met_varbin3->SetYTitle("OnZ/OffZ");
-  
-  offz_met_varbin3->Add(onz_met_varbin3);
-  
-  onz_met_varbin3->Divide(onz_met_varbin3,offz_met_varbin3,1,1,"B");
+    onz_met_varbin->Divide(offz_met_varbin);
 
-  onz_met_varbin3->GetXaxis()->SetRangeUser(0,600);
+    onz_met_varbin->GetXaxis()->SetRangeUser(0,600);
 
-  onz_met_varbin3->Draw("E1");
+    onz_met_varbin->Draw("E1");
 
-  c3->SaveAs(output_dir+"MET_varbinB.png");
+    c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.png");
+
+  //-------------
+  // MET Variable bins (Binomial Errors)
+  //-------------
+
+    TCanvas *c3 = new TCanvas("c3", "", 2000, 2000);
+    c3->cd();
+
+    //cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_met_varbin3, 600);
+    updateOverflow(offz_met_varbin3, 600);
+
+    onz_met_varbin3->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in E^{miss}_{T}");
+    onz_met_varbin3->SetXTitle("E^{miss}_{T}");
+    onz_met_varbin3->SetYTitle("Ratio");
+    
+    offz_met_varbin3->Add(onz_met_varbin3);
+    
+    onz_met_varbin3->Divide(onz_met_varbin3,offz_met_varbin3,1,1,"B");
+
+    onz_met_varbin3->GetXaxis()->SetRangeUser(0,600);
+
+    onz_met_varbin3->Draw("E1");
+
+    c3->SaveAs(output_dir+"MET_varbin.png");
+
+  //-------------
+  // HT Variable bins fine
+  //-------------
+
+    TCanvas *c4 = new TCanvas("c4", "", 2000, 2000);
+    c4->cd();
+
+    //cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_ht_finebin, 1000);
+    updateOverflow(offz_ht_finebin, 1000);
+
+    onz_ht_finebin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in H_{T}");
+    onz_ht_finebin->SetXTitle("H_{T}");
+    onz_ht_finebin->SetYTitle("Ratio / 100 GeV");
+    
+    offz_ht_finebin->Add(onz_ht_finebin);
+    
+    onz_ht_finebin->Divide(onz_ht_finebin,offz_ht_finebin,1,1,"B");
+
+    onz_ht_finebin->GetXaxis()->SetRangeUser(0,600);
+
+    onz_ht_finebin->Draw("E1");
+
+    c4->SaveAs(output_dir+"HT_finebin.png");
+
+  //-------------
+  // HT Variable bins
+  //-------------
+
+    TCanvas *c5 = new TCanvas("c5", "", 2000, 2000);
+    c5->cd();
+
+    //cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_ht_varbin, 1000);
+    updateOverflow(offz_ht_varbin, 1000);
+
+    onz_ht_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in H_{T}");
+    onz_ht_varbin->SetXTitle("H_{T}");
+    onz_ht_varbin->SetYTitle("Ratio / 100 GeV");
+    
+    offz_ht_varbin->Add(onz_ht_varbin);
+    
+    onz_ht_varbin->Divide(onz_ht_varbin,offz_ht_varbin,1,1,"B");
+
+    onz_ht_varbin->GetXaxis()->SetRangeUser(0,600);
+
+    onz_ht_varbin->Draw("E1");
+
+    c5->SaveAs(output_dir+"HT_finebin.png");
+
+  //-------------
+  // NJets
+  //-------------
+
+    TCanvas *c6 = new TCanvas("c6", "", 2000, 2000);
+    c6->cd();
+
+    //cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_njets, 1000);
+    updateOverflow(offz_njets, 1000);
+
+    onz_njets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
+    onz_njets->SetXTitle("Number of Jets");
+    onz_njets->SetYTitle("Ratio");
+    
+    offz_njets->Add(onz_njets);
+    
+    onz_njets->Divide(onz_njets,offz_njets,1,1,"B");
+
+    onz_njets->GetXaxis()->SetRangeUser(0,600);
+
+    onz_njets->Draw("E1");
+
+    c6->SaveAs(output_dir+"njets.png");
+
+  //-------------
+  // Num Btagged Jets
+  //-------------
+
+    TCanvas *c7 = new TCanvas("c7", "", 2000, 2000);
+    c7->cd();
+
+    //cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_nbjets, 1000);
+    updateOverflow(offz_nbjets, 1000);
+
+    onz_nbjets->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
+    onz_nbjets->SetXTitle("Number of Jets");
+    onz_nbjets->SetYTitle("Ratio");
+    
+    offz_nbjets->Add(onz_nbjets);
+    
+    onz_nbjets->Divide(onz_nbjets,offz_nbjets,1,1,"B");
+
+    onz_nbjets->GetXaxis()->SetRangeUser(0,600);
+
+    onz_nbjets->Draw("E1");
+
+    c7->SaveAs(output_dir+"nbjets.png");
 
 
 }
