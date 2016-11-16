@@ -693,7 +693,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if ((! phys.isData()) && conf->get("event_type") != "photon" ){
-    if (conf->get("susy_mc") != "true"){
+    if (conf->get("susy_mc") != "true" && conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
     if (phys.hyp_type() == 0) weight *= 0.963;
