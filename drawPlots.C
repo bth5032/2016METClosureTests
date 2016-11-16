@@ -828,7 +828,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   }
   //cout<<__LINE__<<endl;
   if (conf->get("bin_size") != ""){
-    for (int i = 1; i<num_hists; i++){
+    for (int i = 0; i<num_hists; i++){
       hists[i]->Rebin(bin_size);
     }
   }
