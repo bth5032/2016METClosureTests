@@ -287,7 +287,7 @@ void FS_Mass_Window_Study(){
     onz_ht_varbin->Divide(onz_ht_varbin,offz_ht_varbin,1,1,"B");
 
     onz_ht_varbin->GetXaxis()->SetRangeUser(0,600);
-    onz_ht_varbin->GetYaxis()->SetRangeUser(0,0.01);
+    onz_ht_varbin->GetYaxis()->SetRangeUser(0,0.1);
 
     onz_ht_varbin->Draw("E1");
 
