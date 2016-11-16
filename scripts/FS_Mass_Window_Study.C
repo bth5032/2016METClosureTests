@@ -130,16 +130,23 @@ void FS_Mass_Window_Study(){
 
   double ht_binning[4] = {0,200,500,1000};
   TH1D *onz_ht_varbin = (TH1D*) onz_ht->Clone("onz_ht_varbin");
-  TH1D *offz_ht_varbin = (TH1D*) offz_ht->Clone("onz_ht_varbin");
+  TH1D *offz_ht_varbin = (TH1D*) offz_ht->Clone("offz_ht_varbin");
 
   onz_ht_varbin = (TH1D*) onz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
-  offz_ht_varbin = (TH1D*) offz_ht_varbin->Rebin(3, "onz_ht_varbin2", ht_binning);
+  offz_ht_varbin = (TH1D*) offz_ht_varbin->Rebin(3, "offz_ht_varbin2", ht_binning);
 
   onz_ht_finebin = (TH1D*) onz_ht->Clone("onz_ht_finebin");
   offz_ht_finebin = (TH1D*) offz_ht->Clone("offz_ht_finebin");
 
   onz_ht_finebin->Rebin(100);
   offz_ht_finebin->Rebin(100);
+
+  double njets_binning[5] = {0,2,4,6,10};
+  TH1D *onz_njets_varbin = (TH1D*) onz_njets->Clone("onz_njets_varbin");
+  TH1D *offz_njets_varbin = (TH1D*) offz_njets->Clone("offz_njets_varbin");
+
+  onz_njets_varbin = (TH1D*) onz_njets_varbin->Rebin(4, "onz_njets_varbin2", njets_binning);
+  offz_njets_varbin = (TH1D*) offz_njets_varbin->Rebin(4, "onz_njets_varbin2", njets_binning);
 
   //cout<<"601 bin: "<<onz_met_varbin->FindBin(601)<<" 6001 bin: "<<onz_met_varbin->FindBin(6001)<<endl;
 
@@ -333,6 +340,37 @@ void FS_Mass_Window_Study(){
     onz_njets->Draw("E1");
 
     c6->SaveAs(output_dir+"njets.png");
+
+  //-------------
+  // NJets SR Binning
+  //-------------
+
+    TCanvas *c8 = new TCanvas("c8", "", 2000, 2000);
+    c8->cd();
+
+    cout<<__LINE__<<endl;
+
+    //gPad->SetLogy(1);
+    gPad->SetLeftMargin(.1);
+    gStyle->SetOptStat(kFALSE);
+
+    updateOverflow(onz_njets_varbin, 10);
+    updateOverflow(offz_njets_varbin, 10);
+
+    onz_njets_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in Number of Jets");
+    onz_njets_varbin->SetXTitle("Number of Jets");
+    onz_njets_varbin->SetYTitle("Ratio");
+    onz_njets_varbin->GetYaxis()->SetTitleOffset(1.4);
+    
+    offz_njets_varbin->Add(onz_njets_varbin);
+    
+    onz_njets_varbin->Divide(onz_njets_varbin,offz_njets_varbin,1,1,"B");
+
+    onz_njets_varbin->GetXaxis()->SetRangeUser(0,10);
+
+    onz_njets_varbin->Draw("E1");
+
+    c8->SaveAs(output_dir+"njets_varbin.png");
 
   //-------------
   // Num Btagged Jets
