@@ -134,8 +134,8 @@ void FS_Mass_Window_Study(){
   onz_ht_finebin = (TH1D*) onz_ht->Clone("onz_ht_finebin");
   offz_ht_finebin = (TH1D*) offz_ht->Clone("offz_ht_finebin");
 
-  onz_ht->Rebin(100);
-  offz_ht->Rebin(100);
+  onz_ht_finebin->Rebin(100);
+  offz_ht_finebin->Rebin(100);
 
   //cout<<"601 bin: "<<onz_met_varbin->FindBin(601)<<" 6001 bin: "<<onz_met_varbin->FindBin(6001)<<endl;
 
