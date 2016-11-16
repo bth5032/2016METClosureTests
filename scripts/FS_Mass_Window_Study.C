@@ -190,7 +190,7 @@ void FS_Mass_Window_Study(){
     gPad->SetLeftMargin(.1);
     gStyle->SetOptStat(kFALSE);
 
-    onz_met_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in E^{miss}_{T} (sum squared errors)");
+    onz_met_varbin->SetTitle("Ratio of Events on Z to off Z M_{ll}, binned in E^{miss}_{T} (sum squared errors)");
     onz_met_varbin->SetXTitle("E^{miss}_{T}");
     onz_met_varbin->SetYTitle("Ratio");
     onz_met_varbin->GetYaxis()->SetTitleOffset(1.4);
@@ -262,7 +262,7 @@ void FS_Mass_Window_Study(){
     
     onz_ht_finebin->Divide(onz_ht_finebin,offz_ht_finebin,1,1,"B");
 
-    onz_ht_finebin->GetXaxis()->SetRangeUser(0,600);
+    onz_ht_finebin->GetXaxis()->SetRangeUser(0,1000);
 
     onz_ht_finebin->Draw("E1");
 
