@@ -21,7 +21,9 @@ DEFAULT::signal_region=baseline_onZ
 DEFAULT::dPhi_MET_j1=0.4
 DEFAULT::dPhi_MET_j2=0.4
 DEFAULT::Njets_min=2
-DEFAULT::MT2_min=80
+DEFAULT::NBjets_min=1
+DEFAULT::MT2_min=100
+DEFAULT::MET_min=100
 DEFAULT::dilmass_low=96
 DEFAULT::dilmass_high=-1
 DEFAULT::event_type=dilepton
@@ -41,7 +43,7 @@ Name=ww
 data_set=FSMC-ww
 
 Name=singletop
-data_set=FSMC-singletop
+data_set=FSMC-singletop_FSMC-ttw
 
 Name=ttw
 data_set=FSMC-ttw

@@ -22,8 +22,8 @@ DEFAULT::dPhi_MET_j1=0.4
 DEFAULT::dPhi_MET_j2=0.4
 DEFAULT::Njets_min=2
 DEFAULT::MT2_min=80
-DEFAULT::dilmass_low=96
-DEFAULT::dilmass_high=-1
+DEFAULT::dilmass_low=20
+DEFAULT::dilmass_high=86
 DEFAULT::event_type=dilepton
 
 #Zjets Only Base Config
@@ -45,7 +45,6 @@ data_set=FSMC-singletop
 
 Name=ttw
 data_set=FSMC-ttw
-
 # =========================
 # Rares
 # =========================
