@@ -307,7 +307,7 @@ void FS_Mass_Window_Study(int dataset){
 
     onz_ht_varbin->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in H_{T}");
     onz_ht_varbin->SetXTitle("H_{T}");
-    onz_ht_varbin->SetYTitle("Ratio (#kappa) / 100 GeV");
+    onz_ht_varbin->SetYTitle("Ratio (#kappa)");
     onz_ht_varbin->GetYaxis()->SetTitleOffset(1.6);
 
     
