@@ -170,7 +170,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     onz_met->SetTitle("Ratio of Events on Z to inclusive M_{ll}, binned in E^{miss}_{T}");
@@ -189,7 +189,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met->Divide(onz_met,offz_met,1,1,"B");
 
     onz_met->GetXaxis()->SetRangeUser(0,600);
-    onz_met->GetYaxis()->SetRangeUser(0,0.12);
+    onz_met->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_met->Draw("E1");
 
@@ -205,7 +205,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     onz_met_varbin->SetTitle("Ratio of Events in Z M_{ll} Window to off Z, binned in E^{miss}_{T} (sum squared errors)");
@@ -219,7 +219,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin->Divide(offz_met_varbin);
 
     onz_met_varbin->GetXaxis()->SetRangeUser(0,600);
-    onz_met_varbin->GetYaxis()->SetRangeUser(0,0.12);
+    onz_met_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_met_varbin->Draw("E1");
 
@@ -235,7 +235,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_met_varbin3, 600);
@@ -251,7 +251,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin3->Divide(onz_met_varbin3,offz_met_varbin3,1,1,"B");
 
     onz_met_varbin3->GetXaxis()->SetRangeUser(0,600);
-    onz_met_varbin3->GetYaxis()->SetRangeUser(0,0.12);
+    onz_met_varbin3->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_met_varbin3->Draw("E1");
 
@@ -267,7 +267,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_ht_finebin, 1000);
@@ -283,7 +283,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_finebin->Divide(onz_ht_finebin,offz_ht_finebin,1,1,"B");
 
     onz_ht_finebin->GetXaxis()->SetRangeUser(0,1000);
-    onz_ht_finebin->GetYaxis()->SetRangeUser(0,0.12);
+    onz_ht_finebin->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_ht_finebin->Draw("E1");
 
@@ -299,7 +299,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_ht_varbin, 1000);
@@ -316,7 +316,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_varbin->Divide(onz_ht_varbin,offz_ht_varbin,1,1,"B");
 
     onz_ht_varbin->GetXaxis()->SetRangeUser(0,600);
-    onz_ht_varbin->GetYaxis()->SetRangeUser(0,0.12);
+    onz_ht_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_ht_varbin->Draw("E1");
 
@@ -332,7 +332,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_njets, 1000);
@@ -348,7 +348,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets->Divide(onz_njets,offz_njets,1,1,"B");
 
     onz_njets->GetXaxis()->SetRangeUser(0,10);
-    onz_njets->GetYaxis()->SetRangeUser(0,0.12);
+    onz_njets->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_njets->Draw("E1");
 
@@ -364,7 +364,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_njets_varbin, 10);
@@ -380,7 +380,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets_varbin->Divide(onz_njets_varbin,offz_njets_varbin,1,1,"B");
 
     onz_njets_varbin->GetXaxis()->SetRangeUser(0,10);
-    onz_njets_varbin->GetYaxis()->SetRangeUser(0,0.12);
+    onz_njets_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_njets_varbin->Draw("E1");
 
@@ -396,7 +396,7 @@ void FS_Mass_Window_Study(int dataset){
     cout<<__LINE__<<endl;
 
     //gPad->SetLogy(1);
-    gPad->SetLeftMargin(.1);
+    gPad->SetLeftMargin(.15);
     gStyle->SetOptStat(kFALSE);
 
     updateOverflow(onz_nbjets, 1000);
@@ -412,7 +412,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_nbjets->Divide(onz_nbjets,offz_nbjets,1,1,"B");
 
     onz_nbjets->GetXaxis()->SetRangeUser(0,10);
-    onz_nbjets->GetYaxis()->SetRangeUser(0,0.12);
+    onz_nbjets->GetYaxis()->SetRangeUser(0,0.16);
 
     onz_nbjets->Draw("E1");
 
