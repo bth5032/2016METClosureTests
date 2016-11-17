@@ -194,6 +194,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met->Draw("E1");
 
     c1->SaveAs(output_dir+"MET.png");
+    c1->SaveAs(output_dir+"MET.pdf");
 
   //-------------
   // MET Variable bins
@@ -224,6 +225,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin->Draw("E1");
 
     c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.png");
+    c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.pdf");
 
   //-------------
   // MET Variable bins (Binomial Errors)
@@ -256,6 +258,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin3->Draw("E1");
 
     c3->SaveAs(output_dir+"MET_varbin.png");
+    c3->SaveAs(output_dir+"MET_varbin.pdf");
 
   //-------------
   // HT Variable bins fine
@@ -288,6 +291,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_finebin->Draw("E1");
 
     c4->SaveAs(output_dir+"HT_finebin.png");
+    c4->SaveAs(output_dir+"HT_finebin.pdf");
 
   //-------------
   // HT Variable bins
@@ -321,6 +325,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_varbin->Draw("E1");
 
     c5->SaveAs(output_dir+"HT.png");
+    c5->SaveAs(output_dir+"HT.pdf");
 
   //-------------
   // NJets
@@ -353,13 +358,14 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets->Draw("E1");
 
     c6->SaveAs(output_dir+"njets.png");
+    c6->SaveAs(output_dir+"njets.pdf");
 
   //-------------
   // NJets SR Binning
   //-------------
 
-    TCanvas *c8 = new TCanvas("c8", "", 2000, 2000);
-    c8->cd();
+    TCanvas *c7 = new TCanvas("c7", "", 2000, 2000);
+    c7->cd();
 
     cout<<__LINE__<<endl;
 
@@ -384,14 +390,15 @@ void FS_Mass_Window_Study(int dataset){
 
     onz_njets_varbin->Draw("E1");
 
-    c8->SaveAs(output_dir+"njets_varbin.png");
+    c7->SaveAs(output_dir+"njets_varbin.png");
+    c7->SaveAs(output_dir+"njets_varbin.pdf");
 
   //-------------
   // Num Btagged Jets
   //-------------
 
-    TCanvas *c7 = new TCanvas("c7", "", 2000, 2000);
-    c7->cd();
+    TCanvas *c8 = new TCanvas("c8", "", 2000, 2000);
+    c8->cd();
 
     cout<<__LINE__<<endl;
 
@@ -416,7 +423,8 @@ void FS_Mass_Window_Study(int dataset){
 
     onz_nbjets->Draw("E1");
 
-    c7->SaveAs(output_dir+"nbjets.png");
+    c8->SaveAs(output_dir+"nbjets.png");
+    c8->SaveAs(output_dir+"nbjets.pdf");
 
 
 }
