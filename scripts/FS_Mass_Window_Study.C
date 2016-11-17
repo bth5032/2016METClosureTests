@@ -191,6 +191,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met->GetXaxis()->SetRangeUser(0,600);
     onz_met->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_met->SetLineWidth(2);
     onz_met->Draw("E1");
 
     c1->SaveAs(output_dir+"MET.png");
@@ -222,6 +223,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin->GetXaxis()->SetRangeUser(0,600);
     onz_met_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_met_varbin->SetLineWidth(2);
     onz_met_varbin->Draw("E1");
 
     c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.png");
@@ -255,6 +257,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_met_varbin3->GetXaxis()->SetRangeUser(0,600);
     onz_met_varbin3->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_met_varbin3->SetLineWidth(2);
     onz_met_varbin3->Draw("E1");
 
     c3->SaveAs(output_dir+"MET_varbin.png");
@@ -288,6 +291,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_finebin->GetXaxis()->SetRangeUser(0,1000);
     onz_ht_finebin->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_ht_finebin->SetLineWidth(2);
     onz_ht_finebin->Draw("E1");
 
     c4->SaveAs(output_dir+"HT_finebin.png");
@@ -322,6 +326,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_ht_varbin->GetXaxis()->SetRangeUser(0,600);
     onz_ht_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_ht_varbin->SetLineWidth(2);
     onz_ht_varbin->Draw("E1");
 
     c5->SaveAs(output_dir+"HT.png");
@@ -355,6 +360,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets->GetXaxis()->SetRangeUser(0,10);
     onz_njets->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_njets->SetLineWidth(2);
     onz_njets->Draw("E1");
 
     c6->SaveAs(output_dir+"njets.png");
@@ -388,6 +394,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_njets_varbin->GetXaxis()->SetRangeUser(0,10);
     onz_njets_varbin->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_njets_varbin->SetLineWidth(2);
     onz_njets_varbin->Draw("E1");
 
     c7->SaveAs(output_dir+"njets_varbin.png");
@@ -421,6 +428,7 @@ void FS_Mass_Window_Study(int dataset){
     onz_nbjets->GetXaxis()->SetRangeUser(0,10);
     onz_nbjets->GetYaxis()->SetRangeUser(0,0.16);
 
+    onz_nbjets->SetLineWidth(2);
     onz_nbjets->Draw("E1");
 
     c8->SaveAs(output_dir+"nbjets.png");
