@@ -333,7 +333,7 @@ bool passEMuTriggers(){
 }
 
 bool passLeptonHLTs(){
-  if (conf->get("dil_sign") == "same"){
+  if (conf->get("dil_flavor") == "emu"){
     return passEMuTriggers();
   }
   else{
@@ -430,7 +430,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("dil_sign") == "same"){ //only true for ttbar estimate
+  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(20); 
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
@@ -1233,7 +1233,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
     g_pileup_hist_file->Close();
   }
   //cout<<__LINE__<<endl;
-  /*if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("dil_sign") == "opposite")) ){
+  /*if( conf->get("data") == "true" && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
