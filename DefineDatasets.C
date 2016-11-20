@@ -9,35 +9,42 @@ TChain * getZJetsChain(TString data_set) {
 
   if (data_set.Contains("inclusive")){
     //Inclusive HT
+    cout<<"adding zjets mc Inclusive sample"<<endl;
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ext1*");
   }
 
   if (data_set.Contains("100200")){
     //HT 100-200 
+    cout<<"adding zjets mc 100200"<<endl;
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht100_ext1*");
   }
 
   if (data_set.Contains("200400")){
     //HT 200-400 
+    cout<<"adding zjets mc 200400"<<endl;
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht200_ext1*");
   }
 
   if (data_set.Contains("400600")){
     //HT 400-600 
+    cout<<"adding zjets mc 400600"<<endl;
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht400_ext1*");
   }
 
   if (data_set.Contains("600Inf")){
     //HT 600-Inf 
+    cout<<"adding zjets 600Inf"<<endl;
     ch_Zjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht600_ext1*");
   }
 
   if (data_set.Contains("fullmc")){
+    cout<<"adding zjets fullmc"<<endl;
     //ZZ Sample
     ch_Zjets->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2q_amcnlo*.root" ));
     //WZ Sample
     ch_Zjets->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_2l2q_amcnlo*.root" ));
   }
+  cout<<"Added zjets mc"<<endl;
 
   return ch_Zjets;
 } 
@@ -113,6 +120,8 @@ TChain * getGJetsChain(TString data_set){
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch_Gjets->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
   }
+
+  cout<<"added gjets mc"<<endl;
   return ch_Gjets;
 }
 
@@ -159,6 +168,8 @@ TChain * getFSMCChain(TString data_set){
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
 
+  cout<<"added FS MC"<<endl;
+
   return ch_fs;
 }
 
@@ -186,6 +197,8 @@ TChain * getRareChain(TString data_set){
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
     ch_rares->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
   }
+
+  cout<<"Added Rare MC"<<endl;
 
   return ch_rares;
 }
@@ -243,6 +256,8 @@ TChain * getDataPhotonChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
   }
 
+  cout<<"added photon data"<<endl;
+
   return ch_Data;
 }
 
@@ -283,11 +298,13 @@ TChain * getDataZChain(TString trigger){
     ch_Data->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016G_Prompt_mm_v1*");
   }
 
+  cout<<"added leptonic data"<<endl;
+
   return ch_Data;
 }
 
 //====================================
-// Leptonic Data
+// SUSY MC
 //====================================
 TChain * getSignalChain(TString signal){
   TChain *ch_signal = new TChain("t");
@@ -296,6 +313,8 @@ TChain * getSignalChain(TString signal){
   if (signal.Contains("TChiHZ")){
     ch_signal->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
   }
+
+  cout<<"added SUSY MC"<<endl;
 
   return ch_signal;
 }
