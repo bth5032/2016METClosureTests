@@ -1321,7 +1321,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
       //Low HT from Zjets inclusive sample
       if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
         //cout<<"Zjets MC event"<<endl;
-        if( /*TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") &&*/ (! TString(currentFile->GetTitle()).Contains("_ht")) ){
+        if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
           if( phys.gen_ht() > 100 ) {
             //cout<<"skipped"<<endl;
