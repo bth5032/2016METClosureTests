@@ -945,7 +945,7 @@ bool passRareCuts(){
   bool hasrealmet = true;
   bool realzpair  = true;
   
-  if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
+  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv") /*g_sample_name == "vvv" || g_sample_name == "ttv" */){
     //cout<<"Checking for rare cuts"<<endl;
     hasrealmet = false;
     realzpair  = false;
