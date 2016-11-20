@@ -166,8 +166,8 @@ TChain * getTChain(TString data_set) {
   }
 
   if (data_set.Contains("RareMC-ttv")){
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttz_2l2n_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttz_qq_amcnlo*.root");
   }
 
 //====================================
