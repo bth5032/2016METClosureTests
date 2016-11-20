@@ -112,8 +112,8 @@ TChain * getTChain(TString data_set) {
 //====================================
   if (data_set.Contains("FSMC-dilep")){
     //cout<<"Adding Dilepton Sample"<<endl;
-    //ch_fs->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
@@ -128,10 +128,10 @@ TChain * getTChain(TString data_set) {
 
   if (data_set.Contains("FSMC-singletop")){
     //cout<<"Adding Single Top Sample"<<endl;
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
+    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
+    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
@@ -139,12 +139,12 @@ TChain * getTChain(TString data_set) {
   if (data_set.Contains("FSMC-ww")){
     //cout<<"Adding WW Sample"<<endl;
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
+    //ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
   }
 
   if (data_set.Contains("FSMC-ttw")){
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_ln_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_qq_amcnlo*.root");
+    //ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_ln_amcnlo*.root");
+    //ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_qq_amcnlo*.root");
   }
 
 //====================================
@@ -160,15 +160,14 @@ TChain * getTChain(TString data_set) {
   }
 
   if (data_set.Contains("RareMC-vvv")){
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/wwz_incl_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/wzz_incl_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/zzz_incl_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/www_incl_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wwz_incl_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wzz_incl_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zzz_incl_amcnlo*.root");
   }
 
   if (data_set.Contains("RareMC-ttv")){
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttz_2l2n_amcnlo*.root");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-09/ttz_qq_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
   }
 
 //====================================
