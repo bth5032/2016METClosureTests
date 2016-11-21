@@ -1678,7 +1678,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   double xmax = (double) p_hist->GetNbinsX();
   double xmin = 0;
 
-  updateOverUnderflow(p_hist, p_hist->GetBinLowEdge(xmax), 0);
+  updateOverUnderflow(p_hist, p_hist->GetBinLowEdge(xmax));
 
   cout<<"Debug hist has "<<xmax<<" bins"<<endl;
 
