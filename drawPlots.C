@@ -1634,6 +1634,8 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
     
   fullpad->SetRightMargin(0.05);
   fullpad->SetBottomMargin(0.3);
+  fullpad->SetLeftMargin(0.15);
+
   
   fullpad->Draw();
   fullpad->cd();
@@ -1672,13 +1674,13 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   //----------------------
   // SET AXIS LABELS
   //----------------------
-  
-  fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
 
   h_axes->GetXaxis()->LabelsOption("v");
   h_axes->GetXaxis()->SetLabelSize(.015);
+  h_axes->GetXaxis()->SetTitleOffset(1.5);
+
   
   TString bin_label;
   for (int i = xmin; i<xmax; i++)
@@ -1720,7 +1722,7 @@ TString drawDebugPlots(ConfigParser *conf){
   if (conf->get("PLOT_TYPE") == "ratio" || conf->get("PLOT_TYPE") == "stack"){
     int i = 0;
     //Add files from which to obtain histos
-    while (conf->get("file_"+to_string(i)+"_path") != "" || conf->get("sample_"+to_string(i)) != ""){
+    while (conf->get("file_"+to_string(i)+"_path") != "" ||x`x``x conf->get("sample_"+to_string(i)) != ""){
       if (conf->get("file_"+to_string(i)+"_path") != ""){
         sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
         sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
