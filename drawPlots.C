@@ -1680,6 +1680,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   h_axes->GetXaxis()->LabelsOption("v");
   h_axes->GetXaxis()->SetLabelSize(.015);
   
+  TString bin_label;
   for (int i = xmin; i<xmax; i++)
   {
     bin_label=to_string((double) p_hist->GetBinLowEdge(h_axes->FindBin(i)));
