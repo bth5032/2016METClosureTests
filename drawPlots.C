@@ -1679,7 +1679,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   h_axes->GetXaxis()->LabelsOption("v");
   h_axes->GetXaxis()->SetLabelSize(.015);
-  h_axes->GetXaxis()->SetTitleOffset(1.5);
+  h_axes->GetXaxis()->SetTitleOffset(2);
 
   
   TString bin_label;
