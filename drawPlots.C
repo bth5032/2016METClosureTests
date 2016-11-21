@@ -954,6 +954,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     }
 
     if(conf->get("simple_errors") == "true"){
+      cout<<"Computing simple errors"<<endl;
       vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
       double count, error;
       vector<pair<double,double>> stat_row;
