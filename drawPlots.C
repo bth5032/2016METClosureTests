@@ -1484,6 +1484,284 @@ TString drawCutDebug(ConfigParser *conf){
   return errors;
 }
 
+TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
+  TString errors="";
+
+  TFile *f_primary =new TFile(sample_loc);
+
+  cout<<"Found files for Debug"<<endl;
+
+  TString plot_name = TString("cuts_")+sample_name
+  TString plot_title = TString("Event Debug For ")+sample_name;
+  double xmax = 60;
+  double xmin = 0;
+  TString hist_name="NumEvents"
+  
+  cout << "Making Debug Plots for: "<<sample_name<<endl;
+
+  TH1D* p_hist = (TH1I*) ((TH1I*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
+  cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
+
+
+  cout << "NumEvents pulled from files, adding draw options"<<endl;
+  
+  //============================================
+  // Draw Data-MC Plots
+  //============================================
+  
+  TCanvas * c = new TCanvas("c","",2000,2000);
+  c->cd();
+  gPad->SetRightMargin(0.05);
+  gPad->Modified();
+  gStyle->SetOptStat(kFALSE);
+  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
+  
+  fullpad->Draw();
+  fullpad->cd();
+    
+  fullpad->SetRightMargin(0.05);
+  if (conf->get("ExtraRightMargin") == "true")
+  {
+    fullpad->SetRightMargin(0.08);
+  }
+  fullpad->SetBottomMargin(0.3);
+  
+  fullpad->Draw();
+  fullpad->cd();
+  
+  if (conf->get("logy") == "true")
+  {
+    cout<<"Plot tagged for log y-axis"<<endl;
+    fullpad->SetLogy();
+  }
+  
+  //===========================
+  // SET MC COLORS
+  //===========================
+  
+  p_hist->SetFillColor(kAzure+5);
+  p_hist->SetFillStyle(1001);
+
+  //===========================
+  // Find Plot Maxima
+  //===========================
+  
+  double ymax = 0;
+
+  ymax = 1.2*p_hist->GetMaximum();
+
+  cout<<"Proper plot maximum set to "<<ymax<<endl;
+  
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  
+  
+  //-----------------------
+  // AXES FIX
+  //-----------------------
+  
+  cout<<"Setting axis names"<<endl;
+  h_axes->GetXaxis()->SetTitle(xlabel);
+  h_axes->GetYaxis()->SetTitle(ylabel);
+  
+  
+  //----------------------
+  // SET AXIS LABELS
+  //----------------------
+  ConfigParser label_conf("configs/cutlabels.conf");
+  label_conf.loadConfig("Error Labels");
+  TString bin_label;
+  for (int i = xmin; i<xmax; i++)
+  {
+    bin_label=parseLatex(label_conf[to_string(i)]);
+    bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
+    h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
+  }  
+  h_axes->GetXaxis()->LabelsOption("v");
+  h_axes->GetXaxis()->SetLabelSize(.015);
+  
+  fullpad->SetLeftMargin(0.15);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.04);
+  
+  cout<<"Drawing histograms"<<endl;
+  h_axes->Draw();
+  p_hist->Draw("HIST SAME");
+  
+  fullpad->RedrawAxis();
+  
+  cout<<"Saving..."<<endl;
+  c->SaveAs(save_dir+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+plot_name+TString(".png"));
+  //c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+plot_name+TString(".C"));
+  
+  cout<<"Cleaning up plot variables"<<endl;
+  delete p_hist;
+  delete fullpad;
+  delete c;
+
+  f_primary->Close();
+  delete f_primary;
+
+  return errors;
+}
+
+TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_dir){
+  TString errors="";
+
+  TFile *f_primary =new TFile(sample_loc);
+
+  cout<<"Found files for Debug"<<endl;
+
+  TString plot_name = TString("Weight_Log_")+sample_name
+  TString plot_title = TString("Event Debug For ")+sample_name;
+  double xmax = 101;
+  double xmin = 0;
+  TString hist_name="weight_log"
+  
+  cout << "Making Debug Plots for: "<<sample_name<<endl;
+
+  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
+  cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
+
+
+  cout << "Weight Log pulled from files, adding draw options"<<endl;
+  
+  //============================================
+  // Draw Data-MC Plots
+  //============================================
+  
+  TCanvas * c = new TCanvas("c","",2000,2000);
+  c->cd();
+  gPad->SetRightMargin(0.05);
+  gPad->Modified();
+  gStyle->SetOptStat(kFALSE);
+  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
+  
+  fullpad->Draw();
+  fullpad->cd();
+    
+  fullpad->SetRightMargin(0.05);
+  if (conf->get("ExtraRightMargin") == "true")
+  {
+    fullpad->SetRightMargin(0.08);
+  }
+  fullpad->SetBottomMargin(0.3);
+  
+  fullpad->Draw();
+  fullpad->cd();
+  
+  if (conf->get("logy") == "true")
+  {
+    cout<<"Plot tagged for log y-axis"<<endl;
+    fullpad->SetLogy();
+  }
+  
+  //===========================
+  // SET MC COLORS
+  //===========================
+  
+  p_hist->SetFillColor(kAzure+5);
+  p_hist->SetFillStyle(1001);
+
+  //===========================
+  // Find Plot Maxima
+  //===========================
+  
+  double ymax = 0;
+
+  ymax = 1.2*p_hist->GetMaximum();
+
+  cout<<"Proper plot maximum set to "<<ymax<<endl;
+  
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  
+  
+  //-----------------------
+  // AXES FIX
+  //-----------------------
+  
+  cout<<"Setting axis names"<<endl;
+  h_axes->GetXaxis()->SetTitle(xlabel);
+  h_axes->GetYaxis()->SetTitle(ylabel);
+  
+  
+  //----------------------
+  // SET AXIS LABELS
+  //----------------------
+  
+  fullpad->SetLeftMargin(0.15);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.04);
+  
+  cout<<"Drawing histogram"<<endl;
+  h_axes->Draw();
+  p_hist->Draw("HIST SAME");
+  
+  fullpad->RedrawAxis();
+  
+  cout<<"Saving..."<<endl;
+  c->SaveAs(save_dir+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+plot_name+TString(".png"));
+  //c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+plot_name+TString(".C"));
+  
+  cout<<"Cleaning up plot variables"<<endl;
+  delete p_hist;
+  delete fullpad;
+  delete c;
+
+  f_primary->Close();
+  delete f_primary;
+
+  return errors;
+}
+
+TString drawDebugPlots(ConfigParser *conf){
+  
+  TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
+  TString sample_name, sample_loc;
+  TString default_hist_dir = getDefaultHistDir(conf);
+
+  if (conf->get("PLOT_TYPE") == "ratio" || conf->get("PLOT_TYPE") == "stack"){
+    int num_hists=stoi(conf->get("num_hists"));
+    //Add files from which to obtain histos
+    for (int i = 0; i<num_hists; i++){
+      if (conf->get("file_"+to_string(i)+"_path") != ""){
+        sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
+        sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
+      }
+      else{
+        sample_loc = TString(default_hist_dir+conf->get("sample_"+to_string(i))+".root");
+        sample_name=TString(conf->get("sample_"+to_string(i)));
+      }
+
+      drawCutDebug(sample_name, sample_loc, save_dir);
+      drawWeightDebug(sample_name, sample_loc, save_dir);
+    }
+  }
+  
+  else if (conf->get("PLOT_TYPE") == "single" || conf->get("PLOT_TYPE") == "single2D"){
+    if (conf->get("file_path") != ""){
+      sample_loc = TString(conf->get("file_path"));
+      sample_name=sample_loc(sample_loc.Last('/')+1, sample_loc.Index(".root")-c.Last('/')-1); //gets the name of the .root file
+    }
+    else{
+      sample_loc=TString(default_hist_dir+conf->get("sample")+".root");
+      sample_name=TString(conf->get("sample"));
+    }
+  }
+  else{
+    return TString("Could not build debug plots, unknown Plot Type: "+conf->get("PLOT_TYPE"));
+  }
+
+  drawCutDebug(sample_name, sample_loc, save_dir);
+  drawWeightDebug(sample_name, sample_loc, save_dir);
+
+}
+
 TString drawSingleTH2(ConfigParser *conf){
   TString errors="";
   TString plot_name = conf->get("plot_name");

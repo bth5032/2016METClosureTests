@@ -10,6 +10,7 @@
 #include <vector>
 #include <set>
 #include <utility>
+#include <fstream>
 
 
 // ROOT
@@ -253,11 +254,11 @@ bool passBaseCut(){
 
   int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
-  /*if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
+  if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
     pass=false; //third lepton veto
     //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
     numEvents->Fill(54);
-  }*/
+  }
 
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
   return pass;
@@ -1018,6 +1019,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   g_sample_name=conf->get("Name");
 
   TString savePath = getOutputDir(conf, "hist");
+  ofstream files_log;
+  files_log.open(savePath.Data()+"files_log.txt");
   //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -1033,6 +1036,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
 
   numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
+
+  TH1D* weight_log = new TH1I("weight_log", "Event weights in "+g_sample_name, 101, 0, 1.01);
+  weight_log->SetDirectory(rootdir);
 
   //MET Histos
   TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+g_sample_name, 6000,0,6000);
@@ -1299,6 +1305,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
     phys.Init(tree); //Loads in all the branches
     //cout<<__LINE__<<endl;
     eventsInFile = 0;
+    files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 //===========================================
 // Loop over Events in current file
 //===========================================
@@ -1411,11 +1418,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
         }
       }
       //double weight=1;
+      if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
+      
       double weight = getWeight();
+      weight_log->Fill(weight);
 //=======================================
 // Analysis Code
 //=======================================
-      if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       //cout<<__LINE__<<endl;
       //cout<<"Event Weight "<<weight<<endl;      
       //Fill in Histos
@@ -1586,6 +1595,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   //Write out histograms to file
   numEvents->Write();
   //cout<<__LINE__<<endl;
+  weight_log->Write();
+  //cout<<__LINE__<<endl;
   numMETFilters->Write();
   //cout<<__LINE__<<endl;
   t1met->Write();
@@ -1681,6 +1692,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   output->Write();
   output->Close();
   g_reweight_pairs.clear();
+  files_log.close();
   //cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");
