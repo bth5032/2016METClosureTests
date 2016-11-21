@@ -1708,14 +1708,15 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Setting axis labels"<<endl;
   TString bin_label;
-/*  for (int i = 1; i<=xmax; i++)
+  for (int i = 1; i<=xmax; i++)
   {
     bin_label=to_string((double) p_hist->GetBinLowEdge(i));
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(i))+")";
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
-  }  */
+  } 
   
   h_axes->GetXaxis()->LabelsOption("v");
+  h_axes->GetXaxis()->SetNdivisions(xmax+2);
   h_axes->GetXaxis()->SetLabelSize(.015);
   h_axes->GetXaxis()->SetTitleOffset(2);
   
