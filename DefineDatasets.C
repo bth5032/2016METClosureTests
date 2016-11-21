@@ -63,7 +63,7 @@ TChain * getTChain(TString data_set) {
 //====================================
 // Gamma Jets MC
 //====================================
-  if (data_set.Contains("GammaMC-40100"))){
+  if (data_set.Contains("GammaMC-40100")){
     //HT 40-100
     cout<<"Adding GammaMC-40100"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht40_dr0p05_mgmlm*");
