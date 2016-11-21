@@ -1038,6 +1038,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   TH1D* weight_log = new TH1D("weight_log", "Event weights in "+g_sample_name, n_weight_log_bins , weight_log_bins);
   weight_log->SetDirectory(rootdir);
 
+  TH1D* weight_log_flat = new TH1D("weight_log_flat", "Event weights in "+g_sample_name, 101 , 0, 101);
+  weight_log_flat->SetDirectory(rootdir);
+
   //MET Histos
   TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+g_sample_name, 6000,0,6000);
   t1met->SetDirectory(rootdir);
@@ -1424,6 +1427,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
       
       double weight = getWeight();
       weight_log->Fill(log10(abs(weight)));
+      weight_log_flat->Fill(abs(weight));
+
 //=======================================
 // Analysis Code
 //=======================================
@@ -1598,6 +1603,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   numEvents->Write();
   //cout<<__LINE__<<endl;
   weight_log->Write();
+  //cout<<__LINE__<<endl;
+  weight_log_flat->Write();
   //cout<<__LINE__<<endl;
   numMETFilters->Write();
   //cout<<__LINE__<<endl;

@@ -1621,16 +1621,15 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   return errors;
 }
 
-TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_dir){
+TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_dir, TString hist_name){
   TString errors="";
 
   TFile *f_primary =new TFile(sample_loc);
 
   cout<<"Found files for Debug"<<endl;
 
-  TString plot_name = TString("Weight_Log_")+sample_name;
+  TString plot_name = TString(hist_name+"_"+sample_name);
   TString plot_title = TString("Event Debug For ")+sample_name;
-  TString hist_name="weight_log";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
 
@@ -1764,7 +1763,8 @@ TString drawDebugPlots(ConfigParser *conf){
       }
 
       drawCutDebug(sample_name, sample_loc, save_dir);
-      drawWeightDebug(sample_name, sample_loc, save_dir);
+      drawWeightDebug(sample_name, sample_loc, save_dir, "weight_log");
+      drawWeightDebug(sample_name, sample_loc, save_dir, "weight_log_flat");
       i++;
     }
     if (i<1){
@@ -1783,7 +1783,8 @@ TString drawDebugPlots(ConfigParser *conf){
       sample_name=TString(conf->get("sample"));
     }
     drawCutDebug(sample_name, sample_loc, save_dir);
-    drawWeightDebug(sample_name, sample_loc, save_dir);
+    drawWeightDebug(sample_name, sample_loc, save_dir, "weight_log");
+    drawWeightDebug(sample_name, sample_loc, save_dir, "weight_log_flat");
   }
   else{
     return TString("ERROR: Could not build debug plots, unknown Plot Type: "+conf->get("PLOT_TYPE")+"\n");
