@@ -1688,7 +1688,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.5,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,p_hist->GetBinLowEdge(xmax+1),1000,0.5,ymax);
   
   
   //-----------------------
@@ -1707,10 +1707,6 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
 
-  h_axes->GetXaxis()->LabelsOption("v");
-  h_axes->GetXaxis()->SetLabelSize(.015);
-  h_axes->GetXaxis()->SetTitleOffset(2);
-
   cout<<"Setting axis labels"<<endl;
   TString bin_label;
   for (int i = 1; i<=xmax; i++)
@@ -1719,6 +1715,11 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(i))+")";
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
+  
+  h_axes->GetXaxis()->LabelsOption("v");
+  h_axes->GetXaxis()->SetLabelSize(.015);
+  h_axes->GetXaxis()->SetTitleOffset(2);
+  
   fullpad->cd();
   cout<<"Drawing histogram"<<endl;
   h_axes->Draw();
