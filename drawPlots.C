@@ -1876,6 +1876,7 @@ void drawPlots(TString config_file){
       errors+=drawSingleTH2(configs);
     }
   }
+  drawDebugPlots(configs);
   
   cout<<errors<<endl;
   return;
