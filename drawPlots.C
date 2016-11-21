@@ -1746,7 +1746,7 @@ TString drawDebugPlots(ConfigParser *conf){
   else if (conf->get("PLOT_TYPE") == "single" || conf->get("PLOT_TYPE") == "single2D"){
     if (conf->get("file_path") != ""){
       sample_loc = TString(conf->get("file_path"));
-      sample_name=sample_loc(sample_loc.Last('/')+1, sample_loc.Index(".root")-c.Last('/')-1); //gets the name of the .root file
+      sample_name=sample_loc(sample_loc.Last('/')+1, sample_loc.Index(".root")-sample_loc.Last('/')-1); //gets the name of the .root file
     }
     else{
       sample_loc=TString(default_hist_dir+conf->get("sample")+".root");
