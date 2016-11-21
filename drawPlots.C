@@ -1491,15 +1491,15 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
 
   cout<<"Found files for Debug"<<endl;
 
-  TString plot_name = TString("cuts_")+sample_name
+  TString plot_name = TString("cuts_")+sample_name;
   TString plot_title = TString("Event Debug For ")+sample_name;
   double xmax = 60;
   double xmin = 0;
-  TString hist_name="NumEvents"
+  TString hist_name="NumEvents";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
 
-  TH1D* p_hist = (TH1I*) ((TH1I*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
+  TH1I* p_hist = (TH1I*) ((TH1I*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
 
 
@@ -1520,21 +1520,12 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   fullpad->cd();
     
   fullpad->SetRightMargin(0.05);
-  if (conf->get("ExtraRightMargin") == "true")
-  {
-    fullpad->SetRightMargin(0.08);
-  }
   fullpad->SetBottomMargin(0.3);
   
   fullpad->Draw();
   fullpad->cd();
   
-  if (conf->get("logy") == "true")
-  {
-    cout<<"Plot tagged for log y-axis"<<endl;
-    fullpad->SetLogy();
-  }
-  
+  fullpad->SetLogy();
   //===========================
   // SET MC COLORS
   //===========================
@@ -1560,8 +1551,7 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   //-----------------------
   
   cout<<"Setting axis names"<<endl;
-  h_axes->GetXaxis()->SetTitle(xlabel);
-  h_axes->GetYaxis()->SetTitle(ylabel);
+  h_axes->GetYaxis()->SetTitle("Count");
   
   
   //----------------------
@@ -1614,11 +1604,11 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Found files for Debug"<<endl;
 
-  TString plot_name = TString("Weight_Log_")+sample_name
+  TString plot_name = TString("Weight_Log_")+sample_name;
   TString plot_title = TString("Event Debug For ")+sample_name;
   double xmax = 101;
   double xmin = 0;
-  TString hist_name="weight_log"
+  TString hist_name="weight_log";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
 
@@ -1643,20 +1633,12 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   fullpad->cd();
     
   fullpad->SetRightMargin(0.05);
-  if (conf->get("ExtraRightMargin") == "true")
-  {
-    fullpad->SetRightMargin(0.08);
-  }
   fullpad->SetBottomMargin(0.3);
   
   fullpad->Draw();
   fullpad->cd();
   
-  if (conf->get("logy") == "true")
-  {
-    cout<<"Plot tagged for log y-axis"<<endl;
-    fullpad->SetLogy();
-  }
+  fullpad->SetLogy();
   
   //===========================
   // SET MC COLORS
@@ -1683,8 +1665,8 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   //-----------------------
   
   cout<<"Setting axis names"<<endl;
-  h_axes->GetXaxis()->SetTitle(xlabel);
-  h_axes->GetYaxis()->SetTitle(ylabel);
+  h_axes->GetXaxis()->SetTitle("Event weight");
+  h_axes->GetYaxis()->SetTitle("Count");
   
   
   //----------------------
@@ -1694,8 +1676,17 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   fullpad->SetLeftMargin(0.15);
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
-  h_axes->GetYaxis()->SetLabelSize(0.04);
+
+  h_axes->GetXaxis()->LabelsOption("v");
+  h_axes->GetXaxis()->SetLabelSize(.015);
   
+  for (int i = xmin; i<xmax; i++)
+  {
+    bin_label=to_string((double) p_hist->GetBinLowEdge(h_axes->FindBin(i)))
+    bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
+    h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
+  }  
+
   cout<<"Drawing histogram"<<endl;
   h_axes->Draw();
   p_hist->Draw("HIST SAME");
