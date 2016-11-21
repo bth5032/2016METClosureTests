@@ -1687,7 +1687,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,p_hist->GetBinLowEdge(xmax+1),1000,0.5,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),p_hist->GetBinLowEdge(1),p_hist->GetBinLowEdge(xmax+1),1000,0.5,ymax);
   
   
   //-----------------------
