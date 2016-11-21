@@ -709,6 +709,7 @@ double getWeight(){
     if (conf->get("susy_mc") != "true" && conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
+
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
@@ -944,8 +945,12 @@ bool passRareCuts(){
   
   bool hasrealmet = true;
   bool realzpair  = true;
-  
-  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv") /*g_sample_name == "vvv" || g_sample_name == "ttv" */){
+  //Don't do this when we're trying to predict emu.
+  if (conf->get("dil_flavor") == "emu"){
+    return true;
+  }
+
+  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv")){
     //cout<<"Checking for rare cuts"<<endl;
     hasrealmet = false;
     realzpair  = false;
