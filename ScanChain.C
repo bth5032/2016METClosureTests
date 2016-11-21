@@ -1020,7 +1020,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
-  files_log.open(savePath.Data()+"files_log.txt");
+  files_log.open((savePath+TString("files_log.txt")).Data());
   //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
@@ -1037,7 +1037,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 60, 0, 60);
   numEvents->SetDirectory(rootdir);
 
-  TH1D* weight_log = new TH1I("weight_log", "Event weights in "+g_sample_name, 101, 0, 1.01);
+  TH1D* weight_log = new TH1D("weight_log", "Event weights in "+g_sample_name, 101, 0, 1.01);
   weight_log->SetDirectory(rootdir);
 
   //MET Histos

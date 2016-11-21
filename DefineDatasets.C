@@ -47,7 +47,7 @@ TChain * getTChain(TString data_set) {
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_2l2q_amcnlo*.root" ));
   }
   if (data_set.Contains("ZMC-low-mass")){
-    //cout<<"Adding ZMC-100200"<<endl;
+    //cout<<"Adding ZMC Low Mass sample"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m1050_mgmlm*.root");
   }
 
