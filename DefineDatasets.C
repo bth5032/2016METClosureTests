@@ -9,45 +9,45 @@ TChain * getTChain(TString data_set) {
 //====================================
   if (data_set.Contains("ZMC-inclusive")){
     //Inclusive HT
-    //cout<<"Adding ZMC-inclusive"<<endl;
+    cout<<"Adding ZMC-inclusive"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ext1*");
   }
 
   if (data_set.Contains("ZMC-100200")){
     //HT 100-200 
-    //cout<<"Adding ZMC-100200"<<endl;
+    cout<<"Adding ZMC-100200"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht100_ext1*");
   }
 
   if (data_set.Contains("ZMC-200400")){
     //HT 200-400 
-    //cout<<"Adding ZMC-200400"<<endl;
+    cout<<"Adding ZMC-200400"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht200_ext1*");
   }
 
   if (data_set.Contains("ZMC-400600")){
     //HT 400-600 
-    //cout<<"Adding ZMC-400600"<<endl;
+    cout<<"Adding ZMC-400600"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht400_ext1*");
   }
 
   if (data_set.Contains("ZMC-600Inf")){
     //HT 600-Inf 
-    //cout<<"Adding ZMC-600Inf"<<endl;
+    cout<<"Adding ZMC-600Inf"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m50_mgmlm_ht600_ext1*");
   }
 
   if (data_set.Contains("ZMC-fullmc")){
     //ZZ Sample
-    //cout<<"Adding ZMC-100200"<<endl;
+    cout<<"Adding ZMC-100200"<<endl;
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2q_amcnlo*.root" ));
     
     //WZ Sample
-    //cout<<"Adding ZMC-100200"<<endl;
+    cout<<"Adding ZMC-100200"<<endl;
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_2l2q_amcnlo*.root" ));
   }
   if (data_set.Contains("ZMC-low-mass")){
-    //cout<<"Adding ZMC Low Mass sample"<<endl;
+    cout<<"Adding ZMC Low Mass sample"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/dy_m1050_mgmlm*.root");
   }
 
@@ -56,34 +56,41 @@ TChain * getTChain(TString data_set) {
 //====================================
   if (data_set.Contains("TChiHZ")){
     //TChiHZ Signal
+    cout<<"Adding TChiHZ Monte Carlo"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-02/tchihz_80x_v2*.root");
   }
 
 //====================================
 // Gamma Jets MC
 //====================================
-  if (data_set.Contains("GammaMC-40100") && (!data_set.Contains("REALMETISO"))){
-    //HT 40-100 
+  if (data_set.Contains("GammaMC-40100"))){
+    //HT 40-100
+    cout<<"Adding GammaMC-40100"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht40_dr0p05_mgmlm*");
   }
-  if (data_set.Contains("GammaMC-100200") && (!data_set.Contains("REALMETISO"))){
+  if (data_set.Contains("GammaMC-100200")){
     //HT 100-200 
+    cout<<"Adding GammaMC-100200"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht100_dr0p05_mgmlm*");
   }
-  if (data_set.Contains("GammaMC-200400") && (!data_set.Contains("REALMETISO"))){
-    //HT 200-400 
+  if (data_set.Contains("GammaMC-200400")){
+    //HT 200-400
+    cout<<"Adding GammaMC-200400"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht200_dr0p05_mgmlm*");
   }
-  if (data_set.Contains("GammaMC-400600") && (!data_set.Contains("REALMETISO"))){
+  if (data_set.Contains("GammaMC-400600")){
     //HT 400-600 
+    cout<<"Adding GammaMC-400600"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht400_dr0p05_mgmlm*");
   }
-  if (data_set.Contains("GammaMC-600Inf") && (!data_set.Contains("REALMETISO"))){
+  if (data_set.Contains("GammaMC-600Inf")){
     //HT 600-Inf 
+    cout<<"Adding GammaMC-600+"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/gjetsht600_dr0p05_mgmlm*");
   }
 
   if (data_set.Contains("GammaMC-wjets-inclusive")){ 
+    cout<<"Adding GammaMC-wjets-inclusive"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_incl_mgmlm*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht100_mgmlm*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht200_mgmlm*");
@@ -95,10 +102,12 @@ TChain * getTChain(TString data_set) {
 
   }
   if (data_set.Contains("GammaMC-gammaZtoNuNu")){
+    cout<<"Adding GammaMC-gammaZtoNuNu"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/znunugamma*.root");
   }
 
   if (data_set.Contains("GammaMC-GammaRealMET")){
+    cout<<"Adding GammaMC-GammaRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo.root");
@@ -115,7 +124,7 @@ TChain * getTChain(TString data_set) {
 // Flavor Symmetric MC
 //====================================
   if (data_set.Contains("FSMC-dilep")){
-    //cout<<"Adding Dilepton Sample"<<endl;
+    cout<<"Adding FSMC-dilep"<<endl; 
     //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
   }
@@ -123,7 +132,7 @@ TChain * getTChain(TString data_set) {
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
 
   if (data_set.Contains("FSMC-1lep")){
-    //cout<<"Adding 1 lepton Sample"<<endl;
+    cout<<"Adding FSMC-1lep"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
   }
@@ -131,7 +140,7 @@ TChain * getTChain(TString data_set) {
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
 
   if (data_set.Contains("FSMC-singletop")){
-    //cout<<"Adding Single Top Sample"<<endl;
+    cout<<"Adding FSMC-singletop"<<endl; 
     //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
     //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
@@ -141,12 +150,13 @@ TChain * getTChain(TString data_set) {
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
   
   if (data_set.Contains("FSMC-ww")){
-    //cout<<"Adding WW Sample"<<endl;
+    cout<<"Adding FSMC-ww"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ww_2l2nu_powheg*.root"));
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/www_incl_amcnlo*.root");
   }
 
   if (data_set.Contains("FSMC-ttw")){
+    cout<<"Adding FSMC-ttw"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_ln_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttw_qq_amcnlo*.root");
   }
@@ -156,20 +166,24 @@ TChain * getTChain(TString data_set) {
 //====================================
 
   if (data_set.Contains("RareMC-wz")){
+    cout<<"Adding RareMC-wz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_3lnu_powheg*.root");
   }
 
   if (data_set.Contains("RareMC-zz")) {
+    cout<<"Adding RareMC-zz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2n_powheg*.root");
   }
 
   if (data_set.Contains("RareMC-vvv")){
+    cout<<"Adding RareMC-vvv"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wwz_incl_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wzz_incl_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zzz_incl_amcnlo*.root");
   }
 
   if (data_set.Contains("RareMC-ttv")){
+    cout<<"Adding RareMC-ttv"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
   }
@@ -180,6 +194,7 @@ TChain * getTChain(TString data_set) {
 
   //Single Photon Trigger
   if (data_set.Contains("GammaData-SinglePhoton")){
+    cout<<"Adding GammaData-SinglePhoton"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016B_Prompt_ph_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016C_Prompt_ph_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016D_Prompt_ph_v2*");
@@ -189,6 +204,7 @@ TChain * getTChain(TString data_set) {
     
     //EWK Subtraction
     if (data_set.Contains("GammaData-EWKSub")){
+      cout<<"Adding GammaData-EWKSub"<<endl; 
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo*.root");
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
       ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
@@ -197,6 +213,7 @@ TChain * getTChain(TString data_set) {
   }
 
   if (data_set.Contains("GammaData-GammaRealMET")){
+    cout<<"Adding GammaData-GammaRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo.root");
@@ -209,6 +226,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht800_amcnlo.root");
   }
   if (data_set.Contains("GammaData-JustWjetRealMET")){
+    cout<<"Adding GammaData-JustWjetRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht100_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht1200_amcnlo.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht200_amcnlo.root");
@@ -218,9 +236,11 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wjets_ht800_amcnlo.root");
   }
   if (data_set.Contains("GammaData-JustWGjetRealMET")){
+    cout<<"Adding GammaData-JustWGjetRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo.root");
   }
   if (data_set.Contains("GammaData-JustTTBarRealMET")){
+    cout<<"Adding GammaData-JustTTBarRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm.root");
   }
