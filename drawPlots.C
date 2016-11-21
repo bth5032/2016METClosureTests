@@ -1659,7 +1659,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
-  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.5,ymax);
   
   
   //-----------------------
@@ -1689,7 +1689,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
     h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
   }  
-
+  fullpad->cd();
   cout<<"Drawing histogram"<<endl;
   h_axes->Draw();
   p_hist->Draw("HIST SAME");
