@@ -680,20 +680,15 @@ double getWeight(){
   double weight=1;
   //cout<<__LINE__<<endl;
   // If we don't have data use scale to 1 fb^-1. 
-  if ( ! ( phys.isData() ) ) {
-    if (phys.evt_scale1fb() > 1){
-      weight=0;
-    }
-    else{
-      weight *= phys.evt_scale1fb();
-    }
+  if ( ! ( phys.isData() ) ){
+    weight *= phys.evt_scale1fb();
+  }
     //Weight to some other lumi
-    if ( conf->get("scaleTofb") != "" ){
-      weight *= stod(conf->get("scaleTofb"));
-    }
-    if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
-      weight *= -26.4; //EWK Subtraction
-    }
+  if ( conf->get("scaleTofb") != "" ){
+    weight *= stod(conf->get("scaleTofb"));
+  }
+  if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+    weight *= -26.4; //EWK Subtraction
   }
   //cout<<__LINE__<<endl;
 
@@ -1034,10 +1029,13 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
   cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
 
-  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 60, 0, 60);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 65, 0, 65);
   numEvents->SetDirectory(rootdir);
 
-  TH1D* weight_log = new TH1D("weight_log", "Event weights in "+g_sample_name, 101, 0, 1.01);
+  const int n_weight_log_bins = 54;
+  const double weight_log_bins[n_weight_log_bins+1] = {-5, -4.5, -4, -3.5, -3, -2,5, -2, -1.5, -1, -.9, -.8, -.7, -.6, -.5, -.4, -.3, -.2, -.1, -.09, -.08, -.07, -.06, -.05, -.04, -.03, -.02, -.01, 0, .01, .02, .03, .04, .05, .06, .07, .08, .09, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5};
+
+  TH1D* weight_log = new TH1D("weight_log", "Event weights in "+g_sample_name, n_weight_log_bins , weight_log_bins);
   weight_log->SetDirectory(rootdir);
 
   //MET Histos
@@ -1340,6 +1338,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
             numEvents->Fill(44);
             continue;
           }
+          if(phys.evt_scale1fb() > 30){
+            numEvents->Fill(60);
+            continue;
+          }
         }
       }
       //Low HT from Wjets inclusive sample
@@ -1421,7 +1423,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       
       double weight = getWeight();
-      weight_log->Fill(weight);
+      weight_log->Fill(log10(abs(weight)));
 //=======================================
 // Analysis Code
 //=======================================

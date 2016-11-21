@@ -51,6 +51,27 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
   return (hist_1->Integral() < hist_2->Integral()) ;
 }
 
+void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
+  /*updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow*/
+  int overflowbin = hist->FindBin(xmax-0.0001);
+  for( int bini = overflowbin; bini < hist->GetNbinsX(); bini++ ){
+    hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) ); 
+    hist->SetBinError  ( overflowbin, sqrt( pow(hist->GetBinError  ( overflowbin ), 2 ) + pow( hist->GetBinError( bini + 1 ), 2 ) ) );  
+    hist->SetBinContent( bini + 1, 0 );
+    hist->SetBinError  ( bini + 1, 0 );
+  }
+
+  if (xmin > -100000){
+    int underflowbin = hist->FindBin(xmin+0.0001);
+    for(int bini = overflowbin; bini > 0; bini-- ){
+      hist->SetBinContent( underflowbin, hist->GetBinContent( underflowbin ) + hist->GetBinContent( bini - 1 ) ); 
+      hist->SetBinError  ( underflowbin, sqrt( pow(hist->GetBinError  ( underflowbin ), 2 ) + pow( hist->GetBinError( bini - 1 ), 2 ) ) );  
+      hist->SetBinContent( bini - 1, 0 );
+      hist->SetBinError  ( bini - 1, 0 );
+    }
+  }
+}
+
 void drawCMSLatex(double luminosity){
   TLatex *lumitex = NULL;
   double height=1.01-gPad->GetTopMargin();
@@ -1493,8 +1514,6 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
 
   TString plot_name = TString("cuts_")+sample_name;
   TString plot_title = TString("Event Debug For ")+sample_name;
-  double xmax = 60;
-  double xmin = 0;
   TString hist_name="numEvents";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
@@ -1537,6 +1556,11 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   // Find Plot Maxima
   //===========================
   
+  double xmax = (double) p_hist->GetNbinsX();
+  double xmin = 0;
+
+  cout<<"Debug hist has "<<xmax<<" bins"<<endl;
+
   double ymax = 0;
 
   ymax = 1.2*p_hist->GetMaximum();
@@ -1606,8 +1630,6 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   TString plot_name = TString("Weight_Log_")+sample_name;
   TString plot_title = TString("Event Debug For ")+sample_name;
-  double xmax = 101;
-  double xmin = 0;
   TString hist_name="weight_log";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
@@ -1653,6 +1675,13 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   // Find Plot Maxima
   //===========================
   
+  double xmax = (double) p_hist->GetNbinsX();
+  double xmin = 0;
+
+  updateOverUnderflow(p_hist, p_hist->GetBinLowEdge(xmax), 0);
+
+  cout<<"Debug hist has "<<xmax<<" bins"<<endl;
+
   double ymax = 0;
 
   ymax = 1.2*p_hist->GetMaximum();
