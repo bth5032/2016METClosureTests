@@ -1741,7 +1741,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   //c->SaveAs(save_dir+"Debug/"+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
 
-  TFile *f = new TFile(save_dir+"Debug/"+plot_name+TString(".root"));
+  TFile *f = new TFile(save_dir+"Debug/"+plot_name+TString(".root"), "recreate");
   f->cd();
   flat_hist->Write();
   h_axes->Write();
