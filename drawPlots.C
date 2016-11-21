@@ -1706,6 +1706,13 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
 
+  //Ensure Flat Binning
+  TH1D* flat_hist = new TH1D("flat_hist", p_hist->GetTitle(), p_hist->GetNbinsX(), 0, p_hist->GetNbinsX());
+  for(int i = 0; i<=xmax+1; i++) //0 is underflow, NbinsX is last non-overflow bin.
+  {
+    flat_hist->SetBinContent(i, p_hist->GetBinContent(i));
+  }  
+
   cout<<"Setting axis labels"<<endl;
   TString bin_label;
   for (int i = 1; i<=xmax; i++)
@@ -1722,7 +1729,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   fullpad->cd();
   cout<<"Drawing histogram"<<endl;
   h_axes->Draw();
-  p_hist->Draw("HIST SAME");
+  flat_hist->Draw("HIST SAME");
   
   fullpad->RedrawAxis();
   
@@ -1734,6 +1741,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   
   cout<<"Cleaning up plot variables"<<endl;
   delete p_hist;
+  delete flat_hist;
   delete fullpad;
   delete c;
 
