@@ -1722,7 +1722,7 @@ TString drawDebugPlots(ConfigParser *conf){
   if (conf->get("PLOT_TYPE") == "ratio" || conf->get("PLOT_TYPE") == "stack"){
     int i = 0;
     //Add files from which to obtain histos
-    while (conf->get("file_"+to_string(i)+"_path") != "" ||x`x``x conf->get("sample_"+to_string(i)) != ""){
+    while (conf->get("file_"+to_string(i)+"_path") != "" || conf->get("sample_"+to_string(i)) != ""){
       if (conf->get("file_"+to_string(i)+"_path") != ""){
         sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
         sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
