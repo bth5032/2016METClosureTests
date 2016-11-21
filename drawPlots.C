@@ -1495,7 +1495,7 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   TString plot_title = TString("Event Debug For ")+sample_name;
   double xmax = 60;
   double xmin = 0;
-  TString hist_name="NumEvents";
+  TString hist_name="numEvents";
   
   cout << "Making Debug Plots for: "<<sample_name<<endl;
 
