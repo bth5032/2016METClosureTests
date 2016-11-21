@@ -1707,7 +1707,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   h_axes->GetYaxis()->SetTitleSize(0.05);
 
   //Ensure Flat Binning
-  TH1D* flat_hist = new TH1D("flat_hist", p_hist->GetTitle(), p_hist->GetNbinsX(), 0, p_hist->GetNbinsX());
+  TH1D* flat_hist = new TH1D("flat_hist", p_hist->GetTitle(), p_hist->GetNbinsX(), p_hist->GetBinLowEdge(1), p_hist->GetBinLowEdge(xmax+1));
   for(int i = 0; i<=xmax+1; i++) //0 is underflow, NbinsX is last non-overflow bin.
   {
     flat_hist->SetBinContent(i, p_hist->GetBinContent(i));
