@@ -1718,20 +1718,25 @@ TString drawDebugPlots(ConfigParser *conf){
   TString default_hist_dir = getDefaultHistDir(conf);
 
   if (conf->get("PLOT_TYPE") == "ratio" || conf->get("PLOT_TYPE") == "stack"){
-    int num_hists=stoi(conf->get("num_hists"));
+    int i = 0;
     //Add files from which to obtain histos
-    for (int i = 0; i<num_hists; i++){
+    while (conf->get("file_"+to_string(i)+"_path") != "" && conf->get("sample_"+to_string(i)) != ""){
       if (conf->get("file_"+to_string(i)+"_path") != ""){
         sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
         sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
       }
       else{
         sample_loc = TString(default_hist_dir+conf->get("sample_"+to_string(i))+".root");
-        sample_name=TString(conf->get("sample_"+to_string(i)));
+        sample_name = TString(conf->get("sample_"+to_string(i)));
       }
 
       drawCutDebug(sample_name, sample_loc, save_dir);
       drawWeightDebug(sample_name, sample_loc, save_dir);
+      i++;
+    }
+    if (i<1){
+      cout<<"NO DEBUG PLOTS MADE!!! Did you start counting at 1? Not how to do it."<<endl;
+      return TString("ERROR: Could not build debug plots, no sample_0 or file_0_path specified.\n");
     }
   }
   
@@ -1744,13 +1749,14 @@ TString drawDebugPlots(ConfigParser *conf){
       sample_loc=TString(default_hist_dir+conf->get("sample")+".root");
       sample_name=TString(conf->get("sample"));
     }
+    drawCutDebug(sample_name, sample_loc, save_dir);
+    drawWeightDebug(sample_name, sample_loc, save_dir);
   }
   else{
-    return TString("Could not build debug plots, unknown Plot Type: "+conf->get("PLOT_TYPE"));
+    return TString("ERROR: Could not build debug plots, unknown Plot Type: "+conf->get("PLOT_TYPE")+"\n");
   }
 
-  drawCutDebug(sample_name, sample_loc, save_dir);
-  drawWeightDebug(sample_name, sample_loc, save_dir);
+  return TString("Debug Plots Made.\n");
 
 }
 
@@ -1876,7 +1882,7 @@ void drawPlots(TString config_file){
       errors+=drawSingleTH2(configs);
     }
   }
-  drawDebugPlots(configs);
+  errors+=drawDebugPlots(configs);
   
   cout<<errors<<endl;
   return;
