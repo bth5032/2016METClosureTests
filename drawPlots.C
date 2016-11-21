@@ -1684,10 +1684,10 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
 
   cout<<"Setting axis labels"<<endl;
   TString bin_label;
-  for (int i = xmin; i<xmax; i++)
+  for (int i = 1; i<=xmax; i++)
   {
-    bin_label=to_string((double) p_hist->GetBinLowEdge(h_axes->FindBin(i)));
-    bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
+    bin_label=to_string((double) p_hist->GetBinLowEdge(i));
+    bin_label+=" ("+to_string((int) p_hist->GetBinContent(i))+")";
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
   fullpad->cd();
