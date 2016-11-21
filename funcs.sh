@@ -46,16 +46,25 @@ function mkdirs {
 	do
 		if [[ ! -d ${l#*=} ]]
 		then
-			mkdir -p ${l#*=}
-			addIndexToDirTree ${l#*=}
+			mkdir -p ${l#*=}"/Debug"
+			addIndexToDirTree ${l#*=}"/Debug"
 		fi
 	done
 
-	setOutputLocations $conf_filename
+	setOutputLocations $conf_filename 
 
-	mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
-	mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/"
-	addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/"
+	#Make Hist output location if it's not there
+	if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
+	then	
+		mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+	fi
+
+	#Make plot output location if it's not there.
+	if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+	then
+		mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
+		addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+	fi
 }
 
 function _makeAllForDir {

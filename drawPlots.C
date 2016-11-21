@@ -1605,8 +1605,8 @@ TString drawCutDebug(TString sample_name, TString sample_loc, TString save_dir){
   fullpad->RedrawAxis();
   
   cout<<"Saving..."<<endl;
-  c->SaveAs(save_dir+plot_name+TString(".pdf"));
-  c->SaveAs(save_dir+plot_name+TString(".png"));
+  c->SaveAs(save_dir+"Debug/"+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+"Debug/"+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
   
@@ -1727,8 +1727,8 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   fullpad->RedrawAxis();
   
   cout<<"Saving..."<<endl;
-  c->SaveAs(save_dir+plot_name+TString(".pdf"));
-  c->SaveAs(save_dir+plot_name+TString(".png"));
+  c->SaveAs(save_dir+"Debug/"+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+"Debug/"+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
   
