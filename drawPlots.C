@@ -1674,6 +1674,7 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   //----------------------
   // SET AXIS LABELS
   //----------------------
+  cout<<"Setting axis options"<<endl;
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
 
@@ -1681,13 +1682,13 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   h_axes->GetXaxis()->SetLabelSize(.015);
   h_axes->GetXaxis()->SetTitleOffset(2);
 
-  
+  cout<<"Setting axis labels"<<endl;
   TString bin_label;
   for (int i = xmin; i<xmax; i++)
   {
     bin_label=to_string((double) p_hist->GetBinLowEdge(h_axes->FindBin(i)));
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(h_axes->FindBin(i)))+")";
-    h_axes->GetXaxis()->SetBinLabel(h_axes->FindBin(i), bin_label);
+    h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   }  
   fullpad->cd();
   cout<<"Drawing histogram"<<endl;
