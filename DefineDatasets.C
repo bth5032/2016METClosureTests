@@ -125,8 +125,8 @@ TChain * getTChain(TString data_set) {
 //====================================
   if (data_set.Contains("FSMC-dilep")){
     cout<<"Adding FSMC-dilep"<<endl; 
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
