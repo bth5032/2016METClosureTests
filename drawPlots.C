@@ -1738,8 +1738,14 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+"Debug/"+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+"Debug/"+plot_name+TString(".png"));
-  c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+"Debug/"+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
+
+  TFile *f = new TFile(save_dir+"Debug/"+plot_name+TString(".root"));
+  f->cd();
+  flat_hist->Write();
+  h_axes->Write();
+  f->Close();
   
   cout<<"Cleaning up plot variables"<<endl;
   delete p_hist;
