@@ -49,7 +49,7 @@ pair<int,int> getClosestBPairToHiggsMass(){
   return make_pair(first,second);
 }
 
-double getMT2ForBjets(bool select_highest_csv){
+double getMT2ForBjets(bool select_highest_csv=false){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
   if (select_highest_csv){
@@ -65,7 +65,7 @@ double getMT2ForBjets(bool select_highest_csv){
   return mt2;
 }
 
-double getMT2HiggsZ(bool select_highest_closest_higgs_mass){
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
 
   double mt2; 
 

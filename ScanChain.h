@@ -74,11 +74,11 @@ pair<int,int> getClosestBPairToHiggsMass();
 
 /*This function gets the MT2 built out of the two Bjets in an event, no guarentee 
 is made about selecting the highest csv jets*/
-double getMT2ForBjets(bool select_highest_csv=false);
+double getMT2ForBjets(bool select_highest_csv);
 
 /*Builds MT2 for the two leading Bjets unless select_closest_higgs_mass is set, in which case it 
 builds it out of the two bjets with dijet mass nearest the mass of the higgs.*/
-double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false);
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass);
 
 /*Returns boson Pt, determines whether sample is gjets or zjets first*/
 double bosonPt();
@@ -179,4 +179,4 @@ bool passMETFilters();
 bool passBaseCut();
 
 /*Obvi the event looper*/
-int ScanChain(TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
+int ScanChain(TChain* chain, ConfigParser *configuration, bool fast, int nEvents);
