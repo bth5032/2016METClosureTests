@@ -188,7 +188,7 @@ double getdRGammaLep(short id=0){
   double dPhi=acos(cos(phys.gamma_p4().at(0).phi() - phys.lep_p4().at(id).phi()));
   double dEta=phys.gamma_p4().at(0).eta() - phys.lep_p4().at(id).eta();
 
-  return sqrt(dPhi^2 + dEta^2);
+  return sqrt(pow(dPhi, 2) + pow(dEta, 2));
 }
 
 //=============================
