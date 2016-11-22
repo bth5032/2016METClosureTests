@@ -1710,7 +1710,12 @@ TString drawWeightDebug(TString sample_name, TString sample_loc, TString save_di
   TString bin_label;
   for (int i = 1; i<=xmax; i++)
   {
-    bin_label=to_string((double) p_hist->GetBinLowEdge(i));
+    if (plot_name.Contains("flat")){
+      bin_label=to_string((double) p_hist->GetBinLowEdge(i));
+    }
+    else{
+      bin_label=to_string(pow(10,(double) p_hist->GetBinLowEdge(i))); 
+    }
     bin_label+=" ("+to_string((int) p_hist->GetBinContent(i))+")";
     h_axes->GetXaxis()->SetBinLabel(i, bin_label);
   } 
