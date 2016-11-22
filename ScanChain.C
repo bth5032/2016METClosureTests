@@ -1002,17 +1002,17 @@ bool passBaseCut(){
     return false; //2 jet cut
   }
 
-  int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
+  //int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
-  if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
-    if(conf->get("ignore_lep_veto") != "true"){
-      numEvents->Fill(54);
-      //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
-      return false; //third lepton veto
+  if(conf->get("n_lep_veto") != ""){
+    if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
+        numEvents->Fill(54);
+        //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+        return false; //third lepton veto
     }
   }
 
-  //cout<<__LINE__<<endl;
+  /*//cout<<__LINE__<<endl;
   //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min
   if (phys.dphi_metj1() < 0.4){
@@ -1027,7 +1027,7 @@ bool passBaseCut(){
     numEvents->Fill(39);
     //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
     return false;
-  }
+  }*/
 
   return true;
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
