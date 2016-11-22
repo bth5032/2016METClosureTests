@@ -24,8 +24,9 @@
 #include "TH1.h"
 #include "TH2.h"
 
-// ZMET2016
+// Analysis
 #include "ZMET2016.cc"
+#include "ScanChain.h"
 
 // CORE
 //You can not include headers!!! This is not compiled code.
@@ -115,7 +116,7 @@ pair<int,int> getClosestBPairToHiggsMass(){
   return make_pair(first,second);
 }
 
-double getMT2ForBjets(bool select_highest_csv=false){
+double getMT2ForBjets(bool select_highest_csv){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
   if (select_highest_csv){
@@ -131,7 +132,7 @@ double getMT2ForBjets(bool select_highest_csv=false){
   return mt2;
 }
 
-double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass){
 
   double mt2; 
 
@@ -910,10 +911,6 @@ bool passRareCuts(){
   
   bool hasrealmet = true;
   bool realzpair  = true;
-  //Don't do this when we're trying to predict emu.
-  if (conf->get("dil_flavor") == "emu"){
-    return true;
-  }
 
   if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv")){
     //cout<<"Checking for rare cuts"<<endl;
@@ -1049,15 +1046,14 @@ bool passMETFilters(){
 }
 
 bool passBaseCut(){
-  bool pass=true;
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
   //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
   if (phys.isData()){
     if (! (goodrun(phys.run(), phys.lumi()))){ 
-      pass=false; //golden json
-      //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
       numEvents->Fill(8);
+      //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+      return false; //golden json
     }
   }
 
@@ -1068,21 +1064,38 @@ bool passBaseCut(){
     numEvents->Fill(8);
   } */
   if (! (phys.njets() >= 2) ){ 
-    pass=false; //2 jet cut
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
     numEvents->Fill(9);
+    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
+    return false; //2 jet cut
   }
 
   int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
   if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
-    pass=false; //third lepton veto
-    //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
     numEvents->Fill(54);
+    //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+    return false; //third lepton veto
   }
 
+  //cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
+  //Leading Jet/MET Phi min
+  if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
+    numEvents->Fill(38);
+    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
+    return false;
+  }
+  //cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
+  //Trailing Jet/MET Phi min
+  if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
+    numEvents->Fill(39);
+    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
+    return false;
+  }
+
+  return true;
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
-  return pass;
 }
 
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
