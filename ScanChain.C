@@ -561,7 +561,7 @@ bool hasGoodEvent() {
     return hasGoodPhoton();
   }
   else if (conf->get("event_type") == "photon_muon" ){
-    return (hasGoodPhoton() && hasGoodMuon());
+    return (hasGoodGammaMu());
   }
   else {
     return hasGoodZ();
