@@ -49,7 +49,7 @@ pair<int,int> getClosestBPairToHiggsMass(){
   return make_pair(first,second);
 }
 
-double getMT2ForBjets(bool select_highest_csv=false){
+double getMT2ForBjets(bool select_highest_csv/*=false*/){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
   if (select_highest_csv){
@@ -65,7 +65,7 @@ double getMT2ForBjets(bool select_highest_csv=false){
   return mt2;
 }
 
-double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass/*=false*/){
 
   double mt2; 
 
@@ -105,7 +105,7 @@ double getEff(){
   }
 }
 
-double getMTLepMET(short id=0){
+double getMTLepMET(short id/*=0*/){
   /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
   return phys.met_T1CHS_miniAOD_CORE_pt()*phys.lep_p4().at(id).pt()*(1 - cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.lep_p4().at(id).phi()));
 
@@ -116,7 +116,7 @@ double getMTLepMET(short id=0){
   */
 }
 
-double getdRGammaLep(short id=0){
+double getdRGammaLep(short id/*=0*/){
   /* Builds the delta R (sqrt(dPhi^2 + dEta^2)) between the lepton at index id and the leading photon*/
   double dPhi=acos(cos(phys.gamma_p4().at(0).phi() - phys.lep_p4().at(id).phi()));
   double dEta=phys.gamma_p4().at(0).eta() - phys.lep_p4().at(id).eta();
@@ -1031,7 +1031,7 @@ bool passBaseCut(){
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
 }
 
-int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
+int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/, int nEvents/* = -1*/) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
