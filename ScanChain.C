@@ -1215,7 +1215,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     MT_MuMET->SetDirectory(rootdir);
     MT_MuMET->Sumw2();
 
-    dR_GammaMu = new TH1D("dR_GammaMu", "#Delta R Between Photon and Muon for "+g_sample_name, 6000,0,6000);
+    dR_GammaMu = new TH1D("dR_GammaMu", "#Delta R Between Photon and Muon for "+g_sample_name, 200,0,5.8);
     dR_GammaMu->SetDirectory(rootdir);
     dR_GammaMu->Sumw2();
 
