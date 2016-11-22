@@ -419,11 +419,11 @@ bool hasGoodPhoton(){
     return false; // veto pixel match
   }
 
-  if (phys.nlep() > 0 ){
+  /*if (phys.nlep() > 0 ){
     numEvents->Fill(49);
     //if (printFail) cout<<phys.evt()<<" :Failed nleps in photon cut for REALMET"<<endl;
     return false; // lepton veto
-  }
+  }*/
 
   if (phys.isData() && (! passPhotonTriggers()) ){
     numEvents->Fill(52);
@@ -454,7 +454,7 @@ bool hasGoodGammaMu(){
   
   //cout<<__LINE__<<endl;
 
-  if (phys.lep_pdgId().at(0) != 13 && phys.lep_pdgId().at(0) != -13){
+  if (abs(phys.lep_pdgId().at(0)) != 13){
     numEvents->Fill(61);
     //if (printFail) cout<<phys.evt()<<" :Failed GammaMu muon check"<<endl;
     return false;
