@@ -445,7 +445,7 @@ bool hasGoodGammaMu(){
   /*Method for testing whether the event has a good gamma mu pair trigger requirements are on the photon.
   It just checks muon quality stuff and then calls hasGoodPhoton()*/
   
-  if( phys.nlep() != 1         ){ 
+  if( phys.nlep() < 1         ){ 
     numEvents->Fill(10);
     //if (printFail) cout<<phys.evt()<<" :Failed 1 lepton GammaMu cut"<<endl;
     return false; // require at least 1 good leptons
