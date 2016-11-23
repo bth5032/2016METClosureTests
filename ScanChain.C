@@ -862,8 +862,13 @@ bool passSignalRegionCuts(){
     }
   }
 
-  
-getMTLepMET()
+ if (conf->get("MT_LepMET_min") != ""){
+    if ( getMTLepMET() < stod( conf->get("MT_LepMET_min") ) ){
+      numEvents->Fill(63);
+      //if (printFail) cout<<phys.evt()<<" :Failed MT from Lepton and MET min cut"<<endl;
+      return false;
+    }
+  } 
   //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
