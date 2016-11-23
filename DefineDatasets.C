@@ -133,10 +133,14 @@ TChain * getTChain(TString data_set) {
 //====================================
 // Flavor Symmetric MC
 //====================================
-  if (data_set.Contains("FSMC-dilep")){
-    cout<<"Adding FSMC-dilep"<<endl; 
+  if (data_set.Contains("FSMC-dilep-mgmlm")){
+    cout<<"Adding FSMC-dilep-mgmlm (smaller stats sample)"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
+  }
+
+  if (data_set.Contains("FSMC-dilep-powheg")){
+    cout<<"Adding FSMC-dilep-powheg (large stats sample)"<<endl; 
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
@@ -153,8 +157,12 @@ TChain * getTChain(TString data_set) {
     cout<<"Adding FSMC-singletop"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_powheg*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_powheg*.root"));
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
-    //ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
+  }
+  
+  if (data_set.Contains("FSMC-singletop-nofullhaddecay")){
+    cout<<"Adding FSMC-singletop with no fully hadronic decay"<<endl; 
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;

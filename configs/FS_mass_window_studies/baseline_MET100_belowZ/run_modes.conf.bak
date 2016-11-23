@@ -10,7 +10,7 @@ DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
 DEFAULT::luminosity_fb=1
 DEFAULT::data=false
-DEFAULT::dil_sign=same
+DEFAULT::dil_flavor=emu
 DEFAULT::scaleTofb=35
 
 #============================
@@ -42,7 +42,7 @@ Name=ww
 data_set=FSMC-ww
 
 Name=singletop
-data_set=FSMC-singletop_FSMC-ttw
+data_set=FSMC-singletop-nofullhaddecay
 
 Name=ttw
 data_set=FSMC-ttw
