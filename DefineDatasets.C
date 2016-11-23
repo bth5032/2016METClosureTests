@@ -106,6 +106,16 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/znunugamma*.root");
   }
 
+  if (data_set.Contains("GammaMC-wgjets-inclusive-amc")){
+    cout<<"Adding GammaMC WGJets AMC@NLO Sample"<<endl;
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_amcnlo*.root");
+  }
+
+  if (data_set.Contains("GammaMC-wgjets-inclusive-mgmlm")){
+    cout<<"Adding GammaMC WGJets Madgraph Sample"<<endl;
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wgjets_incl_mgmlm*.root");
+  }
+
   if (data_set.Contains("GammaMC-GammaRealMET")){
     cout<<"Adding GammaMC-GammaRealMET"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm.root");
