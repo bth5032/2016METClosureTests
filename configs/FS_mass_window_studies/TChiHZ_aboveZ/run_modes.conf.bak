@@ -36,7 +36,7 @@ data_set=ZMC-40100_ZMC-100200_ZMC-200400_ZMC-400600_ZMC-600Inf_ZMC-inclusive
 
 #Exclusively FS Only
 Name=TT_dilep
-data_set=FSMC-dilep
+data_set=FSMC-dilep-powheg
 
 Name=TT_1lep
 data_set=FSMC-1lep

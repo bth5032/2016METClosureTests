@@ -1,4 +1,3 @@
-DEFAULT::n_lep_veto=3
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes
@@ -9,7 +8,7 @@ DEFAULT::n_lep_veto=3
 
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=35
+DEFAULT::luminosity_fb=1
 DEFAULT::data=false
 DEFAULT::dil_flavor=emu
 DEFAULT::scaleTofb=35
@@ -18,17 +17,15 @@ DEFAULT::scaleTofb=35
 # EdgeZ Region
 #============================
 
-DEFAULT::signal_region=TChiHZ_aboveZ
+DEFAULT::signal_region=baseline_onZ
 DEFAULT::dPhi_MET_j1=0.4
 DEFAULT::dPhi_MET_j2=0.4
 DEFAULT::Njets_min=2
-DEFAULT::NBjets_min=2
-DEFAULT::NBjets_max=2
-DEFAULT::MT2b_min=200
-DEFAULT::Mbb_max=150
+DEFAULT::NBjets_min=1
+DEFAULT::MT2_min=100
 DEFAULT::MET_min=100
-DEFAULT::dilmass_low=96
-DEFAULT::dilmass_high=-1
+DEFAULT::dilmass_low=20
+DEFAULT::dilmass_high=86
 DEFAULT::event_type=dilepton
 
 #Zjets Only Base Config
@@ -50,7 +47,6 @@ data_set=FSMC-singletop-nofullhaddecay
 
 Name=ttw
 data_set=FSMC-ttw
-
 # =========================
 # Rares
 # =========================
