@@ -129,7 +129,6 @@ double getdRGammaLep(short id/*=0*/){
 //=============================
 
 bool passPhotonEmulatedTrigger() {
-  if( phys.nisoTrack_5gev()           > 0    ) return false;
   if( phys.gamma_r9()            .at(0) < 0.92 ) return false;
   if( phys.gamma_hOverE()        .at(0) > 0.2  ) return false;
   if( phys.gamma_hollowtkiso03() .at(0) > 5    ) return false;
@@ -435,6 +434,14 @@ bool hasGoodPhoton(){
     numEvents->Fill(53);
     //if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
+  }
+
+  if (conf->get("nisoTrack_5gev_max") != ""){
+    if( phys.nisoTrack_5gev() > stoi(conf->get("nisoTrack_5gev_max")) ){
+      numEvents->Fill(62);
+      //if (printFail) cout<<phys.evt()<<" :Failed nisotrack_5gev cut"<<endl;
+      return false;
+    }
   }
   
   //if (printPass) cout<<phys.evt()<<": Passes good gamma Cuts"<<endl;
