@@ -630,9 +630,10 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && conf->get("event_type") == "photon" && phys.ngamma() > 0){
+  if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data_2016B_Prompt_ph")){
     weight *= getPrescaleWeight();
   }
+
   //cout<<__LINE__<<endl;
 
   /*if (weight < 0){
