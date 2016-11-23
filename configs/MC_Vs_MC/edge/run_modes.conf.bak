@@ -22,18 +22,18 @@ DEFAULT::Njets_min=2
 
 #Zjets Only Base Config
 Name=Z_Base
-zjets=true
+event_type=dilepton
 gjets=false
 
 #Gjets Only Base Config
 Name=G_Base
 zjets=false
-gjets=true
+event_type=photon
 
 #Gjets Reweighted Config
 Name=G_Reweight
 zjets=false
-gjets=true
+event_type=photon
 reweight=true
 primary_name=zjets
 secondary_name=gjets

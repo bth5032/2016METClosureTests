@@ -1,5 +1,5 @@
-DEFAULT::FSBKG=true
-DEFAULT::FSBKG=true
+DEFAULT::dil_sign=opposite
+DEFAULT::dil_sign=opposite
 DEFAULT::dilmass_high=-1
 DEFAULT::dilmass_low=20
 ## Configuration file for ConfigParser.
@@ -11,7 +11,7 @@ DEFAULT::dilmass_low=20
 #
 
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::scaleTofb=12.9
+DEFAULT::scaleTofb=26.4
 DEFAULT::rares=true
 
 #============================

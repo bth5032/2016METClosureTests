@@ -33,6 +33,7 @@ class ConfigParser{
 
 private:
 	ifstream *config_file;
+	string conf_path;
 	map<string, string> options;
 	map<string, string> default_options;
 	int currentLocation=0;
@@ -44,13 +45,7 @@ private:
 		return cleaned;
 	}
 
-	void extractOptFromLine(string line, bool default_opt=false){
-		/*Extract a value from a line*/
-		string opt_key; // holds key from line
-		string opt_value; // holds value for key
-		opt_key=line.substr(0, line.find('='));
-		opt_value=line.substr(line.find('=')+1);
-		
+	bool addOpt(string opt_key, string opt_value, bool default_opt=false){
 		if(opt_key != "" && opt_value != ""){
 			//if default option, add it to defaults dict
 			if (default_opt){
@@ -59,19 +54,31 @@ private:
 			else{
 				options[opt_key] = cleanedArg(opt_value);
 			}
+			return true;
 		}
-		
 		else{
-			cout<<"Error parsing line number: "<<config_file->tellg()<<" : "<<line<<endl;
+			return false;
 		}
 	}
 
+	void extractOptFromLine(string line, bool default_opt=false){
+		/*Extract a value from a line*/
+		string opt_key; // holds key from line
+		string opt_value; // holds value for key
+		opt_key=line.substr(0, line.find('='));
+		opt_value=line.substr(line.find('=')+1);
+
+		if ( ! addOpt(opt_key, opt_value, default_opt)){
+			cout<<"Error parsing line number: "<<config_file->tellg()<<" : "<<line<<endl;
+		}
+	}
 
 public:
 
 	ConfigParser(string filename){
 		//just opens the file stream 
 		config_file = new ifstream(filename);
+		conf_path=filename;
 	}
 
 	string findFirstConfig(){
@@ -138,6 +145,7 @@ public:
 			}
 
 			else if (line == "Name="+config_name){
+				addOpt("conf_path", conf_path);
 				currentLocation=config_file->tellg();
 				found_config=true;
 				extractOptFromLine(line); // should extract the name

@@ -13,35 +13,7 @@ void runScanChain(ConfigParser* conf){
     makePtReweightHisto(conf);
   }
 
-  if (conf->get("data") == "true"){
-    if (conf->get("zjets") == "true"){
-      ScanChain(getDataZChain(conf->get("data_set")), conf->get("data_type"), conf);  
-    }
-    if (conf->get("gjets") == "true"){
-      ScanChain(getDataPhotonChain(conf->get("data_set")), conf->get("data_type"), conf);  
-    }
-  }
-  else{
-    TChain * mc_chain = new TChain("t");
-    if (conf->get("FSBKG") == "true"){
-      mc_chain->Add(getFSMCChain(conf->get("data_set")));
-    }
-    if (conf->get("susy_mc") == "true"){
-      mc_chain->Add(getSignalChain(conf->get("data_set")));
-    }
-    if (conf->get("zjets") == "true") {
-      mc_chain->Add(getZJetsChain(conf->get("data_set")));
-    }
-    if (conf->get("gjets") == "true") {
-      mc_chain->Add(getGJetsChain(conf->get("data_set")));
-    }
-    if (conf->get("rares") == "true"){
-      mc_chain->Add(getRareChain(conf->get("data_set")));
-    }
-
-    ScanChain(mc_chain, conf->get("data_type"), conf);
-    mc_chain->~TChain();
-  }
+  ScanChain(getTChain(conf->get("data_set")), conf);
 }
 
 void doAll ( TString config_name, TString config_file="configs/run_modes.conf" ) {

@@ -1,7 +1,3 @@
-DEFAULT::FSBKG=true
-DEFAULT::FSBKG=true
-DEFAULT::dilmass_high=-1
-DEFAULT::dilmass_low=20
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes
@@ -11,8 +7,11 @@ DEFAULT::dilmass_low=20
 #
 
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::scaleTofb=12.9
+DEFAULT::scaleTofb=26.4
 DEFAULT::rares=true
+DEFAULT::dil_sign=opposite
+DEFAULT::dilmass_high=-1
+DEFAULT::dilmass_low=20
 
 #============================
 # EdgeZ Region
@@ -24,16 +23,16 @@ DEFAULT::Njets_min=2
 
 #VVV
 Name=VVV
-data_set=vvv
+data_set=RareMC-vvv
 
 #ttv
 Name=ttv
-data_set=ttv
+data_set=RareMC-ttv
 
 #zz
 Name=zz
-data_set=zz
+data_set=RareMC-zz
 
 #wz
 Name=wz
-data_set=wz
+data_set=RareMC-wz

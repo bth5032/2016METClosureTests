@@ -1,68 +1,8 @@
-// Usage:
-// > root -b doAll.C
+#include "ScanChain.h"
 
-//
-// 2016 MET study looper. Written by Bobak Hashemi May 13 2016
-//
-
-// C++
-#include <iostream>
-#include <vector>
-#include <set>
-#include <utility>
-
-
-// ROOT
-#include "TBenchmark.h"
-#include "TChain.h"
-#include "TDirectory.h"
-#include "TFile.h"
-#include "TROOT.h"
-#include "TTreeCache.h"
-#include "TEfficiency.h"
-#include "TH1.h"
-#include "TH2.h"
-
-// ZMET2016
-#include "ZMET2016.cc"
-
-// CORE
-//You can not include headers!!! This is not compiled code.
-#include "CoreTools/dorky.cc"
-#include "CoreTools/goodrun.cc"
-#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2Utility.cc"
-#include "/home/users/bhashemi/Projects/GIT/CORE/Tools/MT2/MT2.cc"
-// Configuration parsing
-#include "ConfigParser.C"
-
-using namespace std;
-using namespace zmet;
-using namespace duplicate_removal;
-
-typedef ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float> > LorentzVector;
-
-//Global Vars
-ConfigParser *conf;
-int nDuplicates=0;
-
-vector<pair <TH1D*, TString> > g_reweight_pairs;
-TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
-TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
-TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
-TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
-TString g_sample_name;
-TFile* currentFile = 0;
-
-TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
-
-//set<int> inVinceNotMine = {4589,8308,11893,14101,14746,19058,23180,28337,35374,42297,56194,60844,62242,64496,94423,95813,96364,97305,108841,115916,120306,127729,132182,137726,149809,151328,153127,182754,187629,191053,198339,202662,206473,214221,216796,221953,223390,225608,235943,244158,250884,251983,257113,259935,261309,270523,274748,277608,294101,316484,318876,318957,329729,330631,332962,333411,334846,340820,349907,351289,357272,357425,369136,370324,374306,374516,381210,383337,385393,390720,392522,396041,398289,413797,420484};
-
-//set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
-
-//set<long> inspection_set = {470836340,726705664,1268760057,1113504849,173918891,3089654438};
-
-bool printStats = false;
-bool printFail = false;
+//=============================
+// Variable Computation
+//=============================
 
 pair<int, int> getMostBlike(){
   /* returns two most B-like jet indicies */
@@ -109,7 +49,7 @@ pair<int,int> getClosestBPairToHiggsMass(){
   return make_pair(first,second);
 }
 
-double getMT2ForBjets(bool select_highest_csv=false){
+double getMT2ForBjets(bool select_highest_csv/*=false*/){
   /*This function gets the MT2 built out of the two Bjets in an event, no guarentee is made about selecting the highest csv jets*/
   double mt2;
   if (select_highest_csv){
@@ -125,7 +65,7 @@ double getMT2ForBjets(bool select_highest_csv=false){
   return mt2;
 }
 
-double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
+double getMT2HiggsZ(bool select_highest_closest_higgs_mass/*=false*/){
 
   double mt2; 
 
@@ -142,125 +82,51 @@ double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false){
   return mt2;
 }
 
-double getPrescaleWeight(){
-  //cout<<__LINE__<<endl;
-  //cout<<"Getting Prescale Weights"<<endl;
-  
-  if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180. ) return 1;
-  else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135. ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
-  else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105. ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
-  else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85. ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
-  else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55. ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
-  else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55. && phys.gamma_pt().at(0) > 40. ) {
-    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) */ 166 /*134*/;
+double bosonPt(){
+  // Returns boson Pt, determines whether sample is gjets or zjets first.
+  if (conf->get("event_type") == "dilepton") {
+    return phys.dilpt();
   }
-  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40. && phys.gamma_pt().at(0) > 33. ){
-    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) */ 354 /*269*/;
+  else{
+    if (phys.evt_type() == 2 && phys.ngamma() > 0){
+      return phys.gamma_pt().at(0);
+    }
+    else
+      return 0;
   }
-  else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33. ) {
-    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1871 /*1667*/;
-  }
-  //cout<<__LINE__<<endl;
-  return 1; // should not get here
 }
 
-bool passMETFilters(){
-  bool pass = true;
-
-  if ( phys.isData() ) {
-    if ( phys.nVert() == 0 ) {
-      numEvents->Fill(1);
-      //if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
-      pass=false;
-    }
-    if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
-      numEvents->Fill(2);
-    }
-    if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
-      numEvents->Fill(3);
-    } 
-    /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      numEvents->Fill(4);
-    }*/
-    if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
-      numEvents->Fill(5);
-    }
-    if (!phys.Flag_goodVertices                      ()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
-      numEvents->Fill(6);
-    }
-    if (!phys.Flag_eeBadScFilter                     ()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
-      numEvents->Fill(7);
-    }
-    if (!phys.Flag_globalTightHalo2016            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      numEvents->Fill(4);
-    }
-    if (!phys.Flag_badMuonFilter            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      numEvents->Fill(50);
-    }
-    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
-      numEvents->Fill(51);
-    }
+double getEff(){
+  if (abs(phys.gamma_p4().at(0).eta()) < 1.4){
+    return g_vpt_eff_barrel->GetEfficiency(g_vpt_eff_barrel->FindFixBin(phys.gamma_pt().at(0)));
   }
-  if (pass){
-    //if (printPass) cout<<phys.evt()<<": Passes MET Filters"<<endl;
+  else{
+    return g_vpt_eff_endcap->GetEfficiency(g_vpt_eff_endcap->FindFixBin(phys.gamma_pt().at(0))); 
   }
-  return pass;
 }
 
-bool passBaseCut(){
-  bool pass=true;
-  //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
-  //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
-  
-  if (phys.isData()){
-    if (! (goodrun(phys.run(), phys.lumi()))){ 
-      pass=false; //golden json
-      //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
-      numEvents->Fill(8);
-    }
-  }
+double getMTLepMET(short id/*=0*/){
+  /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
+  return phys.met_T1CHS_miniAOD_CORE_pt()*phys.lep_p4().at(id).pt()*(1 - cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.lep_p4().at(id).phi()));
 
-  //Old Method, using branch
-  /*if (! (phys.evt_passgoodrunlist() > 0)){ 
-    pass=false; //golden json
-    //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
-    numEvents->Fill(8);
-  } */
-  if (! (phys.njets() >= 2) ){ 
-    pass=false; //2 jet cut
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
-    numEvents->Fill(9);
-  }
-
-  int nLepVeto = (conf->get("gjets") == "true") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
-
-  /*if( (phys.nisoTrack_mt2() + phys.nlep()) >= nLepVeto){
-    pass=false; //third lepton veto
-    //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
-    numEvents->Fill(54);
-  }*/
-
-  //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
-  return pass;
+  /* Massive Case
+    ET1sq = m_1^2 + pt1^2 
+    ET2sq = m_2^2 + pt2^2
+    MT = m_1^2  + m_2^2 + 2(sqrt(ET1sq*ET2sq) - pt1*pt2*cos(phi1 - phi2)) 
+  */
 }
+
+double getdRGammaLep(short id/*=0*/){
+  /* Builds the delta R (sqrt(dPhi^2 + dEta^2)) between the lepton at index id and the leading photon*/
+  double dPhi=acos(cos(phys.gamma_p4().at(0).phi() - phys.lep_p4().at(id).phi()));
+  double dEta=phys.gamma_p4().at(0).eta() - phys.lep_p4().at(id).eta();
+
+  return sqrt(pow(dPhi, 2) + pow(dEta, 2));
+}
+
+//=============================
+// Triggers
+//=============================
 
 bool passPhotonEmulatedTrigger() {
   if( phys.nisoTrack_5gev()           > 0    ) return false;
@@ -332,7 +198,7 @@ bool passEMuTriggers(){
 }
 
 bool passLeptonHLTs(){
-  if (conf->get("FSBKG") == "true"){
+  if (conf->get("dil_flavor") == "emu"){
     return passEMuTriggers();
   }
   else{
@@ -348,6 +214,10 @@ bool passLeptonHLTs(){
     }
   }
 }
+
+//=============================
+// Has Good Event Functions
+//=============================
 
 bool hasGoodZ(){
   if( phys.nlep() < 2         ){ 
@@ -429,7 +299,7 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("FSBKG") == "true"){ //only true for ttbar estimate
+  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(20); 
       //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
@@ -488,11 +358,6 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
   
-  /*if( !(phys.dilpt() > 22) ){
-    numEvents->Fill(23); 
-    return false; // Z pT > 22 GeV
-  }*/
-
   //if (printPass) cout<<phys.evt()<<": Passes good Z Cuts"<<endl;
   return true;
 }
@@ -554,11 +419,11 @@ bool hasGoodPhoton(){
     return false; // veto pixel match
   }
 
-  if (phys.nlep() > 0 ){
+  /*if (phys.nlep() > 0 ){
     numEvents->Fill(49);
     //if (printFail) cout<<phys.evt()<<" :Failed nleps in photon cut for REALMET"<<endl;
     return false; // lepton veto
-  }
+  }*/
 
   if (phys.isData() && (! passPhotonTriggers()) ){
     numEvents->Fill(52);
@@ -566,7 +431,7 @@ bool hasGoodPhoton(){
     return false;
   }
 
-  if (! passPhotonEmulatedTrigger() ){
+  if (/*(! phys.isData()) &&*/ (! passPhotonEmulatedTrigger()) ){
     numEvents->Fill(53);
     //if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
@@ -576,37 +441,69 @@ bool hasGoodPhoton(){
   return true;  
 }
 
-bool hasGoodBoson() {
-  if (g_sample_name == "gjets") {
+bool hasGoodGammaMu(){
+  /*Method for testing whether the event has a good gamma mu pair trigger requirements are on the photon.
+  It just checks muon quality stuff and then calls hasGoodPhoton()*/
+  
+  if( phys.nlep() < 1         ){ 
+    numEvents->Fill(10);
+    //if (printFail) cout<<phys.evt()<<" :Failed 1 lepton GammaMu cut"<<endl;
+    return false; // require at least 1 good leptons
+  }
+  //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
+  
+  //cout<<__LINE__<<endl;
+
+  if (abs(phys.lep_pdgId().at(0)) != 13){
+    numEvents->Fill(61);
+    //if (printFail) cout<<phys.evt()<<" :Failed GammaMu muon check"<<endl;
+    return false;
+  }
+
+  //cout<<__LINE__<<endl;
+
+  if( phys.lep_pt().at(0) < 25        ) {
+    numEvents->Fill(11); 
+    //if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
+    return false; // leading lep pT > 25 GeV
+  }
+  //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
+
+  //cout<<__LINE__<<endl;
+
+  if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
+    numEvents->Fill(13); 
+    //if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
+    return false; // eta < 2.4
+  }    
+  //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
+
+  //This is the original cut selection
+  if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
+    numEvents->Fill(17);
+    //if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
+    return false;
+  }
+
+  //if (printPass) cout<<phys.evt()<<": Passes good muon cuts"<<endl;
+  return hasGoodPhoton();  
+}
+
+bool hasGoodEvent() {
+  if ( conf->get("event_type") == "photon") {
     return hasGoodPhoton();
+  }
+  else if (conf->get("event_type") == "photon_muon" ){
+    return (hasGoodGammaMu());
   }
   else {
     return hasGoodZ();
   }
 }
 
-double bosonPt(){
-  // Returns boson Pt, determines whether sample is gjets or zjets first.
-  if (g_sample_name == "zjets") {
-    return phys.dilpt();
-  }
-  else{
-    if (phys.evt_type() == 2 && phys.ngamma() > 0){
-      return phys.gamma_pt().at(0);
-    }
-    else
-      return 0;
-  }
-}
-
-double getEff(){
-  if (abs(phys.gamma_p4().at(0).eta()) < 1.4){
-    return g_vpt_eff_barrel->GetEfficiency(g_vpt_eff_barrel->FindFixBin(phys.gamma_pt().at(0)));
-  }
-  else{
-    return g_vpt_eff_endcap->GetEfficiency(g_vpt_eff_endcap->FindFixBin(phys.gamma_pt().at(0))); 
-  }
-}
+//=============================
+// Event Weight Assignment
+//=============================
 
 void readyReweightHists(){
   TString conf_name = conf->get("Name");
@@ -660,25 +557,33 @@ double getReweight(){
   return weight;
 }
 
+double scale1fbFix(){
+  /*This method stores fixes to the evt_scale1fb in the event of file corruptions. It's basically just a lookup table*/
+
+  if (TString(currentFile->GetTitle()).Contains("sttw_antitop_nofullhaddecay_powheg")){
+    //cout<<"Scale 1fb fixed for "<<TString(currentFile->GetTitle())<<endl;
+    return 1.03;
+  }
+  else{
+    //cout<<"Scale 1fb is good for "<<TString(currentFile->GetTitle())<<endl;
+    return 1;
+  }
+}
+
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
   //cout<<__LINE__<<endl;
   // If we don't have data use scale to 1 fb^-1. 
-  if ( ! ( phys.isData() ) ) {
-    if (phys.evt_scale1fb() > 1){
-      weight=0;
-    }
-    else{
-      weight *= phys.evt_scale1fb();
-    }
+  if ( ! ( phys.isData() ) ){
+    weight *= phys.evt_scale1fb();
     //Weight to some other lumi
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
     }
-    if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
-      weight *= -26.4; //EWK Subtraction
-    }
+  }
+  if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+    weight *= -26.4; //EWK Subtraction
   }
   //cout<<__LINE__<<endl;
 
@@ -686,15 +591,16 @@ double getWeight(){
     weight *= getReweight();
   }
 
-  if ( conf->get("reweight_eff") == "true" && g_sample_name == "gjets" && phys.ngamma() > 0){
+  if ( conf->get("reweight_eff") == "true" && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getEff();
   }
   //cout<<__LINE__<<endl;
 
- if (conf->get("data") == "false" && conf->get("gjets") != "true" ){
-    if (conf->get("susy_mc") != "true"){
+ if ((! phys.isData()) && conf->get("event_type") != "photon" ){
+    if (conf->get("susy_mc") != "true" && conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
+
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
@@ -717,7 +623,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0){
+  if (phys.isData() && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
   }
   //cout<<__LINE__<<endl;
@@ -726,26 +632,36 @@ double getWeight(){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
   }*/
 
+  weight *= scale1fbFix();
+
   return weight;
 }
 
-bool isDuplicate(){
+double getPrescaleWeight(){
   //cout<<__LINE__<<endl;
-  if( phys.isData() ) {
-    DorkyEventIdentifier id(phys.run(), phys.evt(), phys.lumi());
-    //cout<<__LINE__<<endl;
-    if (is_duplicate(id) ){
-      ++nDuplicates;
-      //cout<<__LINE__<<endl;
-      //if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
-      return true;
-    }
-    //cout<<__LINE__<<endl;
+  //cout<<"Getting Prescale Weights"<<endl;
+  
+  if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180. ) return 1;
+  else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135. ) return phys.HLT_Photon120_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105. ) return phys.HLT_Photon90_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85. ) return phys.HLT_Photon75_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55. ) return phys.HLT_Photon50_R9Id90_HE10_IsoM();
+  else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55. && phys.gamma_pt().at(0) > 40. ) {
+    return /*g_l1prescale_hist36->GetBinContent(g_l1prescale_hist36->FindBin(phys.nVert())) */ 166 /*134*/;
+  }
+  else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40. && phys.gamma_pt().at(0) > 33. ){
+    return /*g_l1prescale_hist30->GetBinContent(g_l1prescale_hist30->FindBin(phys.nVert())) */ 354 /*269*/;
+  }
+  else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33. ) {
+    return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1871 /*1667*/;
   }
   //cout<<__LINE__<<endl;
-  //if (printPass) cout<<phys.evt()<<": Passes not a duplicate"<<endl;
-  return false;
+  return 1; // should not get here
 }
+
+//=============================
+// Cuts
+//=============================
 
 bool passSignalRegionCuts(){
   
@@ -817,13 +733,25 @@ bool passSignalRegionCuts(){
   //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
-  if (conf->get("MT2b_min") != "" && g_sample_name != "gjets"){
+  if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
     if (phys.mt2b() < stod(conf->get("MT2b_min"))){
       numEvents->Fill(40);
       //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
     }
   }
+
+  //cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
+  //MT2 min
+  if (conf->get("MT2_min") != "" && conf->get("event_type") != "photon"){
+    if (phys.mt2() < stod(conf->get("MT2_min"))){
+      numEvents->Fill(59);
+      //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
+      return false;
+    }
+  }
+
 
   //cout<<__LINE__<<endl;
   //HT min
@@ -867,7 +795,7 @@ bool passSignalRegionCuts(){
     }
   }
   
-  if (conf->get("lep1_pt_min") != "" && g_sample_name != "gjets" ){
+  if (conf->get("lep1_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
       numEvents->Fill(45);
       //if (printFail) cout<<phys.evt()<<" :Failed lep1 min pt"<<endl;
@@ -875,7 +803,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  if (conf->get("lep2_pt_min") != "" && g_sample_name != "gjets" ){
+  if (conf->get("lep2_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
       numEvents->Fill(46);
       //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
@@ -916,8 +844,8 @@ bool passRareCuts(){
   
   bool hasrealmet = true;
   bool realzpair  = true;
-  
-  if( g_sample_name == "vvv" || g_sample_name == "ttv" ){
+
+  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv")){
     //cout<<"Checking for rare cuts"<<endl;
     hasrealmet = false;
     realzpair  = false;
@@ -956,7 +884,7 @@ bool passRareCuts(){
   //if (printPass) cout<<phys.evt()<<": Passes Has Real MET Rare Cut"<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Has Real Z Pair Rare Cut"<<endl;
   return true;
-}
+} 
 
 bool passSUSYSingalCuts(){
   //Njets Min Cut
@@ -971,107 +899,251 @@ bool passSUSYSingalCuts(){
   return true; 
 }
 
-int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, bool fast = true, int nEvents = -1) {
+bool isDuplicate(){
+  //cout<<__LINE__<<endl;
+  if( phys.isData() ) {
+    DorkyEventIdentifier id(phys.run(), phys.evt(), phys.lumi());
+    //cout<<__LINE__<<endl;
+    if (is_duplicate(id) ){
+      ++nDuplicates;
+      //cout<<__LINE__<<endl;
+      //if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
+      return true;
+    }
+    //cout<<__LINE__<<endl;
+  }
+  //cout<<__LINE__<<endl;
+  //if (printPass) cout<<phys.evt()<<": Passes not a duplicate"<<endl;
+  return false;
+}
+
+bool passMETFilters(){
+  bool pass = true;
+
+  if ( phys.isData() ) {
+    if ( phys.nVert() == 0 ) {
+      numEvents->Fill(1);
+      //if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
+      pass=false;
+    }
+    if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
+      numEvents->Fill(2);
+    }
+    if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
+      numEvents->Fill(3);
+    } 
+    /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(4);
+    }*/
+    if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
+      numEvents->Fill(5);
+    }
+    if (!phys.Flag_goodVertices                      ()      ) { 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
+      numEvents->Fill(6);
+    }
+    if (!phys.Flag_eeBadScFilter                     ()      ) { 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
+      numEvents->Fill(7);
+    }
+    if (!phys.Flag_globalTightHalo2016            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(4);
+    }
+    if (!phys.Flag_badMuonFilter            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(50);
+    }
+    if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
+      pass=false;
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      numEvents->Fill(51);
+    }
+  }
+  if (pass){
+    //if (printPass) cout<<phys.evt()<<": Passes MET Filters"<<endl;
+  }
+  return pass;
+}
+
+bool passBaseCut(){
+  //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
+  //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
+  
+  if (phys.isData()){
+    if (! (goodrun(phys.run(), phys.lumi()))){ 
+      numEvents->Fill(8);
+      //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+      return false; //golden json
+    }
+  }
+
+  //Old Method, using branch
+  /*if (! (phys.evt_passgoodrunlist() > 0)){ 
+    pass=false; //golden json
+    //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+    numEvents->Fill(8);
+  } */
+  /*if (! (phys.njets() >= 2) ){ 
+    numEvents->Fill(9);
+    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
+    return false; //2 jet cut
+  }*/
+
+  //int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
+
+  if(conf->get("n_lep_veto") != ""){
+    if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
+        numEvents->Fill(54);
+        //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+        return false; //third lepton veto
+    }
+  }
+
+  /*//cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
+  //Leading Jet/MET Phi min
+  if (phys.dphi_metj1() < 0.4){
+    numEvents->Fill(38);
+    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
+    return false;
+  }
+  //cout<<__LINE__<<endl;
+  //if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
+  //Trailing Jet/MET Phi min
+  if (phys.dphi_metj2() < 0.4){
+    numEvents->Fill(39);
+    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
+    return false;
+  }*/
+
+  return true;
+  //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
+}
+
+int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/, int nEvents/* = -1*/) {
   /* Runs through baby files and makes histogram files. 
   
   Inputs:
   chain -- contains the files to make the histograms from, 
-  sampleName -- for bookkeeping since we make histograms from many different samples. 
   configuration -- pointer to the configuration object
   */  
-
+  //cout<<__LINE__<<endl;
   //Set Global Vars
-  g_sample_name=sampleName;
   conf=configuration;
-  TString savePath = conf->get("histo_output_dir");
+  //cout<<__LINE__<<endl;
+  g_sample_name=conf->get("Name");
 
+  TString savePath = getOutputDir(conf, "hist");
+  ofstream files_log;
+  files_log.open((savePath+TString("files_log.txt")).Data());
+  //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
-//=======================================
+//===========================================
 // Define Histograms
-//=======================================
+//===========================================
 
   clear_list(); //Event duplicate removal clear list
 
-  cout<<"Opening file "<<savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root"<<endl;
-  TFile * output = new TFile(savePath+"ct_"+conf->get("Name")+"_"+conf->get("signal_region")+".root", "recreate");
+  cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
+  TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
 
-  numEvents = new TH1I(sampleName+"_numEvents", "Number of events in "+sampleName, 60, 0, 60);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 65, 0, 65);
   numEvents->SetDirectory(rootdir);
 
+  const int n_weight_log_bins = 54;
+  const double weight_log_bins[n_weight_log_bins+1] = {-5, -4.5, -4, -3.5, -3, -2.5, -2, -1.5, -1, -.9, -.8, -.7, -.6, -.5, -.4, -.3, -.2, -.1, -.09, -.08, -.07, -.06, -.05, -.04, -.03, -.02, -.01, 0, .01, .02, .03, .04, .05, .06, .07, .08, .09, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5};
+
+  TH1D* weight_log = new TH1D("weight_log", "Event weights in "+g_sample_name, n_weight_log_bins , weight_log_bins);
+  weight_log->SetDirectory(rootdir);
+
+  TH1D* weight_log_flat = new TH1D("weight_log_flat", "Event weights in "+g_sample_name, 101 , 0, 1.01);
+  weight_log_flat->SetDirectory(rootdir);
+
   //MET Histos
-  TH1D *t1met = new TH1D(sampleName+"_type1MET", "Type 1 MET for "+sampleName, 6000,0,6000);
+  TH1D *t1met = new TH1D("type1MET", "Type 1 MET for "+g_sample_name, 6000,0,6000);
   t1met->SetDirectory(rootdir);
   t1met->Sumw2();
 
   const int n_metbins_wide_std = 6;
   const double metbins_wide_std[n_metbins_wide_std+1] = {0, 50, 100, 150, 225, 300, 500};
 
-  TH1D *t1met_widebin = new TH1D(sampleName+"_type1MET_widebin", "Type 1 MET for "+sampleName, n_metbins_wide_std, metbins_wide_std);
+  TH1D *t1met_widebin = new TH1D("type1MET_widebin", "Type 1 MET for "+g_sample_name, n_metbins_wide_std, metbins_wide_std);
   t1met_widebin->SetDirectory(rootdir);
   t1met_widebin->Sumw2();
 
   //MET Histos
-  TH1D *nVert = new TH1D(sampleName+"_nVert", "Number of verticies in "+sampleName, 150,0,150);
+  TH1D *nVert = new TH1D("nVert", "Number of verticies in "+g_sample_name, 150,0,150);
   nVert->SetDirectory(rootdir);
   nVert->Sumw2();
 
-  TH1D *rawmet = new TH1D(sampleName+"_rawMET", "Raw MET for "+sampleName, 6000,0,6000);
+  TH1D *rawmet = new TH1D("rawMET", "Raw MET for "+g_sample_name, 6000,0,6000);
   rawmet->SetDirectory(rootdir);
   rawmet->Sumw2();
 
-  TH1D *mt2 = new TH1D(sampleName+"_mt2", "MT2 for "+sampleName, 500,0,500);
+  TH1D *mt2 = new TH1D("mt2", "MT2 for "+g_sample_name, 500,0,500);
   mt2->SetDirectory(rootdir);
   mt2->Sumw2();
 
   TH1D *dilmass;
   
   if (conf->get("wide_dilmass") == "true"){
-    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 500,0,500);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+g_sample_name, 500,0,500);
   }
   else{
-    dilmass = new TH1D(sampleName+"_dilmass", "Dilepton Mass for "+sampleName, 20,81,101);
+    dilmass = new TH1D("dilmass", "Dilepton Mass for "+g_sample_name, 20,81,101);
   }  
   
   dilmass->SetDirectory(rootdir);
   dilmass->Sumw2();
 
-  TH1D *mt2b = new TH1D(sampleName+"_mt2b", "MT2b for "+sampleName, 6000,0,6000);
+  TH1D *mt2b = new TH1D("mt2b", "MT2b for "+g_sample_name, 6000,0,6000);
   mt2b->SetDirectory(rootdir);
   mt2b->Sumw2();
 
-  TH1D *nlep = new TH1D(sampleName+"_nlep", "Number of Leptons for "+sampleName, 20,0,20);
+  TH1D *nlep = new TH1D("nlep", "Number of Leptons for "+g_sample_name, 20,0,20);
   nlep->SetDirectory(rootdir);
   nlep->Sumw2();
 
-  TH1D *nisotrack = new TH1D(sampleName+"_nisotrack", "Number of Iso Track Leptons (MT2 style) for "+sampleName, 20,0,20);
+  TH1D *nisotrack = new TH1D("nisotrack", "Number of Iso Track Leptons (MT2 style) for "+g_sample_name, 20,0,20);
   nisotrack->SetDirectory(rootdir);
   nisotrack->Sumw2();
 
-  cout<<"Added nisotrack"<<endl;
-
-  TH1D *dphi_jet1_met = new TH1D(sampleName+"_dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet1_met = new TH1D("dphi_jet1_met", "#Delta#Phi(jet_{1}, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
   dphi_jet1_met->SetDirectory(rootdir);
   dphi_jet1_met->Sumw2();
 
-  TH1D *dphi_jet2_met = new TH1D(sampleName+"_dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+sampleName, 100,0,3.15);
+  TH1D *dphi_jet2_met = new TH1D("dphi_jet2_met", "#Delta#Phi(jet_{2}, E^{miss}_{T}) for "+g_sample_name, 100,0,3.15);
   dphi_jet2_met->SetDirectory(rootdir);
   dphi_jet2_met->Sumw2();
 
-  TH1D *ht = new TH1D(sampleName+"_ht", "Scalar sum of hadronic pt (HT) for "+sampleName, 6000,0,6000);
+  TH1D *ht = new TH1D("ht", "Scalar sum of hadronic pt (HT) for "+g_sample_name, 6000,0,6000);
   ht->SetDirectory(rootdir);
   ht->Sumw2();
 
-  TH1D *ht_wide = new TH1D(sampleName+"_ht_wide", "Scalar sum of hadronic pt (HT) for "+sampleName, 60,0,6000);
+  TH1D *ht_wide = new TH1D("ht_wide", "Scalar sum of hadronic pt (HT) for "+g_sample_name, 60,0,6000);
   ht_wide->SetDirectory(rootdir);
   ht_wide->Sumw2();
 
-  TH1D *gen_ht = new TH1D(sampleName+"_genht", "Scalar sum of generated hadronic pt (Gen HT) for "+sampleName, 6000,0,6000);
+  TH1D *gen_ht = new TH1D("genht", "Scalar sum of generated hadronic pt (Gen HT) for "+g_sample_name, 6000,0,6000);
   gen_ht->SetDirectory(rootdir);
   gen_ht->Sumw2();
 
-  TH1D *numMETFilters = new TH1D(sampleName+"_numMETFilters", "Number of MET Filters passed for events in "+sampleName, 50,0,50);
+  TH1D *numMETFilters = new TH1D("numMETFilters", "Number of MET Filters passed for events in "+g_sample_name, 50,0,50);
   numMETFilters->SetDirectory(rootdir);
   numMETFilters->Sumw2();
 
@@ -1088,114 +1160,129 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   
   if (conf->get("signal_region") == "ATLAS")
   {
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_atlas, ptbins_atlas); 
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_atlas, ptbins_atlas); 
   }
   else if (conf->get("signal_region") == "VincePhotonPT"){
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, 6000, 0, 6000);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, 6000, 0, 6000);  
   }
 
   else{
-    vpt = new TH1D(sampleName+"_vpt", "Boson Pt for events in "+sampleName, n_ptbins_std, ptbins_std);  
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_std, ptbins_std);  
   }
 
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
-  TH1D *vpt_flat = new TH1D(sampleName+"_vpt_flat", "Boson P_{T} for events in "+sampleName, 6000,0,6000);
+  TH1D *vpt_flat = new TH1D("vpt_flat", "Boson P_{T} for events in "+g_sample_name, 6000,0,6000);
   vpt_flat->SetDirectory(rootdir);
   vpt_flat->Sumw2();
 
-  TH1D *njets = new TH1D(sampleName+"_njets", "Number of jets for events in "+sampleName, 50,0,50);
+  TH1D *njets = new TH1D("njets", "Number of jets for events in "+g_sample_name, 50,0,50);
   njets->SetDirectory(rootdir);
   njets->Sumw2();
 
-  TH1D *nbtags_m = new TH1D(sampleName+"_nbtags_m", "Number of \"medium\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_m = new TH1D("nbtags_m", "Number of \"medium\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_m->SetDirectory(rootdir);
   nbtags_m->Sumw2();
 
-  TH1D *nbtags_l = new TH1D(sampleName+"_nbtags_l", "Number of \"loose\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_l = new TH1D("nbtags_l", "Number of \"loose\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_l->SetDirectory(rootdir);
   nbtags_l->Sumw2();
 
-  TH1D *nbtags_t = new TH1D(sampleName+"_nbtags_t", "Number of \"tight\" B-tagged jets for events in "+sampleName, 50,0,50);
+  TH1D *nbtags_t = new TH1D("nbtags_t", "Number of \"tight\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
 
-  TH1D *nVert_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon165_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon165_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon120_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon120_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon90_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon90_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon75_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon75_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon50_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon50_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon36_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon36_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon165_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon165_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon120_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon120_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon90_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon90_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon75_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon75_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon50_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon50_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon36_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon36_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
+  TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
 
-  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D(sampleName+"_pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
+  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
+  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
+
+  TH1D *MT_MuMET, *dR_GammaMu, *mu_pt;
+  if (conf->get("GammaMuStudy") == "true"){
+    MT_MuMET = new TH1D("MT_MuMET", "M_{T} Made With Muon and E^{miss}_{T} (If from W, #leq W mass) for "+g_sample_name, 6000,0,6000);
+    MT_MuMET->SetDirectory(rootdir);
+    MT_MuMET->Sumw2();
+
+    dR_GammaMu = new TH1D("dR_GammaMu", "#Delta R Between Photon and Muon for "+g_sample_name, 200,0,5.8);
+    dR_GammaMu->SetDirectory(rootdir);
+    dR_GammaMu->Sumw2();
+
+    mu_pt = new TH1D("mu_pt", "Muon P_{T} for "+g_sample_name, 6000,0,6000);
+    mu_pt->SetDirectory(rootdir);
+    mu_pt->Sumw2();
+  }
 
   TH1D *sum_mlb, *m_bb_csv, *m_bb_bpt, *mt2j, *sum_pt_z_bb, *mt2_fromb, *mt2_hz;
   TH2D *MT2_MT2B, *MT2_MT2_fromb, *MT2_MT2_HZ;
 
   if(conf->get("signal_region") == "TChiHZ"){
-    sum_mlb = new TH1D(sampleName+"_sum_mlb", "#Sigma M_{lb} for "+sampleName, 6000,0,6000);
+    sum_mlb = new TH1D("sum_mlb", "#Sigma M_{lb} for "+g_sample_name, 6000,0,6000);
     sum_mlb->SetDirectory(rootdir);
     sum_mlb->Sumw2();
 
-    m_bb_csv = new TH1D(sampleName+"_m_bb_csv", "M_{bb} by CSV for "+sampleName, 6000,0,6000);
+    m_bb_csv = new TH1D("m_bb_csv", "M_{bb} by CSV for "+g_sample_name, 6000,0,6000);
     m_bb_csv->SetDirectory(rootdir);
     m_bb_csv->Sumw2();
 
-    m_bb_bpt = new TH1D(sampleName+"_m_bb_bpt", "M_{bb} by B P_{T} for "+sampleName, 6000,0,6000);
+    m_bb_bpt = new TH1D("m_bb_bpt", "M_{bb} by B P_{T} for "+g_sample_name, 6000,0,6000);
     m_bb_bpt->SetDirectory(rootdir);
     m_bb_bpt->Sumw2();
 
-    mt2j = new TH1D(sampleName+"_mt2j", "MT2j for "+sampleName, 6000,0,6000);
+    mt2j = new TH1D("mt2j", "MT2j for "+g_sample_name, 6000,0,6000);
     mt2j->SetDirectory(rootdir);
     mt2j->Sumw2();
 
-    mt2_fromb = new TH1D(sampleName+"_mt2_fromb", "MT2 From Bjets for "+sampleName, 6000,0,6000);
+    mt2_fromb = new TH1D("mt2_fromb", "MT2 From Bjets for "+g_sample_name, 6000,0,6000);
     mt2_fromb->SetDirectory(rootdir);
     mt2_fromb->Sumw2();
 
-    mt2_hz = new TH1D(sampleName+"_mt2_hz", "MT2 From Higgs and Z for "+sampleName, 6000,0,6000);
+    mt2_hz = new TH1D("mt2_hz", "MT2 From Higgs and Z for "+g_sample_name, 6000,0,6000);
     mt2_hz->SetDirectory(rootdir);
     mt2_hz->Sumw2();
 
-    sum_pt_z_bb = new TH1D(sampleName+"_sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+sampleName, 6000,0,6000);
+    sum_pt_z_bb = new TH1D("sum_pt_z_bb", "P_{T}(Z) + P_{T}(BB) for "+g_sample_name, 6000,0,6000);
     sum_pt_z_bb->SetDirectory(rootdir);
     sum_pt_z_bb->Sumw2();
 
-    MT2_MT2B = new TH2D(sampleName+"_MT2_MT2B", "MT2 vs. MT2b for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2B = new TH2D("MT2_MT2B", "MT2 vs. MT2b for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2B->SetDirectory(rootdir);
     MT2_MT2B->Sumw2();
 
-    MT2_MT2_fromb = new TH2D(sampleName+"_MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_fromb = new TH2D("MT2_MT2_fromb", "MT2 vs. MT2(made from b-tagged jets) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_fromb->SetDirectory(rootdir);
     MT2_MT2_fromb->Sumw2();
 
-    MT2_MT2_HZ = new TH2D(sampleName+"_MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+sampleName, 6000, 0, 6000, 6000, 0, 6000);
+    MT2_MT2_HZ = new TH2D("MT2_MT2_HZ", "MT2(from leptons) vs. MT2(from Higgs and Z) for "+g_sample_name, 6000, 0, 6000, 6000, 0, 6000);
     MT2_MT2_HZ->SetDirectory(rootdir);
     MT2_MT2_HZ->Sumw2();
   }
 
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
-//==============
+//===========================================
 // Setup Stuff Pulled From External Files
-//==============
+//===========================================
   int eventsInFile;
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
     readyReweightHists();
   }
 
-  if( conf->get("data") == "false" && conf->get("gjets") != "true" ){
+  if(conf->get("data") != "true"){
     cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
     //cout<<__LINE__<<endl;
@@ -1206,7 +1293,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     g_pileup_hist_file->Close();
   }
   //cout<<__LINE__<<endl;
-  /*if( conf->get("data") == "true" && conf->get("gjets")=="true" && (! (conf->get("FSBKG") == "true")) ){
+  /*if( conf->get("data") == "true" && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
     
@@ -1251,22 +1338,30 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   int eventCount=0;
   cout<<"DATASET: "<<conf->get("data_set")<<endl;
   if( nEvents >= 0 ) nEventsChain = nEvents;
+  //cout<<__LINE__<<endl;
   TObjArray *listOfFiles = chain->GetListOfFiles();
+  //cout<<__LINE__<<endl;
   TIter fileIter(listOfFiles);
   //cout<<__LINE__<<endl;
-//==============
+//===========================================
 // File Loop
-//==============
+//===========================================
   while ( (currentFile = (TFile*)fileIter.Next()) ) {
 
     // Get File Content
     TFile file( currentFile->GetTitle() );
+    //cout<<__LINE__<<endl;
     TTree *tree = (TTree*)file.Get("t");
+    //cout<<__LINE__<<endl;
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
+    //cout<<__LINE__<<endl;
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
+    //cout<<__LINE__<<endl;
     phys.Init(tree); //Loads in all the branches
     //cout<<__LINE__<<endl;
     eventsInFile = 0;
+    //cout<<__LINE__<<endl;
+    files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 //===========================================
 // Loop over Events in current file
 //===========================================
@@ -1285,26 +1380,30 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //eventsInFile++;
       //if (eventsInFile > 100) continue;
       //cout<<__LINE__<<endl;
-//=======================================
+//===========================================
 // Debugging And Odd Corrections Before Cuts
-//=======================================
+//===========================================
       printStats = false;
       printFail = false;
       
       //Low HT from Zjets inclusive sample
-      if ( conf->get("data") == ""  && conf->get("zjets") == "true" ){
+      if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
         //cout<<"Zjets MC event"<<endl;
-        if( ! TString(currentFile->GetTitle()).Contains("_ht") ){
+        if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
           if( phys.gen_ht() > 100 ) {
             //cout<<"skipped"<<endl;
             numEvents->Fill(44);
             continue;
           }
+          if(phys.evt_scale1fb() > 30){
+            numEvents->Fill(60);
+            continue;
+          }
         }
       }
       //Low HT from Wjets inclusive sample
-      if ( conf->get("data_set") == "wjets_inclusive"  && conf->get("gjets") == "true" ){
+      if ( conf->get("data_set") == "GammaMC-wjets-inclusive"  && conf->get("event_type") == "photon" ){
         //cout<<"Zjets MC event"<<endl;
         if( TString(currentFile->GetTitle()).Contains("wjets_incl") ){
           //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
@@ -1333,9 +1432,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           printPass = true;
         }
       }*/
-//=======================================
+//===========================================
 // Cuts
-//=======================================
+//===========================================
       //cout<<__LINE__<<endl;      
       //Set up event weight
       /*if (event % 10000 == 0){
@@ -1343,6 +1442,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       }*/
       if ( isDuplicate() ){
         //cout<<"Failed Duplicate"<<endl;
+        numEvents->Fill(23);
         continue;
       } // check for duplicates
       //cout<<__LINE__<<endl;      
@@ -1353,9 +1453,9 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       }// Base Cut
       //cout<<__LINE__<<endl;      
 
-      if (! hasGoodBoson()){
-        //cout<<"Failed Good Boson"<<endl;
-        continue; // Boson Specific Cuts
+      if (! hasGoodEvent()){
+        //cout<<"Failed Good Event"<<endl;
+        continue; // Event Type Specific Cuts
       }
       //cout<<__LINE__<<endl;      
 
@@ -1379,11 +1479,14 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
         }
       }
       //double weight=1;
-      double weight = getWeight();
-//=======================================
-// Analysis Code
-//=======================================
       if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
+      
+      double weight = getWeight();
+      weight_log->Fill(log10(abs(weight)));
+      weight_log_flat->Fill(abs(weight));
+//===========================================
+// Analysis Code
+//===========================================
       //cout<<__LINE__<<endl;
       //cout<<"Event Weight "<<weight<<endl;      
       //Fill in Histos
@@ -1426,11 +1529,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       //cout<<__LINE__<<endl;
       dphi_jet2_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(1).phi())), weight);
       //cout<<__LINE__<<endl;
-      dilmass->Fill(phys.dilmass(), weight);
-
-//=======================================
+      if (conf->get("event_type") == "dilepton") dilmass->Fill(phys.dilmass(), weight);
+//===========================================
 // Signal Region Specific Histos
-//=======================================
+//===========================================
       double pt_bb;
       if (conf->get("signal_region") == "TChiHZ"){
         sum_mlb->Fill(phys.sum_mlb(), weight);
@@ -1458,11 +1560,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
           double bb_pt = (phys.jets_p4().at(b_index.first) + phys.jets_p4().at(b_index.second)).pt();
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
         }
-    }
+      }
 
-//=======================================
+      if (conf->get("GammaMuStudy") == "true"){
+        MT_MuMET->Fill(getMTLepMET(),weight);
+        dR_GammaMu->Fill(getdRGammaLep(),weight);
+        mu_pt->Fill(phys.lep_pt().at(0), weight);
+      }
+//===========================================
 // Debugging And Odd Corrections After Cuts
-//=======================================
+//===========================================
       /*if (conf->get("rares") == "true"){
         //cout<<__LINE__<<endl;
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
@@ -1493,7 +1600,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
       if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt());
       if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());*/
 
-      if ( phys.isData() && conf->get("data_type") == "gjets" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
+      if ( phys.isData() && conf->get("event_type") == "photon" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
         //cout<<__LINE__<<endl;
         if( ( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ){
@@ -1553,6 +1660,10 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
 
   //Write out histograms to file
   numEvents->Write();
+  //cout<<__LINE__<<endl;
+  weight_log->Write();
+  //cout<<__LINE__<<endl;
+  weight_log_flat->Write();
   //cout<<__LINE__<<endl;
   numMETFilters->Write();
   //cout<<__LINE__<<endl;
@@ -1622,7 +1733,16 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
     //cout<<__LINE__<<endl;
   }
 
-  if ( conf->get("data_type") == "gjets" && conf->get("data") == "true" ) //if photon data
+  if (conf->get("GammaMuStudy") == "true"){
+    MT_MuMET->Write();
+    //cout<<__LINE__<<endl;
+    dR_GammaMu->Write();
+    //cout<<__LINE__<<endl;
+    mu_pt->Write();
+    //cout<<__LINE__<<endl;
+  }
+
+  if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
   {
     nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
     nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();
@@ -1649,6 +1769,7 @@ int ScanChain( TChain* chain, TString sampleName, ConfigParser *configuration, b
   output->Write();
   output->Close();
   g_reweight_pairs.clear();
+  files_log.close();
   //cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");

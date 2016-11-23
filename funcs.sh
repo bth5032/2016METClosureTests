@@ -14,6 +14,23 @@ function makeHistos {
 	root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
+function setOutputLocations {
+	if [[ $# > 0 ]]
+	then
+		if [[ ${1:(-4)} == "conf" ]]
+		then
+			SR_IDENTITY=${1#*configs/}
+			SR_IDENTITY=`dirname $SR_IDENTITY`/
+		else
+			echo "You must give the location to a .conf file."
+			return 0
+		fi
+	fi
+	
+	HIST_OUTPUT_LOCATION=`sed '5q;d' ConfigHelper.C | sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	PLOT_OUTPUT_LOCATION=`sed '4q;d' ConfigHelper.C | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+}
+
 function mkdirs {
 	conf_filename=$1
 	#For Histo Configs
@@ -29,10 +46,25 @@ function mkdirs {
 	do
 		if [[ ! -d ${l#*=} ]]
 		then
-			mkdir -p ${l#*=}
-			addIndexToDirTree ${l#*=}
+			mkdir -p ${l#*=}"/Debug"
+			addIndexToDirTree ${l#*=}"/Debug"
 		fi
 	done
+
+	setOutputLocations $conf_filename 
+
+	#Make Hist output location if it's not there
+	if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
+	then	
+		mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+	fi
+
+	#Make plot output location if it's not there.
+	if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+	then
+		mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
+		addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+	fi
 }
 
 function _makeAllForDir {
@@ -69,9 +101,6 @@ function makeAllForDir {
 function makeHistosForDir {
 	if [[ -a $1/run_modes.conf ]]
 	then
-		#makeHistos Z_Base $1/run_modes.conf
-		#makeHistos G_Base $1/run_modes.conf
-		#makeHistos G_Reweight $1/run_modes.conf
 		makeHistos all $1/run_modes.conf
 	else
 		echo "Can not find $1/run_modes.conf"
@@ -129,7 +158,7 @@ function addIndexToDirTree {
 	#Adds the file at ~/public_html/ZMET2016/index.php into everything inside of the ~/public_html/ClosureTests/ directory for the directory given as $1.
 	topdir=$1
 
-	while [[ ${topdir%ZMET2016_PostICHEP*} == "/home/users/bhashemi/public_html/" ]]
+	while [[ ${topdir%ZMET2016_NovemberClean*} == "/home/users/bhashemi/public_html/" ]]
 	do
 		
 		if [[ ! -a ${topdir}/index.php ]]
@@ -165,42 +194,46 @@ function numjobs {
 }
 
 function pullHists {
-	dname=`cat $1/run_modes.conf | grep DEFAULT::histo_output_dir=`
-	dname=${dname#*=}
 
-	srname=`cat $1/run_modes.conf | grep signal_region=`
-	srname=${srname#*=}
+	if [[ -z $HIST_OUTPUT_LOCATION || -z $SR_IDENTITY ]]
+	then
+		echo "please run setOutputLocations <path_to_run_modes.conf> first"
+		return 1
+	fi
 
-	scp uaf:$dname/ct_*${srname}*.root histos/ 
-}
-
-function pullOutput {
-	scp uaf:~/Projects/GIT/2016METClosureTests/*.hist_out outputs/
-	scp uaf:~/Projects/GIT/2016METClosureTests/*.plots_out outputs/
-	scp uaf:~/Projects/GIT/2016METClosureTests/hist_out* outputs/
-	scp uaf:~/Projects/GIT/2016METClosureTests/plots_out* outputs/
+	scp uaf:${HIST_OUTPUT_LOCATION}${SR_IDENTITY}*.root histos/ 
 }
 
 function killjobs {
 	kill -9 `ps aux | grep "^bhashemi" | grep "root" | head -n-1 | cut -d' ' -f2 | xargs`
 }
 
-function addRareHists {
-	for i in ATLAS A_btag A_bveto B_btag B_bveto EdgeZ EWK_Higgs
-	do 
-		root -l -b- -q "AddRareHists.C(\"$i\", \"/nfs-7/userdata/bobak/GJetsClosureTests2016/Rares/\")" 
+function addHists {
+	if [[ $# < 2 ]]
+	then
+		echo "Calls hadd for you and determines which files you mean and where to put output by file's config Name"
+		echo "addHists <output_fname> <input_1> <input_2> ..."
+		return 1
+	fi
+
+	if [[ -z $HIST_OUTPUT_LOCATION || -z $SR_IDENTITY ]]
+	then
+		echo "please run setOutputLocations <path_to_run_modes.conf> first"
+		return 1
+	fi
+
+	HADD_LIST=${HIST_OUTPUT_LOCATION}${SR_IDENTITY}${2}".root"
+
+	for arg in ${@:3}
+	do
+		HADD_LIST="$HADD_LIST ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}${arg}.root" 
 	done
+
+	echo "Running: hadd ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}$1.root $HADD_LIST"
+
+	hadd ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}$1.root $HADD_LIST
 }
 
-function makeRareHists {
-	makeHistos all configs/Rares/A/Btag/run_modes.conf > outputs/configs_Rares_A_Btag.hist_out 2>&1 &
-	makeHistos all configs/Rares/A/Bveto/run_modes.conf > outputs/configs_Rares_A_Bveto.hist_out 2>&1 &
-	makeHistos all configs/Rares/B/Btag/run_modes.conf > outputs/configs_Rares_B_Btag.hist_out 2>&1 &
-	makeHistos all configs/Rares/B/Bveto/run_modes.conf > outputs/configs_Rares_B_Bveto.hist_out 2>&1 &
-	makeHistos all configs/Rares/edge/run_modes.conf > outputs/configs_Rares_edge.hist_out 2>&1 &
-	makeHistos all configs/Rares/atlas/run_modes.conf > outputs/configs_Rares_atlas.hist_out 2>&1 &
-	makeHistos all configs/Rares/ewkHiggs/run_modes.conf > outputs/configs_Rares_ewkHiggs.hist_out 2>&1 &
-}
 
 function getSRs {
 	if [[ $1 == "dirs" ]]
@@ -240,94 +273,4 @@ function makeL1PrescaleWeightHists {
 			root -l -b -q "makeWeightHisto_noconf.C(\"${output_location}\",\"${infile1}\",\"${infile2}\",\"${hist1}\",\"${hist2}\",\"${output_hist_name}\")"
 		done
 	done
-}
-
-function closureTable {
-	if [[ $# < 1 ]]
-	then
-		echo "closureTable <path_to_plots_file>"
-		return
-	fi
-
-	cat $1 | grep "STATS" | cut -d' ' -f3,4,5,6,7,8,9,10,11,12,13,14,15 > lines.tmp
-
-	title[0]="Sample" # Holds the bin
-	zjets[0]="Zjets"
-	gjets[0]="Gjets"
-	ratio[0]="Ratio"
-	i=1
-	j=0
-
-	while read -r l 
-	do
-		#echo "$l"
-		if [[ $j == "0" ]]
-		then
-			title[$i]=`echo $l | cut -d' ' -f 7,9 | sed 's/\([[:digit:]]*\) \([[:digit:]]*\)/\1-\2/g' `
-			zjets[$i]=`echo $l | cut -d' ' -f 11`
-			zjets[$i]=${zjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
-			#echo $j $i
-			j=$((j+1))
-		elif [[ $j == "1" ]]
-		then
-			gjets[$i]=`echo $l | cut -d' ' -f 11`
-			gjets[$i]=${gjets[$i]}"+/-"`echo $l | cut -d' ' -f 13`
-			#echo $j $i
-			j=$((j+1))
-		elif [[ $j == "2" ]]
-		then
-			ratio[$i]=`echo $l | cut -d' ' -f 2`
-			ratio[$i]=${ratio[$i]}"+/-"`echo $l | cut -d' ' -f 5`
-			#echo $j $i
-			i=$((i+1))
-			j=0
-		fi
-	done < lines.tmp
-	
-	#echo $i
-
-	echo "======================"
-
-	for k in `seq 0 $((i-1))`
-	do
-		echo -n ${title[$k]}" "
-	done
-	echo ""
-
-	for k in `seq 0 $((i-1))`
-	do
-		echo -n ${zjets[$k]}" "
-	done
-	echo ""
-
-	for k in `seq 0 $((i-1))`
-	do
-		echo -n ${gjets[$k]}" "
-	done
-	echo ""
-
-	for k in `seq 0 $((i-1))`
-	do
-		echo -n ${ratio[$k]}" "
-	done
-
-	echo ""
-
-	#	Cleanup
-	unset title
-	unset zjets
-	unset gjets
-	unset ratio
-	unset i
-	unset j
-	rm lines.tmp
-}
-
-function getPredictionTable {
-	if [[ $1 == "l" ]]
-	then
-		cat $2 | grep LATEXTABLE | cut -d' ' -f2-
-	else
-		cat $1 | grep STATTABLE | cut -d' ' -f2- | mt
-	fi
 }
