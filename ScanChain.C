@@ -996,11 +996,11 @@ bool passBaseCut(){
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
   } */
-  if (! (phys.njets() >= 2) ){ 
+  /*if (! (phys.njets() >= 2) ){ 
     numEvents->Fill(9);
     //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
     return false; //2 jet cut
-  }
+  }*/
 
   //int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
