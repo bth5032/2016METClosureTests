@@ -107,12 +107,12 @@ double getEff(){
 
 double getMTLepMET(short id/*=0*/){
   /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
-  return phys.met_T1CHS_miniAOD_CORE_pt()*phys.lep_p4().at(id).pt()*(1 - cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.lep_p4().at(id).phi()));
+  return sqrt(phys.met_T1CHS_miniAOD_CORE_pt()*phys.lep_p4().at(id).pt()*(1 - cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.lep_p4().at(id).phi())));
 
   /* Massive Case
     ET1sq = m_1^2 + pt1^2 
     ET2sq = m_2^2 + pt2^2
-    MT = m_1^2  + m_2^2 + 2(sqrt(ET1sq*ET2sq) - pt1*pt2*cos(phi1 - phi2)) 
+    MT^2 = m_1^2  + m_2^2 + 2(sqrt(ET1sq*ET2sq) - pt1*pt2*cos(phi1 - phi2)) 
   */
 }
 
