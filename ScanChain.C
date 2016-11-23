@@ -155,34 +155,34 @@ bool passPhotonTriggers(){
 
 bool passMuonTriggers(){
   if ( phys.isData() ){
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     if ( conf->get("use_muon_DZ_triggers") == "true" ){
       //cout<<"Using DZ triggers"<<endl;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu: "<<phys.HLT_DoubleMu()<<" HLT_DoubleMu_tk: "<<phys.HLT_DoubleMu_tk()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_noiso());
     }
     else{
       //cout<<"Using Non DZ triggers"<<endl;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
       return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
   }
   else{
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     return true; //MC always passes
   }
 }
 
 bool passElectronTriggers(){
   if ( phys.isData()){
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     //if (printStats) { cout<<"HLT_DoubleEl_DZ_2: "<<phys.HLT_DoubleEl_DZ_2()<<" HLT_DoubleEl_noiso: "<<phys.HLT_DoubleEl_noiso()<<" "; }
     return (phys.HLT_DoubleEl_DZ_2() || phys.HLT_DoubleEl_noiso() );
   }
   else{
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     return true; //MC always passes
   }
 }
@@ -201,7 +201,7 @@ bool passLeptonHLTs(){
     return passEMuTriggers();
   }
   else{
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     if ( phys.hyp_type() == 1 ){ //Muon Event
       return passMuonTriggers();
     }
@@ -226,7 +226,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
@@ -235,7 +235,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(1) < 20        ) {
     numEvents->Fill(12); 
@@ -244,7 +244,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep2 pt: "<<phys.lep_pt().at(1)<<" "; }
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
@@ -253,7 +253,7 @@ bool hasGoodZ(){
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
@@ -262,7 +262,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"lep2 eta: "<<phys.lep_p4().at(1).eta()<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (! passLeptonHLTs()){
     numEvents->Fill(15);
@@ -270,7 +270,7 @@ bool hasGoodZ(){
     return false;
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
@@ -279,7 +279,7 @@ bool hasGoodZ(){
     return false;
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
@@ -287,7 +287,7 @@ bool hasGoodZ(){
     return false; // veto xition region
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   if( phys.dRll() < 0.1 ) {
     numEvents->Fill(19); 
@@ -296,7 +296,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
@@ -316,7 +316,7 @@ bool hasGoodZ(){
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
@@ -325,7 +325,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //Set up Dilepton Masses
   double dilmass_low, dilmass_high;
 
@@ -355,7 +355,7 @@ bool hasGoodZ(){
   }
   //if (printStats) { cout<<"mass_ll: "<<phys.dilmass()<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   //if (printPass) cout<<phys.evt()<<": Passes good Z Cuts"<<endl;
   return true;
@@ -459,7 +459,7 @@ bool hasGoodGammaMu(){
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (abs(phys.lep_pdgId().at(0)) != 13){
     numEvents->Fill(61);
@@ -467,7 +467,7 @@ bool hasGoodGammaMu(){
     return false;
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
@@ -476,7 +476,7 @@ bool hasGoodGammaMu(){
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
@@ -580,7 +580,7 @@ double scale1fbFix(){
 double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   // If we don't have data use scale to 1 fb^-1. 
   if ( ! ( phys.isData() ) ){
     weight *= phys.evt_scale1fb();
@@ -592,7 +592,7 @@ double getWeight(){
   if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
     weight *= -26.4; //EWK Subtraction
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if ( conf->get("reweight") == "true" ) {
     weight *= getReweight();
@@ -601,7 +601,7 @@ double getWeight(){
   if ( conf->get("reweight_eff") == "true" && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getEff();
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
  if ((! phys.isData()) && conf->get("event_type") != "photon" ){
     if (conf->get("susy_mc") != "true" && conf->get("pileup_reweight") == "true"){
@@ -628,12 +628,12 @@ double getWeight(){
     
     weight*=phys.weight_btagsf();
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (phys.isData() && conf->get("event_type") == "photon" && phys.ngamma() > 0){
     weight *= getPrescaleWeight();
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   /*if (weight < 0){
     cout<<"Negative Weight: "<<weight<<" "<<phys.evt()<<endl;
@@ -645,7 +645,7 @@ double getWeight(){
 }
 
 double getPrescaleWeight(){
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //cout<<"Getting Prescale Weights"<<endl;
   
   if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180. ) return 1;
@@ -662,7 +662,7 @@ double getPrescaleWeight(){
   else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33. ) {
     return /*g_l1prescale_hist22->GetBinContent(g_l1prescale_hist22->FindBin(phys.nVert())) */ 1871 /*1667*/;
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   return 1; // should not get here
 }
 
@@ -681,7 +681,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //Njets Max Cut
   if (conf->get("Njets_max") != ""){
@@ -692,7 +692,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"NbjetsMed: "<<phys.nBJetMedium()<<" "; }
 
   //Num Bottom jets Min Cut
@@ -704,7 +704,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //Num Bottom jets Max Cut
   if (conf->get("NBjets_max") != ""){
@@ -715,7 +715,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min
   if (conf->get("dPhi_MET_j1") != ""){
@@ -726,7 +726,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
   //Trailing Jet/MET Phi min
   if (conf->get("dPhi_MET_j2") != ""){
@@ -737,7 +737,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2b min
   if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
@@ -748,7 +748,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"mt2b: "<<phys.mt2b()<<" "; }
   //MT2 min
   if (conf->get("MT2_min") != "" && conf->get("event_type") != "photon"){
@@ -760,7 +760,7 @@ bool passSignalRegionCuts(){
   }
 
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //HT min
   if (conf->get("HT_min") != ""){
   //if (printStats) { cout<<"ht: "<<phys.ht()<<" "; }
@@ -771,7 +771,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //DiBottom mass difference from Higgs Mass
   if (conf->get("mbb_mh_diff") != ""){
   //if (printStats) { cout<<"mbb_mh_diff: "<<abs(phys.mbb_csv() - 125)<<" "; }
@@ -782,7 +782,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //Wierd ATLAS SR cut
   if (conf->get("sum_HT_pt_pt") != ""){
@@ -802,7 +802,7 @@ bool passSignalRegionCuts(){
     }
   }
   
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("lep1_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
@@ -812,7 +812,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("lep2_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
@@ -822,7 +822,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("MET_min") != ""){
     if ( phys.met_T1CHS_miniAOD_CORE_pt() < stod( conf->get("MET_min") )){
@@ -832,7 +832,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("MET_max") != ""){
     if ( phys.met_T1CHS_miniAOD_CORE_pt() > stod( conf->get("MET_max") )){
@@ -842,7 +842,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("Mbb_max") != ""){
     if ( phys.mbb_bpt() > stod( conf->get("Mbb_max") )){
@@ -852,7 +852,7 @@ bool passSignalRegionCuts(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
 }
@@ -917,19 +917,19 @@ bool passSUSYSingalCuts(){
 }
 
 bool isDuplicate(){
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   if( phys.isData() ) {
     DorkyEventIdentifier id(phys.run(), phys.evt(), phys.lumi());
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     if (is_duplicate(id) ){
       ++nDuplicates;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       //if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
       return true;
     }
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes not a duplicate"<<endl;
   return false;
 }
@@ -1029,7 +1029,7 @@ bool passBaseCut(){
     }
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   /*//if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
   //Leading Jet/MET Phi min
   if (phys.dphi_metj1() < 0.4){
@@ -1037,7 +1037,7 @@ bool passBaseCut(){
     //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
     return false;
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //if (printStats) { cout<<"dphi_metj2: "<<phys.dphi_metj2()<<" "; }
   //Trailing Jet/MET Phi min
   if (phys.dphi_metj2() < 0.4){
@@ -1057,16 +1057,16 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   chain -- contains the files to make the histograms from, 
   configuration -- pointer to the configuration object
   */  
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //Set Global Vars
   conf=configuration;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   g_sample_name=conf->get("Name");
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
   files_log.open((savePath+TString("files_log.txt")).Data());
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
@@ -1289,7 +1289,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   }
 
   cout<<"Histograms initialized"<<endl;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 //===========================================
 // Setup Stuff Pulled From External Files
 //===========================================
@@ -1302,14 +1302,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   if(conf->get("data") != "true"){
     cout<<"Pileup reweighting with nvtx_ratio_true_26p4fb.root"<<endl;
     g_pileup_hist_file = TFile::Open("auxFiles/nvtx_ratio_true_26p4fb.root", "READ");
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     g_pileup_hist = (TH1D*)g_pileup_hist_file->Get("h_vtx_ratio")->Clone("h_pileup_weight");
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     g_pileup_hist->SetDirectory(rootdir);
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     g_pileup_hist_file->Close();
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   /*if( conf->get("data") == "true" && conf->get("event_type")=="photon" ){
     cout<<"Pileup reweighting with "<<savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root"<<endl;
     g_l1prescale_file = TFile::Open(savePath+"L1PrescaleWeight_"+conf->get("signal_region")+".root", "READ");
@@ -1325,7 +1325,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
     g_l1prescale_file->Close();
   }*/
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   
   if( conf->get("reweight_eff") == "true" ){
     cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
@@ -1342,24 +1342,24 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     weight_eff_file.Close();
   }
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   //set goodrun list
   const char* json_file = "auxFiles/golden_json_260916_26p4fb_snt.txt"; // 26.4 fb
   cout<<"Setting good run list: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   // Loop over events to Analyze
   unsigned int nEventsTotal = 0;
   unsigned int nEventsChain = chain->GetEntries();
   int eventCount=0;
   cout<<"DATASET: "<<conf->get("data_set")<<endl;
   if( nEvents >= 0 ) nEventsChain = nEvents;
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TObjArray *listOfFiles = chain->GetListOfFiles();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   TIter fileIter(listOfFiles);
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 //===========================================
 // File Loop
 //===========================================
@@ -1367,17 +1367,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
     // Get File Content
     TFile file( currentFile->GetTitle() );
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     TTree *tree = (TTree*)file.Get("t");
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     if(fast) TTreeCache::SetLearnEntries(10); //What does this do?
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     if(fast) tree->SetCacheSize(128*1024*1024); //What does this do?
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     phys.Init(tree); //Loads in all the branches
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     eventsInFile = 0;
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 //===========================================
 // Loop over Events in current file
@@ -1391,12 +1391,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if(fast) tree->LoadTree(event);
       phys.GetEntry(event);
       ++nEventsTotal;
-      cout<<__LINE__<<endl;    
+      //cout<<__LINE__<<endl;    
       // Progress
       ZMET2016::progress( nEventsTotal, nEventsChain );
       //eventsInFile++;
       //if (eventsInFile > 100) continue;
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections Before Cuts
 //===========================================
@@ -1435,7 +1435,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         printStats=true;
       }*/
       /*if (conf->get("data_set") == "ttv"){
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
           printFail = true;
           if (phys.nlep() > 0){
@@ -1452,7 +1452,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // Cuts
 //===========================================
-      cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
       //Set up event weight
       /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
@@ -1462,25 +1462,25 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         numEvents->Fill(23);
         continue;
       } // check for duplicates
-      cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (! passBaseCut()){ 
         //cout<<"Failed Baseline"<<endl;
         continue; 
       }// Base Cut
-      cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (! hasGoodEvent()){
         //cout<<"Failed Good Event"<<endl;
         continue; // Event Type Specific Cuts
       }
-      cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
 
       if (! passSignalRegionCuts()){ 
         //cout<<"Failed SR"<<endl;
         continue; // Signal Region Cuts
       }
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
 
       if (conf->get("rares") == "true"){ 
         if ( ! passRareCuts() ){
@@ -1504,11 +1504,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
 // Analysis Code
 //===========================================
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       //cout<<"Event Weight "<<weight<<endl;      
       //Fill in Histos
       double sumMETFilters = phys.Flag_HBHENoiseFilter()+phys.Flag_HBHEIsoNoiseFilter()+phys.Flag_CSCTightHaloFilter()+phys.Flag_EcalDeadCellTriggerPrimitiveFilter()+phys.Flag_goodVertices()+phys.Flag_eeBadScFilter();
-      cout<<__LINE__<<endl;      
+      //cout<<__LINE__<<endl;      
       numMETFilters->Fill(sumMETFilters);
 
       /*if (weight < 0){
@@ -1537,15 +1537,15 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       nlep->Fill(phys.nlep(), weight);
       //cout<<"Filling nisotrack"<<endl;
       nisotrack->Fill(phys.nisoTrack_mt2(), weight);
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       if (phys.mt2() != 0 ) mt2->Fill(phys.mt2(), weight);
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
       if (phys.mt2b() != 0 ) mt2b->Fill(phys.mt2b(), weight);
-      cout<<__LINE__<<endl;
-      dphi_jet1_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(0).phi())), weight);
-      cout<<__LINE__<<endl;
-      dphi_jet2_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(1).phi())), weight);
-      cout<<__LINE__<<endl;
+      //cout<<__LINE__<<endl;
+      if (phys.njets() > 0) dphi_jet1_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(0).phi())), weight);
+      //cout<<__LINE__<<endl;
+      if (phys.njets() > 1) dphi_jet2_met->Fill(acos(cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.jets_p4().at(1).phi())), weight);
+      //cout<<__LINE__<<endl;
       if (conf->get("event_type") == "dilepton") dilmass->Fill(phys.dilmass(), weight);
 //===========================================
 // Signal Region Specific Histos
@@ -1588,9 +1588,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 // Debugging And Odd Corrections After Cuts
 //===========================================
       /*if (conf->get("rares") == "true"){
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
         //cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<endl;
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
         cout<<"EVENT-LIST "<<eventCount<<" : "<<phys.evt()<<" "<<phys.met_T1CHS_miniAOD_CORE_pt()<<endl;
         eventCount++;
         if ( inVinceNotMine.count(phys.evt()) != 0){
@@ -1619,56 +1619,56 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
       if ( phys.isData() && conf->get("event_type") == "photon" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
       {
-        cout<<__LINE__<<endl;
+        //cout<<__LINE__<<endl;
         if( ( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ){
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
           if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180 ){
             nVert_HLT_Photon165_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 ){
             nVert_HLT_Photon120_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 ){
             nVert_HLT_Photon90_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 ){
             nVert_HLT_Photon75_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 ){
             nVert_HLT_Photon50_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55 && phys.gamma_pt().at(0) > 40 ){
             nVert_HLT_Photon36_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40 && phys.gamma_pt().at(0) > 33 ){
             nVert_HLT_Photon30_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
           }
           else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ){ 
-            cout<<__LINE__<<endl;
+            //cout<<__LINE__<<endl;
             nVert_HLT_Photon22_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
           }
-          cout<<__LINE__<<endl;
+          //cout<<__LINE__<<endl;
         }
       }
     }
     // Clean Up
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     delete tree;
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     file.Close();
   }
   cout<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }  
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 //=======================================
 // Write Out Histos
 //=======================================
@@ -1677,86 +1677,86 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   //Write out histograms to file
   numEvents->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   weight_log->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   weight_log_flat->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   numMETFilters->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   t1met->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   t1met_widebin->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   rawmet->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   ht->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   ht_wide->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   gen_ht->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   vpt->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   vpt_flat->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   njets->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nlep->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nisotrack->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nbtags_m->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nbtags_l->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nbtags_t->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   nVert->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   mt2->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   mt2b->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   dphi_jet1_met->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   dphi_jet2_met->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   dilmass->Write();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   if (conf->get("signal_region") == "TChiHZ"){
     sum_mlb->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     m_bb_csv->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     m_bb_bpt->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     mt2j->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     mt2_fromb->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     mt2_hz->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     sum_pt_z_bb->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
 
     //2D hists
     MT2_MT2B->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     MT2_MT2_fromb->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     MT2_MT2_HZ->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
 
   if (conf->get("GammaMuStudy") == "true"){
     MT_MuMET->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     dR_GammaMu->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
     mu_pt->Write();
-    cout<<__LINE__<<endl;
+    //cout<<__LINE__<<endl;
   }
 
   if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
@@ -1780,14 +1780,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     pt_HLT_Photon30_R9Id90_HE10_IsoM->Write();
     pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();*/
   }
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
 
   //close output file
   output->Write();
   output->Close();
   g_reweight_pairs.clear();
   files_log.close();
-  cout<<__LINE__<<endl;
+  //cout<<__LINE__<<endl;
   // return
   bmark->Stop("benchmark");
   cout << endl;
