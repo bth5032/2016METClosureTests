@@ -1499,7 +1499,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }
       //cout<<__LINE__<<endl;
 
-      if (conf->get("rares") == "true"){ 
+      if (conf->get("rare_real_MET_Z") == "true"){ 
         if ( ! passRareCuts() ){
           //cout<<"Failed Rare Cuts"<<endl;
           continue;
