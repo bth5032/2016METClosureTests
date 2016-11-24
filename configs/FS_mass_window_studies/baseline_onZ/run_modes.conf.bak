@@ -8,7 +8,6 @@
 
 DEFAULT::do_MET_filters=true
 DEFAULT::use_muon_DZ_triggers=false
-DEFAULT::luminosity_fb=1
 DEFAULT::data=false
 DEFAULT::dil_flavor=emu
 DEFAULT::scaleTofb=35
@@ -22,6 +21,7 @@ DEFAULT::dPhi_MET_j1=0.4
 DEFAULT::dPhi_MET_j2=0.4
 DEFAULT::Njets_min=2
 DEFAULT::MT2_min=80
+DEFAULT::n_lep_veto=3
 DEFAULT::event_type=dilepton
 
 #Zjets Only Base Config
@@ -39,6 +39,7 @@ Name=ww
 data_set=FSMC-ww
 
 Name=singletop
+#data_set=FSMC-singletop-inclusive
 data_set=FSMC-singletop-nofullhaddecay
 
 Name=ttw
@@ -47,8 +48,6 @@ data_set=FSMC-ttw
 # =========================
 # Rares
 # =========================
-
-DEFAULT::rares=true
 
 #VVV
 Name=VVV

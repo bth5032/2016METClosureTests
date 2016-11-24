@@ -1,3 +1,4 @@
+DEFAULT::n_lep_veto=3
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes

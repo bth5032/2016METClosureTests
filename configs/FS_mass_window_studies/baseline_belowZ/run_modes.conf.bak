@@ -24,6 +24,8 @@ DEFAULT::Njets_min=2
 DEFAULT::MT2_min=80
 DEFAULT::dilmass_low=20
 DEFAULT::dilmass_high=86
+DEFAULT::n_lep_veto=3
+
 DEFAULT::event_type=dilepton
 
 #Zjets Only Base Config
@@ -41,6 +43,7 @@ Name=ww
 data_set=FSMC-ww
 
 Name=singletop
+#data_set=FSMC-singletop-inclusive
 data_set=FSMC-singletop-nofullhaddecay
 
 Name=ttw
@@ -48,8 +51,6 @@ data_set=FSMC-ttw
 # =========================
 # Rares
 # =========================
-
-DEFAULT::rares=true
 
 #VVV
 Name=VVV

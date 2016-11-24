@@ -1,3 +1,4 @@
+DEFAULT::n_lep_veto=3
 ## Configuration file for ConfigParser.
 #
 # This file holds the configurations for histogram making. There are essentially two run modes
@@ -41,6 +42,7 @@ Name=ww
 data_set=FSMC-ww
 
 Name=singletop
+#data_set=FSMC-singletop-inclusive
 data_set=FSMC-singletop-nofullhaddecay
 
 Name=ttw
@@ -49,9 +51,6 @@ data_set=FSMC-ttw
 # =========================
 # Rares
 # =========================
-
-DEFAULT::rares=true
-
 #VVV
 Name=VVV
 data_set=RareMC-vvv
