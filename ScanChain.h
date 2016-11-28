@@ -111,6 +111,9 @@ bool passElectronTriggers();
 /*MC passes immediately, ensures data events were gathered from EMu triggers*/
 bool passEMuTriggers();
 
+/*MC passes immediately, ensures data events were gathered from SingleMu trigger*/
+bool passSingleMuTriggers();
+
 /*Helper method which chooses which above method to call. Calls EMu if the dil_flavor is emu, otherwise uses
 the hyp_type to determine which to call. Events fail if they are hyp_type 2 and not tagged for emu*/
 bool passLeptonHLTs();

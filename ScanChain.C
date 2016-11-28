@@ -196,6 +196,15 @@ bool passEMuTriggers(){
   }
 }
 
+bool passSingleMuTriggers(){
+  if (! phys.isData()){
+    return true;
+  }
+  else{
+    return (phys.HLT_singleMu());
+  }
+}
+
 bool passLeptonHLTs(){
   if (conf->get("dil_flavor") == "emu"){
     return passEMuTriggers();
@@ -418,16 +427,12 @@ bool hasGoodPhoton(){
     return false; // veto pixel match
   }
 
-  /*if (phys.nlep() > 0 ){
-    numEvents->Fill(49);
-    //if (printFail) cout<<phys.evt()<<" :Failed nleps in photon cut for REALMET"<<endl;
-    return false; // lepton veto
-  }*/
-
-  if (phys.isData() && (! passPhotonTriggers()) ){
-    numEvents->Fill(52);
-    //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
-    return false;
+  if(conf->get("event_type") == "photon"){
+    if (phys.isData() && (! passPhotonTriggers()) ){
+      numEvents->Fill(52);
+      //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
+      return false;
+    }
   }
 
   if (/*(! phys.isData()) &&*/ (! passPhotonEmulatedTrigger()) ){
@@ -485,12 +490,38 @@ bool hasGoodGammaMu(){
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
 
+  //cout<<__LINE__<<endl;
+
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
     //if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
     return false;
   }
+
+  //cout<<__LINE__<<endl;
+
+  if (conf->get("trigger_type") == "singleMu"){
+    if(phys.isData() && (! passSingleMuTriggers()) ){
+      numEvents->Fill(54);
+      //if (printFail) cout<<phys.evt()<<" :Failed Single Muon trigger cut"<<endl;
+      return false;
+    }
+  }
+  else if (conf->get("trigger_type") == "singleGamma"){
+    if (phys.isData() && (! passPhotonTriggers()) ){
+      numEvents->Fill(52);
+      //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
+      return false;
+    }
+  }
+  else{
+    cout<<"No Trigger Type Set"<<endl;
+    throw std::invalid_argument("Invalid or missing trigger type set in config. Please check config variable \"trigger_type\".");
+    return false;
+  }
+
+  //cout<<__LINE__<<endl;
 
   //if (printPass) cout<<phys.evt()<<": Passes good muon cuts"<<endl;
   return hasGoodPhoton();  
@@ -1138,7 +1169,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   TString savePath = getOutputDir(conf, "hist");
   ofstream files_log;
-  files_log.open((savePath+TString("files_log.txt")).Data());
+  files_log.open((savePath+TString(g_sample_name+"_files.log")).Data());
   //cout<<__LINE__<<endl;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();

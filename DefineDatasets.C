@@ -312,6 +312,17 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/data_2016G_Prompt_mm_v1*");
   }
 
+  if (data_set.Contains("SingleLeptonData-SingleMu")){
+    cout<<"Adding Single Muon Trigger Data"<<endl;
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016B_Prompt_sm_v2*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016C_23sep2016rereco_sm_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016D_23sep2016rereco_sm_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016E_23sep2016rereco_sm_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016F_23sep2016rereco_sm_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016G_23sep2016rereco_sm_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-03/data_2016H_Prompt_sm_v2*");
+  }
+
 //====================================
 // End Building TChain
 //====================================
