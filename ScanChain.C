@@ -1090,7 +1090,7 @@ bool passFileSelections(){
   }
 
   //WJets inclusive sample
-  if ( TString(conf->get("data_set")).Contains("GammaMC-wjets-inclusive")){
+  if ( TString(conf->get("data_set")).Contains("GammaMC-WGamma")){
     
     //Inclusive GenHT Cut
     if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
