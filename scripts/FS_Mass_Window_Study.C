@@ -12,6 +12,8 @@ void updateOverflow( TH1D * &hist, double xmax ){
 void FS_Mass_Window_Study(int dataset){
 
   TString id;
+
+  std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
   
   if      ( dataset == 0 ) id = "baseline";
   else if ( dataset == 1 ) id = "baseline_MET100";
@@ -228,6 +230,8 @@ void FS_Mass_Window_Study(int dataset){
 
     c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.png");
     c2->SaveAs(output_dir+"MET_varbin_sumsqerrs.pdf");
+
+
 
   //-------------
   // MET Variable bins (Binomial Errors)
