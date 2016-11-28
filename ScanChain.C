@@ -1067,6 +1067,62 @@ bool passBaseCut(){
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
 }
 
+bool passFileSelections(){
+  /* Method which holds all the file specific selections, for instance cutting out the
+  events with genht > 100 in the DY inclusive samples */
+
+
+  //Zjets inclusive sample
+  if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
+    //cout<<"Zjets MC event"<<endl;
+    if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
+      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+      if( phys.gen_ht() > 100 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(44);
+        return false;
+      }
+      if(phys.evt_scale1fb() > 30){
+        numEvents->Fill(60);
+        return false;
+      }
+    }
+  }
+
+  //WJets inclusive sample
+  if ( TString(conf->get("data_set")).Contains("GammaMC-wjets-inclusive")){
+    
+    //Inclusive GenHT Cut
+    if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
+      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+      if( phys.gen_ht() > 100 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(44);
+        return false;
+      }
+    }
+
+    //Remove overlap between WGammaJets and WJets
+    if( ! TString(currentFile->GetTitle()).Contains("wgjets") ){ //WJets
+      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
+      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+    }
+    else{ //WGammaJets
+      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/, int nEvents/* = -1*/) {
   /* Runs through baby files and makes histogram files. 
   
@@ -1420,34 +1476,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       printStats = false;
       printFail = false;
       
-      //Low HT from Zjets inclusive sample
-      if ( (! phys.isData()) && TString(conf->get("data_set")).Contains("ZMC-inclusive")){
-        //cout<<"Zjets MC event"<<endl;
-        if( TString(currentFile->GetTitle()).Contains("dy_m50_mgmlm") && (! TString(currentFile->GetTitle()).Contains("_ht")) ){
-          //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
-          if( phys.gen_ht() > 100 ) {
-            //cout<<"skipped"<<endl;
-            numEvents->Fill(44);
-            continue;
-          }
-          if(phys.evt_scale1fb() > 30){
-            numEvents->Fill(60);
-            continue;
-          }
-        }
-      }
-      //Low HT from Wjets inclusive sample
-      if ( conf->get("data_set") == "GammaMC-wjets-inclusive"  && conf->get("event_type") == "photon" ){
-        //cout<<"Zjets MC event"<<endl;
-        if( TString(currentFile->GetTitle()).Contains("wjets_incl") ){
-          //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
-          if( phys.gen_ht() > 100 ) {
-            //cout<<"skipped"<<endl;
-            numEvents->Fill(44);
-            continue;
-          }
-        }
-      }
       /*if ( inspection_set.count(phys.evt()) != 0){
         printStats=true;
       }*/
@@ -1474,12 +1502,19 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       /*if (event % 10000 == 0){
         cout<<"Weight: "<<weight<<endl;
       }*/
+
       if ( isDuplicate() ){
         //cout<<"Failed Duplicate"<<endl;
         numEvents->Fill(23);
         continue;
       } // check for duplicates
       //cout<<__LINE__<<endl;      
+
+      if (! passFileSelections() ){
+        //cout<<"Failed File Selections"<<endl;
+        continue;
+      }
+      //cout<<__LINE__<<endl;
 
       if (! passBaseCut()){ 
         //cout<<"Failed Baseline"<<endl;

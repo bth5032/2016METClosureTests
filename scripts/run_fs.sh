@@ -30,7 +30,6 @@ echo -n "Remake ratio plots (y/n)? "
 
 read opt_remake_ratio
 
-
 for hist in $which_hists
 do
   config_id=$hist

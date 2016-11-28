@@ -178,5 +178,9 @@ bool passMETFilters();
 /*Holds baseline cuts*/
 bool passBaseCut();
 
+/*Method which holds all the file specific selections, for instance cutting out the
+  events with genht > 100 in the DY inclusive samples*/
+bool passFileSelections();
+
 /*Obvi the event looper*/
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);
