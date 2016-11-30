@@ -612,20 +612,25 @@ double getWeight(){
   /*Gets the proper weight for the sample. */
   double weight=1;
   //cout<<__LINE__<<endl;
-  // If we don't have data use scale to 1 fb^-1. 
   if ( ! ( phys.isData() ) ){
     weight *= phys.evt_scale1fb();
+    
     //Weight to some other lumi
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
     }
+    
+    //cout<<__LINE__<<endl;
+    
     if (conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
-  }
-  //cout<<__LINE__<<endl;
-  if (TString(conf->get("data_set")).Contains("GammaData-EWKSub") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
-    weight *= -26.4; //EWK Subtraction
+    
+    //cout<<__LINE__<<endl;
+    
+    if (TString(conf->get("data_set")).Contains("GammaData-EWKSub") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+      weight *= -1; //EWK Subtraction
+    }
   }
   //cout<<__LINE__<<endl;
 
@@ -1118,8 +1123,8 @@ bool passFileSelections(){
     }
   }
 
-  //WJets inclusive sample
-  if ( TString(conf->get("data_set")).Contains("GammaMC-WGamma")){
+  //WJets cocktail for inclusive photon sample and Electroweak Subtraction
+  if ( TString(conf->get("data_set")).Contains("GammaMC-WGamma") || TString(conf->get("data_set")).Contains("GammaData-EWKSub")){
     
     //Inclusive GenHT Cut
     if( TString(currentFile->GetTitle()).Contains("wjets_incl_mgmlm") ){
@@ -1132,7 +1137,7 @@ bool passFileSelections(){
     }
 
     //Remove overlap between WGammaJets and WJets
-    if( ! TString(currentFile->GetTitle()).Contains("wgjets") ){ //WJets
+    if( ! TString(currentFile->GetTitle()).Contains("wgjets_incl") ){ //WJets
       //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
