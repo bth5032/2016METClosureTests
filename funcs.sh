@@ -73,7 +73,7 @@ function _makeAllForDir {
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
 	fname_plots=${1//\//_} #turn path into _ seperated string
-	fname_plots=${fname_hist//__/_} #remove double underline
+	fname_plots=${fname_plots//__/_} #remove double underline
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	if [[ $2 == "hists" ]]
