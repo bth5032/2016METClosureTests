@@ -110,7 +110,7 @@ function makeHistosForDir {
 }
 
 function makePlotsForDir {
-	for i in `ls ${1}/*plots*`
+	for i in `ls ${1}/*plots*.conf
 	do
 		makePlots $i
 	done
