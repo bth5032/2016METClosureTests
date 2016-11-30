@@ -72,13 +72,9 @@ function _makeAllForDir {
 	fname_hist=${fname_hist//__/_} #remove double underline string
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
-	echo "fname_hist: "$fname_hist
-
 	fname_plots=${1//\//_} #turn path into _ seperated string
 	fname_plots=${fname_hist//__/_} #remove double underline
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
-
-	echo "fname_plots: "$fname_plots
 
 	if [[ $2 == "hists" ]]
 	then
