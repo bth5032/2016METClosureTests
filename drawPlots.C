@@ -1219,13 +1219,13 @@ TString drawSingleTH1(ConfigParser *conf){
   cout << "Found files "<<endl;
 
   TString plot_name = conf->get("plot_name");
-  TString plot_title = conf->get("title");
+  TString plot_title = parseLatex(conf->get("title"));
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
-  TString xlabel=conf->get("xlabel");
-  TString ylabel=conf->get("ylabel");
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
 
 
@@ -1383,13 +1383,13 @@ TString drawCutDebug(ConfigParser *conf){
   cout << "Found files "<<endl;
 
   TString plot_name = conf->get("plot_name");
-  TString plot_title = conf->get("title");
+  TString plot_title = parseLatex(conf->get("title"));
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
-  TString xlabel=conf->get("xlabel");
-  TString ylabel=conf->get("ylabel");
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
 
 
