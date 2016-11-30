@@ -68,10 +68,12 @@ function mkdirs {
 }
 
 function _makeAllForDir {
-	fname_hist=${1//\//_}
+	fname_hist=${1//\//_} #turn path into _ seperated
+	fname_hist=${1//__/_} #remove double underline string
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
-	fname_plots=${1//\//_}
+	fname_plots=${1//\//_} #turn path into _ seperated string
+	fname_plots=${1//__/_} #remove double underline
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	if [[ $2 == "hists" ]]
@@ -85,7 +87,7 @@ function _makeAllForDir {
 	elif [[ $2 == "all" ]]
 	then
 		echo $1 > outputs/$fname_hist
-		makeHistosForDir $x1 >> outputs/$fname_hist 2>&1
+		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
 
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
