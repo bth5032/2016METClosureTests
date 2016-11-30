@@ -623,10 +623,13 @@ double getWeight(){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
   }
+  //cout<<__LINE__<<endl;
   if (TString(conf->get("data_set")).Contains("GammaData-EWKSub") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
     weight *= -26.4; //EWK Subtraction
   }
   //cout<<__LINE__<<endl;
+
+  weight *= g_scale_factor;
 
   if ( conf->get("reweight") == "true" ) {
     weight *= getReweight();
@@ -1169,6 +1172,11 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
+
+  if (conf->get("scale_factor") != ""){
+    g_scale_factor*=stod(conf->get("scale_factor"));
+  }
+
 //===========================================
 // Define Histograms
 //===========================================

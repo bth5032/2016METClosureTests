@@ -54,6 +54,7 @@ TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap;
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
 TFile* currentFile = 0;
+double g_scale_factor=1; //Holds scale factors for sample.
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
