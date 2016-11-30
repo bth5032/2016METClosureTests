@@ -134,11 +134,12 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
-	if [ $# < 2]
+	if [[ $# < 2 ]]
 	then
 		echo "makeAllConfigs <path_to_configs> <all/plots/hists>"
+		return
 	fi
-	
+
 	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/
 	do
 		makeAllForDir $2/${i} $1
