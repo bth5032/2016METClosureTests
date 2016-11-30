@@ -108,50 +108,10 @@ function makeHistosForDir {
 }
 
 function makePlotsForDir {
-	if [[ -a $1/singleplots.conf ]]
-	then
-		makePlots $1/singleplots.conf
-	else
-		echo "Can not find $1/singleplots.conf"
-	fi
-
-	if [[ -a $1/ratioplots.conf ]]
-	then
-		makePlots $1/ratioplots.conf
-	else
-		echo "Can not find $1/ratioplots.conf"
-	fi
-
-	if [[ -a $1/ratioplots_nowt.conf ]]
-	then
-		makePlots $1/ratioplots_nowt.conf
-	else
-		echo "Can not find $1/ratioplots_nowt.conf"
-	fi
-
-	if [[ -a $1/ratioplots_HT.conf ]]
-	then
-		makePlots $1/ratioplots_HT.conf
-	fi
-
-	if [[ -a $1/cuts.conf ]]
-	then
-		makePlots $1/cuts.conf
-	else
-		echo "Can not find $1/cuts.conf"
-	fi
-
-	if [[ -a $1/statsplots.conf ]]
-	then
-		makePlots $1/statsplots.conf
-	else
-		echo "Can not find $1/statsplots.conf"
-	fi
-
-	if [[ -a $1/nvert.conf ]]
-	then
-		makePlots $1/nvert.conf
-	fi
+	for i in `ls ${1}/*plots*`
+	do
+		makePlots $i
+	done
 }
 
 function addIndexToDirTree {
@@ -172,14 +132,10 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
-	makeAllForDir $2/A/Btag/ $1
-	makeAllForDir $2/A/Bveto/ $1
-	makeAllForDir $2/B/Btag/ $1
-	makeAllForDir $2/B/Bveto/ $1
-	
-	makeAllForDir $2/ewkHiggs/ $1
-	makeAllForDir $2/atlas/ $1
-	makeAllForDir $2/edge/ $1
+	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/
+	do
+		makeAllForDir $2/{$i} $1
+	done
 }
 
 function numjobs {
@@ -234,27 +190,6 @@ function addHists {
 	hadd ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}$1.root $HADD_LIST
 }
 
-
-function getSRs {
-	if [[ $1 == "dirs" ]]
-	then
-		echo "A/Btag/"
-		echo "A/Bveto/"
-		echo "B/Btag/"
-		echo "B/Bveto/"
-		echo "edge/"
-		echo "atlas/"
-		echo "ewkHiggs/"
-	else
-		echo "A_btag"
-		echo "A_bveto"
-		echo "B_btag"
-		echo "B_bveto"
-		echo "EdgeZ"
-		echo "ATLAS"
-		echo "EWK_Higgs"
-	fi
-}
 
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
