@@ -503,7 +503,7 @@ bool hasGoodGammaMu(){
 
   if (conf->get("trigger_type") == "singleMu"){
     if(phys.isData() && (! passSingleMuTriggers()) ){
-      numEvents->Fill(54);
+      numEvents->Fill(65);
       //if (printFail) cout<<phys.evt()<<" :Failed Single Muon trigger cut"<<endl;
       return false;
     }
@@ -619,8 +619,11 @@ double getWeight(){
     if ( conf->get("scaleTofb") != "" ){
       weight *= stod(conf->get("scaleTofb"));
     }
+    if (conf->get("pileup_reweight") == "true"){
+      weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
+    }
   }
-  if (TString(conf->get("data_set")).Contains("SinglePhoton") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+  if (TString(conf->get("data_set")).Contains("GammaData-EWKSub") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
     weight *= -26.4; //EWK Subtraction
   }
   //cout<<__LINE__<<endl;
@@ -635,10 +638,7 @@ double getWeight(){
   //cout<<__LINE__<<endl;
 
  if ((! phys.isData()) && conf->get("event_type") != "photon" ){
-    if (conf->get("susy_mc") != "true" && conf->get("pileup_reweight") == "true"){
-      weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
-    }
-
+    
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
     if (phys.hyp_type() == 2) weight *= 0.899;
@@ -910,7 +910,7 @@ bool passRareCuts(){
   bool hasrealmet = true;
   bool realzpair  = true;
 
-  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttv")){
+  if( TString(conf->get("data_set")).Contains("RareMC-vvv") || TString(conf->get("data_set")).Contains("RareMC-ttz")){
     //cout<<"Checking for rare cuts"<<endl;
     hasrealmet = false;
     realzpair  = false;
@@ -1183,7 +1183,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
 
-  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 65, 0, 65);
+  numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 70, 0, 70);
   numEvents->SetDirectory(rootdir);
 
   const int n_weight_log_bins = 54;

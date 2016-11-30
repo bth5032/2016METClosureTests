@@ -22,6 +22,7 @@ using namespace std;
 
 std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
+
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
@@ -749,7 +750,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   int num_hists=stoi(conf->get("num_hists"));
 
   if (num_hists < 2){
-    return TString("Less than Two hists can not be turned into a residual plot, please call drawSingleTH1");
+    return TString("Less than Two hists can not be turned into a stack plot, please call drawSingleTH1 (replace config PLOT_TYPE with Single)");
   } 
 
   //Add files from which to obtain histos
@@ -1232,7 +1233,6 @@ TString drawSingleTH1(ConfigParser *conf){
 
   TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
   cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
-
 
   cout << "Histograms pulled from files, adding draw options"<<endl;
   

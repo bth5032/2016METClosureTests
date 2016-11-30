@@ -215,8 +215,8 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zzz_incl_amcnlo*.root");
   }
 
-  if (data_set.Contains("RareMC-ttv")){
-    cout<<"Adding RareMC-ttv"<<endl; 
+  if (data_set.Contains("RareMC-ttz")){
+    cout<<"Adding RareMC-ttz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
   }
