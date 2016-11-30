@@ -85,7 +85,7 @@ function _makeAllForDir {
 	elif [[ $2 == "all" ]]
 	then
 		echo $1 > outputs/$fname_hist
-		makeHistosForDir $1 >> outputs/$fname_hist 2>&1
+		makeHistosForDir $x1 >> outputs/$fname_hist 2>&1
 
 		echo $1 > outputs/$fname_plots
 		makePlotsForDir $1 >> outputs/$fname_plots 2>&1
@@ -134,7 +134,7 @@ function addIndexToDirTree {
 function makeAllConfigs {
 	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/
 	do
-		makeAllForDir $2/{$i} $1
+		makeAllForDir $2/${i} $1
 	done
 }
 
