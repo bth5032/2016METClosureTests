@@ -983,23 +983,21 @@ bool isDuplicate(){
 }
 
 bool passMETFilters(){
-  bool pass = true;
-
   if ( phys.isData() ) {
     if ( phys.nVert() == 0 ) {
       numEvents->Fill(1);
       //if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
-      pass=false;
+      return false;
     }
     if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
       numEvents->Fill(2);
+      //if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
+      return false;
     }
     if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
       numEvents->Fill(3);
+      //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
+      return false;
     } 
     /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
       pass=false;
@@ -1007,40 +1005,39 @@ bool passMETFilters(){
       numEvents->Fill(4);
     }*/
     if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
       numEvents->Fill(5);
+      //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
+      return false;
     }
     if (!phys.Flag_goodVertices                      ()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
       numEvents->Fill(6);
+      //if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
+      return false;
     }
     if (!phys.Flag_eeBadScFilter                     ()      ) { 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
       numEvents->Fill(7);
+      //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
+      return false;
     }
     if (!phys.Flag_globalTightHalo2016            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(4);
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      return false;
     }
     if (!phys.Flag_badMuonFilter            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(50);
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      return false;
     }
     if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
-      pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(51);
+      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      return false;
     }
   }
-  if (pass){
-    //if (printPass) cout<<phys.evt()<<": Passes MET Filters"<<endl;
-  }
-  return pass;
+  
+  //if (printPass) cout<<phys.evt()<<": Passes MET Filters"<<endl;
+  return true;
 }
 
 bool passBaseCut(){
@@ -1054,20 +1051,12 @@ bool passBaseCut(){
       return false; //golden json
     }
   }
-
   //Old Method, using branch
   /*if (! (phys.evt_passgoodrunlist() > 0)){ 
     pass=false; //golden json
     //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
   } */
-  /*if (! (phys.njets() >= 2) ){ 
-    numEvents->Fill(9);
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
-    return false; //2 jet cut
-  }*/
-
-  //int nLepVeto = (conf->get("event_type") == "photon") ? 1 : 3; //Veto 1 lepton for gjets, 3 leptons for dilepton samples
 
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
@@ -1076,6 +1065,12 @@ bool passBaseCut(){
         return false; //third lepton veto
     }
   }
+  
+  /*if (! (phys.njets() >= 2) ){ 
+    numEvents->Fill(9);
+    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
+    return false; //2 jet cut
+  }*/
 
   //cout<<__LINE__<<endl;
   /*//if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
