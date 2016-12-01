@@ -142,8 +142,11 @@ bool hasGoodEvent();
 /*Goes through the chain of weight_from config options down to a config which does not have weight_from and
 then adds a pair (config_name, hist_file) to the vector g_reweight_pairs.
 
-NEEDS TO BE UPDATED WITH NEW CODE FIXES*/
+For now this is depricated: NEEDS TO BE UPDATED WITH NEW CODE FIXES*/
 void readyReweightHists();
+
+/* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
+void readyVPTReweight(TString save_path);
 
 /*Loads the reweight hists from g_reweight_pairs and multiplies returns the weight associated with the proper
 bin in the histogram*/

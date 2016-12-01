@@ -8,7 +8,7 @@ void runScanChain(ConfigParser* conf){
   cout<<"Using config:"<<endl;
   conf->print();
 
-  if (conf->get("reweight") == "true"){
+  if (conf->get("vpt_reweight") == "true"){
     cout<<"Making Reweight Histogram"<<endl;
     makePtReweightHisto(conf);
   }

@@ -5,37 +5,72 @@
 #include <TH1D.h>
 
 #include "ConfigParser.C"
+#include "ConfigHelper.C"
 
 using namespace std;
 
 void makePtReweightHisto(ConfigParser * conf)
 {
-  TString hist_name = conf->get("rwt_var");
-  
-  TString primary_name = conf->get("primary_name");
-  TString secondary_name = conf->get("secondary_name");
-  
-  TString primary_histos = conf->get("histo_output_dir")+"ct_Z_Base_"+conf->get("signal_region")+".root";
-  TString subtractor_histos = primary_histos;
-  subtractor_histos.ReplaceAll("/Data/", "/FSBKG/");
-  subtractor_histos.ReplaceAll("/Data_NoEWKSub/", "/FSBKG/");
-  
-  TString weight_from;
-  
-  if (conf->get("weight_from") == ""){
-    weight_from="G_Base";
-  }
-  else{
-    weight_from=conf->get("weight_from");
-  }
-  TString secondary_histos = conf->get("histo_output_dir")+"ct_"+weight_from+"_"+conf->get("signal_region")+".root";
-  
-  TString output_location = conf->get("histo_output_dir")+"ct_"+hist_name+"_"+conf->get("signal_region")+"_rwt.root";
+  TString hist_name = "vpt";
+  TString output_dir = getOutputDir(conf, "hist"); //get output dir location for this histogram ~/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/
+  TString output_location = output_dir+conf->get("Name")+"_vpt_rwt.root";
 
+  //-----------------------------------
+  // Get Path to Histograms From Config
+  //-----------------------------------
+  TString primary_path = output_dir;
+  primary_path.ReplaceAll("/PhotonData_VPTRWT/", "/DileptonData/");
+  primary_path += "DileptonData.root";
 
-  TFile * f_primary = TFile::Open(primary_histos , "READ"); //typically location to data hist
-  TFile * f_subtractor = TFile::Open(subtractor_histos , "READ"); //location of flavor symmetric counterpart.
-  TFile * f_secondary = TFile::Open(secondary_histos, "READ"); //typically location to zjets hist
+  TString secondary_path = output_dir;
+  secondary_path.ReplaceAll("/PhotonData_VPTRWT/", "/PhotonData/");
+  secondary_path += conf->get("Name")+".root";
+
+  /*cout<<"primary_histos: "<<primary_path<<endl;
+  cout<<"output_dir: "<<output_dir<<endl;
+  cout<<"hist_name: "<<hist_name<<endl;
+  cout<<"secondary_path: "<<secondary_path<<endl;
+  cout<<"output_location: "<<output_location<<endl;*/
+
+  //....................
+  //Subtraction Hists
+  //...................
+  vector<TString> subtractor_paths;
+  TString s_path;
+
+  //FS----------------------------
+  s_path = primary_path;
+  s_path.ReplaceAll("/DileptonData/", "/FS/");
+  s_path.ReplaceAll("DileptonData.root", "FS.root");
+  subtractor_paths.push_back(s_path);
+
+  //ZNu---------------------------
+  s_path = primary_path;
+  s_path.ReplaceAll("/DileptonData/", "/ZNu/");
+  //ZNu-VVV
+  s_path.ReplaceAll("DileptonData.root", "VVV.root");
+  subtractor_paths.push_back(s_path);
+  //ZNu-ttz
+  s_path.ReplaceAll("VVV.root", "ttz.root");
+  subtractor_paths.push_back(s_path);
+  //ZNu-zz
+  s_path.ReplaceAll("ttz.root", "zz.root");
+  subtractor_paths.push_back(s_path);
+  //ZNu-wz
+  s_path.ReplaceAll("zz.root", "wz.root");
+  subtractor_paths.push_back(s_path);
+
+  /*cout<<"subtractor_paths: "<<endl;
+  for (int i=0; i < (int) subtractor_paths.size(); i++){
+    cout<<subtractor_paths.at(i)<<endl;
+  }*/
+
+  TFile * f_primary = TFile::Open(primary_path , "READ"); //typically location to data hist
+  TFile * f_secondary = TFile::Open(secondary_path, "READ"); //typically location to zjets hist
+  vector<TFile *> f_subtractors;
+  for (int i=0; i < (int) subtractor_paths.size(); i++){
+    f_subtractors.push_back(TFile::Open(subtractor_paths.at(i), "READ")); //locations of flavor symmetric and ZNu counterparts.
+  }
   
   cout<<"Found input files for reweighting"<<endl;
   TH1D * h_primary;
@@ -45,9 +80,13 @@ void makePtReweightHisto(ConfigParser * conf)
   TH1D * h_secondary_scaled;
 
   if (f_primary && f_secondary && f_subtractor) {
-    h_primary = (TH1D*)f_primary->Get(primary_name+"_"+hist_name)->Clone("h_"+primary_name);
-    h_secondary = (TH1D*)f_secondary->Get(secondary_name+"_"+hist_name)->Clone("h_"+secondary_name);
-    h_subtractor = (TH1D*)f_subtractor->Get(primary_name+"_"+hist_name)->Clone("h_subtractor_"+primary_name);
+    h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
+    h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
+    
+    h_subtractor = (TH1D*)f_subtractor.at(0)->Get(hist_name)->Clone("subtractor_"+primary_name);
+    for (int i=1; i < (int) subtractor_paths.size(); i++){
+      h_subtractor.Add((TH1D*)f_subtractor.at(i)->Get(hist_name));
+    }
   }
   else{
     cout<<"Error, could not open baseline files, please check they exist where specified and try again"<<endl;
@@ -58,15 +97,15 @@ void makePtReweightHisto(ConfigParser * conf)
 
   cout<<"Retrived Histograms"<<endl;
 
-  TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone("h_"+hist_name+"_ratio_unscaled");
+  TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone(hist_name+"_ratio_unscaled");
   h_ratio_unscaled->Divide(h_secondary); 
 
-  h_primary_scaled=(TH1D*) h_primary->Clone("h_"+primary_name+"_scaled");
-  h_secondary_scaled=(TH1D*) h_secondary->Clone("h_"+secondary_name+"_scaled");
+  h_primary_scaled=(TH1D*) h_primary->Clone(primary_name+"_scaled");
+  h_secondary_scaled=(TH1D*) h_secondary->Clone(secondary_name+"_scaled");
   h_secondary_scaled->Scale(1./h_secondary->GetSumOfWeights());
   h_primary_scaled->Scale(1./h_primary->GetSumOfWeights());
 
-  TH1D * h_ratio = (TH1D*) h_primary_scaled->Clone("h_"+hist_name+"_ratio");
+  TH1D * h_ratio = (TH1D*) h_primary_scaled->Clone(hist_name+"_ratio");
   h_ratio->Divide(h_secondary_scaled);
 
   TFile * file = TFile::Open(output_location,"RECREATE");
@@ -80,6 +119,5 @@ void makePtReweightHisto(ConfigParser * conf)
   file->Close();
 
   cout<<"Reweight histogram succesfully made at "<<output_location<<endl;
-  
   return ;
 }

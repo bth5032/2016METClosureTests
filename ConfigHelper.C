@@ -41,6 +41,10 @@ TString getOutputDir(ConfigParser *conf, TString type){
       return output_dir;
 		}	
 	}
+  else{
+    throw std::invalid_argument("In ConfigHelper::getOutputDir -- Did not recieve valid type, either hist or plot... got: "+type);
+    return TString("");
+  }
 }
 
 TString getDefaultHistDir(ConfigParser *conf){

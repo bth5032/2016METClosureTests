@@ -570,6 +570,21 @@ void readyReweightHists(){
   cout<<"Reweight hists loaded, proceeding with conf "<<conf->get("Name")<<endl;
 }
 
+void readyVPTReweight(TString save_path){
+  /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
+  TString vpt_weight_path = save_path+conf->get("Name")+"_vpt_rwt.root";
+  TString rwt_hist_name = "vpt_ratio";
+  cout<<"Reweighting with "<<vpt_weight_path<<endl;
+
+  TFile *reweight_file = TFile::Open(vpt_weight_path, "READ");
+  
+  //Add pair (vpt_weight, "vpt") to g_reweight_pairs
+  g_reweight_pairs.push_back(make_pair( (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(TString("vpt_reweight_hist"),"vpt"));
+  g_reweight_pairs.back().first->SetDirectory(rootdir);
+  
+  reweight_file->Close();
+}
+
 double getReweight(){
   double weight = 1;
   
@@ -582,7 +597,7 @@ double getReweight(){
     //cout<<rwt_var<<endl;
 
     if (rwt_var == "vpt"){
-      //cout<<"Addign vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
+      //cout<<"Adding vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
@@ -1408,6 +1423,9 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   int eventsInFile;
   //Set up manual vertex reweighting.  
   if( conf->get("reweight") == "true" ){
+    readyReweightHists();
+  }
+  if( conf->get("vpt_reweight") == "true" ){
     readyReweightHists();
   }
 
