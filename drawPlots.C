@@ -566,7 +566,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       //Compute Rare Sample Errors
       ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
-      //WZ_err = getRareSamplesError(WZ_err, WZ_count);
+      WZ_err = getRareSamplesError(WZ_err, WZ_count);
       VVV_err = getRareSamplesError(VVV_err, VVV_count);
       TTV_err = getRareSamplesError(TTV_err, TTV_count);
 

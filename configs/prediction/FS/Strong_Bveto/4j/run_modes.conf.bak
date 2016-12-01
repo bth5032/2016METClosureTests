@@ -8,10 +8,10 @@
 
 #DEFAULT::scaleTofb=35
 
-DEFAULT::signal_region=Strong_Btag_4j
+DEFAULT::signal_region=Strong_Bveto_6j
 
 #================================
-# Strong Btag With 4Jets Region
+# Strong Bveto With 4Jets Region
 #================================
 DEFAULT::event_type=dilepton
 
@@ -21,17 +21,16 @@ DEFAULT::dPhi_MET_j2=0.4
 DEFAULT::Njets_min=4
 DEFAULT::Njets_max=5
 
-DEFAULT::HT_min=200
+DEFAULT::HT_min=500
 
-DEFAULT::NBjets_min=1
-#DEFAULT::NBjets_max=-1
+DEFAULT::NBjets_max=0
 
-DEFAULT::MT2_min=100  
+DEFAULT::MT2_min=80  
 
 DEFAULT::n_lep_veto=3
 
 #Scale Factor
-#DEFAULT::scale_factor=0.0636 #RSFOF=1.06 Kappa=0.06
+DEFAULT::scale_factor=0.0636 #RSFOF=1.06 Kappa=0.06
 
 #Flavor Symmetric
 Name=FS

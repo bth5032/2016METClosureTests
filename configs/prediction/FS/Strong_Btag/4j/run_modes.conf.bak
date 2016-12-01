@@ -31,7 +31,7 @@ DEFAULT::MT2_min=100
 DEFAULT::n_lep_veto=3
 
 #Scale Factor
-#DEFAULT::scale_factor=0.0636 #RSFOF=1.06 Kappa=0.06
+DEFAULT::scale_factor=0.0636 #RSFOF=1.06 Kappa=0.06
 
 #Flavor Symmetric
 Name=FS
