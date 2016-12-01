@@ -1645,36 +1645,56 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       if (conf->get("signal_region") == "TChiHZ"){
         sum_mlb->Fill(phys.sum_mlb(), weight);
 
+        cout<<__LINE__<<endl;
+        
         m_bb_csv->Fill(phys.mbb_csv(), weight);
         m_bb_bpt->Fill(phys.mbb_bpt(), weight);
     
+        cout<<__LINE__<<endl;
+
         if (phys.mt2j() != 0 ) mt2j->Fill(phys.mt2j(), weight);
 
         double mt2_val_fromb = getMT2ForBjets();
         if (mt2_val_fromb != 0) mt2_fromb->Fill(mt2_val_fromb, weight);
         
+        cout<<__LINE__<<endl;
+
         double mt2_val_hz = getMT2HiggsZ();
         if (mt2_val_hz != 0) mt2_hz->Fill(mt2_val_hz, weight);
 
+        cout<<__LINE__<<endl;
+
         if (phys.mt2() != 0 && phys.mt2b() != 0 ) MT2_MT2B->Fill(phys.mt2(), phys.mt2b(), weight);
+
+        cout<<__LINE__<<endl;
 
         if (phys.mt2() != 0 && mt2_val_fromb != 0 ) MT2_MT2_fromb->Fill(phys.mt2(), mt2_val_fromb, weight);
 
+        cout<<__LINE__<<endl;
+
         if (phys.mt2() != 0 && mt2_val_hz != 0 ) MT2_MT2_HZ->Fill(phys.mt2(), mt2_val_hz, weight);
+
+        cout<<__LINE__<<endl;
 
         if (phys.nBJetMedium() >= 2){
           pair<int,int> b_index = getMostBlike();
           
+          cout<<__LINE__<<endl;
+
           double bb_pt = (phys.jets_p4().at(b_index.first) + phys.jets_p4().at(b_index.second)).pt();
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
         }
       }
-
+      
+      cout<<__LINE__<<endl;
+      
       if (conf->get("GammaMuStudy") == "true"){
         MT_MuMET->Fill(getMTLepMET(),weight);
         dR_GammaMu->Fill(getdRGammaLep(),weight);
         mu_pt->Fill(phys.lep_pt().at(0), weight);
       }
+
+      cout<<__LINE__<<endl;
 //===========================================
 // Debugging And Odd Corrections After Cuts
 //===========================================
