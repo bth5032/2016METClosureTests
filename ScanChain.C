@@ -1428,7 +1428,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     readyReweightHists();
   }
   if( conf->get("vpt_reweight") == "true" ){
-    readyReweightHists();
+    readyVPTReweight(savePath);
   }
 
   if(conf->get("data") != "true"){
