@@ -189,24 +189,24 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
 
   //============================================
   // Draw Data-MC Plots
   //============================================
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
   gPad->SetRightMargin(0.05);
   gPad->Modified();
   gStyle->SetOptStat(kFALSE);
   TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   fullpad->Draw();
   fullpad->cd();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TPad *plotpad = new TPad("plotpad", "plotpad",0,0.2,1.0,0.99);
   
   plotpad->SetRightMargin(0.05);
@@ -215,16 +215,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->SetRightMargin(0.08);
   }
   plotpad->SetBottomMargin(0.12);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   plotpad->Draw();
   plotpad->cd();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
     plotpad->SetLogy();
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("bin_size") != ""){
     for (int i = 0; i<num_hists; i++){
       hists[i]->Rebin(bin_size);
@@ -241,7 +241,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   // Normalize
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   
@@ -255,7 +255,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("normalize") == "true"){
     TString hist_nums_for_norm = conf->get("normalize_hist_nums");
     cout<<"Normalizing hists: "<<hist_nums_for_norm<<endl;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     
     //This if statement is used when there is 
     //special normalization being done. This part of
@@ -267,22 +267,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     //primary before the scale factors are calculated.
     
     if (hist_nums_for_norm != ""){ //if not all hists to be normed.
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){ //for each hist
         if (hist_nums_for_norm.Contains(to_string(i))){ //if hist is in list to be normed
           cout<<"Adding hist "<<i<<" to normalization BG."<<endl;
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           if (clonedBG_norm == NULL){ //Make new clonedBG
-            //cout<<__LINE__<<endl;
+            cout<<__LINE__<<endl;
             clonedBG_norm = (TH1D*) hists[i]->Clone("clonedBG_forNorm_"+plot_name);
             cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
           else{
-            //cout<<__LINE__<<endl;
+            cout<<__LINE__<<endl;
             clonedBG_norm->Add(hists[i]); //Add to clonedBG
             cout<<hist_labels[i]<<": original-num "<<hists[i]->GetBinContent(1)<<endl;
           }
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
         }
       }
     }
@@ -292,27 +292,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         clonedBG_norm->Add(hists[i]);
       }
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     //check to make sure bg hist is not empty
     if (clonedBG_norm == NULL){
       return TString("Check the normalize_hist_nums opt, no hists in range labeled for normalization");
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
     if (conf->get("subtract_non_normed")=="true"){
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       for (int i=1; i<num_hists; i++){
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         if( ! hist_nums_for_norm.Contains(to_string(i))){
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           cout<<hist_labels[i]<<": subtracting "<<hists[i]->GetBinContent(1)<<endl;
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
     }
 
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     double numEventsData;
     double numEventsMC;
     double scaleFactor;
@@ -325,7 +325,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsData = clonedPrimary_norm->Integral(0,-1);
       numEventsMC = clonedBG_norm->Integral(0,-1);
     }
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     cout<<"Num Events Primary: "<<numEventsData<<endl;
     cout<<"Num Events BG: "<<numEventsMC<<endl;
     //rescale everything to scale factor
@@ -343,11 +343,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TH1D *bg_sum = (TH1D*) hists[1]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i=2; i<num_hists; i++){
     bg_sum->Add(hists[i]);
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
@@ -355,19 +355,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   delete clonedPrimary_norm;
   delete clonedBG_norm;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //===========================
   // SET MC COLORS
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i = 1; i<num_hists; i++){
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i-1) % ROOT_COLOR_PALATE.size()]);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   hists[0]->SetMarkerStyle(20);
 
   //===========================
@@ -381,25 +381,25 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
   l1->SetTextSize(.02);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   l1->AddEntry(hists[0], hist_labels[0], "p");
   for (int i = 1; i<num_hists; i++){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //===========================
   // Find Plot Maxima
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   double ymax = 0;
   double ymin = 0.1;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
   TH1D* clonedPrimary = (TH1D*) hists[0]->Clone("clonedPrimary_forReweight_"+plot_name);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   clonedPrimary->GetXaxis()->SetRangeUser(xmin, xmax);
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("ymax") != ""){
     ymax = stod(conf->get("ymax"));
   }
@@ -418,13 +418,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   if (conf->get("ymin") != ""){
     ymin = stod(conf->get("ymin"));
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   cout<<"Primary Max: "<< clonedPrimary->GetMaximum() << " Secondary Max: "<< clonedBG->GetMaximum() <<endl;
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   delete clonedBG;
   delete clonedPrimary;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,ymin,ymax);
   
@@ -436,7 +436,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout<<"Setting axis names"<<endl;
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
-  //cout<<__LINE__<<endl;  
+  cout<<__LINE__<<endl;  
 
   gStyle->SetTitleW(0.6);
   gStyle->SetTitleH(0.06);
@@ -451,22 +451,26 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     vector<pair<double,double>> stats_bins;
     int j = 0;
     
+    cout<<__LINE__<<endl;
+    
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
       stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
     }
+
+    cout<<__LINE__<<endl;
 
     if(conf->get("simple_errors") == "true"){
       vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
       double count, error;
       vector<pair<double,double>> stat_row;
       
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       //Loop over the stats bins
       // Build Table ========================================================
       for(int i = 0 ; i < (int)hists.size(); i++){
         for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
           stat_row.push_back(make_pair(count,error));
         }
@@ -485,14 +489,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       CTable table;
       table.setPrecision(2);
       //Set Column Labels
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
       table.useTitle();
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         table.setColLabel(Form("%.2f-%.2f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       //Output Rows for samples
       for(int row = 0; row <= (int) hists.size(); row++ ){
@@ -503,11 +507,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           table.setRowLabel(hist_labels[row], row);
         }
         for(int col=0; col < (int) stats_bins.size(); col++){
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
         }
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       table.print();
       table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
@@ -515,7 +519,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     else{  
       double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
-
+      
+      cout<<__LINE__<<endl;
+      
       vector<double> template_count;
       vector<double> template_error;
 
@@ -536,19 +542,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       }
 
       vector<double> signal_count;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       //Fill in all the bin counts here
       for (int i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
         
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
         template_error.push_back(t_err);
         
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         
         //Need to fill these so no seg fault, will be replaced by IntegralAndError
         ZZ_err.push_back(0);
@@ -559,7 +565,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
         ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
         WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
@@ -567,14 +573,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //From when Vince had WZ and ZZ together
         //ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         VVV_count.push_back(hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]));
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
       }
 
       //Compute Rare Sample Errors
@@ -585,9 +591,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
 
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       for (int i = 0; i < ZZ_err.size(); i++){
         rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
@@ -600,7 +606,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -613,7 +619,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
     updateOverUnderflow(bg_sum, xmax);
@@ -622,7 +628,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     /*double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
       overflow = hists[i]->GetBinContent(n_bins + 1);
       max = hists[i]->Integral(hists[i]->FindBin(xmax-.001), n_bins);
@@ -631,7 +637,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     overflow = bg_sum->GetBinContent(n_bins + 1);
     max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
     bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
   
       
@@ -640,7 +646,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
   h_axes->GetYaxis()->SetLabelSize(0.04);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
   //===========================
@@ -648,7 +654,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //===========================
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
   
@@ -662,7 +668,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   }
   hists[0]->Draw("E1 SAME");
   plotpad->RedrawAxis();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   l1->Draw("same");
   
@@ -680,11 +686,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   ratiopad->SetGridy();  // doesn't actually appear for some reason..
   ratiopad->Draw();
   ratiopad->cd();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   TH1D* residual = (TH1D*) hists[0]->Clone("residual");
   residual->Divide(bg_sum);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   //cout<<"Fixing error bars"<<endl;
   //for (int count=1; count<=mc_sum->GetNbinsX(); count++){ 
   //  double relative_error = (mc_sum->GetBinError(count))/ (mc_sum->GetBinContent(count));
@@ -693,7 +699,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   
   cout<<"Building axes"<<endl;
   TH1D* h_axis_ratio = new TH1D(Form("%s_residual_axes",plot_name.Data()),"",residual->GetNbinsX(),xmin,xmax);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   h_axis_ratio->GetYaxis()->SetTitleOffset(0.33);
   h_axis_ratio->GetYaxis()->SetTitleSize(0.16);
   //h_axis_ratio->GetYaxis()->SetTitleFont(12);
@@ -715,7 +721,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
   h_axis_ratio->GetYaxis()->CenterTitle();
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TLine* line1 = new TLine(xmin,1,xmax,1);
   line1->SetLineStyle(2);
   
@@ -723,7 +729,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   h_axis_ratio->Draw("axis");
   line1->Draw("same");
   residual->Draw("same");
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   c->Update();
   c->cd();
   
@@ -732,14 +738,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     plotpad->cd();
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
   hists.clear();
@@ -750,12 +756,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   delete plotpad;
   delete fullpad;
   delete c;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     hist_files[i]->Close();
   }
   hist_files.clear();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   return errors;
 }
 
@@ -835,24 +841,24 @@ TString drawArbitraryNumber(ConfigParser *conf){
   }  
   cout << "Histograms pulled from files, adding draw options"<<endl;
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
 
   //============================================
   // Draw Data-MC Plots
   //============================================
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   TCanvas * c = new TCanvas("c","",2000,2000);
   c->cd();
   gPad->SetRightMargin(0.05);
   gPad->Modified();
   gStyle->SetOptStat(kFALSE);
   TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   fullpad->Draw();
   fullpad->cd();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   fullpad->SetRightMargin(0.05);
   if (conf->get("ExtraRightMargin") == "true")
@@ -860,16 +866,16 @@ TString drawArbitraryNumber(ConfigParser *conf){
     fullpad->SetRightMargin(0.08);
   }
   fullpad->SetBottomMargin(0.12);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   fullpad->Draw();
   fullpad->cd();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("logy") == "true")
   {
     cout<<"Plot tagged for log y-axis"<<endl;
     fullpad->SetLogy();
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("bin_size") != ""){
     for (int i = 0; i<num_hists; i++){
       hists[i]->Rebin(bin_size);
@@ -886,7 +892,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //===========================
   // Normalize
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   //Add scale factors like RSFOF
   for (int i=0; i < num_hists; i++){
@@ -899,11 +905,11 @@ TString drawArbitraryNumber(ConfigParser *conf){
   TH1D *bg_sum = (TH1D*) hists[0]->Clone("bg_sum_"+plot_name);
   bg_sum->SetTitle("Sum of background samples");
   
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i=1; i<num_hists; i++){
     bg_sum->Add(hists[i]);
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   for (int i = 0; i<num_hists; i++){
     cout<<hist_labels[i]<<": after-reweight "<<hists[i]->GetBinContent(1)<<endl;
@@ -912,11 +918,11 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //===========================
   // SET MC COLORS
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     hists[i]->SetFillColor(ROOT_COLOR_PALATE[(i) % ROOT_COLOR_PALATE.size()]);
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     hists[i]->SetFillStyle(1001);
   }
 
@@ -931,22 +937,22 @@ TString drawArbitraryNumber(ConfigParser *conf){
   l1->SetShadowColor(kWhite);
   l1->SetFillColor(kWhite);
   l1->SetTextSize(.02);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     l1->AddEntry(hists[i], hist_labels[i], "f");
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   //===========================
   // Find Plot Maxima
   //===========================
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   double ymax = 0;
   double ymin = 0.1;
   TH1D* clonedBG = (TH1D*) bg_sum->Clone("clonedBG_forReweight_"+plot_name);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   clonedBG->GetXaxis()->SetRangeUser(xmin,xmax);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("ymax") != ""){
     ymax = stod(conf->get("ymax"));
   }
@@ -964,7 +970,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   cout<<"Proper plot maximum set to "<<ymax<<endl;
   
   delete clonedBG;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   
   TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,hists[0]->GetNbinsX(),xmin,xmax,1000,ymin,ymax);
   
@@ -976,7 +982,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   cout<<"Setting axis names"<<endl;
   h_axes->GetXaxis()->SetTitle(xlabel);
   h_axes->GetYaxis()->SetTitle(ylabel);
-  //cout<<__LINE__<<endl;  
+  cout<<__LINE__<<endl;  
 
   gStyle->SetTitleW(0.6);
   gStyle->SetTitleH(0.06);
@@ -1002,12 +1008,12 @@ TString drawArbitraryNumber(ConfigParser *conf){
       double count, error;
       vector<pair<double,double>> stat_row;
       
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       //Loop over the stats bins
       // Build Table ========================================================
       for(int i = 0 ; i < (int)hists.size(); i++){
         for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
           stat_row.push_back(make_pair(count,error));
         }
@@ -1026,14 +1032,14 @@ TString drawArbitraryNumber(ConfigParser *conf){
       CTable table;
       table.setPrecision(2);
       //Set Column Labels
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
       table.useTitle();
       for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         table.setColLabel(Form("%.2f-%.2f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       //Output Rows for samples
       for(int row = 0; row <= (int) hists.size(); row++ ){
@@ -1044,11 +1050,11 @@ TString drawArbitraryNumber(ConfigParser *conf){
           table.setRowLabel(hist_labels[row], row);
         }
         for(int col=0; col < (int) stats_bins.size(); col++){
-          //cout<<__LINE__<<endl;
+          cout<<__LINE__<<endl;
           table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
         }
       }
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       table.print();
       table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
@@ -1077,19 +1083,19 @@ TString drawArbitraryNumber(ConfigParser *conf){
       }
 
       vector<double> signal_count;
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       //Fill in all the bin counts here
       for (int i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
         
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         
         template_count.push_back(hists[6]->IntegralAndError(hists[6]->FindBin(stats_bins[i].first), hists[6]->FindBin(stats_bins[i].second - 0.001), t_err));
         template_error.push_back(t_err);
         
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
         
         ZZ_err.push_back(0);
         WZ_err.push_back(0);
@@ -1098,20 +1104,20 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
         ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
         ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
         //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         VVV_count.push_back(hists[3]->IntegralAndError(hists[3]->FindBin(stats_bins[i].first), hists[3]->FindBin(stats_bins[i].second - 0.001), VVV_err[i]));
 
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
 
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
-        //cout<<__LINE__<<endl;
+        cout<<__LINE__<<endl;
       }
 
       //Compute Rare Sample Errors
@@ -1122,9 +1128,9 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
 
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       for (int i = 0; i < ZZ_err.size(); i++){
         //rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
@@ -1136,7 +1142,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
-      //cout<<__LINE__<<endl;
+      cout<<__LINE__<<endl;
 
       for (int i=0; i < num_hists; i++){
         if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -1149,7 +1155,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //----------------------
   // ADD OVERFLOW BIN
   //----------------------
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
 
@@ -1160,7 +1166,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     
     /*double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
       overflow = hists[i]->GetBinContent(n_bins + 1);
       max = hists[i]->Integral(hists[i]->FindBin(xmax-.001), n_bins);
@@ -1169,7 +1175,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     overflow = bg_sum->GetBinContent(n_bins + 1);
     max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
     bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
-    //cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
   }
   
       
@@ -1178,7 +1184,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   h_axes->GetYaxis()->SetTitleOffset(1.3);
   h_axes->GetYaxis()->SetTitleSize(0.05);
   h_axes->GetYaxis()->SetLabelSize(0.04);
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   cout<<"Drawing histograms"<<endl;
   h_axes->Draw();
   //===========================
@@ -1186,7 +1192,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //===========================
   //Add all the background hists to a stack.
   THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
   
@@ -1196,7 +1202,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   } 
   stack->Draw("HIST SAME");
   fullpad->RedrawAxis();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   l1->Draw("same");
  
@@ -1205,14 +1211,14 @@ TString drawArbitraryNumber(ConfigParser *conf){
   if (conf->get("luminosity_fb") != ""){
     drawCMSLatex(stod(conf->get("luminosity_fb")));
   }
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
 
   cout<<"Saving..."<<endl;
   c->SaveAs(save_dir+plot_name+TString(".pdf"));
   c->SaveAs(save_dir+plot_name+TString(".png"));
   //c->SaveAs(save_dir+plot_name+TString(".root"));
   //c->SaveAs(save_dir+plot_name+TString(".C"));
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   cout<<"Cleaning up plot variables"<<endl;
   delete l1;
   hists.clear();
@@ -1220,12 +1226,12 @@ TString drawArbitraryNumber(ConfigParser *conf){
   hist_labels.clear();
   delete fullpad;
   delete c;
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   for (int i = 0; i<num_hists; i++){
     hist_files[i]->Close();
   }
   hist_files.clear();
-  //cout<<__LINE__<<endl;
+  cout<<__LINE__<<endl;
   return errors;
 }
 
