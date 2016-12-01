@@ -621,7 +621,7 @@ double getWeight(){
     }
     
     //cout<<__LINE__<<endl;
-    
+
     if (conf->get("pileup_reweight") == "true"){
       weight*=g_pileup_hist->GetBinContent(g_pileup_hist->FindBin(phys.nTrueInt()));
     }
@@ -1137,7 +1137,7 @@ bool passFileSelections(){
     }
 
     //Remove overlap between WGammaJets and WJets
-    if( ! TString(currentFile->GetTitle()).Contains("wgjets_incl") ){ //WJets
+    if( TString(currentFile->GetTitle()).Contains("wjets") ){ //WJets
       //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
@@ -1145,7 +1145,7 @@ bool passFileSelections(){
         return false;
       }
     }
-    else{ //WGammaJets
+    else if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){ //WGammaJets
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
