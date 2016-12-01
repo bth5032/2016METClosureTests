@@ -22,16 +22,16 @@ using namespace std;
 
 std::array<int, 14> ROOT_COLOR_PALATE = {46,8,9,38,40,2,30,6,28,42,3,5,7,41};
 
-
 double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
-//____________________________________________________________________________
-// returns the error on C = A/(A+B) 
-// note that if A and B are integers, simplifies to sqrt((C * (1-C)) / (A+B))
-// or thinking of an efficiency, sqrt((eff * (1-eff)) / N)
 float err_binomial(float A, float B, float errA, float errB) {
+  /* 
+  returns the error on C = A/(A+B) 
+  note that if A and B are integers, simplifies to sqrt((C * (1-C)) / (A+B))
+  or thinking of an efficiency, sqrt((eff * (1-eff)) / N) 
+  */
  return (1/pow(A+B,2)) * sqrt(pow(B*errA,2) + pow(A*errB,2));
 }
 
@@ -53,7 +53,7 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
 }
 
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
-  /*updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow*/
+  /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
   int overflowbin = hist->FindBin(xmax-0.0001);
   for( int bini = overflowbin; bini < hist->GetNbinsX(); bini++ ){
     hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) ); 
@@ -70,6 +70,15 @@ void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
       hist->SetBinContent( bini - 1, 0 );
       hist->SetBinError  ( bini - 1, 0 );
     }
+  }
+}
+
+void blindAfter(TH1D *hist, double xmax){
+  /* Sets all the bins starting from xmax to 0, count and error */
+  int max_bin = hist->FindBin(xmax);
+  for( int bini = max_bin; bini < hist->GetNbinsX(); bini++ ){
+    hist->SetBinContent( 0 ); 
+    hist->SetBinError  ( 0 );  
   }
 }
 
@@ -541,18 +550,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         
         //cout<<__LINE__<<endl;
         
+        //Need to fill these so no seg fault, will be replaced by IntegralAndError
         ZZ_err.push_back(0);
         WZ_err.push_back(0);
         VVV_err.push_back(0);
         TTV_err.push_back(0);
 
         ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
+        ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
 
         //cout<<__LINE__<<endl;
 
-        ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
-        ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
-        //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+        WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+        WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
+        
+        //From when Vince had WZ and ZZ together
+        //ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
 
         //cout<<__LINE__<<endl;
 
@@ -577,11 +590,12 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //cout<<__LINE__<<endl;
 
       for (int i = 0; i < ZZ_err.size(); i++){
-        //rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
-        //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+        rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
+        rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
 
-        rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
-        rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+        //For cross checking with Vince
+        //rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
+        //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
       }
 
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
@@ -602,7 +616,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = hists[0]->GetNbinsX();
+    updateOverUnderflow(bg_sum, xmax);
+    for (int i = 0; i<num_hists; i++){
+      updateOverUnderflow(hists[i], xmax);
+    }
+    /*double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
     //cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
@@ -612,7 +630,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     overflow = bg_sum->GetBinContent(n_bins + 1);
     max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
-    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);
+    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
     //cout<<__LINE__<<endl;
   }
   
@@ -639,6 +657,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     stack->Add(hists[i]);
   } 
   stack->Draw("HIST SAME");
+  if (conf->get("blindAfter") != ""){
+    blindAfter(hists[0], stod(conf->get("blindAfter")));
+  }
   hists[0]->Draw("E1 SAME");
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
@@ -1131,7 +1152,13 @@ TString drawArbitraryNumber(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = hists[0]->GetNbinsX();
+
+    updateOverUnderflow(bg_sum, xmax);
+    for (int i = 0; i<num_hists; i++){
+      updateOverUnderflow(hists[i], xmax);
+    }
+    
+    /*double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
     //cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
@@ -1141,7 +1168,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
     }
     overflow = bg_sum->GetBinContent(n_bins + 1);
     max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
-    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);
+    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
     //cout<<__LINE__<<endl;
   }
   
@@ -1321,13 +1348,15 @@ TString drawSingleTH1(ConfigParser *conf){
   //----------------------
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = p_hist->GetNbinsX();
+    
+    updateOverUnderflow(p_hist, xmax);
+    /*double n_bins = p_hist->GetNbinsX();
     
     double overflow_primary = p_hist->GetBinContent(n_bins + 1);
 
     double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
 
-    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);
+    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);*/
   }      
   
   fullpad->SetLeftMargin(0.15);
@@ -1812,7 +1841,6 @@ TString drawDebugPlots(ConfigParser *conf){
   }
 
   return TString("Debug Plots Made.\n");
-
 }
 
 TString drawSingleTH2(ConfigParser *conf){
