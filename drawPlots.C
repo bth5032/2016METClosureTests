@@ -544,7 +544,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       vector<double> signal_count;
       cout<<__LINE__<<endl;
 
-      //Fill in all the bin counts here
+      //Fill in all the counts and statstical errors for each stat bin in this loop.
+      //Then we run the full error computations after.
+      //=======================================
+      // Get Bin Counts and Statistical Errors
+      //=======================================
       for (int i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
@@ -582,7 +586,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         cout<<__LINE__<<endl;
       }
-
+      //=========================
+      // Compute Full Errors
+      //=========================
       //Compute Rare Sample Errors
       ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
       cout<<__LINE__<<endl;
@@ -606,7 +612,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         //rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
         //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
       }
-
+      
+      //Blinding works by first zeroing out all bins past the number given
+      //Then we recompute the numbers for the signal counts
+      if (conf->get("blindAfter") != ""){
+        blindAfter(hists[0], stod(conf->get("blindAfter")));
+        signal_count.clear();
+        for (int i = 0; i < stats_bins.size(); i++){
+          signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
+        }
+      }
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       cout<<__LINE__<<endl;
