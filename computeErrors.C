@@ -80,7 +80,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.07);
   }
   else{
-    throw std::invalid_argument("Invalid or missing SR set in config. Please check config variable \"SR\". (got "+SR+")");
+    throw std::invalid_argument("Invalid or missing SR set in config. Please check config variable \"SR\". (got \""+SR+"\"")");
   }
 
   EWK_Data = getEWKNumsForSample(SR);
