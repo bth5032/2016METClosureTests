@@ -1,4 +1,7 @@
 //Helper functions for Config parsing.
+#ifndef INCLUDED_CONFIG_HELPER
+#define INCLUDED_CONFIG_HELPER
+
 #include "ConfigParser.C"
 
 TString PLOT_OUTPUT_LOCATION="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/";
@@ -74,3 +77,5 @@ vector<double> parseVector(TString opt){
   }
   return ret;
 }
+
+#endif
