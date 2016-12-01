@@ -452,7 +452,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     int j = 0;
     
     cout<<__LINE__<<endl;
-    
+
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
       stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
@@ -585,10 +585,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
       //Compute Rare Sample Errors
       ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
+      cout<<__LINE__<<endl;
       WZ_err = getRareSamplesError(WZ_err, WZ_count);
+      cout<<__LINE__<<endl;
       VVV_err = getRareSamplesError(VVV_err, VVV_count);
+      cout<<__LINE__<<endl;
       TTV_err = getRareSamplesError(TTV_err, TTV_count);
-
+      cout<<__LINE__<<endl;
 
       vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
       cout<<__LINE__<<endl;
