@@ -79,13 +79,16 @@ void makePtReweightHisto(ConfigParser * conf)
   TH1D * h_primary_scaled;
   TH1D * h_secondary_scaled;
 
+  TString primary_name = "DileptonData";
+  TString secondary_name = "PhotonData";
+
   if (f_primary && f_secondary && f_subtractor) {
     h_primary = (TH1D*)f_primary->Get(hist_name)->Clone(primary_name);
     h_secondary = (TH1D*)f_secondary->Get(hist_name)->Clone(secondary_name);
     
-    h_subtractor = (TH1D*)f_subtractor.at(0)->Get(hist_name)->Clone("subtractor_"+primary_name);
+    h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(hist_name)->Clone("subtractor_"+primary_name);
     for (int i=1; i < (int) subtractor_paths.size(); i++){
-      h_subtractor.Add((TH1D*)f_subtractor.at(i)->Get(hist_name));
+      h_subtractor.Add((TH1D*)(f_subtractors.at(i))->Get(hist_name));
     }
   }
   else{
