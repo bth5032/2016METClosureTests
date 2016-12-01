@@ -1829,7 +1829,7 @@ TString drawDebugPlots(ConfigParser *conf){
     while (conf->get("file_"+to_string(i)+"_path") != "" || conf->get("sample_"+to_string(i)) != ""){
       if (conf->get("file_"+to_string(i)+"_path") != ""){
         sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
-        sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
+        sample_name=sample_loc(sample_loc.Last('/')+1, sample_loc.Index(".root")-sample_loc.Last('/')-1); //gets the name of the .root file
       }
       else{
         sample_loc = TString(default_hist_dir+conf->get("sample_"+to_string(i))+".root");

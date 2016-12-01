@@ -227,6 +227,7 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
   
   cout<<"LATEXTABLE: \\begin{tabular} {l | l | l | l | l | l | l }"<<endl;
   cout<<"LATEXTABLE: Sample ";
+  cout<<setprecision(3);
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<bin_low[i].first<<"-"<<bin_low[i].second;
   }
