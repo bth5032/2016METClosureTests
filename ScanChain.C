@@ -572,14 +572,16 @@ void readyReweightHists(){
 
 void readyVPTReweight(TString save_path){
   /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
+
   TString vpt_weight_path = save_path+conf->get("Name")+"_vpt_rwt.root";
   TString rwt_hist_name = "vpt_ratio";
+
   cout<<"Reweighting with "<<vpt_weight_path<<endl;
 
   TFile *reweight_file = TFile::Open(vpt_weight_path, "READ");
   
   //Add pair (vpt_weight, "vpt") to g_reweight_pairs
-  g_reweight_pairs.push_back(make_pair( (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(TString("vpt_reweight_hist"),"vpt"));
+  g_reweight_pairs.push_back(make_pair( (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(TString("vpt_reweight_hist"),"vpt")));
   g_reweight_pairs.back().first->SetDirectory(rootdir);
   
   reweight_file->Close();
