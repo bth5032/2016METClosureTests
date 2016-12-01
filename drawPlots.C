@@ -73,7 +73,7 @@ void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
   }
 }
 
-void blindAfter(TH1D *hist, double xmax){
+void blindAfter(TH1D * &hist, double xmax){
   /* Sets all the bins starting from xmax to 0, count and error */
   int max_bin = hist->FindBin(xmax);
   for( int bini = max_bin; bini < hist->GetNbinsX(); bini++ ){
