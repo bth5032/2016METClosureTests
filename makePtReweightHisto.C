@@ -88,7 +88,7 @@ void makePtReweightHisto(ConfigParser * conf)
     
     h_subtractor = (TH1D*)(f_subtractors.at(0))->Get(hist_name)->Clone("subtractor_"+primary_name);
     for (int i=1; i < (int) subtractor_paths.size(); i++){
-      h_subtractor.Add((TH1D*)(f_subtractors.at(i))->Get(hist_name));
+      h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(hist_name));
     }
   }
   else{
