@@ -273,11 +273,22 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (! passLeptonHLTs()){
-    numEvents->Fill(15);
-    cout<<"Failed HLTs -- isData: "<<phys.isData()<<endl;
-    //if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
-    return false;
+  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
+    if (! (phys.hyp_type() == 2) ){ //require explicit emu event
+      numEvents->Fill(15); 
+      //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
+      return false; // require explicit opposite flavor event
+    }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
+  }
+  else{
+    //require explicit hypothesis type
+    if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
+        numEvents->Fill(15); 
+        //if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
+        return false; // require explicit same flavor event
+    }
+    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
   }
 
   //cout<<__LINE__<<endl;
@@ -308,22 +319,11 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
-    if (! (phys.hyp_type() == 2) ){ //require explicit emu event
-      numEvents->Fill(20); 
-      //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
-      return false; // require explicit opposite flavor event
-    }
-    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
-  }
-  else{
-    //require explicit hypothesis type
-    if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
-        numEvents->Fill(20); 
-        //if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
-        return false; // require explicit same flavor event
-    }
-    //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
+  if (! passLeptonHLTs()){
+    cout<<"Failed HLT -- isData: "<<phys.isData()<<endl;
+    numEvents->Fill(20);
+    //if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
+    return false;
   }
 
   //cout<<__LINE__<<endl;
