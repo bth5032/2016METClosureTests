@@ -320,7 +320,6 @@ bool hasGoodZ(){
   //cout<<__LINE__<<endl;
 
   if (! passLeptonHLTs()){
-    cout<<"Failed HLT -- isData: "<<phys.isData()<<endl;
     numEvents->Fill(20);
     //if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return false;
