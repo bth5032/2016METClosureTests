@@ -321,6 +321,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
       numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9));
     }
+    else if (conf->get("norm_50_100") == "true"){
+      numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(50),clonedPrimary_norm->FindBin(99.9));
+      numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(50),clonedBG_norm->FindBin(99.9));
+    }
     else{
       numEventsData = clonedPrimary_norm->Integral(0,-1);
       numEventsMC = clonedBG_norm->Integral(0,-1);
@@ -518,7 +522,10 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     }
     else{  
-      double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
+      //========================
+      //Get Normalization
+      //========================
+      double normalization = numEventsData;
       
       cout<<__LINE__<<endl;
       

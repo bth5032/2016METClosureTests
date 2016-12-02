@@ -14,7 +14,10 @@ double err_mult(double A, double B, double errA, double errB) {
 }
 
 vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, TString SR){
-
+  /* stat_err == statistical error on the template bins
+     bin count == bin count on template bins
+     normalziation == bin count to which the sample was normalized
+     SR == name of signal region */
   vector<double> output_errors;
 
   double template_low_bin_count = bin_count[0];
@@ -73,6 +76,13 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.25);
   }
   else if(SR == "TChiHZ"){
+    MC_Closure_Error.push_back(.01);
+    MC_Closure_Error.push_back(.05);
+    MC_Closure_Error.push_back(.05);
+    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.07);
+  }
+  else if(SR == "2j"){
     MC_Closure_Error.push_back(.01);
     MC_Closure_Error.push_back(.05);
     MC_Closure_Error.push_back(.05);

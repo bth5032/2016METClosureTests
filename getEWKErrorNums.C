@@ -38,6 +38,10 @@ vector<TString> getFileLocation(TString sample_name){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData.root");
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData_NoEWKSub.root");
   }
+  else if (sample_name=="2j"){
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData_NoEWKSub.root");
+  }
 
   return fnames;
 }

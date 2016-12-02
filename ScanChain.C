@@ -1477,7 +1477,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   //cout<<__LINE__<<endl;
   //set goodrun list
-  const char* json_file = "auxFiles/golden_json_260916_26p4fb_snt.txt"; // 26.4 fb
+  const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 26.4 fb
   cout<<"Setting good run list: "<<json_file<<endl;
   set_goodrun_file(json_file);
 
