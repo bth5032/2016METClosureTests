@@ -55,7 +55,7 @@ bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
 void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
   /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
   int overflowbin = hist->FindBin(xmax-0.0001);
-  for( int bini = overflowbin; bini < hist->GetNbinsX(); bini++ ){
+  for( int bini = overflowbin; bini <= hist->GetNbinsX(); bini++ ){
     hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) ); 
     hist->SetBinError  ( overflowbin, sqrt( pow(hist->GetBinError  ( overflowbin ), 2 ) + pow( hist->GetBinError( bini + 1 ), 2 ) ) );  
     hist->SetBinContent( bini + 1, 0 );
@@ -76,7 +76,7 @@ void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
 void blindAfter(TH1D * &hist, double xmax){
   /* Sets all the bins starting from xmax to 0, count and error */
   int max_bin = hist->FindBin(xmax);
-  for( int bini = max_bin; bini < hist->GetNbinsX(); bini++ ){
+  for( int bini = max_bin; bini <= hist->GetNbinsX()+1; bini++ ){
     hist->SetBinContent( bini, 0 ); 
     hist->SetBinError  ( bini, 0 );  
   }
