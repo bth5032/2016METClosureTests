@@ -686,7 +686,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
-  if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data_2016") && TString(currentFile->GetTitle()).Contains("Prompt_ph")){
+  if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data") && TString(currentFile->GetTitle()).Contains("_ph")){
     weight *= getPrescaleWeight();
   }
 
