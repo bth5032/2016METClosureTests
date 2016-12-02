@@ -244,7 +244,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   cout<<__LINE__<<endl;
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
-  
+  double numEventsData;
   //Add scale factors like RSFOF
   for (int i=0; i < num_hists; i++){
     if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -313,7 +313,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
 
     cout<<__LINE__<<endl;
-    double numEventsData;
+    //double numEventsData; -- Now made more global, defined above
     double numEventsMC;
     double scaleFactor;
     if (conf->get("norm_0_50") == "true")
