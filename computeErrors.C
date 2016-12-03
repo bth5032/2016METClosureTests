@@ -1,3 +1,6 @@
+#ifndef INCLUDED_COMPUTE_ERROS
+#define INCLUDED_COMPUTE_ERROS
+
 #include <vector>
 #include <utility>
 #include "TString.h"
@@ -287,3 +290,5 @@ void computeErrors(){
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);
 }
+
+#endif
