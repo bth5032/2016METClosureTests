@@ -599,8 +599,7 @@ double getReweight(){
     //cout<<rwt_var<<endl;
 
     if (rwt_var == "vpt"){
-      cout<<"Applying vpt reweight -- pt: "<<bosonPt()<<" weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
-      //cout<<"Adding vpt weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
+      //cout<<"Applying vpt reweight -- pt: "<<bosonPt()<<" weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(bosonPt()));
     }
     else if (rwt_var == "ht_wide"){
