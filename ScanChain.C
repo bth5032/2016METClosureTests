@@ -661,7 +661,7 @@ double getWeight(){
     weight *= getReweight();
   }
 
-  if ( conf->get("reweight_vpt") == "true" ) {
+  if ( conf->get("vpt_reweight") == "true" ) {
     weight *= getReweight();
   }
 
