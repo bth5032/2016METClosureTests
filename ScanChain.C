@@ -608,7 +608,7 @@ double getReweight(){
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
     }
     else{
-      throw std::invalid_argument("Reweight varible: "+rwt_var+" is not a valid option... Please choose vpt, or ht_wide");
+      throw std::invalid_argument("Reweight varible is not a valid option, please choose vpt, or ht_wide, got: \'"+rwt_var+"\'");
     }
 
   }
