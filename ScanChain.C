@@ -581,7 +581,7 @@ void readyVPTReweight(TString save_path){
   TFile *reweight_file = TFile::Open(vpt_weight_path, "READ");
   
   //Add pair (vpt_weight, "vpt") to g_reweight_pairs
-  g_reweight_pairs.push_back(make_pair( (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(TString("vpt_reweight_hist")),"vpt"));
+  g_reweight_pairs.push_back(make_pair( (TH1D*) reweight_file->Get(rwt_hist_name)->Clone(TString("vpt_reweight_hist")),"vt"));
   g_reweight_pairs.back().first->SetDirectory(rootdir);
   
   reweight_file->Close();
@@ -658,6 +658,10 @@ double getWeight(){
   weight *= g_scale_factor;
 
   if ( conf->get("reweight") == "true" ) {
+    weight *= getReweight();
+  }
+
+  if ( conf->get("reweight_vpt") == "true" ) {
     weight *= getReweight();
   }
 
