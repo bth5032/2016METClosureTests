@@ -178,8 +178,8 @@ TChain * getTChain(TString data_set) {
 
   if (data_set.Contains("FSMC-singletop-nofullhaddecay")){
     cout<<"Adding FSMC-singletop with no fully hadronic decay"<<endl; 
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
-    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_antitop_nofullhaddecay_powheg.root"));
+    ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/sttw_top_nofullhaddecay_powheg.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
