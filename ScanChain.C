@@ -1300,8 +1300,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   numMETFilters->SetDirectory(rootdir);
   numMETFilters->Sumw2();
 
-  const int n_ptbins_std = 9;
-  const double ptbins_std[n_ptbins_std+1] = {0, 33, 40, 55, 85, 105, 135, 180, 250, 6000};
+  const int n_ptbins_std = 10;
+  const double ptbins_std[n_ptbins_std+1] = {0, 22, 33, 40, 55, 85, 105, 135, 180, 250, 6000};
 
   TH1D *vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_std, ptbins_std);  ;
   vpt->SetDirectory(rootdir);
