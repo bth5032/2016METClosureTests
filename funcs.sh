@@ -97,7 +97,13 @@ function _makeAllForDir {
 }
 
 function makeAllForDir {
-	_makeAllForDir $1 $2 &
+	if [[ $# < 2 ]]
+	then
+		echo "makeAllForDir <path_to_configs> <all/hists/plots>"
+	else
+		_makeAllForDir $1 $2 &
+	fi
+	
 }
 
 function makeHistosForDir {
