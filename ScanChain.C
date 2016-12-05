@@ -302,6 +302,13 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
+  if( phys.dilpt() <25 ){
+    numEvents->Fill(26);
+    //if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
+    return false;
+  }
+  //cout<<__LINE__<<endl;
+
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
     //if (printFail) cout<<phys.evt()<<" :Failed lep2 in xition region Z cut"<<endl;
@@ -1308,7 +1315,17 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   const int n_ptbins_std = 10;
   const double ptbins_std[n_ptbins_std+1] = {0, 22, 33, 40, 55, 85, 105, 135, 180, 250, 6000};
 
-  TH1D *vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_std, ptbins_std);  ;
+  const int n_ptbins_fine = 51;
+  const double ptbins_fine[n_ptbins_fine+1] = {0, 22, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140, 145, 150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200, 205, 210, 215, 220, 225, 230, 235, 240, 245, 250, 300, 350, 400, 6001};
+
+  TH1D *vpt;
+  if (conf->get("signal_region") == "2j"){
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_fine, ptbins_fine);
+  }  
+  else{
+    vpt = new TH1D("vpt", "Boson Pt for events in "+g_sample_name, n_ptbins_std, ptbins_std);
+  }
+
   vpt->SetDirectory(rootdir);
   vpt->Sumw2();
 
