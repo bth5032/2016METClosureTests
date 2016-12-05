@@ -228,7 +228,7 @@ TChain * getTChain(TString data_set) {
 //====================================
 
   //Single Photon Trigger
-  if (data_set.Contains("GammaData-SinglePhoton")){
+  if (data_set.Contains("GammaData-SinglePhoton") && (! data_set.Contains("GammaData-SinglePhoton-Skimmed")) ){
     cout<<"Adding GammaData-SinglePhoton"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ph_v3*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ph_v1*");
@@ -313,7 +313,7 @@ TChain * getTChain(TString data_set) {
 //====================================
 // Leptonic Data
 //====================================
-  if (data_set.Contains("DileptonData-ee")){
+  if (data_set.Contains("DileptonData-ee") && (! data_set.Contains("DileptonData-ee-Skimmed")) ){
     cout<<"Adding EE Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ee_v3*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ee_v1*");
@@ -325,7 +325,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v3*");
   }
 
-  if (data_set.Contains("DileptonData-em")){
+  if (data_set.Contains("DileptonData-em") && (! data_set.Contains("DileptonData-em-Skimmed")) ){
     cout<<"Adding EMu Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_em_v3*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_em_v1*");
@@ -337,7 +337,7 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_em_v3*");
   }
 
-  if (data_set.Contains("DileptonData-mm")){
+  if (data_set.Contains("DileptonData-mm") && (! data_set.Contains("DileptonData-mm-Skimmed")) ){
     cout<<"Adding MuMu Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_mm_v3*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_mm_v1*");
@@ -361,23 +361,11 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_sm_v3*");
   }
 
-  if (data_set.Contains("DileptonData-ee")){
-    cout<<"Adding EE Trigger Data"<<endl;
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ee_v3*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_ee_v1*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v2*");
-    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v3*");
-  }
-
 //====================================
 // Skimmed Leptonic Data
 //====================================
   if (data_set.Contains("DileptonData-ee-Skimmed")){
-    cout<<"Adding EE Trigger Data"<<endl;
+    cout<<"Adding Skimmed EE Trigger Data"<<endl;
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_ee_v3*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_ee_v1*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_ee_v1*");
@@ -389,7 +377,7 @@ TChain * getTChain(TString data_set) {
   }
 
   if (data_set.Contains("DileptonData-em-Skimmed")){
-    cout<<"Adding EMu Trigger Data"<<endl;
+    cout<<"Adding Skimmed EMu Trigger Data"<<endl;
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_em_v3*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_em_v1*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_em_v1*");
@@ -401,7 +389,7 @@ TChain * getTChain(TString data_set) {
   }
 
   if (data_set.Contains("DileptonData-mm-Skimmed")){
-    cout<<"Adding MuMu Trigger Data"<<endl;
+    cout<<"Adding Skimmed MuMu Trigger Data"<<endl;
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_mm_v3*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_mm_v1*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_mm_v1*");
@@ -418,7 +406,7 @@ TChain * getTChain(TString data_set) {
 
   //Single Photon Trigger
   if (data_set.Contains("GammaData-SinglePhoton-Skimmed")){
-    cout<<"Adding GammaData-SinglePhoton"<<endl; 
+    cout<<"Adding GammaData-SinglePhoton-Skimmed"<<endl; 
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_ph_v3*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_ph_v1*");
     ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_ph_v1*");
