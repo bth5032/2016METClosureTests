@@ -1226,6 +1226,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   cout<<"Opening file "<<TString(savePath+conf->get("Name")+".root")<<endl;
   TFile * output = new TFile(TString(savePath+conf->get("Name")+".root"), "recreate");
+  output->cd();
 
   numEvents = new TH1I("numEvents", "Number of events in "+g_sample_name, 70, 0, 70);
   numEvents->SetDirectory(rootdir);
@@ -1748,9 +1749,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //=======================================
 // Write Out Histos
 //=======================================
-
-  output->cd();
-
+/*
   //Write out histograms to file
   numEvents->Write();
   //cout<<__LINE__<<endl;
@@ -1833,7 +1832,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     mu_pt->Write();
     //cout<<__LINE__<<endl;
-  }
+  }*/
 
   //close output file
   output->Write();
@@ -1855,8 +1854,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   // Clean Everything Up
   //====================
   delete bmark;
-  delete output;
-  /*delete numEvents;
+  /*delete output;
+  delete numEvents;
   delete weight_log;
   delete weight_log_flat;
   delete numMETFilters;
@@ -1898,6 +1897,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete dR_GammaMu;
     delete mu_pt;
   }*/
-  
+
   return 0;
 }
