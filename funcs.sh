@@ -6,12 +6,12 @@
 
 function makePlots {
 	mkdirs $1
-	root -l -b -q "drawPlots.C(\"$1\")"
+	nice -n 19 root -l -b -q "drawPlots.C(\"$1\")"
 }
 
 function makeHistos {	
 	mkdirs $2
-	root -l -b -q "doAll.C+(\"$1\", \"$2\")"
+	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
 function setOutputLocations {
