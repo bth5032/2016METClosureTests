@@ -18,17 +18,6 @@ bool isWhiteSpace(const string &str){
 	return true;
 }
 
-bool hasKey(const map<string, string> &m, const string &key){
-	//returns true if the map has the key, false otherwise.
-	map<string, string>::const_iterator i = m.find(key);
-	if (i != m.end()){
-		return true;
-	}
-	else{
-		return false;
-	}
-}
-
 class ConfigParser{
 
 private:
@@ -86,6 +75,17 @@ public:
 		return findNextConfig();
 	}
 
+	bool hasKey(const map<string, string> &m, const string &key){
+		//returns true if the map has the key, false otherwise.
+		map<string, string>::const_iterator i = m.find(key);
+		if (i != m.end()){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 	string findNextConfig(){
 		//Finds and returns name token in next line with "Name="
 		string line;  //holds line of config file
@@ -127,7 +127,8 @@ public:
 		config_file->seekg(0,config_file->beg); //always start from the begining of the file to pick up defaults, will slow down everything some amount but whatever.
 		
 		options.clear(); // clear all the non-default options
-		
+		default_options.clear(); // clear default options as well
+
 		string line; //Holds arbitrary lines.
 		string opt_line; //Holds lines like option="value".
 		string opt_key; //Holds 'option' in the above example
