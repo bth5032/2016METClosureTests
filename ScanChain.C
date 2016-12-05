@@ -1749,7 +1749,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //=======================================
 // Write Out Histos
 //=======================================
-/*
+  output->cd();
+
   //Write out histograms to file
   numEvents->Write();
   //cout<<__LINE__<<endl;
@@ -1832,7 +1833,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     mu_pt->Write();
     //cout<<__LINE__<<endl;
-  }*/
+  }
 
   //close output file
   output->Write();
