@@ -1947,7 +1947,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //====================
   delete bmark;
   delete output;
-  delete files_log;
   delete numEvents;
   delete weight_log;
   delete weight_log_flat;
