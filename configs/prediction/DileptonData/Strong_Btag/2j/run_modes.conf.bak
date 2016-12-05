@@ -6,7 +6,7 @@
 # into ScanChain and doAll.
 #
 
-#DEFAULT::scaleTofb=35
+#DEFAULT::scaleTofb=36.459
 
 DEFAULT::signal_region=Strong_Btag_2j
 
@@ -35,5 +35,5 @@ DEFAULT::n_lep_veto=3
 
 #EE+MuMu Dilepton Data
 Name=DileptonData
-data_set=DileptonData-ee_DileptonData-em_DileptonData-mm
+data_set=DileptonData-ee-Skimmed_DileptonData-em_DileptonData-mm-Skimmed
 data=true #no pileup reweighting

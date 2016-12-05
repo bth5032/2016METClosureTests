@@ -6,26 +6,31 @@
 # into ScanChain and doAll.
 #
 
-#DEFAULT::scaleTofb=35
+#DEFAULT::scaleTofb=36.459
 
-DEFAULT::signal_region=Strong_Bveto_6j
+DEFAULT::signal_region=2j
 
 #================================
-# Strong Bveto With 6Jets Region
+# 2j Region
 #================================
 DEFAULT::event_type=photon
 
-DEFAULT::dPhi_MET_j1=0.4
-DEFAULT::dPhi_MET_j2=0.4
+#DEFAULT::dPhi_MET_j1=0.4
+#DEFAULT::dPhi_MET_j2=0.4
 
-DEFAULT::Njets_min=6
-#DEFAULT::Njets_max=-1
+DEFAULT::Njets_min=2
+#DEFAULT::Njets_max=3
 
-#DEFAULT::HT_min=0
+#DEFAULT::HT_min=200
 
-DEFAULT::NBjets_max=0
+#DEFAULT::NBjets_min=2
+#DEFAULT::NBjets_max=2
 
-DEFAULT::MT2_min=80  
+#DEFAULT::MT2_min=100
+
+#DEFAULT::MT2b_min=200
+
+#DEFAULT::Mbb_max=150
 
 DEFAULT::n_lep_veto=1
 

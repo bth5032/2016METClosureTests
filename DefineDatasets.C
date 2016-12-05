@@ -313,7 +313,6 @@ TChain * getTChain(TString data_set) {
 //====================================
 // Leptonic Data
 //====================================
-
   if (data_set.Contains("DileptonData-ee")){
     cout<<"Adding EE Trigger Data"<<endl;
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ee_v3*");
@@ -360,6 +359,111 @@ TChain * getTChain(TString data_set) {
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_sm_v1*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_sm_v2*");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_sm_v3*");
+  }
+
+  if (data_set.Contains("DileptonData-ee")){
+    cout<<"Adding EE Trigger Data"<<endl;
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016B_23sep2016rereco_ee_v3*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016C_23sep2016rereco_ee_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016D_23sep2016rereco_ee_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016E_23sep2016rereco_ee_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016F_23sep2016rereco_ee_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016G_23sep2016rereco_ee_v1*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v2*");
+    ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-05/data_2016H_Prompt_ee_v3*");
+  }
+
+//====================================
+// Skimmed Leptonic Data
+//====================================
+  if (data_set.Contains("DileptonData-ee-Skimmed")){
+    cout<<"Adding EE Trigger Data"<<endl;
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_ee_v3*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_ee_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_ee_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016E_23sep2016rereco_ee_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016F_23sep2016rereco_ee_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016G_23sep2016rereco_ee_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_ee_v2*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_ee_v3*");
+  }
+
+  if (data_set.Contains("DileptonData-em-Skimmed")){
+    cout<<"Adding EMu Trigger Data"<<endl;
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_em_v3*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_em_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_em_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016E_23sep2016rereco_em_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016F_23sep2016rereco_em_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016G_23sep2016rereco_em_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_em_v2*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_em_v3*");
+  }
+
+  if (data_set.Contains("DileptonData-mm-Skimmed")){
+    cout<<"Adding MuMu Trigger Data"<<endl;
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_mm_v3*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_mm_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_mm_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016E_23sep2016rereco_mm_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016F_23sep2016rereco_mm_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016G_23sep2016rereco_mm_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_mm_v2*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_mm_v3*");
+  }
+
+//====================================
+// Skimmed Photon Data
+//====================================
+
+  //Single Photon Trigger
+  if (data_set.Contains("GammaData-SinglePhoton-Skimmed")){
+    cout<<"Adding GammaData-SinglePhoton"<<endl; 
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016B_23sep2016rereco_ph_v3*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016C_23sep2016rereco_ph_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016D_23sep2016rereco_ph_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016E_23sep2016rereco_ph_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016F_23sep2016rereco_ph_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016G_23sep2016rereco_ph_v1*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_ph_v2*");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_data_2016H_Prompt_ph_v3*");
+    
+    //EWK Subtraction
+    if (data_set.Contains("GammaData-EWKSub")){
+      cout<<"Adding EWK Subtraction Samples"<<endl;       
+      //============
+      // W+Gamma+Jets
+      //============
+      //This is the Wjets sample, it is intended to have events with a prompt photon vetod
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_incl_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht100_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht200_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht400_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht600_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht800_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht1200_mgmlm*");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wjets_ht2500_mgmlm*");
+
+      //This is the W+Gamma+Jets, it is inteded to have events with non-prompt photons vetod
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-22-04/wgjets_incl_mgmlm*");
+      //============
+      // Gamma+Z->NuNu
+      //============
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/znunugamma_ptg130_mgmlm*.root");
+      //============
+      // TTbar
+      //============
+      //1lep
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root");
+      ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root");
+      //dilep
+      ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
+      //============
+      // Single Top
+      //============
+      ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_antitop_nofullhaddecay_powheg.root"));
+      ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/sttw_top_nofullhaddecay_powheg.root"));
+    }
   }
 
 //====================================
