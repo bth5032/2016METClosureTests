@@ -5,12 +5,12 @@
 
 
 function makePlots {
-	mkdirs $1
+	mkdirs $1 plots
 	nice -n 19 root -l -b -q "drawPlots.C(\"$1\")"
 }
 
 function makeHistos {	
-	mkdirs $2
+	mkdirs $2 hists
 	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
@@ -33,37 +33,43 @@ function setOutputLocations {
 
 function mkdirs {
 	conf_filename=$1
-	#For Histo Configs
-	new_dir=`grep DEFAULT::histo_output_dir < $conf_filename`
-	if [[ ! -z $new_dir ]]
-	then
-		mkdir -p ${new_dir#*=}
-	fi
-
-	#For Plots Configs
-	new_dir=`grep DEFAULT::save_dir < $conf_filename`
-	for l in `echo $new_dir`
-	do
-		if [[ ! -d ${l#*=} ]]
-		then
-			mkdir -p ${l#*=}"/Debug"
-			addIndexToDirTree ${l#*=}"/Debug"
-		fi
-	done
-
 	setOutputLocations $conf_filename 
 
-	#Make Hist output location if it's not there
-	if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
-	then	
-		mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+	if [[ $2 == "hists" ]]
+	then
+		#Make Hist output location if it's not there
+		if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
+		then	
+			mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+		fi
+
+		#Legacy Style For Hist Configs
+		new_dir=`grep DEFAULT::histo_output_dir < $conf_filename`
+		if [[ ! -z $new_dir ]]
+		then
+			mkdir -p ${new_dir#*=}
+		fi
 	fi
 
-	#Make plot output location if it's not there.
-	if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+	if [[ $2 == "plots" ]]
 	then
-		mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
-		addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+		#Make plot output location if it's not there.
+		if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+		then
+			mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
+			addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+		fi
+
+		#Legacy Style For Plots Configs
+		new_dir=`grep DEFAULT::save_dir < $conf_filename`
+		for l in `echo $new_dir`
+		do
+			if [[ ! -d ${l#*=} ]]
+			then
+				mkdir -p ${l#*=}"/Debug"
+				addIndexToDirTree ${l#*=}"/Debug"
+			fi
+		done
 	fi
 }
 
