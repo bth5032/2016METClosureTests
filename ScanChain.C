@@ -390,7 +390,7 @@ bool hasGoodPhoton(){
     return false; // photon + jets events
   }
   
-  if( phys.gamma_pt().at(0) < 22 ) {
+  if( phys.gamma_pt().at(0) < 25 ) {
     numEvents->Fill(26);
     //if (printFail) cout<<phys.evt()<<" :Failed pt < 22 photon cut"<<endl;
     return false; // photon pt > 22 GeV
@@ -1947,7 +1947,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   //====================
   delete bmark;
   delete output;
-  delete numEvents;
+  /*delete numEvents;
   delete weight_log;
   delete weight_log_flat;
   delete numMETFilters;
@@ -1988,7 +1988,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete MT_MuMET;
     delete dR_GammaMu;
     delete mu_pt;
-  }
+  }*/
   if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
   {
     delete nVert_HLT_Photon165_R9Id90_HE10_IsoM;
