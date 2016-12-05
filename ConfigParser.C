@@ -20,7 +20,7 @@ bool isWhiteSpace(const string &str){
 
 bool hasKey(const map<string, string> &m, const string &key){
 	//returns true if the map has the key, false otherwise.
-	map<string, string>::iterator i = m.find(key);
+	map<string, string>::const_iterator i = m.find(key);
 	if (i != m.end()){
 		return true;
 	}
