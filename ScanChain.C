@@ -1348,25 +1348,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   TH1D *nbtags_t = new TH1D("nbtags_t", "Number of \"tight\" B-tagged jets for events in "+g_sample_name, 50,0,50);
   nbtags_t->SetDirectory(rootdir);
   nbtags_t->Sumw2();
-
-  TH1D *nVert_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon165_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon165_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon120_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon120_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon90_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon90_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon75_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon75_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon50_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon50_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon36_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon36_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon30_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon30_R9Id90_HE10_IsoM",150,0,150);
-  TH1D *nVert_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("nVert_HLT_Photon22_R9Id90_HE10_IsoM", "Number of verticies for HLT_Photon22_R9Id90_HE10_IsoM",150,0,150);
-
-  /*TH1D *pt_HLT_Photon165_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon165_HE10_IsoM", "P_{T} for HLT_Photon165_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon120_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon120_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon120_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon90_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon90_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon90_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon75_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon75_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon75_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon50_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon50_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon50_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon36_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon36_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon36_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon30_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon30_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon30_R9Id90_HE10_IsoM",6000,0,6000);
-  TH1D *pt_HLT_Photon22_R9Id90_HE10_IsoM = new TH1D("pt_HLT_Photon22_R9Id90_HE10_IsoM", "P_{T} for HLT_Photon22_R9Id90_HE10_IsoM",6000,0,6000);*/
-
+  
   TH1D *MT_MuMET, *dR_GammaMu, *mu_pt;
   if (conf->get("GammaMuStudy") == "true"){
     MT_MuMET = new TH1D("MT_MuMET", "M_{T} Made With Muon and E^{miss}_{T} (If from W, #leq W mass) for "+g_sample_name, 6000,0,6000);
@@ -1750,56 +1732,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       //if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
-
-      /*if(phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon165_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon120_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon90_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon90_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon75_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon75_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon50_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon50_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon36_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon36_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon30_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon30_R9Id90_HE10_IsoM->Fill(bosonPt());
-      if(phys.HLT_Photon22_R9Id90_HE10_IsoM() > 0) pt_HLT_Photon22_R9Id90_HE10_IsoM->Fill(bosonPt());*/
-
-      if ( phys.isData() && conf->get("event_type") == "photon" && conf->get("data") == "true" && phys.ngamma() > 0) //if photon data
-      {
-        //cout<<__LINE__<<endl;
-        if( ( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 || phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) ){
-          //cout<<__LINE__<<endl;
-          if( (phys.HLT_Photon165_R9Id90_HE10_IsoM() > 0 || phys.HLT_Photon165_HE10() > 0) && phys.gamma_pt().at(0) > 180 ){
-            nVert_HLT_Photon165_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon120_R9Id90_HE10_IsoM() > 0 && phys.gamma_pt().at(0) > 135 ){
-            nVert_HLT_Photon120_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon90_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 105 ){
-            nVert_HLT_Photon90_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon75_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 85 ){
-            nVert_HLT_Photon75_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon50_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) > 55 ){
-            nVert_HLT_Photon50_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon36_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 55 && phys.gamma_pt().at(0) > 40 ){
-            nVert_HLT_Photon36_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon30_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 40 && phys.gamma_pt().at(0) > 33 ){
-            nVert_HLT_Photon30_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-            //cout<<__LINE__<<endl;
-          }
-          else if( phys.HLT_Photon22_R9Id90_HE10_IsoM()  > 0 && phys.gamma_pt().at(0) < 33 ){ 
-            //cout<<__LINE__<<endl;
-            nVert_HLT_Photon22_R9Id90_HE10_IsoM->Fill(phys.nVert(), weight);
-          }
-          //cout<<__LINE__<<endl;
-        }
-      }
     }
     // Clean Up
     //cout<<__LINE__<<endl;
@@ -1903,29 +1835,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
   }
 
-  if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
-  {
-    nVert_HLT_Photon165_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon120_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon90_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon75_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon50_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon36_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon30_R9Id90_HE10_IsoM->Write();
-    nVert_HLT_Photon22_R9Id90_HE10_IsoM->Write();
-
-
-    /*pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon50_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon36_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon30_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();*/
-  }
-  //cout<<__LINE__<<endl;
-
   //close output file
   output->Write();
   output->Close();
@@ -1989,25 +1898,6 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     delete dR_GammaMu;
     delete mu_pt;
   }*/
-  if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
-  {
-    delete nVert_HLT_Photon165_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon120_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon90_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon75_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon50_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon36_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon30_R9Id90_HE10_IsoM;
-    delete nVert_HLT_Photon22_R9Id90_HE10_IsoM;
-
-    /*pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon50_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon36_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon30_R9Id90_HE10_IsoM->Write();
-    pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();*/
-  }
+  
   return 0;
 }
