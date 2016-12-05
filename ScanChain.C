@@ -1941,6 +1941,74 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
   cout << "CPU  Time:	" << Form( "%.01f", bmark->GetCpuTime("benchmark")  ) << endl;
   cout << "Real Time:	" << Form( "%.01f", bmark->GetRealTime("benchmark") ) << endl;
   cout << endl;
+  
+  //====================
+  // Clean Everything Up
+  //====================
   delete bmark;
+  delete output;
+  delete files_log;
+  delete numEvents;
+  delete weight_log;
+  delete weight_log_flat;
+  delete numMETFilters;
+  delete t1met;
+  delete t1met_widebin;
+  delete rawmet;
+  delete ht;
+  delete ht_wide;
+  delete gen_ht;
+  delete vpt;
+  delete vpt_flat;
+  delete njets;
+  delete nlep;
+  delete nisotrack;
+  delete nbtags_m;
+  delete nbtags_l;
+  delete nbtags_t;
+  delete nVert;
+  delete mt2;
+  delete mt2b;
+  delete dphi_jet1_met;
+  delete dphi_jet2_met;
+  delete dilmass;
+  if (conf->get("signal_region") == "TChiHZ"){
+    delete sum_mlb;
+    delete m_bb_csv;
+    delete m_bb_bpt;
+    delete mt2j;
+    delete mt2_fromb;
+    delete mt2_hz;
+    delete sum_pt_z_bb;
+    //2D hists
+    delete MT2_MT2B;
+    delete MT2_MT2_fromb;
+    delete MT2_MT2_HZ;
+  }
+  if (conf->get("GammaMuStudy") == "true"){
+    delete MT_MuMET;
+    delete dR_GammaMu;
+    delete mu_pt;
+  }
+  if ( conf->get("event_type") == "photon" && conf->get("data") == "true" ) //if photon data
+  {
+    delete nVert_HLT_Photon165_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon120_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon90_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon75_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon50_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon36_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon30_R9Id90_HE10_IsoM;
+    delete nVert_HLT_Photon22_R9Id90_HE10_IsoM;
+
+    /*pt_HLT_Photon165_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon120_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon90_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon75_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon50_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon36_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon30_R9Id90_HE10_IsoM->Write();
+    pt_HLT_Photon22_R9Id90_HE10_IsoM->Write();*/
+  }
   return 0;
 }
