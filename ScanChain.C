@@ -1499,6 +1499,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     eventsInFile = 0;
     //cout<<__LINE__<<endl;
     files_log<<"Running over new file: "<<currentFile->GetTitle()<<endl;
+    cout<<"Running over new file: "<<currentFile->GetTitle()<<endl;
 //===========================================
 // Loop over Events in current file
 //===========================================
@@ -1785,6 +1786,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     file.Close();
   }
   cout<<"Num events passed: "<<eventCount<<endl;
+  files_log<<"Num events passed: "<<eventCount<<endl;
   if ( nEventsChain != nEventsTotal ) {
     cout << Form( "ERROR: number of events from files (%d) is not equal to total number of events (%d)", nEventsChain, nEventsTotal ) << endl;
   }  

@@ -39,58 +39,65 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   vector<double> MC_Closure_Error;
 
   if (SR == "Strong_Btag_2j"){
-    MC_Closure_Error.push_back(.01);
-    MC_Closure_Error.push_back(.05);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
     MC_Closure_Error.push_back(.2);
-    MC_Closure_Error.push_back(.4);
-    MC_Closure_Error.push_back(.4);
+    MC_Closure_Error.push_back(.2);
+    MC_Closure_Error.push_back(.2);
   }
   else if(SR == "Strong_Btag_4j"){
-    MC_Closure_Error.push_back(.02);
-    MC_Closure_Error.push_back(.1);
-    MC_Closure_Error.push_back(.2);
-    MC_Closure_Error.push_back(.2);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.25);
     MC_Closure_Error.push_back(.25);
   }
   else if (SR == "Strong_Btag_6j"){
-    MC_Closure_Error.push_back(.01);
-    MC_Closure_Error.push_back(.1);
-    MC_Closure_Error.push_back(.3);
-    MC_Closure_Error.push_back(.3);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.5);
+    MC_Closure_Error.push_back(.5);
   }
   else if(SR == "Strong_Bveto_2j"){
-    MC_Closure_Error.push_back(.01);
-    MC_Closure_Error.push_back(.06);
-    MC_Closure_Error.push_back(.1);
-    MC_Closure_Error.push_back(.35);
-    MC_Closure_Error.push_back(.35);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.15);
+    MC_Closure_Error.push_back(.15);
+    MC_Closure_Error.push_back(.15);
   }
   else if(SR == "Strong_Bveto_4j"){
-    MC_Closure_Error.push_back(.02);
-    MC_Closure_Error.push_back(.1);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
     MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.35);
-    MC_Closure_Error.push_back(.4);
+    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.25);
   }
   else if(SR == "Strong_Bveto_6j"){
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
-    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.30);
   }
   else if(SR == "TChiHZ"){
-    MC_Closure_Error.push_back(.01);
-    MC_Closure_Error.push_back(.05);
-    MC_Closure_Error.push_back(.05);
-    MC_Closure_Error.push_back(.07);
-    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.50);
+  }
+  else if(SR == "TChiWZ"){
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.30);
   }
   else if(SR == "2j"){
-    MC_Closure_Error.push_back(.01);
-    MC_Closure_Error.push_back(.05);
-    MC_Closure_Error.push_back(.05);
-    MC_Closure_Error.push_back(.07);
-    MC_Closure_Error.push_back(.07);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.50);
+    MC_Closure_Error.push_back(.50);
   }
   else{
     throw std::invalid_argument("Invalid or missing SR set in config. Please check config variable \"SR\". (got \'"+SR+"\')");
