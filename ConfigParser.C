@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool isWhiteSpace(string str){
+bool isWhiteSpace(const string &str){
 	for (int i = 0; i<(int)str.size(); i++){
 		if ( (! (str[i] == ' ')) && (! (str[i] == '\t') ) ){
 			return false;	
@@ -18,7 +18,7 @@ bool isWhiteSpace(string str){
 	return true;
 }
 
-bool hasKey(map<string, string> m, string key){
+bool hasKey(const map<string, string> &m, const string &key){
 	//returns true if the map has the key, false otherwise.
 	map<string, string>::iterator i = m.find(key);
 	if (i != m.end()){
@@ -38,7 +38,7 @@ private:
 	map<string, string> default_options;
 	int currentLocation=0;
 
-	string cleanedArg(string arg){
+	string cleanedArg(const string &arg){
 		string cleaned = arg.substr(0,arg.find("#")); //get argument before comment
 		cleaned = cleaned.substr(0, cleaned.find_last_not_of(" \t")+1); //strip off tabs and spaces.
 

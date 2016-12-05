@@ -1096,6 +1096,11 @@ bool passBaseCut(){
         //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
         return false; //third lepton veto
     }
+    if (phys.nveto_leptons() >= 1){
+      numEvents->Fill(66);
+      //if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
+      return false;
+    }
   }
   
   /*if (! (phys.njets() >= 2) ){ 
