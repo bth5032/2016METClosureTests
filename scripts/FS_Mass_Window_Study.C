@@ -57,7 +57,7 @@ TH1D getHistFromFiles(vector<TFile*> files, TString hist){
   return *h;
 }
 
-void FS_Mass_Window_Study(int dataset){
+void FS_Mass_Window_Study(int dataset, bool data=0){
 
   TString id;
 
@@ -74,11 +74,13 @@ void FS_Mass_Window_Study(int dataset){
   else if ( dataset == 8  ) id = "baseline_MET100_0B_2j_ht500";
   else if ( dataset == 9  ) id = "baseline_MET100_0B_4j_ht500";
   else if ( dataset == 10 ) id = "baseline_MET100_0B_6j";
+  else if ( dataset == 11 ) id = "2j";
   else{
-    cout<<"Please specify a valid ID less than 10"<<endl;
+    cout<<"Please specify a valid ID 11 or less"<<endl;
     exit(1);
   }
 
+  if (data) id.Prepend("data/");
   TString output_dir="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/FS_mass_window_studies/"+id+"_ratios/";
 
   vector<TFile*> on_files;
