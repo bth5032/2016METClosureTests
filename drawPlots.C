@@ -1281,12 +1281,18 @@ TString drawSingleTH1(ConfigParser *conf){
   TString plot_title = parseLatex(conf->get("title"));
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
-  double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
   TString xlabel=parseLatex(conf->get("xlabel"));
   TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
 
+  double bin_size;
+  if (conf->get("bin_size") != ""){
+    bin_size = stod(conf->get("bin_size"));
+  }
+  else{
+    bin_size=1;
+  }
 
   cout << "Making Plots for: "<<plot_name<<endl;
 
@@ -1325,7 +1331,15 @@ TString drawSingleTH1(ConfigParser *conf){
     fullpad->SetLogy();
   }
   
-  p_hist->Rebin(bin_size);
+
+  if (conf->get("bin_size") != ""){
+    p_hist->Rebin(bin_size);
+  }
+  else if (conf->get("binning") != ""){
+    cout<<"Rebinning plots with variable ranges"<<endl;
+    vector<double> binning = parseVector(conf->get("binning"));
+    p_hist = (TH1D*) p_hist->Rebin(binning.size()-1, TString(hist_name+"_rebin"), &binning[0]);
+  }
   
   //===========================
   // SET MC COLORS
