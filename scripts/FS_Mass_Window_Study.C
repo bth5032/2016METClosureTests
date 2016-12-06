@@ -10,42 +10,49 @@ void updateOverflow( TH1D * &hist, double xmax ){
 }
 
 void fillFiles(vector<TFile*> &on_files, vector<TFile*> &below_files, vector<TFile*> &above_files, TString id){
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/Z_Base.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_dilep.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_1lep.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ww.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/singletop.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ttw.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/VVV.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ttv.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/wz.root", "read"));
-  on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/zz.root", "read"));
+  if (id.Contains("data/")){
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/EMuData.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/EMuData.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/EMuData.root", "read"));
+  }
+  else{
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/Z_Base.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_dilep.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_1lep.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ww.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/singletop.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ttw.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/VVV.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/ttv.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/wz.root", "read"));
+    on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/zz.root", "read"));
 
-  cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/Z_Base.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/TT_dilep.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/TT_1lep.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ww.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/singletop.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ttw.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/VVV.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ttv.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/wz.root", "read"));
-  above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/zz.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/Z_Base.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/TT_dilep.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/TT_1lep.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ww.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/singletop.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ttw.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/VVV.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/ttv.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/wz.root", "read"));
+    above_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_aboveZ/zz.root", "read"));
 
-  cout<<__LINE__<<endl;
+    cout<<__LINE__<<endl;
 
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/Z_Base.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/TT_dilep.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/TT_1lep.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ww.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/singletop.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ttw.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/VVV.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ttv.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/wz.root", "read"));
-  below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/zz.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/Z_Base.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/TT_dilep.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/TT_1lep.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ww.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/singletop.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ttw.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/VVV.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/ttv.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/wz.root", "read"));
+    below_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_belowZ/zz.root", "read"));
+  }
 }
 
 TH1D getHistFromFiles(vector<TFile*> files, TString hist){
