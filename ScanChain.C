@@ -1469,9 +1469,16 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   //cout<<__LINE__<<endl;
   //set goodrun list
-  const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 26.4 fb
-  cout<<"Setting good run list: "<<json_file<<endl;
-  set_goodrun_file(json_file);
+  if (conf->get("signal_region") == "ICHEP"){
+    const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
+    cout<<"Setting good run list: "<<json_file<<endl;
+    set_goodrun_file(json_file);   
+  }
+  else{
+    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
+    cout<<"Setting good run list: "<<json_file<<endl;
+    set_goodrun_file(json_file);
+  }
 
   //cout<<__LINE__<<endl;
   // Loop over events to Analyze
