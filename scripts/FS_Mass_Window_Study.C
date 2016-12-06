@@ -9,7 +9,7 @@ void updateOverflow( TH1D * &hist, double xmax ){
   }
 }
 
-void fillFiles(vector<TFile*> *on_files, vector<TFile*> *below_files, vector<TFile*> *above_files, TString id){
+void fillFiles(vector<TFile*> &on_files, vector<TFile*> &below_files, vector<TFile*> &above_files, TString id){
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/Z_Base.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_dilep.root", "read"));
   on_files.push_back(TFile::Open("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/FS_mass_window_studies/"+id+"_onZ/TT_1lep.root", "read"));
