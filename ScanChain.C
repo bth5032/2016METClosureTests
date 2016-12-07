@@ -1083,6 +1083,8 @@ bool passBaseCut(){
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
   //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
+  bool pass=true;
+
   if (phys.isData()){
     if (! (goodrun(phys.run(), phys.lumi()))){ 
       numEvents->Fill(8);
@@ -1097,11 +1099,19 @@ bool passBaseCut(){
     numEvents->Fill(8);
   } */
 
+  if (! (phys.njets() >= 2) ){ 
+    numEvents->Fill(9);
+    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
+    //return false; //2 jet cut
+    pass=false;
+  }
+
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
         numEvents->Fill(54);
         //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
-        return false; //third lepton veto
+        //return false; //third lepton veto
+        pass=false;
     }
     /*if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
@@ -1109,12 +1119,6 @@ bool passBaseCut(){
       return false;
     }*/
   }
-  
-  /*if (! (phys.njets() >= 2) ){ 
-    numEvents->Fill(9);
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
-    return false; //2 jet cut
-  }*/
 
   //cout<<__LINE__<<endl;
   /*//if (printStats) { cout<<"dphi_metj1: "<<phys.dphi_metj1()<<" "; }
@@ -1133,7 +1137,8 @@ bool passBaseCut(){
     return false;
   }*/
 
-  return true;
+  return pass;
+  //return true;
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
 }
 
