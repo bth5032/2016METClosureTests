@@ -50,26 +50,28 @@ void makePtReweightHisto(ConfigParser * conf)
   else{
     subtractor_scales.push_back(0.06498); //RSFOF*kappa 
   }
-  //ZNu---------------------------
-  s_path = primary_path;
-  s_path.ReplaceAll("/DileptonData/", "/ZNu/");
-  //ZNu-VVV
-  s_path.ReplaceAll("DileptonData.root", "VVV.root");
-  subtractor_paths.push_back(s_path);
-  subtractor_scales.push_back(1);
-  //ZNu-ttz
-  s_path.ReplaceAll("VVV.root", "ttz.root");
-  subtractor_paths.push_back(s_path);
-  subtractor_scales.push_back(1);
-  //ZNu-zz
-  s_path.ReplaceAll("ttz.root", "zz.root");
-  subtractor_paths.push_back(s_path);
-  subtractor_scales.push_back(1);
-  //ZNu-wz
-  s_path.ReplaceAll("zz.root", "wz.root");
-  subtractor_paths.push_back(s_path);
-  subtractor_scales.push_back(1);
-
+  
+  if (conf->get("signal_region") != "ICHEP"){
+    //ZNu---------------------------
+    s_path = primary_path;
+    s_path.ReplaceAll("/DileptonData/", "/ZNu/");
+    //ZNu-VVV
+    s_path.ReplaceAll("DileptonData.root", "VVV.root");
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(1);
+    //ZNu-ttz
+    s_path.ReplaceAll("VVV.root", "ttz.root");
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(1);
+    //ZNu-zz
+    s_path.ReplaceAll("ttz.root", "zz.root");
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(1);
+    //ZNu-wz
+    s_path.ReplaceAll("zz.root", "wz.root");
+    subtractor_paths.push_back(s_path);
+    subtractor_scales.push_back(1);
+  }
   /*cout<<"subtractor_paths: "<<endl;
   for (int i=0; i < (int) subtractor_paths.size(); i++){
     cout<<subtractor_paths.at(i)<<endl;
