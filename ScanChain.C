@@ -302,11 +302,11 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  if( phys.dilpt() <25 ){
+  /*if( phys.dilpt() <25 ){
     numEvents->Fill(26);
     //if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
     return false;
-  }
+  }*/
   //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
@@ -1103,11 +1103,11 @@ bool passBaseCut(){
         //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
         return false; //third lepton veto
     }
-    if (phys.nveto_leptons() >= 1){
+    /*if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       //if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
-    }
+    }*/
   }
   
   /*if (! (phys.njets() >= 2) ){ 
