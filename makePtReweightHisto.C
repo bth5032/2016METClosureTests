@@ -44,8 +44,12 @@ void makePtReweightHisto(ConfigParser * conf)
   s_path.ReplaceAll("/DileptonData/", "/FS/");
   s_path.ReplaceAll("DileptonData.root", "FS.root");
   subtractor_paths.push_back(s_path);
-  subtractor_scales.push_back(0.06498); //RSFOF*kappa
-
+  if (conf->get("old_FS") == "true"){
+    subtractor_scales.push_back(1); //RSFOF*kappa
+  }
+  else{
+    subtractor_scales.push_back(0.06498); //RSFOF*kappa 
+  }
   //ZNu---------------------------
   s_path = primary_path;
   s_path.ReplaceAll("/DileptonData/", "/ZNu/");
