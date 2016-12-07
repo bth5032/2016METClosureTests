@@ -676,7 +676,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
- if ((! phys.isData()) && conf->get("event_type") != "photon" ){
+ /*if ((! phys.isData()) && conf->get("event_type") != "photon" ){
     
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
@@ -697,7 +697,7 @@ double getWeight(){
     }
     
     weight*=phys.weight_btagsf();
-  }
+  }*/
   //cout<<__LINE__<<endl;
 
   if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data") && TString(currentFile->GetTitle()).Contains("_ph")){
