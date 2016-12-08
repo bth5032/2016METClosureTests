@@ -1612,9 +1612,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           continue;  
         }
       }
-      //double weight=1;
-      if (conf->get("do_MET_filters") == "true" && (! passMETFilters())) continue; ///met filters
       
+      if (phys.isData() && (! passMETFilters())) continue; ///met filters
+      
+      //double weight=1;
       double weight = getWeight();
       weight_log->Fill(log10(abs(weight)));
       weight_log_flat->Fill(abs(weight));
