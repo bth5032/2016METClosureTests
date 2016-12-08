@@ -6,17 +6,17 @@
 # into ScanChain and doAll.
 #
 
-#DEFAULT::scaleTofb=36.459
+DEFAULT::scaleTofb=12.9
 
-DEFAULT::signal_region=2j
+DEFAULT::signal_region=ICHEP
 
 #================================
-# 2j Region
+# ICHEP Region
 #================================
 DEFAULT::event_type=photon
 
-#DEFAULT::dPhi_MET_j1=0.4
-#DEFAULT::dPhi_MET_j2=0.4
+DEFAULT::dPhi_MET_j1=0.4
+DEFAULT::dPhi_MET_j2=0.4
 
 DEFAULT::Njets_min=2
 #DEFAULT::Njets_max=3
@@ -26,7 +26,7 @@ DEFAULT::Njets_min=2
 #DEFAULT::NBjets_min=2
 #DEFAULT::NBjets_max=2
 
-#DEFAULT::MT2_min=100
+DEFAULT::MT2_min=80
 
 #DEFAULT::MT2b_min=200
 
@@ -43,12 +43,13 @@ DEFAULT::n_lep_veto=1
 
 #Photon Data With Electroweak Subtraction
 Name=PhotonData
-data_set=GammaData-SinglePhoton_GammaData-EWKSub
+data_set=GammaData-SinglePhoton-Skimmed_GammaData-EWKSub
 data=true #no pileup reweighting
 vpt_reweight=true
 
 #Photon Data Without Electroweak Subtraction
 Name=PhotonData_NoEWKSub
-data_set=GammaData-SinglePhoton
+data_set=GammaData-SinglePhoton-Skimmed
 data=true #no pileup reweighting
 vpt_reweight=true 
+old_FS=true

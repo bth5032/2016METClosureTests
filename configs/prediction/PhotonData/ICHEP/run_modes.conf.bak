@@ -6,9 +6,9 @@
 # into ScanChain and doAll.
 #
 
-#DEFAULT::scaleTofb=36.459
+#DEFAULT::scaleTofb=12.9
 
-DEFAULT::signal_region=2j
+DEFAULT::signal_region=ICHEP
 
 #================================
 # 2j Region
@@ -43,10 +43,10 @@ DEFAULT::n_lep_veto=1
 
 #Photon Data With Electroweak Subtraction
 Name=PhotonData
-data_set=GammaData-SinglePhoton_GammaData-EWKSub
+data_set=GammaData-SinglePhoton-Skimmed_GammaData-EWKSub
 data=true #no pileup reweighting
 
 #Photon Data Without Electroweak Subtraction
 Name=PhotonData_NoEWKSub
-data_set=GammaData-SinglePhoton
+data_set=GammaData-SinglePhoton-Skimmed
 data=true #no pileup reweighting
