@@ -143,6 +143,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
 
 pair<vector<double>,vector<double>> getFSError(vector<double> bin_count, double RSFOF){
   double RSFOF_unc = 0.026; //ICHEP 2016
+  double kappa_unc = 0.03; //ICHEP 2016
 
   vector<double> error_up;
   vector<double> error_dn;
@@ -152,8 +153,8 @@ pair<vector<double>,vector<double>> getFSError(vector<double> bin_count, double 
     RooHistError::instance().getPoissonInterval(bin_count[i], bin_dn, bin_up);
 
     cout<<"bin count "<<bin_count[i]<<" Error_up "<<bin_up<<" Error_dn "<<bin_dn<<endl; 
-    bin_up = RSFOF*RSFOF*(bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
-    bin_dn = RSFOF*RSFOF*(bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i];
+    bin_up = RSFOF*RSFOF*(bin_up - bin_count[i])*(bin_up - bin_count[i]) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i];
+    bin_dn = RSFOF*RSFOF*(bin_count[i] - bin_dn)*(bin_count[i] - bin_dn) + RSFOF_unc*RSFOF_unc*bin_count[i]*bin_count[i] + kappa_unc*kappa_unc*bin_count[i]*bin_count[i];
 
     error_up.push_back(sqrt(bin_up));
     error_dn.push_back(sqrt(bin_dn));
