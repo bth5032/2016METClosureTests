@@ -1480,7 +1480,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     set_goodrun_file(json_file);   
   }
   else{
-    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
+    //const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt"; // 36.5 fb
+    const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unblind18_sorted_snt.txt"; // 18.1 fb
     cout<<"Setting good run list: "<<json_file<<endl;
     set_goodrun_file(json_file);
   }

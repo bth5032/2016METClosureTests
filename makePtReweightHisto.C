@@ -48,7 +48,7 @@ void makePtReweightHisto(ConfigParser * conf)
     subtractor_scales.push_back(1); //RSFOF*kappa
   }
   else{
-    subtractor_scales.push_back(0.06498); //RSFOF*kappa 
+    subtractor_scales.push_back(0.073905); //RSFOF*kappa 
   }
   
   if (conf->get("signal_region") != "ICHEP"){
@@ -62,15 +62,15 @@ void makePtReweightHisto(ConfigParser * conf)
     //ZNu-ttz
     s_path.ReplaceAll("VVV.root", "ttz.root");
     subtractor_paths.push_back(s_path);
-    subtractor_scales.push_back(1);
+    subtractor_scales.push_back(1.09);
     //ZNu-zz
     s_path.ReplaceAll("ttz.root", "zz.root");
     subtractor_paths.push_back(s_path);
-    subtractor_scales.push_back(1);
+    subtractor_scales.push_back(1.8);
     //ZNu-wz
     s_path.ReplaceAll("zz.root", "wz.root");
     subtractor_paths.push_back(s_path);
-    subtractor_scales.push_back(1);
+    subtractor_scales.push_back(0.94);
   }
   /*cout<<"subtractor_paths: "<<endl;
   for (int i=0; i < (int) subtractor_paths.size(); i++){
