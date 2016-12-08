@@ -166,7 +166,7 @@ bool passMuonTriggers(){
       //cout<<"Using Non DZ triggers"<<endl;
       //cout<<__LINE__<<endl;
       //if (printStats) { cout<<"HLT_DoubleMu_nonDZ: "<<phys.HLT_DoubleMu_nonDZ()<<" HLT_DoubleMu_tk_nonDZ: "<<phys.HLT_DoubleMu_tk_nonDZ()<<" "<<" HLT_DoubleMu_noiso: "<<phys.HLT_DoubleMu_noiso()<<" "; }
-      return (phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
+      return (phys.HLT_DoubleMu() || phys.HLT_DoubleMu_tk() || phys.HLT_DoubleMu_dbltk() || phys.HLT_DoubleMu_nonDZ() || phys.HLT_DoubleMu_tk_nonDZ() || phys.HLT_DoubleMu_noiso());
     } 
   }
   else{
@@ -192,7 +192,7 @@ bool passEMuTriggers(){
     return true;
   }
   else{
-    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso());
+    return (phys.HLT_MuEG() || phys.HLT_MuEG_2() || phys.HLT_MuEG_noiso() || phys.HLT_MuEG_noiso_2());
   }
 }
 
@@ -302,11 +302,11 @@ bool hasGoodZ(){
 
   //cout<<__LINE__<<endl;
 
-  /*if( phys.dilpt() <25 ){
+  if( phys.dilpt() <25 ){
     numEvents->Fill(26);
     //if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
     return false;
-  }*/
+  }
   //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
@@ -676,7 +676,7 @@ double getWeight(){
   }
   //cout<<__LINE__<<endl;
 
- /*if ((! phys.isData()) && conf->get("event_type") != "photon" ){
+ if ((! phys.isData()) && conf->get("event_type") != "photon" ){
     
     if (phys.hyp_type() == 0) weight *= 0.963;
     if (phys.hyp_type() == 1) weight *= 0.947;
@@ -697,7 +697,7 @@ double getWeight(){
     }
     
     weight*=phys.weight_btagsf();
-  }*/
+  }
   //cout<<__LINE__<<endl;
 
   if (phys.isData() && phys.ngamma() > 0 && TString(currentFile->GetTitle()).Contains("data") && TString(currentFile->GetTitle()).Contains("_ph")){
@@ -1083,7 +1083,7 @@ bool passBaseCut(){
   //if (printStats) { cout<<"goodrun : "<<goodrun(phys.evt(), phys.lumi())<<" "; }
   //if (printStats) { cout<<"njets : "<<phys.njets()<<" "; }
   
-  bool pass=true;
+  //bool pass=true;
 
   if (phys.isData()){
     if (! (goodrun(phys.run(), phys.lumi()))){ 
@@ -1099,25 +1099,25 @@ bool passBaseCut(){
     numEvents->Fill(8);
   } */
 
-  if (! (phys.njets() >= 2) ){ 
+  /*if (! (phys.njets() >= 2) ){ 
     numEvents->Fill(9);
     //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
-    //return false; //2 jet cut
-    pass=false;
-  }
+    return false; //2 jet cut
+    //pass=false;
+  }*/
 
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
         numEvents->Fill(54);
         //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
-        //return false; //third lepton veto
-        pass=false;
+        return false; //third lepton veto
+        //pass=false;
     }
-    /*if (phys.nveto_leptons() >= 1){
+    if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
       //if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
-    }*/
+    }
   }
 
   //cout<<__LINE__<<endl;
@@ -1137,8 +1137,8 @@ bool passBaseCut(){
     return false;
   }*/
 
-  return pass;
-  //return true;
+  //return pass;
+  return true;
   //if (printPass) cout<<phys.evt()<<": Passes Base Cuts"<<endl;
 }
 
