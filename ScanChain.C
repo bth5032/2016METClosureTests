@@ -1741,7 +1741,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       eventCount++;
       
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
-
+      cout<<"Event: "<<phys.evt()<<endl;
       //if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
