@@ -230,7 +230,7 @@ bool passLeptonHLTs(){
 bool hasGoodZ(){
   if( phys.nlep() < 2         ){ 
     numEvents->Fill(10);
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed 2 lepton Z cut"<<endl;
     return false; // require at least 2 good leptons
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
@@ -239,7 +239,7 @@ bool hasGoodZ(){
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
     return false; // leading lep pT > 25 GeV
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
@@ -248,7 +248,7 @@ bool hasGoodZ(){
 
   if( phys.lep_pt().at(1) < 20        ) {
     numEvents->Fill(12); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep2 pt < 20 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep2 pt < 20 Z cut"<<endl;
     return false; // tailing lep pT > 20 GeV      
   }
   //if (printStats) { cout<<"lep2 pt: "<<phys.lep_pt().at(1)<<" "; }
@@ -257,7 +257,7 @@ bool hasGoodZ(){
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
     return false; // eta < 2.4
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
@@ -266,7 +266,7 @@ bool hasGoodZ(){
   
   if( abs(phys.lep_p4().at(1).eta())     > 2.4       ) {
     numEvents->Fill(14); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep2 eta > 2.4 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep2 eta > 2.4 Z cut"<<endl;
     return false; // eta < 2.4
   }
   //if (printStats) { cout<<"lep2 eta: "<<phys.lep_p4().at(1).eta()<<" "; }
@@ -276,7 +276,7 @@ bool hasGoodZ(){
   if (conf->get("dil_flavor") == "emu"){ //only true for ttbar estimate
     if (! (phys.hyp_type() == 2) ){ //require explicit emu event
       numEvents->Fill(15); 
-      //if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed not explicit e/mu Z cut, for ttbar only"<<endl;
       return false; // require explicit opposite flavor event
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; }
@@ -285,7 +285,7 @@ bool hasGoodZ(){
     //require explicit hypothesis type
     if( !( phys.hyp_type() == 0 || phys.hyp_type() == 1 ) ) {
         numEvents->Fill(15); 
-        //if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
+        if (printFail) cout<<phys.evt()<<" :Failed explicit mu/mu or e/e Z cut"<<endl;
         return false; // require explicit same flavor event
     }
     //if (printStats) { cout<<"hyp_type: "<<phys.hyp_type()<<" "; } 
@@ -296,7 +296,7 @@ bool hasGoodZ(){
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
     return false;
   }
 
@@ -304,14 +304,14 @@ bool hasGoodZ(){
 
   if( phys.dilpt() <25 ){
     numEvents->Fill(26);
-    //if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed Z pt cut"<<endl;
     return false;
   }
   //cout<<__LINE__<<endl;
 
   if( abs(phys.lep_p4().at(1).eta()) > 1.4 && abs(phys.lep_p4().at(1).eta()) < 1.6 ) {
     numEvents->Fill(18); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep2 in xition region Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep2 in xition region Z cut"<<endl;
     return false; // veto xition region
   }
 
@@ -319,7 +319,7 @@ bool hasGoodZ(){
   
   if( phys.dRll() < 0.1 ) {
     numEvents->Fill(19); 
-    //if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed deltaR Z cut"<<endl;
     return false;
   }
   //if (printStats) { cout<<"DeltaR_ll: "<<phys.dRll()<<" "; }
@@ -328,7 +328,7 @@ bool hasGoodZ(){
 
   if (! passLeptonHLTs()){
     numEvents->Fill(20);
-    //if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed HLT Z cut"<<endl;
     return false;
   }
 
@@ -336,7 +336,7 @@ bool hasGoodZ(){
 
   if( !(phys.evt_type() == 0 ) ) {
     numEvents->Fill(21); 
-    //if (printFail) cout<<phys.evt()<<" :Failed evt_type=0 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed evt_type=0 Z cut"<<endl;
     return false; // require opposite sign
   }
   //if (printStats) { cout<<"evt_type: "<<phys.evt_type()<<" "; }
@@ -361,12 +361,12 @@ bool hasGoodZ(){
 
   if( phys.dilmass() < dilmass_low ) {
     numEvents->Fill(22); 
-    //if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return false; // on-Z
   }
   if( phys.dilmass() > dilmass_high && dilmass_high != -1 ) {
     numEvents->Fill(22); 
-    //if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed Z mass window Z cut"<<endl;
     return false; // on-Z
   }
   //if (printStats) { cout<<"mass_ll: "<<phys.dilmass()<<" "; }
@@ -380,37 +380,37 @@ bool hasGoodZ(){
 bool hasGoodPhoton(){
   if( phys.ngamma() <  1 ) {
     numEvents->Fill(24);
-    //if (printFail) cout<<phys.evt()<<" :Failed at least 1 photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed at least 1 photon cut"<<endl;
     return false; // require at least 1 good photon
   }
   
   if( phys.evt_type() != 2 ) {
     numEvents->Fill(25);
-    //if (printFail) cout<<phys.evt()<<" :Failed explicitly evt_type2 photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed explicitly evt_type2 photon cut"<<endl;
     return false; // photon + jets events
   }
   
   if( phys.gamma_pt().at(0) < 25 ) {
     numEvents->Fill(26);
-    //if (printFail) cout<<phys.evt()<<" :Failed pt < 22 photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed pt < 22 photon cut"<<endl;
     return false; // photon pt > 22 GeV
   }
   
   if( abs(phys.gamma_p4().at(0).eta()) > 1.4 && abs(phys.gamma_p4().at(0).eta()) < 1.6 ) {
     numEvents->Fill(27);
-    //if (printFail) cout<<phys.evt()<<" :Failed gamm ain xition region photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed gamm ain xition region photon cut"<<endl;
     return false; // veto xition region
   }
   
   if( abs(phys.gamma_p4().at(0).eta()) > 2.4 ) {
     numEvents->Fill(28);
-    //if (printFail) cout<<phys.evt()<<" :Failed gamma eta > 2.4 photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed gamma eta > 2.4 photon cut"<<endl;
     return false; // photon in EC or EB
   }
   
   if( phys.gamma_hOverE().at(0) > 0.1 ) {
     numEvents->Fill(29);
-    //if (printFail) cout<<phys.evt()<<" :Failed gamma hOverE photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed gamma hOverE photon cut"<<endl;
     return false; // H/E < 0.1
   }
   
@@ -418,40 +418,40 @@ bool hasGoodPhoton(){
   
   if( phys.matched_emf() < 0.7 ) {
     numEvents->Fill(30);
-    //if (printFail) cout<<phys.evt()<<" :Failed matched_emf photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed matched_emf photon cut"<<endl;
     return false; // jet neutral EM fraction cut
   }
   
   if( acos( cos( phys.gamma_phi().at(0) - phys.met_phi() ) ) < 0.14 ) {
     numEvents->Fill(31);
-    //if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed photons aligned with MET photon cut"<<endl;
     return false; // kill photons aligned with MET
   }
   
   if( phys.elveto() ) {
     numEvents->Fill(32);
-    //if (printFail) cout<<phys.evt()<<" :Failed electron pixel veto photon cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed electron pixel veto photon cut"<<endl;
     return false; // veto pixel match
   }
 
   if(conf->get("event_type") == "photon"){
     if (phys.isData() && (! passPhotonTriggers()) ){
       numEvents->Fill(52);
-      //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
       return false;
     }
   }
 
   if (/*(! phys.isData()) &&*/ (! passPhotonEmulatedTrigger()) ){
     numEvents->Fill(53);
-    //if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed emulated photon trigger"<<endl;
     return false;
   }
 
   if (conf->get("nisoTrack_5gev_max") != ""){
     if( phys.nisoTrack_5gev() > stoi(conf->get("nisoTrack_5gev_max")) ){
       numEvents->Fill(62);
-      //if (printFail) cout<<phys.evt()<<" :Failed nisotrack_5gev cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed nisotrack_5gev cut"<<endl;
       return false;
     }
   }
@@ -466,7 +466,7 @@ bool hasGoodGammaMu(){
   
   if( phys.nlep() < 1         ){ 
     numEvents->Fill(10);
-    //if (printFail) cout<<phys.evt()<<" :Failed 1 lepton GammaMu cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed 1 lepton GammaMu cut"<<endl;
     return false; // require at least 1 good leptons
   }
   //if (printStats) { cout<<"Number of Leptons: "<<phys.nlep()<<" "; }
@@ -475,7 +475,7 @@ bool hasGoodGammaMu(){
 
   if (abs(phys.lep_pdgId().at(0)) != 13){
     numEvents->Fill(61);
-    //if (printFail) cout<<phys.evt()<<" :Failed GammaMu muon check"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed GammaMu muon check"<<endl;
     return false;
   }
 
@@ -483,7 +483,7 @@ bool hasGoodGammaMu(){
 
   if( phys.lep_pt().at(0) < 25        ) {
     numEvents->Fill(11); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 pt < 25 Z cut"<<endl;
     return false; // leading lep pT > 25 GeV
   }
   //if (printStats) { cout<<"lep1 pt: "<<phys.lep_pt().at(0)<<" "; }
@@ -492,7 +492,7 @@ bool hasGoodGammaMu(){
 
   if( abs(phys.lep_p4().at(0).eta())     > 2.4       ) {
     numEvents->Fill(13); 
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 eta > 2.4 Z cut"<<endl;
     return false; // eta < 2.4
   }    
   //if (printStats) { cout<<"lep1 eta: "<<phys.lep_p4().at(0).eta()<<" "; }
@@ -502,7 +502,7 @@ bool hasGoodGammaMu(){
   //This is the original cut selection
   if( abs(phys.lep_p4().at(0).eta()) > 1.4 && abs(phys.lep_p4().at(0).eta()) < 1.6 ){
     numEvents->Fill(17);
-    //if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed lep1 in xition region Z cut"<<endl;
     return false;
   }
 
@@ -511,14 +511,14 @@ bool hasGoodGammaMu(){
   if (conf->get("trigger_type") == "singleMu"){
     if(phys.isData() && (! passSingleMuTriggers()) ){
       numEvents->Fill(65);
-      //if (printFail) cout<<phys.evt()<<" :Failed Single Muon trigger cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed Single Muon trigger cut"<<endl;
       return false;
     }
   }
   else if (conf->get("trigger_type") == "singleGamma"){
     if (phys.isData() && (! passPhotonTriggers()) ){
       numEvents->Fill(52);
-      //if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed Photon trigger cut"<<endl;
       return false;
     }
   }
@@ -756,7 +756,7 @@ bool passSignalRegionCuts(){
   if (conf->get("Njets_min") != ""){
     if (phys.njets() < stod(conf->get("Njets_min"))){
       numEvents->Fill(34);
-      //if (printFail) cout<<phys.evt()<<" :Failed min jets cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed min jets cut"<<endl;
       return false;
     }
   }
@@ -767,7 +767,7 @@ bool passSignalRegionCuts(){
   if (conf->get("Njets_max") != ""){
     if (phys.njets() > stod(conf->get("Njets_max"))){
       numEvents->Fill(35);
-      //if (printFail) cout<<phys.evt()<<" :Failed max jets cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed max jets cut"<<endl;
       return false;
     }
   }
@@ -779,7 +779,7 @@ bool passSignalRegionCuts(){
   if (conf->get("NBjets_min") != ""){
     if (phys.nBJetMedium() < stod(conf->get("NBjets_min"))){
       numEvents->Fill(36);
-      //if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed min bjet cut"<<endl;
       return false;
     }
   }
@@ -790,7 +790,7 @@ bool passSignalRegionCuts(){
   if (conf->get("NBjets_max") != ""){
     if (phys.nBJetMedium() > stod(conf->get("NBjets_max"))){
       numEvents->Fill(37);
-      //if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed max bjet cut"<<endl;
       return false;
     }
   }
@@ -801,7 +801,7 @@ bool passSignalRegionCuts(){
   if (conf->get("dPhi_MET_j1") != ""){
     if (phys.dphi_metj1() < stod(conf->get("dPhi_MET_j1"))){
       numEvents->Fill(38);
-      //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
       return false;
     }
   }
@@ -812,7 +812,7 @@ bool passSignalRegionCuts(){
   if (conf->get("dPhi_MET_j2") != ""){
     if (phys.dphi_metj2() < stod(conf->get("dPhi_MET_j2"))){
       numEvents->Fill(39);
-      //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
       return false;
     }
   }
@@ -823,7 +823,7 @@ bool passSignalRegionCuts(){
   if (conf->get("MT2b_min") != "" && conf->get("event_type") != "photon"){
     if (phys.mt2b() < stod(conf->get("MT2b_min"))){
       numEvents->Fill(40);
-      //if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed MT2b cut"<<endl;
       return false;
     }
   }
@@ -834,7 +834,7 @@ bool passSignalRegionCuts(){
   if (conf->get("MT2_min") != ""){
     if (phys.mt2() < stod(conf->get("MT2_min"))){
       numEvents->Fill(59);
-      //if (printFail) cout<<phys.evt()<<" :Failed MT2 cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed MT2 cut"<<endl;
       return false;
     }
   }
@@ -846,7 +846,7 @@ bool passSignalRegionCuts(){
   //if (printStats) { cout<<"ht: "<<phys.ht()<<" "; }
     if (phys.ht() < stod(conf->get("HT_min"))){
       numEvents->Fill(41);
-      //if (printFail) cout<<phys.evt()<<" :Failed sum HT min cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed sum HT min cut"<<endl;
       return false;
     }
   }
@@ -857,7 +857,7 @@ bool passSignalRegionCuts(){
   //if (printStats) { cout<<"mbb_mh_diff: "<<abs(phys.mbb_csv() - 125)<<" "; }
     if (abs(phys.mbb_csv() - 125) < stod(conf->get("mbb_mh_diff"))){
       numEvents->Fill(42);
-      //if (printFail) cout<<phys.evt()<<" :Failed sum mbb_mh diff cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed sum mbb_mh diff cut"<<endl;
       return false;
     }
   }
@@ -877,7 +877,7 @@ bool passSignalRegionCuts(){
     //if (printStats) { cout<<"sum_HT_pt_pt: "<<abs(phys.ht() + pt )<<" "; }
     if ( abs(phys.ht() + pt ) < stod(conf->get("sum_HT_pt_pt") ) ){
       numEvents->Fill(43);
-      //if (printFail) cout<<phys.evt()<<" :Failed sum HT pt pt cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed sum HT pt pt cut"<<endl;
       return false;
     }
   }
@@ -887,7 +887,7 @@ bool passSignalRegionCuts(){
   if (conf->get("lep1_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(0) < stod( conf->get("lep1_pt_min") )){
       numEvents->Fill(45);
-      //if (printFail) cout<<phys.evt()<<" :Failed lep1 min pt"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed lep1 min pt"<<endl;
       return false;
     }
   }
@@ -897,7 +897,7 @@ bool passSignalRegionCuts(){
   if (conf->get("lep2_pt_min") != "" && conf->get("event_type") != "photon" ){
     if ( phys.lep_pt().at(1) < stod( conf->get("lep2_pt_min") )){
       numEvents->Fill(46);
-      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
   }
@@ -907,7 +907,7 @@ bool passSignalRegionCuts(){
   if (conf->get("MET_min") != ""){
     if ( phys.met_T1CHS_miniAOD_CORE_pt() < stod( conf->get("MET_min") )){
       numEvents->Fill(56);
-      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
   }
@@ -917,7 +917,7 @@ bool passSignalRegionCuts(){
   if (conf->get("MET_max") != ""){
     if ( phys.met_T1CHS_miniAOD_CORE_pt() > stod( conf->get("MET_max") )){
       numEvents->Fill(57);
-      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
   }
@@ -927,7 +927,7 @@ bool passSignalRegionCuts(){
   if (conf->get("Mbb_max") != ""){
     if ( phys.mbb_bpt() > stod( conf->get("Mbb_max") )){
       numEvents->Fill(58);
-      //if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed lep2 min pt cut"<<endl;
       return false;
     }
   }
@@ -935,7 +935,7 @@ bool passSignalRegionCuts(){
  if (conf->get("MT_LepMET_min") != ""){
     if ( getMTLepMET() < stod( conf->get("MT_LepMET_min") ) ){
       numEvents->Fill(63);
-      //if (printFail) cout<<phys.evt()<<" :Failed MT from Lepton and MET min cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed MT from Lepton and MET min cut"<<endl;
       return false;
     }
   } 
@@ -976,12 +976,12 @@ bool passRareCuts(){
   //if (printStats) { cout<<"HasGenMET: "<<hasrealmet<<" "; }
   if ( ! hasrealmet ){
     numEvents->Fill(47);
-    //if (printFail) cout<<phys.evt()<<" :Failed Has Real MET Rare Cut"<<endl;    
+    if (printFail) cout<<phys.evt()<<" :Failed Has Real MET Rare Cut"<<endl;    
     return false;
   }
   else if ( ! realzpair ){
     numEvents->Fill(48);
-    //if (printFail) cout<<phys.evt()<<" :Failed Has Real Z Rare Cut"<<endl;    
+    if (printFail) cout<<phys.evt()<<" :Failed Has Real Z Rare Cut"<<endl;    
     return false;
   }
   
@@ -995,7 +995,7 @@ bool passSUSYSingalCuts(){
   if (conf->get("mass_chi") != ""){
     if (phys.mass_chi() != stod(conf->get("mass_chi"))){
       numEvents->Fill(55);
-      //if (printFail) cout<<phys.evt()<<" :Failed mass chi cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed mass chi cut"<<endl;
       return false;
     }
   } 
@@ -1011,7 +1011,7 @@ bool isDuplicate(){
     if (is_duplicate(id) ){
       ++nDuplicates;
       //cout<<__LINE__<<endl;
-      //if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Is a duplicate"<<endl;
       return true;
     }
     //cout<<__LINE__<<endl;
@@ -1025,52 +1025,52 @@ bool passMETFilters(){
   if ( phys.isData() ) {
     if ( phys.nVert() == 0 ) {
       numEvents->Fill(1);
-      //if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed nVerts cut"<<endl;
       return false;
     }
     if (!phys.Flag_HBHENoiseFilter                   ()      ){ 
       numEvents->Fill(2);
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed HBHENoiseFilter cut"<<endl;
       return false;
     }
     if (!phys.Flag_HBHEIsoNoiseFilter                ()      ){ 
       numEvents->Fill(3);
-      //if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed HBHEIsoNoiseFilter cut"<<endl;
       return false;
     } 
     /*if (!phys.Flag_CSCTightHalo2015Filter            ()      ){ 
       pass=false;
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       numEvents->Fill(4);
     }*/
     if (!phys.Flag_EcalDeadCellTriggerPrimitiveFilter()      ) { 
       numEvents->Fill(5);
-      //if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed EcalDeadCellTriggerPrimativeFilter cut"<<endl;
       return false;
     }
     if (!phys.Flag_goodVertices                      ()      ) { 
       numEvents->Fill(6);
-      //if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed goodVerticies cut"<<endl;
       return false;
     }
     if (!phys.Flag_eeBadScFilter                     ()      ) { 
       numEvents->Fill(7);
-      //if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed eeBadScFilter cut"<<endl;
       return false;
     }
     if (!phys.Flag_globalTightHalo2016            ()      ){ 
       numEvents->Fill(4);
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
     if (!phys.Flag_badMuonFilter            ()      ){ 
       numEvents->Fill(50);
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
     if (!phys.Flag_badChargedCandidateFilter            ()      ){ 
       numEvents->Fill(51);
-      //if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed CSCTightHalo2015Filter cut"<<endl;
       return false;
     }
   }
@@ -1088,20 +1088,20 @@ bool passBaseCut(){
   if (phys.isData()){
     if (! (goodrun(phys.run(), phys.lumi()))){ 
       numEvents->Fill(8);
-      //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
       return false; //golden json
     }
   }
   //Old Method, using branch
   /*if (! (phys.evt_passgoodrunlist() > 0)){ 
     pass=false; //golden json
-    //if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed golden JSON cut"<<endl;
     numEvents->Fill(8);
   } */
 
   /*if (! (phys.njets() >= 2) ){ 
     numEvents->Fill(9);
-    //if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed 2 Jets cut"<<endl;
     return false; //2 jet cut
     //pass=false;
   }*/
@@ -1109,13 +1109,13 @@ bool passBaseCut(){
   if(conf->get("n_lep_veto") != ""){
     if( (phys.nisoTrack_mt2() + phys.nlep()) >= stod(conf->get("n_lep_veto"))){
         numEvents->Fill(54);
-        //if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
+        if (printFail) cout<<phys.evt()<<" :Failed extra lepton veto"<<endl;
         return false; //third lepton veto
         //pass=false;
     }
     if (phys.nveto_leptons() >= 1){
       numEvents->Fill(66);
-      //if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
+      if (printFail) cout<<phys.evt()<<" :Failed multi-lepton analysis lepton veto"<<endl;
       return false;
     }
   }
@@ -1125,7 +1125,7 @@ bool passBaseCut(){
   //Leading Jet/MET Phi min
   if (phys.dphi_metj1() < 0.4){
     numEvents->Fill(38);
-    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 1 cut"<<endl;
     return false;
   }
   //cout<<__LINE__<<endl;
@@ -1133,7 +1133,7 @@ bool passBaseCut(){
   //Trailing Jet/MET Phi min
   if (phys.dphi_metj2() < 0.4){
     numEvents->Fill(39);
-    //if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
+    if (printFail) cout<<phys.evt()<<" :Failed dPhi MET with jet 2 cut"<<endl;
     return false;
   }*/
 
@@ -1545,10 +1545,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 //===========================================
       printStats = false;
       printFail = false;
-      
+
       /*if ( inspection_set.count(phys.evt()) != 0){
         printStats=true;
       }*/
+
+      if ( inVinceNotMine.count(phys.evt()) != 0){
+        printFail = true;
+      }
       /*if (conf->get("data_set") == "ttv"){
         //cout<<__LINE__<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
@@ -1747,7 +1751,7 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       eventCount++;
       
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
-      cout<<"Event_Run_Lumi: "<<phys.evt()<<" "<<phys.run()<<" "<<phys.lumi()<<endl;
+      //cout<<"Event_Run_Lumi: "<<phys.evt()<<" "<<phys.run()<<" "<<phys.lumi()<<endl;
       //if(phys.met_T1CHS_miniAOD_CORE_pt() >= 300){
       //  cout<<"Event: "<<phys.evt()<<" MET: "<<phys.met_T1CHS_miniAOD_CORE_pt()<<" njets: "<<phys.njets()<<" nbtags: "<<phys.nBJetMedium()<<" HT: "<<phys.ht()<<endl;
       //}
