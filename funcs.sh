@@ -244,8 +244,8 @@ function lt {
 		lt_srid=${lt_srid%.plots_out}
 		lt_srid=${lt_srid//_/ /}
 		echo "\textbf{${lt_srid}:}"
-		echo
+		echo ""
 		cat $arg | grep "LATEXTABLE: " | sed 's/^LATEXTABLE: //g'
-		echo
+		echo ""
 	done
 }
