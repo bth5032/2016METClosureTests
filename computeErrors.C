@@ -16,17 +16,18 @@ double err_mult(double A, double B, double errA, double errB) {
   return sqrt((A/B)*(A/B)*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
-vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, TString SR){
+vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, double normalization_bg, double normalization_err_bg, TString SR){
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
      normalziation == bin count to which the sample was normalized
+     normalziation_bg == bin count of the templates which was normalized to 'normalization'
      SR == name of signal region */
   vector<double> output_errors;
 
   double template_low_bin_count = bin_count[0];
   double template_low_bin_error = stat_err[0];
 
-  normalization = err_mult(normalization, bin_count[0], sqrt(normalization), stat_err[0]);
+  normalization = err_mult(normalization, normalization_bg, sqrt(normalization), normalization_err_bg);
 
   //=========
   // Input EWK and Closure Errors
