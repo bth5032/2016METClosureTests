@@ -956,7 +956,7 @@ bool passRareCuts(){
     
     for( size_t genind = 0; genind < phys.genPart_motherId().size(); genind++ ){
       if( (abs(phys.genPart_motherId().at(genind)) == 24 || phys.genPart_motherId().at(genind) == 23) &&
-        phys.genPart_status().at(genind) == 23 &&
+        (phys.genPart_status().at(genind) == 23 || phys.genPart_status().at(genind) == 1 ) &&
         (abs(phys.genPart_pdgId().at(genind))==12 ||
          abs(phys.genPart_pdgId().at(genind))==14 ||
          abs(phys.genPart_pdgId().at(genind))==16) ){
