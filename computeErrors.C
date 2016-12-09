@@ -256,10 +256,12 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
   cout<<"l }"<<endl;
   
   cout<<"LATEXTABLE: Sample ";
+  cout<<setprecision(0);
   for (int i = 0; i<temp_err.size(); i++){
-    cout<<" & "<<bin_low[i].first<<"-"<<bin_low[i].second;
+    cout<<" & "<<(int) bin_low[i].first<<"-"<<(int) bin_low[i].second;
   }
   cout<<" \\\\ \\hline "<<endl;
+  cout<<setprecision(1);
   cout<<"LATEXTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<" & "<<temp_count[i]<<"$\\pm$"<<temp_err[i];

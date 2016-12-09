@@ -245,7 +245,7 @@ function lt {
 		lt_srid=${lt_srid//_/ }
 		echo "\textbf{${lt_srid}:}"
 		echo ""
-		cat $arg | grep "LATEXTABLE: " | sed 's/^LATEXTABLE: //g'
+		cat $arg | grep "LATEXTABLE: " | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
 		echo ""
 	done
 }
