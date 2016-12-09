@@ -229,3 +229,22 @@ function makeL1PrescaleWeightHists {
 		done
 	done
 }
+
+function lt {
+	#Prints parses table for config
+	if [[ $# < 1 ]]
+	then
+		echo "lt <path/to/plot/output_1> <path/to/plot/output_2> ..."
+		return
+	fi
+
+	for arg in ${@}
+	do
+		lt_srid=${arg#*Final_}
+		lt_srid=${lt_srid%.plots_out}
+		echo "\textbf\{${lt_srid}:\}"
+		cat $arg | grep "LATEXTABLE: " | sed 's/^LATEXTABLE: //g'
+	done
+}
+
+function 
