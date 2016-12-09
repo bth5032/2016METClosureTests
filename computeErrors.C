@@ -249,10 +249,10 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
 void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
   
   cout<<"LATEXTABLE: \\begin{tabular} {";
-  for (int i = 0; i < (int) temp_count.size(); i++){
+  for (int i = 0; i < (int) temp_count.size() - 1; i++){
     cout<<"l | "; 
   }
-  cout<<"}"<<endl;
+  cout<<"l }"<<endl;
   
   cout<<"LATEXTABLE: Sample ";
   cout<<setprecision(4);
