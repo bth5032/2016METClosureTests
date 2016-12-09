@@ -93,7 +93,8 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     if (i == bins.begin()){
       lowbin_withEwkSub = count_in_sub;
     }
-      noSubNums.push_back(count_in_no);
+    
+    noSubNums.push_back(count_in_no);
   }
 
   return make_pair(lowbin_withEwkSub, noSubNums);

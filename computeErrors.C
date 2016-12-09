@@ -24,9 +24,6 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
      SR == name of signal region */
   vector<double> output_errors;
 
-  double template_low_bin_count = bin_count[0];
-  double template_low_bin_error = stat_err[0];
-
   normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
 
   //=========
@@ -116,6 +113,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
   double EWK_Norm = normalization/No_EWK_BinCount[norm_bin];
 
+  cout<<"Normalizing in bin"<<norm_bin<<"Normalization Target: "<<normalziation<<" Num in EWK Sub Sample: "<<bin_count[norm_bin]<<" Num in NonEWKSub Sample: "<<No_EWK_BinCount[norm_bin]<<endl;
   cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
 
   double err_bin; //error in bin
