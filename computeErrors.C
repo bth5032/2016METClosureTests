@@ -16,7 +16,7 @@ double err_mult(double A, double B, double errA, double errB) {
   return sqrt((A/B)*(A/B)*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
-vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, double normalization_bg, double normalization_err_bg, TString SR){
+vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, int norm_bin, TString SR){
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
      normalziation == bin count to which the sample was normalized
@@ -27,7 +27,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   double template_low_bin_count = bin_count[0];
   double template_low_bin_error = stat_err[0];
 
-  normalization = err_mult(normalization, normalization_bg, sqrt(normalization), normalization_err_bg);
+  normalization = err_mult(normalization, bin_count[norm_bin], sqrt(normalization), stat_err[norm_bin]);
 
   //=========
   // Input EWK and Closure Errors
@@ -113,7 +113,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //The second derives it for the non EWK subtracted sample.
   //The first is only there for testing purposes (it's how Vince does it).
   //double EWK_Norm = bin_count[0]/EWK_LowBin;
-  double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
+  //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
+  double EWK_Norm = normalziation/No_EWK_BinCount[norm_bin];
 
   cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
 

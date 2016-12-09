@@ -245,6 +245,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
   double numEventsData, numEventsMC, errEventsMC;
+  int norm_bin;
   //Add scale factors like RSFOF
   for (int i=0; i < num_hists; i++){
     if (conf->get("hist_"+to_string(i)+"_scale") != ""){
@@ -319,14 +320,17 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     {
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
       numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9), errEventsMC);
+      norm_bin = 0;
     }
     else if (conf->get("norm_50_100") == "true"){
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(50),clonedPrimary_norm->FindBin(99.9));
       numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(50),clonedBG_norm->FindBin(99.9), errEventsMC);
+      norm_bin = 1;
     }
     else{
       numEventsData = clonedPrimary_norm->Integral(0,-1);
       numEventsMC = clonedBG_norm->IntegralAndError(0,-1, errEventsMC);
+      norm_bin = -1;
     }
     //cout<<__LINE__<<endl;
     cout<<"Num Events Primary: "<<numEventsData<<endl;
@@ -526,8 +530,6 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //Get Normalization
       //========================
       double normalization = numEventsData;
-      double normalization_bg = numEventsMC;
-      double normalization_err_bg = errEventsMC;
       
       //cout<<__LINE__<<endl;
       
@@ -608,7 +610,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       TTV_err = getRareSamplesError(TTV_err, TTV_count);
       //cout<<__LINE__<<endl;
 
-      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, normalization_bg, normalization_err_bg, conf->get("SR"));
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, conf->get("SR"));
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
