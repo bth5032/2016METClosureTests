@@ -114,7 +114,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //The first is only there for testing purposes (it's how Vince does it).
   //double EWK_Norm = bin_count[0]/EWK_LowBin;
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
-  double EWK_Norm = normalziation/No_EWK_BinCount[norm_bin];
+  double EWK_Norm = normalization/No_EWK_BinCount[norm_bin];
 
   cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
 
