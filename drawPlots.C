@@ -1088,7 +1088,9 @@ TString drawArbitraryNumber(ConfigParser *conf){
 
     }
     else{  
-      double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
+      double normalization = numEventsData;
+      double normalization_bg = numEventsMC;
+      double normalization_err_bg = errEventsMC;
 
       vector<double> template_count;
       vector<double> template_error;
@@ -1154,7 +1156,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
       TTV_err = getRareSamplesError(TTV_err, TTV_count);
 
 
-      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, normalization_bg, normalization_err_bg, conf->get("SR"));
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
