@@ -200,29 +200,51 @@ TChain * getTChain(TString data_set) {
 // Rare MC
 //====================================
 
-  if (data_set.Contains("RareMC-wz")){
+  if (data_set.Contains("RareMC-wz") && (! data_set.Contains("RareMC-wz-Skimmed")) ){
     cout<<"Adding RareMC-wz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wz_3lnu_powheg*.root");
   }
 
-  if (data_set.Contains("RareMC-zz")) {
+  if (data_set.Contains("RareMC-zz") && (! data_set.Contains("RareMC-zz-Skimmed"))) {
     cout<<"Adding RareMC-zz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zz_2l2n_powheg*.root");
   }
 
-  if (data_set.Contains("RareMC-vvv")){
+  if (data_set.Contains("RareMC-vvv") && (! data_set.Contains("RareMC-vvv-Skimmed"))){
     cout<<"Adding RareMC-vvv"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wwz_incl_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/wzz_incl_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/zzz_incl_amcnlo*.root");
   }
 
-  if (data_set.Contains("RareMC-ttz")){
+  if (data_set.Contains("RareMC-ttz") && (! data_set.Contains("RareMC-ttz-Skimmed"))){
     cout<<"Adding RareMC-ttz"<<endl; 
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo_ext*.root");
-    //ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_2l2n_amcnlo*.root");
     ch->Add("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttz_qq_amcnlo*.root");
+  } 
+
+  if (data_set.Contains("RareMC-wz-Skimmed")){
+    cout<<"Adding RareMC-wz"<<endl; 
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wz_3lnu_powheg*.root");
   }
+
+  if (data_set.Contains("RareMC-zz-Skimmed")) {
+    cout<<"Adding RareMC-zz"<<endl; 
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_zz_2l2n_powheg*.root");
+  }
+
+  if (data_set.Contains("RareMC-vvv-Skimmed")){
+    cout<<"Adding RareMC-vvv"<<endl; 
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wwz_incl_amcnlo*.root");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_wzz_incl_amcnlo*.root");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_zzz_incl_amcnlo*.root");
+  }
+
+  if (data_set.Contains("RareMC-ttz-Skimmed")){
+    cout<<"Adding RareMC-ttz"<<endl; 
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttz_2l2n_amcnlo_ext*.root");
+    ch->Add("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttz_qq_amcnlo*.root");
+  } 
 
 //====================================
 // Photon Data

@@ -6,7 +6,8 @@
 # into ScanChain and doAll.
 #
 
-DEFAULT::scaleTofb=35
+#DEFAULT::scaleTofb=36.459
+DEFAULT::scaleTofb=18.1
 
 DEFAULT::signal_region=Strong_Bveto_6j
 
@@ -40,12 +41,12 @@ data_set=RareMC-vvv
 
 #ttz
 Name=ttz
-data_set=RareMC-ttz
+data_set=RareMC-ttz-Skimmed
 
 #zz
 Name=zz
-data_set=RareMC-zz
+data_set=RareMC-zz-Skimmed
 
 #wz
 Name=wz
-data_set=RareMC-wz
+data_set=RareMC-wz-Skimmed

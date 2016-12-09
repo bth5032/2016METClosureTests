@@ -6,29 +6,33 @@
 # into ScanChain and doAll.
 #
 
-#DEFAULT::scaleTofb=36.459
-DEFAULT::scaleTofb=18.1
+DEFAULT::scaleTofb=12.9
 
-DEFAULT::signal_region=Strong_Bveto_6j
+DEFAULT::signal_region=ICHEP
 
 #================================
-# Strong Bveto With 6Jets Region
+# 2j Region
 #================================
 DEFAULT::event_type=dilepton
 
-DEFAULT::dPhi_MET_j1=0.4
-DEFAULT::dPhi_MET_j2=0.4
+#DEFAULT::dPhi_MET_j1=0.4
+#DEFAULT::dPhi_MET_j2=0.4
 
-DEFAULT::Njets_min=6
-#DEFAULT::Njets_max=-1
+DEFAULT::Njets_min=2
+#DEFAULT::Njets_max=3
 
-#DEFAULT::HT_min=0
+#DEFAULT::HT_min=200
 
-DEFAULT::NBjets_max=0
+#DEFAULT::NBjets_min=2
+#DEFAULT::NBjets_max=2
 
-DEFAULT::MT2_min=80  
+#DEFAULT::MT2_min=100
 
-DEFAULT::n_lep_veto=3
+#DEFAULT::MT2b_min=200
+
+#DEFAULT::Mbb_max=150
+
+#DEFAULT::n_lep_veto=3
 
 #Scale Factor
 #DEFAULT::scale_factor=2.5
@@ -37,7 +41,7 @@ DEFAULT::rare_real_MET_Z=true #Force VVV and TTV to have real Z and real MET
 
 #VVV
 Name=VVV
-data_set=RareMC-vvv-Skimmed
+data_set=RareMC-vvv
 
 #ttz
 Name=ttz
