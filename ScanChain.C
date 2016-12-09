@@ -1550,10 +1550,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
         printStats=true;
       }*/
 
-      if ( inVinceNotMine.count(phys.evt()) != 0){
+      /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
         cout<<"checking event: "<<phys.evt()<<endl;
-      }
+      }*/
       /*if (conf->get("data_set") == "ttv"){
         //cout<<__LINE__<<endl;
         if ( inVinceNotMine.count(phys.evt()) != 0){
@@ -1751,10 +1751,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
       }*/
       eventCount++;
 
-      if ( inVinceNotMine.count(phys.evt()) != 0){
+      /*if ( inVinceNotMine.count(phys.evt()) != 0){
         printFail = true;
         cout<<"Event passed: "<<phys.evt()<<endl;
-      }
+      }*/
       
       //if (printStats) {cout<<"Event: "<<phys.evt()<<endl;}
       //cout<<"Event_Run_Lumi: "<<phys.evt()<<" "<<phys.run()<<" "<<phys.lumi()<<endl;
