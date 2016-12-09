@@ -246,5 +246,3 @@ function lt {
 		cat $arg | grep "LATEXTABLE: " | sed 's/^LATEXTABLE: //g'
 	done
 }
-
-function 
