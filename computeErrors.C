@@ -293,7 +293,7 @@ void computeErrors(){
   vector<double> rare_stat_err = {5,2,1,.2,.01};
   vector<double> rare_bin_count = {12.2,18.3,9,7.9,8.9};
 
-  vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995),"ATLAS");
+  vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 10, 2.5, "ATLAS");
   pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087);
   vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count);
   cout<<"====================================\n\n\n";
