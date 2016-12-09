@@ -113,7 +113,7 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   //double EWK_Norm = bin_count[0]/No_EWK_BinCount[0];
   double EWK_Norm = bin_count[norm_bin]/No_EWK_BinCount[norm_bin];
 
-  cout<<"Normalizing in bin "<<norm_bin<<" Normalization Target: "<<normalization<<" Num in EWK Sub Sample: "<<bin_count[norm_bin]<<" Num in NonEWKSub Sample: "<<No_EWK_BinCount[norm_bin]<<endl;
+  cout<<"Normalizing in bin "<<norm_bin<<" Normalization Target/Num in EWK Sub Sample: "<<bin_count[norm_bin]<<" Num in NonEWKSub Sample: "<<No_EWK_BinCount[norm_bin]<<endl;
   cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
 
   double err_bin; //error in bin
