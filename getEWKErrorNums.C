@@ -101,13 +101,13 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   cout<<"Deriving EWK Subtraction numbers:"<<endl;
 
   double count_in_sub, count_in_no;
-  for (std::vector<double>::iterator i = bins.begin(); (i+1) != bins.end(); i++){
-    count_in_sub = sub_hist->GetBinContent(*i);
-    count_in_no = no_sub_hist->GetBinContent(*i);
+  for (int i = 1; i<=sub_hist->GetNbinsX(); i++){
+    count_in_sub = sub_hist->GetBinContent(i);
+    count_in_no = no_sub_hist->GetBinContent(i);
 
     cout<<"bin: "<<*i<<"-"<<*(i+1)<<" sub: "<<count_in_sub<<" no sub: "<<count_in_no<<" diff: "<<count_in_no - count_in_sub<<endl;
 
-    if (i == bins.begin()){
+    if (i == 2){
       lowbin_withEwkSub = count_in_sub;
     }
     
