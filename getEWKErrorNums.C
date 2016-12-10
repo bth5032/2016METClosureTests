@@ -70,8 +70,6 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));   
 
-  zeroNegatives(sub_hist);
-  zeroNegatives(no_sub_hist);
 
   vector<double> bins, noSubNums;
   double lowbin_withEwkSub;
@@ -94,12 +92,18 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     bins.push_back(6001);
   }
 
+  sub_hist = (TH1D*) sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
+  no_sub_hist = (TH1D*) sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
+
+  zeroNegatives(sub_hist);
+  zeroNegatives(no_sub_hist);
+
   cout<<"Deriving EWK Subtraction numbers:"<<endl;
 
   double count_in_sub, count_in_no;
   for (std::vector<double>::iterator i = bins.begin(); (i+1) != bins.end(); i++){
-    count_in_sub = sub_hist->Integral(sub_hist->FindBin(*i), sub_hist->FindBin(*(i+1)-.05));
-    count_in_no = no_sub_hist->Integral(no_sub_hist->FindBin(*i), no_sub_hist->FindBin(*(i+1)-.05));
+    count_in_sub = sub_hist->GetBinContent(*i);
+    count_in_no = no_sub_hist->GetBinContent(*i);
 
     cout<<"bin: "<<*i<<"-"<<*(i+1)<<" sub: "<<count_in_sub<<" no sub: "<<count_in_no<<" diff: "<<count_in_no - count_in_sub<<endl;
 
