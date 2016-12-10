@@ -81,7 +81,6 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     bins.push_back(50);
     bins.push_back(100);
     bins.push_back(150);
-    bins.push_back(6001);
   }
   else{
     bins.push_back(0);
@@ -89,7 +88,6 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     bins.push_back(100);
     bins.push_back(150);
     bins.push_back(250);
-    bins.push_back(6001);
   }
 
   sub_hist = (TH1D*) sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
