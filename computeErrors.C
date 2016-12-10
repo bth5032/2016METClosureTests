@@ -24,7 +24,7 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
   cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
   cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure (ratio) & Normalization (ratio) & Statistical (ratio) & EWK Sub (ratio) \\\\ \\hline"<<endl;
   for (int i = 0; i<bin_edge.size(); i++){
-    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" \pm "<<prediction_err[i]<<" & "<<closure_err[i]<<" ("<<closure_err[i]/prediction_err[i]<<") & "<<norm_err[i]<<" ("<<norm_err[i]/prediction_err[i]<<") & "<<stat_err[i]<<" ("<<stat_err[i]/prediction_err[i]<<") & "<<ewk_err[i]<<<<" ("<<ewk_err[i]/prediction_err[i]<<") \\\\";
+    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" \\pm "<<prediction_err[i]<<" & "<<closure_err[i]<<" ("<<closure_err[i]/prediction_err[i]<<") & "<<norm_err[i]<<" ("<<norm_err[i]/prediction_err[i]<<") & "<<stat_err[i]<<" ("<<stat_err[i]/prediction_err[i]<<") & "<<ewk_err[i]<<<<" ("<<ewk_err[i]/prediction_err[i]<<") \\\\";
     if (i == (int) bin_edge.size() -1 ){
       cout<<" \\hline";
     }
@@ -208,7 +208,7 @@ vector<double> getRareSamplesError(const vector<double> &stat_err, const vector<
   return error;
 }
 
-void printErrors(const vector<double> temp_err, const vector<double> &rare_err, const pair<vector<double>, vector<double>> &fs_err, const vector<double> &bin_low){
+void printErrors(const vector<double> &temp_err, const vector<double> &rare_err, const pair<vector<double>, vector<double>> &fs_err, const vector<double> &bin_low){
   cout<<"Sample ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i]<<"-"<<bin_low[i+1]<<" ";
@@ -236,7 +236,7 @@ void printErrors(const vector<double> temp_err, const vector<double> &rare_err, 
   cout<<endl;
 }
 
-void printCounts(const vector<double> temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
+void printCounts(const vector<double> &temp_count, const vector<double> &temp_err, const vector<double> &rare_count, const vector<double> &rare_err, const vector<double> &fs_count, const pair<vector<double>,vector<double>> &fs_err, const vector<pair<double,double>> &bin_low, const vector<double> &data_count, double RSFOF /*Really just the scale factor*/){
   cout<<"STATTABLE: Sample ";
   for (int i = 0; i<temp_err.size(); i++){
     cout<<bin_low[i].first<<"-"<<bin_low[i].second<<" ";
@@ -244,9 +244,6 @@ void printCounts(const vector<double> temp_count, const vector<double> &temp_err
   cout<<endl;
   cout<<"STATTABLE: Template ";
   for (int i = 0; i<temp_err.size(); i++){
-    if (temp_count[i] < 0){
-      temp_count[i] = 0;
-    }
     cout<<temp_count[i]<<"+/-"<<temp_err[i]<<" ";
   }
   cout<<endl;
