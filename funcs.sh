@@ -231,7 +231,7 @@ function makeL1PrescaleWeightHists {
 }
 
 function lt {
-	#Prints parses table for config
+	#Prints parsed latex table for config
 	if [[ $# < 1 ]]
 	then
 		echo "lt <path/to/plot/output_1> <path/to/plot/output_2> ..."
@@ -246,6 +246,26 @@ function lt {
 		echo "\textbf{${lt_srid}:}"
 		echo ""
 		cat $arg | grep "LATEXTABLE: " | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
+		echo ""
+	done
+}
+
+function tempErr {
+	#Prints parsed template error table for config
+	if [[ $# < 1 ]]
+	then
+		echo "tempErr <path/to/plot/output_1> <path/to/plot/output_2> ..."
+		return
+	fi
+
+	for arg in ${@}
+	do
+		tempErr_srid=${arg#*Final_}
+		tempErr_srid=${tempErr_srid%.plots_out}
+		tempErr_srid=${tempErr_srid//_/ }
+		echo "\textbf{${tempErr_srid}:}"
+		echo ""
+		cat $arg | grep "TEMPLATEDEBUG: " | sed -e 's/^TEMPLATEDEBUG: //g' -e 's/-6001/+/g'
 		echo ""
 	done
 }

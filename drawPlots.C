@@ -579,22 +579,36 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       // Compute Full Errors
       //=========================
       //Compute Rare Sample Errors
-      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
+
+      //Get Rare Scale factors
+      double ZZ_scale = (conf->get("hist_1_scale") == "") 1 : stod(conf->get("hist_1_scale"));
+      double WZ_scale = (conf->get("hist_2_scale") == "") 1 : stod(conf->get("hist_2_scale"));
+      double VVV_scale = (conf->get("hist_3_scale") == "") 1 : stod(conf->get("hist_3_scale"));
+      double TTV_scale = (conf->get("hist_4_scale") == "") 1 : stod(conf->get("hist_4_scale"));
+
+      double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") .5 : stod(conf->get("hist_1_scale_unc"));
+      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") .5 : stod(conf->get("hist_2_scale_unc"));
+      double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") .5 : stod(conf->get("hist_3_scale_unc"));
+      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") .5 : stod(conf->get("hist_4_scale_unc"));
+
+      //Compute rare errors
+      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc);
       //cout<<__LINE__<<endl;
-      WZ_err = getRareSamplesError(WZ_err, WZ_count);
+      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc);
       //cout<<__LINE__<<endl;
-      VVV_err = getRareSamplesError(VVV_err, VVV_count);
+      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc);
       //cout<<__LINE__<<endl;
-      TTV_err = getRareSamplesError(TTV_err, TTV_count);
+      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc);
       //cout<<__LINE__<<endl;
 
-      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, conf->get("SR"));
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, conf->get("SR"));
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
 
+      //Add all rare samples together with scale factors applied
       for (int i = 0; i < ZZ_err.size(); i++){
-        rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
+        rare_count.push_back(ZZ_scale*ZZ_count[i]+WZ_scale*WZ_count[i]+VVV_scale*VVV_count[i]+TTV_scale*TTV_count[i]);
         rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
 
         //For cross checking with Vince

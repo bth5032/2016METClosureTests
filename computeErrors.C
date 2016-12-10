@@ -16,7 +16,7 @@ double err_mult(double A, double B, double errA, double errB) {
   return sqrt((A/B)*(A/B)*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
-vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, int norm_bin, TString SR){
+vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, int norm_bin, vector<pair<double, double>> bin_edge, TString SR){
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
      normalziation == bin count to which the sample was normalized
@@ -125,6 +125,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   double err_bin; //error in bin
   double ewk_err; //EWK error in bin
 
+  vector<double> closure_err, norm_err;
+
   for (int i=0; i<stat_err.size(); i++){
 
     ewk_err = abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]);
@@ -133,9 +135,11 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
     cout<<"Stat Error: "<< stat_err[i];
     err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
-    cout<<" Closure Error: "<<bin_count[i]*MC_Closure_Error[i];
+    closure_err.push_back(bin_count[i]*MC_Closure_Error[i]);
+    cout<<" Closure Error: "<<closure_err[i];
     err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
-    cout<<" Normalization: "<<normalization*bin_count[i];
+    norm_err.push_back(normalization*bin_count[i]);
+    cout<<" Normalization: "<<norm_err[i];
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
     err_bin += ewk_err*ewk_err; //EWK Subtraction
     cout<<" EWK Subtraction: "<<ewk_err;
@@ -143,6 +147,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
 
     output_errors.push_back(sqrt(err_bin));
   }
+
+  printTemplatesDebug(bin_count, stat_err, closure_err, norm_err, ewk_err, bin_edge);
 
   return output_errors;
 }
@@ -169,15 +175,15 @@ pair<vector<double>,vector<double>> getFSError(vector<double> bin_count, double 
   return make_pair(error_up, error_dn);
 }
 
-vector<double> getRareSamplesError(vector<double> stat_err, vector<double> bin_count){
-  double catch_all_error = .5; //This is the amount of error to assign as a catchall number for the MC prediction. That is, we expect MC to correctly predict the answer to within this percentage.
+vector<double> getRareSamplesError(vector<double> stat_err, vector<double> bin_count, double scale, double scale_unc){
   double err_bin;
 
   vector<double> error;
 
+  //σ^2 = stat_err^2 + (scale*bin_count*.5)^2
   for(int i=0; i<stat_err.size(); i++){
     err_bin = 0;
-    err_bin += catch_all_error*catch_all_error*bin_count[i]*bin_count[i];
+    err_bin += scale*scale*scale_unc*scale_unc*bin_count[i]*bin_count[i];
     err_bin += stat_err[i]*stat_err[i];
 
     error.push_back(sqrt(err_bin));
@@ -212,6 +218,19 @@ void printErrors(vector<double> temp_err, vector<double> rare_err, pair<vector<d
     cout<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
+}
+
+void printTemplatesDebug(vector<double> prediction, vector<double> stat_err, vector<double> closure_err, vector<double> norm_err, vector<double> ewk_err, vector<pair<double, double>> bin_edge){
+  /* Prints a latex table of the sources of error that go into the templates */ 
+  cout<<fixed;
+  cout<<setprecision(2);
+
+  cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
+  cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure & Normalization & Statistical & EWK Sub \\\\ \\hline"<<endl;
+  for (int i = 0; i<bin_edge.size(); i++){
+    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" & "<<closure_err[i]<<" & "<<norm_err<<" & "<<stat_err[i]<<" & "<<ewk_err[i]<<" \\\\ \\hline"<<endl;
+  }
+  cout<<"TEMPLATEDEBUG: \\end{tabular}"<<endl;
 }
 
 void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
@@ -250,7 +269,7 @@ void printCounts(vector<double> temp_count, vector<double> temp_err, vector<doub
   cout<<endl;
 }
 
-void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
+void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF /*Really just the scale factor*/){
   
   cout<<fixed;
   cout<<setprecision(1);
