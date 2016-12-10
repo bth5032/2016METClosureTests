@@ -105,7 +105,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
     count_in_sub = sub_hist->GetBinContent(i);
     count_in_no = no_sub_hist->GetBinContent(i);
 
-    cout<<"bin: "<<*i<<"-"<<*(i+1)<<" sub: "<<count_in_sub<<" no sub: "<<count_in_no<<" diff: "<<count_in_no - count_in_sub<<endl;
+    cout<<"bin: "<<bins[i]<<"-"<<bins[i+1]<<" sub: "<<count_in_sub<<" no sub: "<<count_in_no<<" diff: "<<count_in_no - count_in_sub<<endl;
 
     if (i == 2){
       lowbin_withEwkSub = count_in_sub;
