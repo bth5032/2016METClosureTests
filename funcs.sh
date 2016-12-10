@@ -107,6 +107,7 @@ function makeAllForDir {
 	then
 		echo "makeAllForDir <path_to_configs> <all/hists/plots>"
 	else
+		basename $1
 		_makeAllForDir $1 $2 &
 	fi
 	
