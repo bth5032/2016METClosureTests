@@ -153,7 +153,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     
     cout<<" bin Count: "<<bin_count[i];
     cout<<" EWK Subtraction: "<<ewk_err[i];
-    cout<<"Stat Error: "<< stat_err[i];
+    cout<<" Stat Error: "<< stat_err[i];
     cout<<" Closure Error: "<<closure_err[i];
     cout<<" Normalization: "<<norm_err[i];
 
