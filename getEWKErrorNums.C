@@ -93,7 +93,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
   }
 
   sub_hist = (TH1D*) sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
-  no_sub_hist = (TH1D*) sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
+  no_sub_hist = (TH1D*) no_sub_hist->Rebin(bins.size()-1, TString("sub_rebin"), &bins[0]);
 
   zeroNegatives(sub_hist);
   zeroNegatives(no_sub_hist);
