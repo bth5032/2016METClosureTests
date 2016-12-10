@@ -97,6 +97,12 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     MC_Closure_Error.push_back(.50);
     MC_Closure_Error.push_back(.50);
   }
+  else if(SR == "baseline"){
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.00);
+    MC_Closure_Error.push_back(.25);
+    MC_Closure_Error.push_back(.25);
+  }
   else{
     throw std::invalid_argument("Invalid or missing SR set in config. Please check config variable \"SR\". (got \'"+SR+"\')");
   }

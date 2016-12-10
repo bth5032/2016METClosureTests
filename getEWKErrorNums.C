@@ -38,9 +38,17 @@ vector<TString> getFileLocation(TString sample_name){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData.root");
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiHZ/PhotonData_NoEWKSub.root");
   }
+  else if (sample_name=="TChiWZ"){
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData_NoEWKSub.root");
+  }
   else if (sample_name=="2j"){
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData.root");
     fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData_NoEWKSub.root");
+  }
+  else if (sample_name=="baseline"){
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/baseline/PhotonData.root");
+    fnames.push_back("/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/baseline/PhotonData_NoEWKSub.root");
   }
 
   return fnames;
@@ -65,7 +73,7 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
 
   //cout<<__LINE__<<endl;
 
-  if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j"){
+  if(sample_name == "Strong_Bveto_6j" || sample_name == "Strong_Btag_6j" || sample_name == "baseline"){
     bins.push_back(0);
     bins.push_back(50);
     bins.push_back(100);

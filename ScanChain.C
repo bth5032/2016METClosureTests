@@ -938,7 +938,15 @@ bool passSignalRegionCuts(){
       if (printFail) cout<<phys.evt()<<" :Failed MT from Lepton and MET min cut"<<endl;
       return false;
     }
-  } 
+  }
+
+  if (conf->get("Mjj_dphi_max") != ""){
+    if ( phys.mjj_mindphi() > stod( conf->get("Mjj_dphi_max") ) ){
+      numEvents->Fill(67);
+      if (printFail) cout<<phys.evt()<<" :Failed Mjj cut"<<endl;
+      return false;
+    }
+  }
   //cout<<__LINE__<<endl;
   //if (printPass) cout<<phys.evt()<<": Passes Signal Region Cuts"<<endl;
   return true;
@@ -1474,12 +1482,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
 
   //cout<<__LINE__<<endl;
   //set goodrun list
-  if (conf->get("signal_region") == "ICHEP"){
+  if (conf->get("JSON") == "ICHEP"){
     const char* json_file = "auxFiles/golden_json_200716_12p9fb_snt.txt"; // ICHEP
     cout<<"Setting good run list: "<<json_file<<endl;
     set_goodrun_file(json_file);   
   }
-  else if ((conf->get("signal_region") == "18fb")){
+  else if ((conf->get("JSON") == "18fb")){
     const char* json_file = "auxFiles/Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_unblind18_sorted_snt.txt"; // 18.1 fb
     cout<<"Setting good run list: "<<json_file<<endl;
     set_goodrun_file(json_file);
