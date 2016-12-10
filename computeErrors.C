@@ -24,7 +24,11 @@ void printTemplatesDebug(vector<double> prediction, vector<double> stat_err, vec
   cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
   cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure & Normalization & Statistical & EWK Sub \\\\ \\hline"<<endl;
   for (int i = 0; i<bin_edge.size(); i++){
-    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" & "<<closure_err[i]<<" & "<<norm_err[i]<<" & "<<stat_err[i]<<" & "<<ewk_err[i]<<" \\\\ \\hline"<<endl;
+    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" & "<<closure_err[i]<<" & "<<norm_err[i]<<" & "<<stat_err[i]<<" & "<<ewk_err[i]<<" \\\\";
+    if (i == (int) bin_edge.size() -1 ){
+      cout<<" \\hline";
+    }
+    cout<<endl;
   }
   cout<<"TEMPLATEDEBUG: \\end{tabular}"<<endl;
 }
