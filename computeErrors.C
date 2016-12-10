@@ -106,6 +106,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
     MC_Closure_Error.push_back(.30);
     MC_Closure_Error.push_back(.30);
     MC_Closure_Error.push_back(.30);
+    MC_Closure_Error.push_back(.30);
   }
   else if(SR == "2j"){
     MC_Closure_Error.push_back(.00);
