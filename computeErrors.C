@@ -146,19 +146,22 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
   for (int i=0; i<stat_err.size(); i++){
 
     ewk_err.push_back(abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]));
+    norm_err.push_back(normalization*bin_count[i]);
+    closure_err.push_back(bin_count[i]*MC_Closure_Error[i]);
 
     cout<<"TRACE| Bin "<<i<<" ";
-    err_bin = stat_err[i]*stat_err[i]; //Statistical Error
+    
+    cout<<" bin Count: "<<bin_count[i];
+    cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<"Stat Error: "<< stat_err[i];
-    err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
-    closure_err.push_back(bin_count[i]*MC_Closure_Error[i]);
     cout<<" Closure Error: "<<closure_err[i];
-    err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
-    norm_err.push_back(normalization*bin_count[i]);
     cout<<" Normalization: "<<norm_err[i];
+
+    err_bin = stat_err[i]*stat_err[i]; //Statistical Error
+    err_bin += bin_count[i]*bin_count[i]*MC_Closure_Error[i]*MC_Closure_Error[i]; //Closure Error
+    err_bin += normalization*bin_count[i]*normalization*bin_count[i]; //Normalization of Zjets
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
     err_bin += ewk_err[i]*ewk_err[i]; //EWK Subtraction
-    cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<" Stat+Norm+Closure+EWK: "<<sqrt(err_bin)<<endl;
 
     output_errors.push_back(sqrt(err_bin));
