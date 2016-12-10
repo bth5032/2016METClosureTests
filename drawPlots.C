@@ -581,15 +581,15 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       //Compute Rare Sample Errors
 
       //Get Rare Scale factors
-      double ZZ_scale = (conf->get("hist_1_scale") == "") 1 : stod(conf->get("hist_1_scale"));
-      double WZ_scale = (conf->get("hist_2_scale") == "") 1 : stod(conf->get("hist_2_scale"));
-      double VVV_scale = (conf->get("hist_3_scale") == "") 1 : stod(conf->get("hist_3_scale"));
-      double TTV_scale = (conf->get("hist_4_scale") == "") 1 : stod(conf->get("hist_4_scale"));
+      double ZZ_scale = (conf->get("hist_1_scale") == "") ? 1 : stod(conf->get("hist_1_scale"));
+      double WZ_scale = (conf->get("hist_2_scale") == "") ? 1 : stod(conf->get("hist_2_scale"));
+      double VVV_scale = (conf->get("hist_3_scale") == "") ? 1 : stod(conf->get("hist_3_scale"));
+      double TTV_scale = (conf->get("hist_4_scale") == "") ? 1 : stod(conf->get("hist_4_scale"));
 
-      double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") .5 : stod(conf->get("hist_1_scale_unc"));
-      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") .5 : stod(conf->get("hist_2_scale_unc"));
-      double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") .5 : stod(conf->get("hist_3_scale_unc"));
-      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") .5 : stod(conf->get("hist_4_scale_unc"));
+      double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
+      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .5 : stod(conf->get("hist_2_scale_unc"));
+      double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
+      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .5 : stod(conf->get("hist_4_scale_unc"));
 
       //Compute rare errors
       ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc);

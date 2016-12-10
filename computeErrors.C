@@ -16,6 +16,19 @@ double err_mult(double A, double B, double errA, double errB) {
   return sqrt((A/B)*(A/B)*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
+void printTemplatesDebug(vector<double> prediction, vector<double> stat_err, vector<double> closure_err, vector<double> norm_err, vector<double> ewk_err, vector<pair<double, double>> bin_edge){
+  /* Prints a latex table of the sources of error that go into the templates */ 
+  cout<<fixed;
+  cout<<setprecision(2);
+
+  cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
+  cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure & Normalization & Statistical & EWK Sub \\\\ \\hline"<<endl;
+  for (int i = 0; i<bin_edge.size(); i++){
+    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" & "<<closure_err[i]<<" & "<<norm_err[i]<<" & "<<stat_err[i]<<" & "<<ewk_err[i]<<" \\\\ \\hline"<<endl;
+  }
+  cout<<"TEMPLATEDEBUG: \\end{tabular}"<<endl;
+}
+
 vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_count, double normalization, int norm_bin, vector<pair<double, double>> bin_edge, TString SR){
   /* stat_err == statistical error on the template bins
      bin count == bin count on template bins
@@ -218,19 +231,6 @@ void printErrors(vector<double> temp_err, vector<double> rare_err, pair<vector<d
     cout<<"+"<<temp_err[i]+rare_err[i]+fs_err.first[i]<<"-"<<temp_err[i]+rare_err[i]+fs_err.second[i]<<" ";
   }
   cout<<endl;
-}
-
-void printTemplatesDebug(vector<double> prediction, vector<double> stat_err, vector<double> closure_err, vector<double> norm_err, vector<double> ewk_err, vector<pair<double, double>> bin_edge){
-  /* Prints a latex table of the sources of error that go into the templates */ 
-  cout<<fixed;
-  cout<<setprecision(2);
-
-  cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
-  cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure & Normalization & Statistical & EWK Sub \\\\ \\hline"<<endl;
-  for (int i = 0; i<bin_edge.size(); i++){
-    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" & "<<closure_err[i]<<" & "<<norm_err<<" & "<<stat_err[i]<<" & "<<ewk_err[i]<<" \\\\ \\hline"<<endl;
-  }
-  cout<<"TEMPLATEDEBUG: \\end{tabular}"<<endl;
 }
 
 void printCounts(vector<double> temp_count, vector<double> temp_err, vector<double> rare_count, vector<double> rare_err, vector<double> fs_count, pair<vector<double>,vector<double>> fs_err, vector<pair<double,double>> bin_low, vector<double> data_count, double RSFOF){
