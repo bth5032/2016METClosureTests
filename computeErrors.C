@@ -24,7 +24,7 @@ void printTemplatesDebug(const vector<double> &prediction, const vector<double> 
   cout<<"TEMPLATEDEBUG: \\begin{tabular} {l | l | l | l | l | l}"<<endl;
   cout<<"TEMPLATEDEBUG: MET Bin & Prediction & Closure (ratio) & Normalization (ratio) & Statistical (ratio) & EWK Sub (ratio) \\\\ \\hline"<<endl;
   for (int i = 0; i<bin_edge.size(); i++){
-    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" \\pm "<<prediction_err[i]<<" & "<<closure_err[i]<<" ("<<closure_err[i]/prediction_err[i]<<") & "<<norm_err[i]<<" ("<<norm_err[i]/prediction_err[i]<<") & "<<stat_err[i]<<" ("<<stat_err[i]/prediction_err[i]<<") & "<<ewk_err[i]<<<<" ("<<ewk_err[i]/prediction_err[i]<<") \\\\";
+    cout<<"TEMPLATEDEBUG: "<<(int) bin_edge[i].first<<"-"<<(int) bin_edge[i].second<<" & "<<prediction[i]<<" \\pm "<<prediction_err[i]<<" & "<<closure_err[i]<<" ("<<closure_err[i]/prediction_err[i]<<") & "<<norm_err[i]<<" ("<<norm_err[i]/prediction_err[i]<<") & "<<stat_err[i]<<" ("<<stat_err[i]/prediction_err[i]<<") & "<<ewk_err[i]<<" ("<<ewk_err[i]/prediction_err[i]<<") \\\\";
     if (i == (int) bin_edge.size() -1 ){
       cout<<" \\hline";
     }
