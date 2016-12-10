@@ -655,7 +655,7 @@ double getWeight(){
     
     //cout<<__LINE__<<endl;
     
-    if (TString(conf->get("data_set")).Contains("GammaData-EWKSub") && (! TString(currentFile->GetTitle()).Contains("Prompt_ph")) ){
+    if (TString(conf->get("data_set")).Contains("GammaData-EWKSub")){
       weight *= -1; //EWK Subtraction
     }
   }

@@ -6,6 +6,7 @@
 
 #include "ConfigParser.C"
 #include "ConfigHelper.C"
+#include "HistTools.C"
 
 using namespace std;
 
@@ -102,10 +103,13 @@ void makePtReweightHisto(ConfigParser * conf)
   for (int i=1; i < (int) subtractor_paths.size(); i++){
     h_subtractor->Add((TH1D*)(f_subtractors.at(i))->Get(hist_name), subtractor_scales.at(i));
   }
-  
+  cout<<"Retrived Histograms, subtracting other backgrounds"<<endl;
   h_primary->Add(h_subtractor, -1);
 
-  cout<<"Retrived Histograms"<<endl;
+  cout<<"Zeroing negative bins"<<endl;
+
+  zeroNegatives(h_primary);
+  zeroNegatives(h_secondary);
 
   TH1D * h_ratio_unscaled = (TH1D*) h_primary->Clone(hist_name+"_ratio_unscaled");
   h_ratio_unscaled->Divide(h_secondary); 

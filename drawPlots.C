@@ -16,6 +16,7 @@
 #include "computeErrors.C"
 #include "ConfigParser.C"
 #include "ConfigHelper.C"
+#include "HistTools.C"
 
 
 using namespace std;
@@ -50,36 +51,6 @@ void drawLatexFromTString(TString text, double x_low, double y_low){
 
 bool TH1DIntegralSort(TH1D* hist_1, TH1D* hist_2){
   return (hist_1->Integral() < hist_2->Integral()) ;
-}
-
-void updateOverUnderflow( TH1D * &hist, double xmax, double xmin = -100000 ){
-  /* updates bins at the edges of xmax (xmin) with everything above (below) including over(under)flow */
-  int overflowbin = hist->FindBin(xmax-0.0001);
-  for( int bini = overflowbin; bini <= hist->GetNbinsX(); bini++ ){
-    hist->SetBinContent( overflowbin, hist->GetBinContent( overflowbin ) + hist->GetBinContent( bini + 1 ) ); 
-    hist->SetBinError  ( overflowbin, sqrt( pow(hist->GetBinError  ( overflowbin ), 2 ) + pow( hist->GetBinError( bini + 1 ), 2 ) ) );  
-    hist->SetBinContent( bini + 1, 0 );
-    hist->SetBinError  ( bini + 1, 0 );
-  }
-
-  if (xmin > -100000){
-    int underflowbin = hist->FindBin(xmin+0.0001);
-    for(int bini = overflowbin; bini > 0; bini-- ){
-      hist->SetBinContent( underflowbin, hist->GetBinContent( underflowbin ) + hist->GetBinContent( bini - 1 ) ); 
-      hist->SetBinError  ( underflowbin, sqrt( pow(hist->GetBinError  ( underflowbin ), 2 ) + pow( hist->GetBinError( bini - 1 ), 2 ) ) );  
-      hist->SetBinContent( bini - 1, 0 );
-      hist->SetBinError  ( bini - 1, 0 );
-    }
-  }
-}
-
-void blindAfter(TH1D * &hist, double xmax){
-  /* Sets all the bins starting from xmax to 0, count and error */
-  int max_bin = hist->FindBin(xmax);
-  for( int bini = max_bin; bini <= hist->GetNbinsX()+1; bini++ ){
-    hist->SetBinContent( bini, 0 ); 
-    hist->SetBinError  ( bini, 0 );  
-  }
 }
 
 void drawCMSLatex(double luminosity){
@@ -247,10 +218,16 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   double numEventsData, numEventsMC, errEventsMC;
   int norm_bin;
   //Add scale factors like RSFOF
+  cout<<"Scaling Hists"<<endl;
   for (int i=0; i < num_hists; i++){
     if (conf->get("hist_"+to_string(i)+"_scale") != ""){
       hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
     }
+  }
+
+  cout<<"Zeroing Negative Numbers"<<endl;
+  for (int i=0; i < num_hists; i++){
+    zeroNegatives(hists[i]);
   }
 
   if (conf->get("normalize") == "true"){
@@ -311,6 +288,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
+      zeroNegatives(clonedPrimary_norm);
     }
 
     //cout<<__LINE__<<endl;
