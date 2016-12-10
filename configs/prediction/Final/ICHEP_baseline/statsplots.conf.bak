@@ -16,8 +16,8 @@ DEFAULT::luminosity_fb=12.9
 DEFAULT::overflow=true
 
 DEFAULT::normalize=true
-DEFAULT::norm_0_50=true
-#DEFAULT::norm_50_100=true
+#DEFAULT::norm_0_50=true
+DEFAULT::norm_50_100=true
 DEFAULT::num_hists=7
 DEFAULT::normalize_hist_nums=6
 DEFAULT::subtract_non_normed=true
@@ -33,17 +33,20 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/ICHEP/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/ICHEP/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/ICHEP/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/ICHEP_baseline/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/ICHEP_baseline/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/ICHEP_baseline/FS_kappa.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP_baseline/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP_baseline/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP_baseline/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/ICHEP_baseline/zz.root
 
 
 #Add RSFOF
-DEFAULT::hist_5_scale=1.083
+DEFAULT::hist_4_scale=1.09 #ttz
+DEFAULT::hist_2_scale=0.94 #wz
+DEFAULT::hist_1_scale=1.8  #zz
+DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
 
 DEFAULT::SR=2j
 
@@ -60,6 +63,7 @@ xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
 logy=true
 bin_size=5
+blind_after=150
 #binning=[0,25,50,75,100,150,350]
 hist_0_name=type1MET
 print_stats=true
@@ -83,6 +87,7 @@ xmax=350
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
 logy=true
+blind_after=150
 #bin_size=5
 binning=[0,25,50,75,100,150,350]
 hist_0_name=type1MET
