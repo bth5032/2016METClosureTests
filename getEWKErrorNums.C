@@ -6,6 +6,8 @@
 #include <iostream>
 #include <iomanip> 
 
+#include "HistTools.C"
+
 using namespace std;
 
 vector<TString> getFileLocation(TString sample_name){
@@ -67,6 +69,9 @@ pair<double, vector<double>> getEWKNumsForSample(TString sample_name){
 
   TH1D* sub_hist = (TH1D*) ((TH1D*) sub_file->Get("type1MET"));
   TH1D* no_sub_hist = (TH1D*) ((TH1D*) no_sub_file->Get("type1MET"));   
+
+  zeroNegatives(sub_hist);
+  zeroNegatives(no_sub_hist);
 
   vector<double> bins, noSubNums;
   double lowbin_withEwkSub;
