@@ -33,7 +33,7 @@ void blindAfter(TH1D * &hist, double xmax){
   }
 }
 
-void zeroNegative(TH1D* &hist){
+void zeroNegatives(TH1D* &hist){
   /* Zeros all the bins with negative weights */
   for( int i = 0; i <= hist->GetNbinsX()+1; i++ ){
     if ( ((double) hist->GetBinContent(i)) < 0 ){
