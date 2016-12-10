@@ -136,13 +136,12 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
   cout<<"Derived scale factor "<<EWK_Norm<<" for Non EWK sample"<<endl;
 
   double err_bin; //error in bin
-  double ewk_err; //EWK error in bin
 
-  vector<double> closure_err, norm_err;
+  vector<double> closure_err, norm_err, ewk_err;
 
   for (int i=0; i<stat_err.size(); i++){
 
-    ewk_err = abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]);
+    ewk_err.push_back(abs(bin_count[i] - EWK_Norm*No_EWK_BinCount[i]));
 
     cout<<"TRACE| Bin "<<i<<" ";
     err_bin = stat_err[i]*stat_err[i]; //Statistical Error
@@ -154,8 +153,8 @@ vector<double> getMetTemplatesError(vector<double> stat_err, vector<double> bin_
     norm_err.push_back(normalization*bin_count[i]);
     cout<<" Normalization: "<<norm_err[i];
     cout<<" Stat+Norm+Closure "<<sqrt(err_bin);
-    err_bin += ewk_err*ewk_err; //EWK Subtraction
-    cout<<" EWK Subtraction: "<<ewk_err;
+    err_bin += ewk_err[i]*ewk_err[i]; //EWK Subtraction
+    cout<<" EWK Subtraction: "<<ewk_err[i];
     cout<<" Stat+Norm+Closure+EWK: "<<sqrt(err_bin)<<endl;
 
     output_errors.push_back(sqrt(err_bin));
@@ -317,6 +316,12 @@ void printLatexCounts(vector<double> temp_count, vector<double> temp_err, vector
 
 void computeErrors(){
   vector<double> bin_low = {0,50,100,150,225,6001};
+  vector<pair<double,double>> bin_edge;
+  bin_edge.push_back(make_pair(0,50));
+  bin_edge.push_back(make_pair(50,100));
+  bin_edge.push_back(make_pair(100,150));
+  bin_edge.push_back(make_pair(150,225));
+  bin_edge.push_back(make_pair(225,6001));
   
   vector<double> temp_stat_err = {100,10,5,2,1};
   vector<double> temp_bin_count = {6947.05,1634.16,90.83,14.22,8};
@@ -326,9 +331,9 @@ void computeErrors(){
   vector<double> rare_stat_err = {5,2,1,.2,.01};
   vector<double> rare_bin_count = {12.2,18.3,9,7.9,8.9};
 
-  vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 1, "ATLAS");
+  vector<double> temp_err = getMetTemplatesError(temp_stat_err, temp_bin_count, sqrt(6995), 1, bin_edge, "2j");
   pair<vector<double>,vector<double>> FS_err = getFSError(FS_bin_count, 1.087);
-  vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count);
+  vector<double> rare_err = getRareSamplesError(rare_stat_err, rare_bin_count, 1.5, .5);
   cout<<"====================================\n\n\n";
   printErrors(temp_err, rare_err, FS_err, bin_low);
 }
