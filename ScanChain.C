@@ -1423,6 +1423,14 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     MT2_MT2_HZ->Sumw2();
   }
 
+  TH1D* mjj_min_dphi;
+
+  if(conf->get("signal_region") == "TChiWZ"){
+    mjj_min_dphi = new TH1D("mjj_min_dphi", "M_{jj} (for minimum #Delta #Phi Jets) in "+g_sample_name, 6000,0,6000);
+    mjj_min_dphi->SetDirectory(rootdir);
+    mjj_min_dphi->Sumw2();
+  }
+
   cout<<"Histograms initialized"<<endl;
   //cout<<__LINE__<<endl;
 //===========================================
@@ -1731,6 +1739,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
           sum_pt_z_bb->Fill(bb_pt+phys.dilpt(), weight);
         }
       }
+
+      if (conf->get("signal_region") == "TChiWZ"){
+        mjj_min_dphi->Fill(phys.mjj_mindphi(), weight);
+      }
       
       //cout<<__LINE__<<endl;
       
@@ -1860,6 +1872,10 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     //cout<<__LINE__<<endl;
     MT2_MT2_HZ->Write();
     //cout<<__LINE__<<endl;
+  }
+
+  if (conf->get("signal_region") == "TChiWZ"){
+    mjj_min_dphi->Write();
   }
 
   if (conf->get("GammaMuStudy") == "true"){
