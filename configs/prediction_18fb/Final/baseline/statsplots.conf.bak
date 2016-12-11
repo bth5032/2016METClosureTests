@@ -33,13 +33,13 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/DileptonData/baseline/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/baseline/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/baseline/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/baseline/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/baseline/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/baseline/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/baseline/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/DileptonData/baseline/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/PhotonData_VPTRWT/baseline/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/FS/baseline/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/ZNu/baseline/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/ZNu/baseline/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/ZNu/baseline/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/ZNu/baseline/zz.root
 
 
 #Add RSFOF
@@ -95,8 +95,8 @@ xmin=50
 xmax=350
 #blindAfter=150
 hist_5_scale=1
-file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/2j/FS_nokappa.root
-file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/2j/PhotonData_old_FS.root
+file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/FS/2j/FS_nokappa.root
+file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/PhotonData_VPTRWT/2j/PhotonData_old_FS.root
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
 logy=true
@@ -112,8 +112,8 @@ xmin=50
 xmax=350
 #blindAfter=150
 hist_5_scale=1
-file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/2j/FS_nokappa.root
-file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/2j/PhotonData_old_FS.root
+file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/FS/2j/FS_nokappa.root
+file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18fb/PhotonData_VPTRWT/2j/PhotonData_old_FS.root
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
 logy=true
