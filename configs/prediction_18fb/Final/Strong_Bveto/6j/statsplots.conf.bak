@@ -33,22 +33,22 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/DileptonData/TChiHZ/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/TChiHZ/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/TChiHZ/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/Strong_Bveto/6j/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Bveto/6j/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/Strong_Bveto/6j/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Bveto/6j/zz.root
 
 
 #Add RSFOF
-DEFAULT::hist_4_scale=1.09 #ttz
-DEFAULT::hist_2_scale=0.94 #wz
-DEFAULT::hist_1_scale=1.8  #zz
+#DEFAULT::hist_4_scale=1.09 #ttz
+#DEFAULT::hist_2_scale=0.94 #wz
+#DEFAULT::hist_1_scale=1.8  #zz
 DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
 
-DEFAULT::SR=TChiHZ
+DEFAULT::SR=Strong_Bveto_6j
 
 #====================
 # Ratio Histos
@@ -72,7 +72,7 @@ xmin=50
 xmax=350
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
-binning=[0,50,100,150,250,350]
+binning=[0,50,100,150,350]
 logy=true
 #blindAfter=100
 hist_0_name=type1MET
@@ -84,6 +84,4 @@ stats_1_high_val=100
 stats_2_low_val=100
 stats_2_high_val=150
 stats_3_low_val=150
-stats_3_high_val=250
-stats_4_low_val=250
-stats_4_high_val=6001
+stats_3_high_val=6001

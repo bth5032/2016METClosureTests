@@ -33,13 +33,13 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/DileptonData/2j/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/2j/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/2j/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/2j/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/2j/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/2j/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/2j/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/2j/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/2j/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/2j/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/2j/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/2j/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/2j/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/2j/zz.root
 
 
 #Add RSFOF

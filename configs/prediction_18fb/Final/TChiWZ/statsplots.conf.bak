@@ -33,13 +33,13 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/DileptonData/TChiHZ/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/TChiHZ/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/TChiHZ/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/TChiWZ/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/TChiWZ/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/TChiWZ/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/TChiWZ/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/TChiWZ/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/TChiWZ/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/TChiWZ/zz.root
 
 
 #Add RSFOF
@@ -48,11 +48,12 @@ DEFAULT::hist_2_scale=0.94 #wz
 DEFAULT::hist_1_scale=1.8  #zz
 DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
 
-DEFAULT::SR=TChiHZ
+DEFAULT::SR=TChiWZ
 
 #====================
 # Ratio Histos
 #====================
+
 Name=t1met
 plot_name=Type1MET
 title=Type 1 MET
@@ -72,7 +73,7 @@ xmin=50
 xmax=350
 xlabel=E^{miss}_{T} [GeV]
 ylabel=Count
-binning=[0,50,100,150,250,350]
+binning=[0,50,100,150,250,350,500]
 logy=true
 #blindAfter=100
 hist_0_name=type1MET
@@ -86,4 +87,6 @@ stats_2_high_val=150
 stats_3_low_val=150
 stats_3_high_val=250
 stats_4_low_val=250
-stats_4_high_val=6001
+stats_4_high_val=350
+stats_5_low_val=350
+stats_5_high_val=6001

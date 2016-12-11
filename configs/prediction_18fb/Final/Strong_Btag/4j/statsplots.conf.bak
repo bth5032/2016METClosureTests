@@ -33,13 +33,13 @@ DEFAULT::hist_3_label=VVV
 DEFAULT::hist_2_label=WZ
 DEFAULT::hist_1_label=ZZ
 
-DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/DileptonData/TChiHZ/DileptonData.root
-DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/PhotonData_VPTRWT/TChiHZ/PhotonData.root
-DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/FS/TChiHZ/FS.root
-DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/ttz.root
-DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/VVV.root
-DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/wz.root
-DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction_18/ZNu/TChiHZ/zz.root
+DEFAULT::file_0_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/DileptonData/Strong_Btag/4j/DileptonData.root
+DEFAULT::file_6_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/PhotonData_VPTRWT/Strong_Btag/4j/PhotonData.root
+DEFAULT::file_5_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/FS/Strong_Btag/4j/FS.root
+DEFAULT::file_4_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Btag/4j/ttz.root
+DEFAULT::file_3_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Btag/4j/VVV.root
+DEFAULT::file_2_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Btag/4j/wz.root
+DEFAULT::file_1_path=/nfs-7/userdata/bobak/ZMET2016_Hists_NovemberClean/prediction/ZNu/Strong_Btag/4j/zz.root
 
 
 #Add RSFOF
@@ -48,7 +48,7 @@ DEFAULT::hist_2_scale=0.94 #wz
 DEFAULT::hist_1_scale=1.8  #zz
 DEFAULT::hist_5_scale=0.073905 #RSFOF * Kappa
 
-DEFAULT::SR=TChiHZ
+DEFAULT::SR=Strong_Btag_4j
 
 #====================
 # Ratio Histos
