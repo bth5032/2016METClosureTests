@@ -153,7 +153,7 @@ function makeAllConfigs {
 		return
 	fi
 
-	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/ 2j/ ICHEP/ ICHEP_baseline/ baseline/ baseline_18fb/ TChiWZ/
+	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/ baseline/ TChiWZ/
 	do
 		makeAllForDir $2/${i} $1
 	done
