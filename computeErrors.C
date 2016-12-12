@@ -175,7 +175,7 @@ vector<double> getMetTemplatesError(const vector<double> &stat_err, const vector
 
 pair<vector<double>,vector<double>> getFSError(const vector<double> &bin_count, double RSFOF){
   double RSFOF_unc = 0.026; //ICHEP 2016
-  double kappa_unc = 0.03; //ICHEP 2016
+  double kappa_unc = 0.035; //ICHEP 2016
 
   vector<double> error_up;
   vector<double> error_dn;
