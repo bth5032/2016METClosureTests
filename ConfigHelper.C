@@ -1,4 +1,7 @@
 //Helper functions for Config parsing.
+#ifndef INCLUDED_CONFIG_HELPER
+#define INCLUDED_CONFIG_HELPER
+
 #include "ConfigParser.C"
 
 TString PLOT_OUTPUT_LOCATION="/home/users/bhashemi/public_html/ZMET2016_NovemberClean/";
@@ -41,6 +44,10 @@ TString getOutputDir(ConfigParser *conf, TString type){
       return output_dir;
 		}	
 	}
+  else{
+    throw std::invalid_argument("In ConfigHelper::getOutputDir -- Did not recieve valid type, either hist or plot... got: "+type);
+    return TString("");
+  }
 }
 
 TString getDefaultHistDir(ConfigParser *conf){
@@ -70,3 +77,5 @@ vector<double> parseVector(TString opt){
   }
   return ret;
 }
+
+#endif

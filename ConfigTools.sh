@@ -1,5 +1,61 @@
+#!/bin/bash
+
 #ConfigTools.sh
 #This script contains methods which are useful in copying configs to make another analysis
+
+function listConfigs {
+    if [[ $# < 2 ]]
+  then
+    echo "listConfigs <Directory> <Filename>"
+    return 1
+  fi
+
+  find $1 -name "$2"
+}
+
+function findTopOfFirstConfig {
+  # Takes the path to a config file and returns the line number of the 
+  # first blank line which is above the first config seperated by only
+  # white space lines.
+
+  #Check config exists
+  if [[ ! (-s $1) ]]
+  then 
+    echo "File $1 is empty"
+    DEFAULT_LOCATION="-1"
+    return
+  fi
+
+  #Get line number for first config
+  i=`grep -n "Name=" $1 | head -n1 | cut -d: -f1`
+
+  #Check we got a config location
+  if [[ -z $i ]]
+  then
+    echo "File $i has no configs"
+    DEFAULT_LOCATION="-1"
+    return
+  fi
+
+  line=
+  while [[ -z $line && $i>1 ]]
+    do 
+    
+    i=$((i-1));
+    line=`awk "NR == $i" $1` #Read previous line
+    
+    #echo $i" : "$line; 
+    
+    if [[ ${line:0:1} == '#' ]]
+    then 
+      line= #Erase line for comment
+    else
+      line=${line// } #kill white space otherwise
+    fi   
+  done
+
+  DEFAULT_LOCATION=$((i+1))
+}
 
 function addDefaultToConfigs {
   if [[ $# < 3 ]]
@@ -13,11 +69,13 @@ function addDefaultToConfigs {
   find $2 -name "$3"
   echo -n "Please type yes if so: "
   read input_from_user
+
   if [[ $input_from_user == "yes" ]]
   then
     for f in `find $2 -name "$3"`
     do
-      sed -i.bak '1i\
+      findTopOfFirstConfig $f
+      sed -i.bak $DEFAULT_LOCATION'i\
       DEFAULT::'$1'
       
       ' $f

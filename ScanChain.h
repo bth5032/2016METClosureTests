@@ -54,10 +54,11 @@ TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap;
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
 TFile* currentFile = 0;
+double g_scale_factor=1; //Holds scale factors for sample.
 
 TH1I *numEvents; //Holds the number of events in the whole script and the number that pass various cuts 
 
-//set<int> inVinceNotMine = {4589,8308,11893,14101,14746,19058,23180,28337,35374,42297,56194,60844,62242,64496,94423,95813,96364,97305,108841,115916,120306,127729,132182,137726,149809,151328,153127,182754,187629,191053,198339,202662,206473,214221,216796,221953,223390,225608,235943,244158,250884,251983,257113,259935,261309,270523,274748,277608,294101,316484,318876,318957,329729,330631,332962,333411,334846,340820,349907,351289,357272,357425,369136,370324,374306,374516,381210,383337,385393,390720,392522,396041,398289,413797,420484};
+//set<int> inVinceNotMine = {1671877,182026,1691579,584123,919749,1637499,1956497,1038429,1276319,1475891,269306,440564,150193,591835,1864740,412753,1075606,354472,1201846,1498264,1537883,1545891,1152994,1153259,1652526,1333934,1093592,1718777,14650,508134,68097,474963,1982414,742786,556682,1886164,1611196,1559914,1230667,483404,719522,610276,1672403,944218,34871,1710872,1144948,1544257,353132,1654061,729831,172381,227100,625408,1566248,1068185,1868620,1273300,1873096,1553855,1550022,1660945,1832499,1672847,349820,1608601,630334,9104,1859361,1636849,938062,639614,1785229,1611489,1666499,1227158,1227317,11553,135776,713994,1233314,127103,756142,455254,277372,1948195,1476819,670038,1944133,1941081,916601,1796585,1830109,1487887,1890032,1564523,1978932,1187192,278190,839872,1335018,842379,355868,1174419,995752,1908016,1958574,1113094,1600282,525904,1165406,665419,668203,1957008,1398462,1389772,791755,886367,1784234,197045,769281,769397,499702,1754142,626319,671378,897686,1841626,1516470,1883436,1884038,264557,1415341,1858631,758980,196759,431803,1846737,1421249,1618690,550728,881955,528804,1917033,1974976,1568663,1175567,1753848,1789631,1182223,231669,710053,385926,704939,329723,816674,949506,89520,1896034,619515,173320,970140,1697399};
 
 //set<int> inMineNotVince = {65603,206256,215885,352922,823174,928555,1058265,1295652,1601624,1731568,1948640};
 
@@ -111,6 +112,9 @@ bool passElectronTriggers();
 /*MC passes immediately, ensures data events were gathered from EMu triggers*/
 bool passEMuTriggers();
 
+/*MC passes immediately, ensures data events were gathered from SingleMu trigger*/
+bool passSingleMuTriggers();
+
 /*Helper method which chooses which above method to call. Calls EMu if the dil_flavor is emu, otherwise uses
 the hyp_type to determine which to call. Events fail if they are hyp_type 2 and not tagged for emu*/
 bool passLeptonHLTs();
@@ -138,8 +142,11 @@ bool hasGoodEvent();
 /*Goes through the chain of weight_from config options down to a config which does not have weight_from and
 then adds a pair (config_name, hist_file) to the vector g_reweight_pairs.
 
-NEEDS TO BE UPDATED WITH NEW CODE FIXES*/
+For now this is depricated: NEEDS TO BE UPDATED WITH NEW CODE FIXES*/
 void readyReweightHists();
+
+/* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
+void readyVPTReweight(TString save_path);
 
 /*Loads the reweight hists from g_reweight_pairs and multiplies returns the weight associated with the proper
 bin in the histogram*/
@@ -177,6 +184,10 @@ bool passMETFilters();
 
 /*Holds baseline cuts*/
 bool passBaseCut();
+
+/*Method which holds all the file specific selections, for instance cutting out the
+  events with genht > 100 in the DY inclusive samples*/
+bool passFileSelections();
 
 /*Obvi the event looper*/
 int ScanChain( TChain* chain, ConfigParser *configuration, bool fast = true, int nEvents = -1);

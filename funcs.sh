@@ -5,13 +5,13 @@
 
 
 function makePlots {
-	mkdirs $1
-	root -l -b -q "drawPlots.C(\"$1\")"
+	mkdirs $1 plots
+	nice -n 19 root -l -b -q "drawPlots.C(\"$1\")"
 }
 
 function makeHistos {	
-	mkdirs $2
-	root -l -b -q "doAll.C+(\"$1\", \"$2\")"
+	mkdirs $2 hists
+	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$2\")"
 }	
 
 function setOutputLocations {
@@ -27,51 +27,59 @@ function setOutputLocations {
 		fi
 	fi
 	
-	HIST_OUTPUT_LOCATION=`sed '5q;d' ConfigHelper.C | sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
-	PLOT_OUTPUT_LOCATION=`sed '4q;d' ConfigHelper.C | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	HIST_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "TString HIST_OUTPUT_LOCATION=" |sed "s/.*HIST_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
+	PLOT_OUTPUT_LOCATION=`cat ConfigHelper.C | grep "TString PLOT_OUTPUT_LOCATION=" | sed "s/.*PLOT_OUTPUT_LOCATION=\"\(.*\)\";*/\1/g"`
 }
 
 function mkdirs {
 	conf_filename=$1
-	#For Histo Configs
-	new_dir=`grep DEFAULT::histo_output_dir < $conf_filename`
-	if [[ ! -z $new_dir ]]
-	then
-		mkdir -p ${new_dir#*=}
-	fi
-
-	#For Plots Configs
-	new_dir=`grep DEFAULT::save_dir < $conf_filename`
-	for l in `echo $new_dir`
-	do
-		if [[ ! -d ${l#*=} ]]
-		then
-			mkdir -p ${l#*=}"/Debug"
-			addIndexToDirTree ${l#*=}"/Debug"
-		fi
-	done
-
 	setOutputLocations $conf_filename 
 
-	#Make Hist output location if it's not there
-	if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
-	then	
-		mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+	if [[ $2 == "hists" ]]
+	then
+		#Make Hist output location if it's not there
+		if [[ ! -d ${HIST_OUTPUT_LOCATION}${SR_IDENTITY} ]]
+		then	
+			mkdir -p ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}
+		fi
+
+		#Legacy Style For Hist Configs
+		new_dir=`grep DEFAULT::histo_output_dir < $conf_filename`
+		if [[ ! -z $new_dir ]]
+		then
+			mkdir -p ${new_dir#*=}
+		fi
 	fi
 
-	#Make plot output location if it's not there.
-	if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+	if [[ $2 == "plots" ]]
 	then
-		mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
-		addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+		#Make plot output location if it's not there.
+		if [[ ! -d ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" ]]
+		then
+			mkdir -p ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Make up to path/to/config/Debug
+			addIndexToDirTree ${PLOT_OUTPUT_LOCATION}${SR_IDENTITY}`basename $conf_filename .conf`"/Debug/" #Add index.php to each new folder
+		fi
+
+		#Legacy Style For Plots Configs
+		new_dir=`grep DEFAULT::save_dir < $conf_filename`
+		for l in `echo $new_dir`
+		do
+			if [[ ! -d ${l#*=} ]]
+			then
+				mkdir -p ${l#*=}"/Debug"
+				addIndexToDirTree ${l#*=}"/Debug"
+			fi
+		done
 	fi
 }
 
 function _makeAllForDir {
-	fname_hist=${1//\//_}
+	fname_hist=${1//\//_} #turn path into _ seperated
+	fname_hist=${fname_hist//__/_} #remove double underline string
 	fname_hist=${fname_hist%_}.hist_out #remove trailing _, add extension
 
-	fname_plots=${1//\//_}
+	fname_plots=${1//\//_} #turn path into _ seperated string
+	fname_plots=${fname_plots//__/_} #remove double underline
 	fname_plots=${fname_plots%_}.plots_out #remove trailing _, add extension
 
 	if [[ $2 == "hists" ]]
@@ -95,7 +103,14 @@ function _makeAllForDir {
 }
 
 function makeAllForDir {
-	_makeAllForDir $1 $2 &
+	if [[ $# < 2 ]]
+	then
+		echo "makeAllForDir <path_to_configs> <all/hists/plots>"
+	else
+		echo -n `basename $1`" -- "
+		_makeAllForDir $1 $2 &
+	fi
+	
 }
 
 function makeHistosForDir {
@@ -108,50 +123,10 @@ function makeHistosForDir {
 }
 
 function makePlotsForDir {
-	if [[ -a $1/singleplots.conf ]]
-	then
-		makePlots $1/singleplots.conf
-	else
-		echo "Can not find $1/singleplots.conf"
-	fi
-
-	if [[ -a $1/ratioplots.conf ]]
-	then
-		makePlots $1/ratioplots.conf
-	else
-		echo "Can not find $1/ratioplots.conf"
-	fi
-
-	if [[ -a $1/ratioplots_nowt.conf ]]
-	then
-		makePlots $1/ratioplots_nowt.conf
-	else
-		echo "Can not find $1/ratioplots_nowt.conf"
-	fi
-
-	if [[ -a $1/ratioplots_HT.conf ]]
-	then
-		makePlots $1/ratioplots_HT.conf
-	fi
-
-	if [[ -a $1/cuts.conf ]]
-	then
-		makePlots $1/cuts.conf
-	else
-		echo "Can not find $1/cuts.conf"
-	fi
-
-	if [[ -a $1/statsplots.conf ]]
-	then
-		makePlots $1/statsplots.conf
-	else
-		echo "Can not find $1/statsplots.conf"
-	fi
-
-	if [[ -a $1/nvert.conf ]]
-	then
-		makePlots $1/nvert.conf
-	fi
+	for i in `ls ${1}/*plots*.conf`
+	do
+		makePlots $i
+	done
 }
 
 function addIndexToDirTree {
@@ -172,14 +147,16 @@ function addIndexToDirTree {
 }
 
 function makeAllConfigs {
-	makeAllForDir $2/A/Btag/ $1
-	makeAllForDir $2/A/Bveto/ $1
-	makeAllForDir $2/B/Btag/ $1
-	makeAllForDir $2/B/Bveto/ $1
-	
-	makeAllForDir $2/ewkHiggs/ $1
-	makeAllForDir $2/atlas/ $1
-	makeAllForDir $2/edge/ $1
+	if [[ $# < 2 ]]
+	then
+		echo "makeAllConfigs <all/plots/hists> <path_to_configs>"
+		return
+	fi
+
+	for i in Strong_Btag/2j/ Strong_Btag/4j/ Strong_Btag/6j/ Strong_Bveto/2j/ Strong_Bveto/4j/ Strong_Bveto/6j/ TChiHZ/ baseline/ TChiWZ/
+	do
+		makeAllForDir $2/${i} $1
+	done
 }
 
 function numjobs {
@@ -235,27 +212,6 @@ function addHists {
 }
 
 
-function getSRs {
-	if [[ $1 == "dirs" ]]
-	then
-		echo "A/Btag/"
-		echo "A/Bveto/"
-		echo "B/Btag/"
-		echo "B/Bveto/"
-		echo "edge/"
-		echo "atlas/"
-		echo "ewkHiggs/"
-	else
-		echo "A_btag"
-		echo "A_bveto"
-		echo "B_btag"
-		echo "B_bveto"
-		echo "EdgeZ"
-		echo "ATLAS"
-		echo "EWK_Higgs"
-	fi
-}
-
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/
 	rm ${OutputDir}L1PrescaleWeight*.root
@@ -272,5 +228,45 @@ function makeL1PrescaleWeightHists {
 			output_hist_name="rwt_"$j
 			root -l -b -q "makeWeightHisto_noconf.C(\"${output_location}\",\"${infile1}\",\"${infile2}\",\"${hist1}\",\"${hist2}\",\"${output_hist_name}\")"
 		done
+	done
+}
+
+function lt {
+	#Prints parsed latex table for config
+	if [[ $# < 1 ]]
+	then
+		echo "lt <path/to/plot/output_1> <path/to/plot/output_2> ..."
+		return
+	fi
+
+	for arg in ${@}
+	do
+		lt_srid=${arg#*Final_}
+		lt_srid=${lt_srid%.plots_out}
+		lt_srid=${lt_srid//_/ }
+		echo "\textbf{${lt_srid}:}"
+		echo ""
+		cat $arg | grep "LATEXTABLE: " | sed -e 's/^LATEXTABLE: //g' -e 's/-6001/+/g'
+		echo ""
+	done
+}
+
+function tempErr {
+	#Prints parsed template error table for config
+	if [[ $# < 1 ]]
+	then
+		echo "tempErr <path/to/plot/output_1> <path/to/plot/output_2> ..."
+		return
+	fi
+
+	for arg in ${@}
+	do
+		tempErr_srid=${arg#*Final_}
+		tempErr_srid=${tempErr_srid%.plots_out}
+		tempErr_srid=${tempErr_srid//_/ }
+		echo "\textbf{${tempErr_srid}:}"
+		echo ""
+		cat $arg | grep "TEMPLATEDEBUG: " | sed -e 's/^TEMPLATEDEBUG: //g' -e 's/-6001/+/g'
+		echo ""
 	done
 }

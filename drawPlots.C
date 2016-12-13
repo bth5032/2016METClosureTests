@@ -16,6 +16,7 @@
 #include "computeErrors.C"
 #include "ConfigParser.C"
 #include "ConfigHelper.C"
+#include "HistTools.C"
 
 
 using namespace std;
@@ -26,11 +27,12 @@ double errMult(double A, double B, double errA, double errB, double C) {
   return sqrt(C*C*(pow(errA/A,2) + pow(errB/B,2)));
 }
 
-//____________________________________________________________________________
-// returns the error on C = A/(A+B) 
-// note that if A and B are integers, simplifies to sqrt((C * (1-C)) / (A+B))
-// or thinking of an efficiency, sqrt((eff * (1-eff)) / N)
 float err_binomial(float A, float B, float errA, float errB) {
+  /* 
+  returns the error on C = A/(A+B) 
+  note that if A and B are integers, simplifies to sqrt((C * (1-C)) / (A+B))
+  or thinking of an efficiency, sqrt((eff * (1-eff)) / N) 
+  */
  return (1/pow(A+B,2)) * sqrt(pow(B*errA,2) + pow(A*errB,2));
 }
 
@@ -234,12 +236,19 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   TH1D* clonedBG_norm = NULL;
   TH1D* clonedPrimary_norm = (TH1D*) hists[0]->Clone("clonedPrimary_forNorm_"+plot_name);
-  
+  double numEventsData, numEventsMC, errEventsMC;
+  int norm_bin;
   //Add scale factors like RSFOF
+  cout<<"Scaling Hists"<<endl;
   for (int i=0; i < num_hists; i++){
     if (conf->get("hist_"+to_string(i)+"_scale") != ""){
       hists[i]->Scale(stod(conf->get("hist_"+to_string(i)+"_scale")));
     }
+  }
+
+  cout<<"Zeroing Negative Numbers"<<endl;
+  for (int i=0; i < num_hists; i++){
+    zeroNegatives(hists[i]);
   }
 
   if (conf->get("normalize") == "true"){
@@ -300,20 +309,27 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
           clonedPrimary_norm->Add(hists[i], -1); //subtract
         }
       }
+      zeroNegatives(clonedPrimary_norm);
     }
 
     //cout<<__LINE__<<endl;
-    double numEventsData;
-    double numEventsMC;
+    //double numEventsData; -- Now made more global, defined above
     double scaleFactor;
     if (conf->get("norm_0_50") == "true")
     {
       numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(0),clonedPrimary_norm->FindBin(49.9));
-      numEventsMC = clonedBG_norm->Integral(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9));
+      numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(0),clonedBG_norm->FindBin(49.9), errEventsMC);
+      norm_bin = 0;
+    }
+    else if (conf->get("norm_50_100") == "true"){
+      numEventsData = clonedPrimary_norm->Integral(clonedPrimary_norm->FindBin(50),clonedPrimary_norm->FindBin(99.9));
+      numEventsMC = clonedBG_norm->IntegralAndError(clonedBG_norm->FindBin(50),clonedBG_norm->FindBin(99.9), errEventsMC);
+      norm_bin = 1;
     }
     else{
       numEventsData = clonedPrimary_norm->Integral(0,-1);
-      numEventsMC = clonedBG_norm->Integral(0,-1);
+      numEventsMC = clonedBG_norm->IntegralAndError(0,-1, errEventsMC);
+      norm_bin = -1;
     }
     //cout<<__LINE__<<endl;
     cout<<"Num Events Primary: "<<numEventsData<<endl;
@@ -323,6 +339,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     cout<<"Applying scale factor "<<scaleFactor<<" to MET templates hist."<<endl;
     for (int i = 1; i<num_hists; i++){
       if (hist_nums_for_norm.Contains(to_string(i)) || hist_nums_for_norm == "" ){
+        cout<<i<<" "<<hist_labels[i]<<" SF: "<<scaleFactor<<endl;
         hists[i]->Scale(scaleFactor);  //if hist is marked for norm or no hists marked for norms.
         cout<<hist_labels[i]<<" count: "<<hists[i]->GetBinContent(1)<<endl;
       }
@@ -441,10 +458,14 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     vector<pair<double,double>> stats_bins;
     int j = 0;
     
+    //cout<<__LINE__<<endl;
+
     while (conf->get("stats_"+to_string(j)+"_low_val") != "" ){
       stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
     }
+
+    //cout<<__LINE__<<endl;
 
     if(conf->get("simple_errors") == "true"){
       vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
@@ -504,8 +525,13 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
 
     }
     else{  
-      double normalization = hists[0]->Integral(0,hists[0]->FindBin(49.9));
-
+      //========================
+      //Get Normalization
+      //========================
+      double normalization = numEventsData;
+      
+      //cout<<__LINE__<<endl;
+      
       vector<double> template_count;
       vector<double> template_error;
 
@@ -528,7 +554,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
       vector<double> signal_count;
       //cout<<__LINE__<<endl;
 
-      //Fill in all the bin counts here
+      //Fill in all the counts and statstical errors for each stat bin in this loop.
+      //Then we run the full error computations after.
+      //=======================================
+      // Get Bin Counts and Statistical Errors
+      //=======================================
       for (int i = 0; i < stats_bins.size(); i++){
         signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
         FS_count.push_back(hists[5]->Integral(hists[5]->FindBin(stats_bins[i].first), hists[5]->FindBin(stats_bins[i].second - 0.001)));
@@ -540,18 +570,22 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         
         //cout<<__LINE__<<endl;
         
+        //Need to fill these so no seg fault, will be replaced by IntegralAndError
         ZZ_err.push_back(0);
         WZ_err.push_back(0);
         VVV_err.push_back(0);
         TTV_err.push_back(0);
 
         ZZ_count.push_back(hists[1]->IntegralAndError(hists[1]->FindBin(stats_bins[i].first), hists[1]->FindBin(stats_bins[i].second - 0.001), ZZ_err[i]));
+        ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]);
 
         //cout<<__LINE__<<endl;
 
-        ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
-        ZZ_err[i] = sqrt(ZZ_err[i]*ZZ_err[i]+r_err*r_err);
-        //WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+        WZ_count.push_back(hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), WZ_err[i]));
+        WZ_err[i] = sqrt(WZ_err[i]*WZ_err[i]);
+        
+        //From when Vince had WZ and ZZ together
+        //ZZ_count[i] += hists[2]->IntegralAndError(hists[2]->FindBin(stats_bins[i].first), hists[2]->FindBin(stats_bins[i].second - 0.001), r_err);
 
         //cout<<__LINE__<<endl;
 
@@ -562,27 +596,56 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
         TTV_count.push_back(hists[4]->IntegralAndError(hists[4]->FindBin(stats_bins[i].first), hists[4]->FindBin(stats_bins[i].second - 0.001), TTV_err[i]));
         //cout<<__LINE__<<endl;
       }
-
+      //=========================
+      // Compute Full Errors
+      //=========================
       //Compute Rare Sample Errors
-      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count);
-      //WZ_err = getRareSamplesError(WZ_err, WZ_count);
-      VVV_err = getRareSamplesError(VVV_err, VVV_count);
-      TTV_err = getRareSamplesError(TTV_err, TTV_count);
 
+      //Get Rare Scale factors
+      double ZZ_scale = (conf->get("hist_1_scale") == "") ? 1 : stod(conf->get("hist_1_scale"));
+      double WZ_scale = (conf->get("hist_2_scale") == "") ? 1 : stod(conf->get("hist_2_scale"));
+      double VVV_scale = (conf->get("hist_3_scale") == "") ? 1 : stod(conf->get("hist_3_scale"));
+      double TTV_scale = (conf->get("hist_4_scale") == "") ? 1 : stod(conf->get("hist_4_scale"));
 
-      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, conf->get("SR"));
+      double ZZ_scale_unc = (conf->get("hist_1_scale_unc") == "") ? .5 : stod(conf->get("hist_1_scale_unc"));
+      double WZ_scale_unc = (conf->get("hist_2_scale_unc") == "") ? .5 : stod(conf->get("hist_2_scale_unc"));
+      double VVV_scale_unc = (conf->get("hist_3_scale_unc") == "") ? .5 : stod(conf->get("hist_3_scale_unc"));
+      double TTV_scale_unc = (conf->get("hist_4_scale_unc") == "") ? .5 : stod(conf->get("hist_4_scale_unc"));
+
+      //Compute rare errors
+      ZZ_err = getRareSamplesError(ZZ_err, ZZ_count, ZZ_scale, ZZ_scale_unc);
+      //cout<<__LINE__<<endl;
+      WZ_err = getRareSamplesError(WZ_err, WZ_count, WZ_scale, WZ_scale_unc);
+      //cout<<__LINE__<<endl;
+      VVV_err = getRareSamplesError(VVV_err, VVV_count, VVV_scale, VVV_scale_unc);
+      //cout<<__LINE__<<endl;
+      TTV_err = getRareSamplesError(TTV_err, TTV_count, TTV_scale, TTV_scale_unc);
+      //cout<<__LINE__<<endl;
+
+      vector<double> temp_err = getMetTemplatesError(template_error, template_count, normalization, norm_bin, stats_bins, conf->get("SR"));
       //cout<<__LINE__<<endl;
       pair<vector<double>,vector<double>> FS_err = getFSError(FS_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
 
+      //Add all rare samples together with scale factors applied
       for (int i = 0; i < ZZ_err.size(); i++){
-        //rare_count.push_back(ZZ_count[i]+WZ_count[i]+VVV_count[i]+TTV_count[i]);
-        //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+        rare_count.push_back(ZZ_scale*ZZ_count[i]+WZ_scale*WZ_count[i]+VVV_scale*VVV_count[i]+TTV_scale*TTV_count[i]);
+        rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + WZ_err[i]*WZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
 
-        rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
-        rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
+        //For cross checking with Vince
+        //rare_count.push_back(ZZ_count[i]+VVV_count[i]+TTV_count[i]);
+        //rare_err.push_back(sqrt(ZZ_err[i]*ZZ_err[i] + VVV_err[i]*VVV_err[i] + TTV_err[i]*TTV_err[i]));
       }
-
+      
+      //Blinding works by first zeroing out all bins past the number given
+      //Then we recompute the numbers for the signal counts
+      if (conf->get("blindAfter") != ""){
+        blindAfter(hists[0], stod(conf->get("blindAfter")));
+        signal_count.clear();
+        for (int i = 0; i < stats_bins.size(); i++){
+          signal_count.push_back(hists[0]->Integral(hists[0]->FindBin(stats_bins[i].first), hists[0]->FindBin(stats_bins[i].second - 0.001)));
+        }
+      }
       printCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       printLatexCounts(template_count, temp_err, rare_count, rare_err, FS_count, FS_err, stats_bins, signal_count, stod(conf->get("hist_5_scale")));
       //cout<<__LINE__<<endl;
@@ -601,7 +664,11 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
   //cout<<__LINE__<<endl;
   if (conf->get("overflow")=="true"){
     cout<<"Plot tagged for overflow bin, building..."<<endl;
-    double n_bins = hists[0]->GetNbinsX();
+    updateOverUnderflow(bg_sum, xmax);
+    for (int i = 0; i<num_hists; i++){
+      updateOverUnderflow(hists[i], xmax);
+    }
+    /*double n_bins = hists[0]->GetNbinsX();
     double overflow, max;
     //cout<<__LINE__<<endl;
     for (int i = 0; i<num_hists; i++){
@@ -611,7 +678,7 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     }
     overflow = bg_sum->GetBinContent(n_bins + 1);
     max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
-    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);
+    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
     //cout<<__LINE__<<endl;
   }
   
@@ -638,6 +705,9 @@ TString drawArbitraryNumberWithResidual(ConfigParser *conf){
     stack->Add(hists[i]);
   } 
   stack->Draw("HIST SAME");
+  if (conf->get("blindAfter") != ""){
+    blindAfter(hists[0], stod(conf->get("blindAfter")));
+  }
   hists[0]->Draw("E1 SAME");
   plotpad->RedrawAxis();
   //cout<<__LINE__<<endl;
@@ -749,7 +819,7 @@ TString drawArbitraryNumber(ConfigParser *conf){
   int num_hists=stoi(conf->get("num_hists"));
 
   if (num_hists < 2){
-    return TString("Less than Two hists can not be turned into a residual plot, please call drawSingleTH1");
+    return TString("Less than Two hists can not be turned into a stack plot, please call drawSingleTH1 (replace config PLOT_TYPE with Single)");
   } 
 
   //Add files from which to obtain histos
@@ -973,6 +1043,305 @@ TString drawArbitraryNumber(ConfigParser *conf){
       stats_bins.push_back(make_pair(stod(conf->get("stats_"+to_string(j)+"_low_val")),stod(conf->get("stats_"+to_string(j)+"_high_val"))));
       j++;
     }
+
+    if(conf->get("simple_errors") == "true"){
+      cout<<"Computing simple errors"<<endl;
+      vector<vector<pair<double, double>>> stats; //holds a pair of count error for each sample, and the bg sum
+      double count, error;
+      vector<pair<double,double>> stat_row;
+      
+      //cout<<__LINE__<<endl;
+      //Loop over the stats bins
+      // Build Table ========================================================
+      for(int i = 0 ; i < (int)hists.size(); i++){
+        for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+          //cout<<__LINE__<<endl;
+          count = hists[i]->IntegralAndError(hists[i]->FindBin(stats_bins[st_bin].first), hists[i]->FindBin(stats_bins[st_bin].second), error);
+          stat_row.push_back(make_pair(count,error));
+        }
+        stats.push_back(stat_row);
+        stat_row.clear();
+      }
+      //Tack on BG sum row
+      for(int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        count = bg_sum->IntegralAndError(bg_sum->FindBin(stats_bins[st_bin].first), bg_sum->FindBin(stats_bins[st_bin].second), error);
+        stat_row.push_back(make_pair(count,error)); 
+      } 
+      stats.push_back(stat_row);
+      // End Table Building ==================================================
+
+      // Print Table =========================================================
+      CTable table;
+      table.setPrecision(2);
+      //Set Column Labels
+      //cout<<__LINE__<<endl;
+      table.setTitle(Form("Efficiencies for %s",plot_name.Data()));
+      table.useTitle();
+      for (int st_bin=0; st_bin < (int) stats_bins.size(); st_bin++){
+        //cout<<__LINE__<<endl;
+        table.setColLabel(Form("%.2f-%.2f",stats_bins[st_bin].first, stats_bins[st_bin].second), st_bin);
+      }
+      //cout<<__LINE__<<endl;
+
+      //Output Rows for samples
+      for(int row = 0; row <= (int) hists.size(); row++ ){
+        if (row == hists.size()){
+          table.setRowLabel("Sum of BG", hists.size());  
+        }
+        else{
+          table.setRowLabel(hist_labels[row], row);
+        }
+        for(int col=0; col < (int) stats_bins.size(); col++){
+          //cout<<__LINE__<<endl;
+          table.setCell(Form("%.2f+/-%.2f; Eff: %.2f", stats[row][col].first, stats[row][col].second, stats[row][col].first/stats[row][0].first), row, col);
+        }
+      }
+      //cout<<__LINE__<<endl;
+
+      table.print();
+      table.saveTex(Form("efficiency_table_%s.tex", plot_name.Data()));
+
+    }
+  }
+  
+  //----------------------
+  // ADD OVERFLOW BIN
+  //----------------------
+  //cout<<__LINE__<<endl;
+  if (conf->get("overflow")=="true"){
+    cout<<"Plot tagged for overflow bin, building..."<<endl;
+
+    updateOverUnderflow(bg_sum, xmax);
+    for (int i = 0; i<num_hists; i++){
+      updateOverUnderflow(hists[i], xmax);
+    }
+    
+    /*double n_bins = hists[0]->GetNbinsX();
+    double overflow, max;
+    //cout<<__LINE__<<endl;
+    for (int i = 0; i<num_hists; i++){
+      overflow = hists[i]->GetBinContent(n_bins + 1);
+      max = hists[i]->Integral(hists[i]->FindBin(xmax-.001), n_bins);
+      hists[i]->SetBinContent(hists[i]->FindBin(xmax-.001), max+overflow);
+    }
+    overflow = bg_sum->GetBinContent(n_bins + 1);
+    max = bg_sum->Integral(bg_sum->FindBin(xmax-.001), n_bins);
+    bg_sum->SetBinContent(bg_sum->FindBin(xmax-.001), max+overflow);*/
+    //cout<<__LINE__<<endl;
+  }
+  
+      
+  
+  fullpad->SetLeftMargin(0.15);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.04);
+  //cout<<__LINE__<<endl;
+  cout<<"Drawing histograms"<<endl;
+  h_axes->Draw();
+  //===========================
+  // MAKE STACK
+  //===========================
+  //Add all the background hists to a stack.
+  THStack * stack = new THStack(("stack_"+conf->get("Name")).c_str(), conf->get("title").c_str());
+  //cout<<__LINE__<<endl;
+
+  sort(hists.begin()+1, hists.end(), TH1DIntegralSort);
+  
+  for (int i=0; i<num_hists; i++)
+  {
+    stack->Add(hists[i]);
+  } 
+  stack->Draw("HIST SAME");
+  fullpad->RedrawAxis();
+  //cout<<__LINE__<<endl;
+
+  l1->Draw("same");
+ 
+  fullpad->cd();
+  //Draw luminosity and CMS tag
+  if (conf->get("luminosity_fb") != ""){
+    drawCMSLatex(stod(conf->get("luminosity_fb")));
+  }
+  //cout<<__LINE__<<endl;
+
+  cout<<"Saving..."<<endl;
+  c->SaveAs(save_dir+plot_name+TString(".pdf"));
+  c->SaveAs(save_dir+plot_name+TString(".png"));
+  //c->SaveAs(save_dir+plot_name+TString(".root"));
+  //c->SaveAs(save_dir+plot_name+TString(".C"));
+  //cout<<__LINE__<<endl;
+  cout<<"Cleaning up plot variables"<<endl;
+  delete l1;
+  hists.clear();
+  hist_names.clear();
+  hist_labels.clear();
+  delete fullpad;
+  delete c;
+  //cout<<__LINE__<<endl;
+  for (int i = 0; i<num_hists; i++){
+    hist_files[i]->Close();
+  }
+  hist_files.clear();
+  //cout<<__LINE__<<endl;
+  return errors;
+}
+
+TString drawSingleTH1(ConfigParser *conf){
+  /* This method expects conf to have a plot config loaded in already. */
+  TString errors="";
+
+  TString sample_loc;
+  if (conf->get("file_path") != ""){
+      sample_loc = TString(conf->get("file_path"));
+  }
+  else{
+    sample_loc = TString(getDefaultHistDir(conf)+conf->get("sample")+".root");
+  }
+
+  TFile *f_primary =new TFile(sample_loc);
+
+  cout << "Found files "<<endl;
+
+  TString plot_name = conf->get("plot_name");
+  TString plot_title = parseLatex(conf->get("title"));
+  double xmax = stod(conf->get("xmax"));
+  double xmin = stod(conf->get("xmin"));
+  TString hist_name=conf->get("hist_name");
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
+  TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
+
+  double bin_size;
+  if (conf->get("bin_size") != ""){
+    bin_size = stod(conf->get("bin_size"));
+  }
+  else{
+    bin_size=1;
+  }
+
+  cout << "Making Plots for: "<<plot_name<<endl;
+
+  TH1D* p_hist = (TH1D*) ((TH1D*) f_primary->Get(hist_name))->Clone("phist_"+plot_name);
+  cout<<hist_name<<" found in "<<f_primary->GetName()<<endl;
+
+  cout << "Histograms pulled from files, adding draw options"<<endl;
+  
+  //============================================
+  // Draw Data-MC Plots
+  //============================================
+  
+  TCanvas * c = new TCanvas("c","",2000,2000);
+  c->cd();
+  gPad->SetRightMargin(0.05);
+  gPad->Modified();
+  gStyle->SetOptStat(kFALSE);
+  TPad *fullpad = new TPad("fullpad", "fullpad", 0,0,1,1);
+  
+  fullpad->Draw();
+  fullpad->cd();
+    
+  fullpad->SetRightMargin(0.05);
+  if (conf->get("ExtraRightMargin") == "true")
+  {
+    fullpad->SetRightMargin(0.08);
+  }
+  fullpad->SetBottomMargin(0.12);
+  
+  fullpad->Draw();
+  fullpad->cd();
+  
+  if (conf->get("logy") == "true")
+  {
+    cout<<"Plot tagged for log y-axis"<<endl;
+    fullpad->SetLogy();
+  }
+  
+
+  if (conf->get("bin_size") != ""){
+    p_hist->Rebin(bin_size);
+  }
+  else if (conf->get("binning") != ""){
+    cout<<"Rebinning plots with variable ranges"<<endl;
+    vector<double> binning = parseVector(conf->get("binning"));
+    p_hist = (TH1D*) p_hist->Rebin(binning.size()-1, TString(hist_name+"_rebin"), &binning[0]);
+  }
+  
+  //===========================
+  // SET MC COLORS
+  //===========================
+  
+  p_hist->SetFillColor(kAzure+5);
+  p_hist->SetFillStyle(1001);
+
+  //===========================
+  // Find Plot Maxima
+  //===========================
+  
+  double ymax = 0;
+
+  ymax = 1.2*p_hist->GetMaximum();
+
+  
+  cout<<"Proper plot maximum set to "<<ymax<<endl;
+  
+  TH2F* h_axes = new TH2F(Form("%s_axes",plot_name.Data()),plot_title,p_hist->GetNbinsX(),xmin,xmax,1000,0.001,ymax);
+  
+  
+  //-----------------------
+  // AXES FIX
+  //-----------------------
+  
+  cout<<"Setting axis names"<<endl;
+  h_axes->GetXaxis()->SetTitle(xlabel);
+  h_axes->GetYaxis()->SetTitle(ylabel);
+  
+  TString stat_string_1;
+
+  //===========================
+  // Print Closure Stats
+  //===========================
+  if (conf->get("print_stats") == "true")
+  {
+    int low_val = stoi(conf->get("stats_low_val"));
+    int high_val = stoi(conf->get("stats_high_val"));
+
+    Double_t p_evts_gtr150_err;
+    double p_evts_gtr150 = p_hist->IntegralAndError(p_hist->FindBin(low_val), p_hist->FindBin(high_val-.001), p_evts_gtr150_err);
+    
+    stat_string_1 = "Number of Events in "+hist_name+" from "+conf->get("stats_low_val")+" to "+conf->get("stats_high_val")+" : "+to_string(p_evts_gtr150)+" Error: "+to_string(p_evts_gtr150_err);
+
+
+    cout<<f_primary->GetName()<<" STATS: "<<stat_string_1<<endl;
+  }
+  
+  //----------------------
+  // ADD OVERFLOW BIN
+  //----------------------
+  if (conf->get("overflow")=="true"){
+    cout<<"Plot tagged for overflow bin, building..."<<endl;
+    
+    updateOverUnderflow(p_hist, xmax);
+    /*double n_bins = p_hist->GetNbinsX();
+    
+    double overflow_primary = p_hist->GetBinContent(n_bins + 1);
+
+    double max_primary = p_hist->Integral(p_hist->FindBin(xmax) - 1, n_bins);
+
+    p_hist->SetBinContent(p_hist->FindBin(xmax) - 1, max_primary+overflow_primary);*/
+  }      
+  
+  fullpad->SetLeftMargin(0.15);
+  h_axes->GetYaxis()->SetTitleOffset(1.3);
+  h_axes->GetYaxis()->SetTitleSize(0.05);
+  h_axes->GetYaxis()->SetLabelSize(0.03);
+  
+  cout<<"Drawing histograms"<<endl;
+  h_axes->Draw();
+  p_hist->Draw("HIST SAME");
+  
+  fullpad->RedrawAxis();
+  
 
     if(conf->get("simple_errors") == "true"){
       cout<<"Computing simple errors"<<endl;
@@ -1383,13 +1752,13 @@ TString drawCutDebug(ConfigParser *conf){
   cout << "Found files "<<endl;
 
   TString plot_name = conf->get("plot_name");
-  TString plot_title = conf->get("title");
+  TString plot_title = parseLatex(conf->get("title"));
   double xmax = stod(conf->get("xmax"));
   double xmin = stod(conf->get("xmin"));
   double bin_size = stod(conf->get("bin_size"));
   TString hist_name=conf->get("hist_name");
-  TString xlabel=conf->get("xlabel");
-  TString ylabel=conf->get("ylabel");
+  TString xlabel=parseLatex(conf->get("xlabel"));
+  TString ylabel=parseLatex(conf->get("ylabel"));
   TString save_dir=(conf->get("save_dir") != "") ? conf->get("save_dir") : getOutputDir(conf, "plot");
 
 
@@ -1776,7 +2145,7 @@ TString drawDebugPlots(ConfigParser *conf){
     while (conf->get("file_"+to_string(i)+"_path") != "" || conf->get("sample_"+to_string(i)) != ""){
       if (conf->get("file_"+to_string(i)+"_path") != ""){
         sample_loc = TString(conf->get("file_"+to_string(i)+"_path"));
-        sample_name = TString(conf->get("hist_"+to_string(i)+"_label"));
+        sample_name=sample_loc(sample_loc.Last('/')+1, sample_loc.Index(".root")-sample_loc.Last('/')-1); //gets the name of the .root file
       }
       else{
         sample_loc = TString(default_hist_dir+conf->get("sample_"+to_string(i))+".root");
@@ -1812,7 +2181,6 @@ TString drawDebugPlots(ConfigParser *conf){
   }
 
   return TString("Debug Plots Made.\n");
-
 }
 
 TString drawSingleTH2(ConfigParser *conf){
