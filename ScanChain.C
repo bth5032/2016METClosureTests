@@ -588,10 +588,10 @@ void readyVPTReweight(TString save_path){
 double getEff(const double &pt, const double &eta ){
   /* Returns the trigger efficiency from g_pt_eff */
   if (abs(eta) < 1.4){
-    return g_pt_eff_barrel->GetEfficiency(g_pt_eff_barrel->FindFixBin(pt);
+    return g_pt_eff_barrel->GetEfficiency(g_pt_eff_barrel->FindFixBin(pt));
   }
   else{
-    return g_pt_eff_endcap->GetEfficiency(g_pt_eff_endcap->FindFixBin(pt); 
+    return g_pt_eff_endcap->GetEfficiency(g_pt_eff_endcap->FindFixBin(pt)); 
   }
 }
 
@@ -1511,12 +1511,12 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     TFile weight_eff_file("auxFiles/trigeff_Photon165_zmet2016.root", "READ");
     
     //barrel
-    g_vpt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
-    g_vpt_eff_barrel->SetDirectory(rootdir);
+    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_eb_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_pt_eff_barrel->SetDirectory(rootdir);
 
     //endcap
-    g_vpt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
-    g_vpt_eff_endcap->SetDirectory(rootdir);
+    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_ee_eff_jetht")->Clone("g_vpt_eff_barrel");
+    g_pt_eff_endcap->SetDirectory(rootdir);
     
     weight_eff_file.Close();
   }
