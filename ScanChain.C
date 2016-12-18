@@ -1219,7 +1219,7 @@ bool passFileSelections(){
   if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-TTGamma") ){
     
     //Remove prompt photons from TTBar
-    if( TString(currentFile->GetTitle()).Contains("wjets") ){ //WJets
+    if( TString(currentFile->GetTitle()).Contains("ttbar") ){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
@@ -1227,7 +1227,7 @@ bool passFileSelections(){
       }
     }   
     //Remove Non-prompt from TTGamma
-    else if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){
+    else if ( TString(currentFile->GetTitle()).Contains("ttg") ){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
