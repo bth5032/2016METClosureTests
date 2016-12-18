@@ -96,15 +96,6 @@ double bosonPt(){
   }
 }
 
-double getEff(){
-  if (abs(phys.gamma_p4().at(0).eta()) < 1.4){
-    return g_vpt_eff_barrel->GetEfficiency(g_vpt_eff_barrel->FindFixBin(phys.gamma_pt().at(0)));
-  }
-  else{
-    return g_vpt_eff_endcap->GetEfficiency(g_vpt_eff_endcap->FindFixBin(phys.gamma_pt().at(0))); 
-  }
-}
-
 double getMTLepMET(short id/*=0*/){
   /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
   return sqrt(phys.met_T1CHS_miniAOD_CORE_pt()*phys.lep_p4().at(id).pt()*(1 - cos(phys.met_T1CHS_miniAOD_CORE_phi() - phys.lep_p4().at(id).phi())));
@@ -594,6 +585,16 @@ void readyVPTReweight(TString save_path){
   reweight_file->Close();
 }
 
+double getEff(const double &pt, const double &eta ){
+  /* Returns the trigger efficiency from g_pt_eff */
+  if (abs(eta) < 1.4){
+    return g_pt_eff_barrel->GetEfficiency(g_pt_eff_barrel->FindFixBin(pt);
+  }
+  else{
+    return g_pt_eff_endcap->GetEfficiency(g_pt_eff_endcap->FindFixBin(pt); 
+  }
+}
+
 double getReweight(){
   double weight = 1;
   
@@ -612,6 +613,18 @@ double getReweight(){
     else if (rwt_var == "ht_wide"){
       //cout<<"Adding HT weight: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht()))<<endl;
       weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.ht())); 
+    }
+    else if (rwt_var == "muonPT_endcap"){
+      //cout<<"Adding muon pt trigger efficiency weight in endcap: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.lep_pt().at(0)))<<endl;
+      if (phys.lep_p4().at(0).eta() > 1.6){
+        weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.lep_pt().at(0))); 
+      }
+    }
+    else if (rwt_var == "muonPT_barrel"){
+      //cout<<"Adding muon pt trigger efficiency weight in barrel: "<<rwt_hist->GetBinContent(rwt_hist->FindBin(phys.lep_pt().at(0)))<<endl;
+      if (phys.lep_p4().at(0).eta() < 1.4){
+        weight *= rwt_hist->GetBinContent(rwt_hist->FindBin(phys.lep_pt().at(0))); 
+      }
     }
     else{
       throw std::invalid_argument("Reweight varible is not a valid option, please choose vpt, or ht_wide, got: \'"+rwt_var+"\'");
@@ -663,17 +676,18 @@ double getWeight(){
 
   weight *= g_scale_factor;
 
-  if ( conf->get("reweight") == "true" ) {
+  if ( conf->get("reweight") == "true" || conf->get("vpt_reweight") == "true") {
     weight *= getReweight();
   }
 
-  if ( conf->get("vpt_reweight") == "true" ) {
-    weight *= getReweight();
+  if (conf->get("rwt_photon_eff") == "true" ){
+    weight *= getEff(phys.gamma_pt().at(0), phys.gamma_eta().at(0));
   }
 
-  if ( conf->get("reweight_eff") == "true" && conf->get("event_type") == "photon" && phys.ngamma() > 0){
-    weight *= getEff();
+  if (conf->get("rwt_muon_eff") == "true"){
+    weight *= getEff(phys.lep_pt().at(0), phys.lep_eta().at(0));
   }
+
   //cout<<__LINE__<<endl;
 
  if ((! phys.isData()) && conf->get("event_type") != "photon" ){
@@ -1187,7 +1201,6 @@ bool passFileSelections(){
 
     //Remove overlap between WGammaJets and WJets
     if( TString(currentFile->GetTitle()).Contains("wjets") ){ //WJets
-      //cout<<"File: "<<currentFile->GetTitle()<<" with gen_ht: "<<phys.gen_ht()<<endl;
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
@@ -1195,6 +1208,26 @@ bool passFileSelections(){
       }
     }
     else if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){ //WGammaJets
+      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+    }
+  }
+
+  if ( TString(conf->get("data_set")).Contains("FSMC-TTBar-TTGamma") ){
+    
+    //Remove prompt photons from TTBar
+    if( TString(currentFile->GetTitle()).Contains("wjets") ){ //WJets
+      if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) == 1 ) {
+        //cout<<"skipped"<<endl;
+        numEvents->Fill(64);
+        return false;
+      }
+    }   
+    //Remove Non-prompt from TTGamma
+    else if ( TString(currentFile->GetTitle()).Contains("wgjets_incl_mgmlm") ){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);
@@ -1472,8 +1505,8 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     g_l1prescale_file->Close();
   }*/
   //cout<<__LINE__<<endl;
-  
-  if( conf->get("reweight_eff") == "true" ){
+
+  if( conf->get("rwt_photon_eff") == "true" ){
     cout<<"Reweighting for Effeciency with trigeff_Photon165_zmet2016.root"<<endl;
     TFile weight_eff_file("auxFiles/trigeff_Photon165_zmet2016.root", "READ");
     
@@ -1487,6 +1520,21 @@ int ScanChain( TChain* chain, ConfigParser *configuration, bool fast/* = true*/,
     
     weight_eff_file.Close();
   }
+
+  if( conf->get("rwt_muon_eff") == "true" ){
+    cout<<"Reweighting for single muon trigger effeciency"<<endl;
+    TFile weight_eff_file("/home/users/cwelke/analysis/CMSSW_8_0_22/V08-22-05/ZMET2015/makePlots/trigeff_Muon_pt_2016_withH.root", "READ");
+    
+    //barrel
+    g_pt_eff_barrel = (TEfficiency*)weight_eff_file.Get("h_pt_denom_eb_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
+    g_pt_eff_barrel->SetDirectory(rootdir);
+
+    //endcap
+    g_pt_eff_endcap = (TEfficiency*)weight_eff_file.Get("h_pt_denom_ee_ele27WPLoose_clone")->Clone("g_pt_eff_barrel");
+    g_pt_eff_endcap->SetDirectory(rootdir);
+    
+    weight_eff_file.Close();
+  }  
 
   //cout<<__LINE__<<endl;
   //set goodrun list

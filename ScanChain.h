@@ -50,7 +50,7 @@ int nDuplicates=0;
 vector<pair <TH1D*, TString> > g_reweight_pairs;
 TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
 TH1D *g_pileup_hist, *g_l1prescale_hist22, *g_l1prescale_hist30, *g_l1prescale_hist36;
-TEfficiency *g_vpt_eff_barrel, *g_vpt_eff_endcap; 
+TEfficiency *g_pt_eff_barrel, *g_pt_eff_endcap; 
 TFile *g_weight_hist_file, *g_pileup_hist_file, *g_l1prescale_file;
 TString g_sample_name;
 TFile* currentFile = 0;
@@ -83,10 +83,6 @@ double getMT2HiggsZ(bool select_highest_closest_higgs_mass=false);
 
 /*Returns boson Pt, determines whether sample is gjets or zjets first*/
 double bosonPt();
-
-/*Reads the efficiency from the g_vpt_eff_barrel histogram for the pt of the leading
-photon in the event*/
-double getEff();
 
 /* Builds the MT from the lepton at index id and the MET vector (assumes massless particles)*/
 double getMTLepMET(short id=0);
@@ -147,6 +143,9 @@ void readyReweightHists();
 
 /* Adds the vpt reweighting histogram to the g_reweight_pairs vector */
 void readyVPTReweight(TString save_path);
+
+/* Returns the trigger efficiency from g_pt_eff */
+double getEff(const double &pt, const double &eta);
 
 /*Loads the reweight hists from g_reweight_pairs and multiplies returns the weight associated with the proper
 bin in the histogram*/
