@@ -1227,7 +1227,7 @@ bool passFileSelections(){
       }
     }   
     //Remove Non-prompt from TTGamma
-    else if ( TString(currentFile->GetTitle()).Contains("ttg") ){
+    else if ( TString(currentFile->GetTitle()).Contains("ttgamma_incl_amcnlo") ){
       if( phys.ngamma() > 0 && phys.gamma_genIsPromptFinalState().at(0) != 1 ) {
         //cout<<"skipped"<<endl;
         numEvents->Fill(64);

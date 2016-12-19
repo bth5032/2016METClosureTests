@@ -219,7 +219,7 @@ cout<<"===================================="<<endl;
     ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltop_mgmlm*.root"));
 
     //Take prompt photon events
-    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttg*.root"));
+    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttgamma_incl_amcnlo*.root"));
   }
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
