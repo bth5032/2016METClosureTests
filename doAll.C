@@ -37,7 +37,9 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
   }
 }
 
-int main(TString config_name, TString config_file="configs/run_modes.conf") {
+int main(int argC, char** argV) {
+  TString config_name="GammaZtoNuNu";
+  TString config_file="configs/gamma_mu_studies/SingleMuon_ttg/run_modes.conf";
   doAll(config_name, config_file);
 
   return 0;
