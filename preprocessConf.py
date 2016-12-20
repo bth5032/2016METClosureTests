@@ -23,7 +23,7 @@ def copyLines(input_file, output_file):
 
 def preprocess():
   """This program preprocesses the configs in config parser"""
-  if (len(sys.argv) < 1):
+  if (len(sys.argv) < 2):
     print("There was no config file given\n");
     return
 
