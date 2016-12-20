@@ -206,9 +206,14 @@ cout<<"===================================="<<endl;
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_mgmlm*.root"));
   }
 
-  if (data_set.Contains("FSMC-dilep-powheg")){
+  if (data_set.Contains("FSMC-dilep-powheg") && (! data_set.Contains("FSMC-dilep-powheg-Skimmed")) ){
     cout<<"Adding FSMC-dilep-powheg (large stats sample)"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_dilep_powheg*.root")); //larger stats
+  }
+
+  if (data_set.Contains("FSMC-dilep-powheg-Skimmed")){
+    cout<<"Adding Skimmed FSMC-dilep-powheg (large stats sample)"<<endl; 
+    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_dilep_powheg*.root")); //larger stats
   }
 
   if (data_set.Contains("FSMC-TTBar-TTGamma-Skimmed")){
@@ -224,10 +229,16 @@ cout<<"===================================="<<endl;
 
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
 
-  if (data_set.Contains("FSMC-1lep")){
+  if (data_set.Contains("FSMC-1lep") &&  (! data_set.Contains("FSMC-1lep-Skimmed")) ){
     cout<<"Adding FSMC-1lep"<<endl; 
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltbr_mgmlm*.root"));
     ch->Add(Form("/nfs-7/userdata/ZMEToutput/output/ZMETbabies/V08-11-10/ttbar_1ltop_mgmlm*.root"));
+  }
+
+  if (data_set.Contains("FSMC-1lep-Skimmed")){
+    cout<<"Adding skimmed FSMC-1lep"<<endl; 
+    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltbr_mgmlm*.root"));
+    ch->Add(Form("/home/users/cwelke/ZMetbabyskims/V08-22-05/skim_ttbar_1ltop_mgmlm*.root"));
   }
   
   //cout<<"Entries: "<<ch_fs->GetEntries()<<endl;
