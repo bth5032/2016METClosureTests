@@ -8,28 +8,14 @@ function makePlots {
 	mkdirs $1 plots
 	conf_tmp_path=${1//.conf/.conf_tmp}
 	./preprocessConf.py $1
-	if [[ -s $conf_tmp_path ]]
-	then
-		echo "There was an issue with preprocesing the config file, pleae check the conf location"
-		return
-	else
-		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
-		#rm conf_tmp_path
-	fi
+	nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
 }
 
 function makeHistos {	
 	mkdirs $2 hists
 	conf_tmp_path=${2//.conf/.conf_tmp}
 	./preprocessConf.py $2
-	if [[ -s $conf_tmp_path ]]
-	then
-		echo "There was an issue with preprocesing the config file, pleae check the conf location"
-		return
-	else
-		nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")"
-		#rm conf_tmp_path
-	fi
+	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")"
 }	
 
 function setOutputLocations {
