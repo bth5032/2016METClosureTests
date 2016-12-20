@@ -36,3 +36,7 @@ void doAll ( TString config_name, TString config_file="configs/run_modes.conf" )
     exit(1);
   }
 }
+
+void main(TString config_name, TString config_file="configs/run_modes.conf") {
+  doAll(config_name, config_file);
+}
