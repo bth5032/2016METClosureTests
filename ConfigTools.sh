@@ -4,7 +4,7 @@
 #This script contains methods which are useful in copying configs to make another analysis
 
 function listConfigs {
-    if [[ $# < 2 ]]
+  if [[ $# < 2 ]]
   then
     echo "listConfigs <Directory> <Filename>"
     return 1

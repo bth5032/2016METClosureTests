@@ -6,12 +6,30 @@
 
 function makePlots {
 	mkdirs $1 plots
-	nice -n 19 root -l -b -q "drawPlots.C(\"$1\")"
+	conf_tmp_path=${1//.conf/.conf_tmp}
+	./preprocessConfs.py $1
+	if [[ -s $conf_tmp_path ]]
+	then
+		echo "There was an issue with preprocesing the config file, pleae check the conf location"
+		return
+	else
+		nice -n 19 root -l -b -q "drawPlots.C(\"$conf_tmp_path\")"
+		#rm conf_tmp_path
+	fi
 }
 
 function makeHistos {	
 	mkdirs $2 hists
-	nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$2\")"
+	conf_tmp_path=${2//.conf/.conf_tmp}
+	./preprocessConfs.py $2
+	if [[ -s $conf_tmp_path ]]
+	then
+		echo "There was an issue with preprocesing the config file, pleae check the conf location"
+		return
+	else
+		nice -n 19 root -l -b -q "doAll.C+(\"$1\", \"$conf_tmp_path\")"
+		#rm conf_tmp_path
+	fi
 }	
 
 function setOutputLocations {
@@ -110,7 +128,6 @@ function makeAllForDir {
 		echo -n `basename $1`" -- "
 		_makeAllForDir $1 $2 &
 	fi
-	
 }
 
 function makeHistosForDir {
@@ -210,7 +227,6 @@ function addHists {
 
 	hadd ${HIST_OUTPUT_LOCATION}${SR_IDENTITY}$1.root $HADD_LIST
 }
-
 
 function makeL1PrescaleWeightHists {
 	OutputDir=/nfs-7/userdata/bobak/GJetsClosureTests2016/Data/

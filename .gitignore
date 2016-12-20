@@ -15,3 +15,7 @@ outputs/
 
 #UAF stuff
 *.nfs*
+
+#debugging stuff
+*.debug
+*.log
