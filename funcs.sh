@@ -7,7 +7,7 @@
 function makePlots {
 	mkdirs $1 plots
 	conf_tmp_path=${1//.conf/.conf_tmp}
-	./preprocessConfs.py $1
+	./preprocessConf.py $1
 	if [[ -s $conf_tmp_path ]]
 	then
 		echo "There was an issue with preprocesing the config file, pleae check the conf location"
@@ -21,7 +21,7 @@ function makePlots {
 function makeHistos {	
 	mkdirs $2 hists
 	conf_tmp_path=${2//.conf/.conf_tmp}
-	./preprocessConfs.py $2
+	./preprocessConf.py $2
 	if [[ -s $conf_tmp_path ]]
 	then
 		echo "There was an issue with preprocesing the config file, pleae check the conf location"
