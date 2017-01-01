@@ -82,8 +82,9 @@ void FS_Mass_Window_Study(int dataset, bool data=0){
   else if ( dataset == 9  ) id = "baseline_MET100_0B_4j_ht500";
   else if ( dataset == 10 ) id = "baseline_MET100_0B_6j";
   else if ( dataset == 11 ) id = "2j";
+  else if ( dataset == 12 ) id = "TChiWZ";
   else{
-    cout<<"Please specify a valid ID 11 or less"<<endl;
+    cout<<"Please specify a valid ID 12 or less"<<endl;
     exit(1);
   }
 
