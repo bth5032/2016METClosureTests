@@ -1,6 +1,6 @@
 /* Root Script which prints the amount of DY to Tau Tau in the Strong 0 B tag region for the Kappa study */
 
-#include "scripts/FS_Mass_Window_Study.C"
+#include "FS_Mass_Window_Study.C"
 
 void printKappaDYTauTau(){
   //Fill these vectors with all the relevent files
@@ -10,7 +10,7 @@ void printKappaDYTauTau(){
 
   fillFiles(on_files, above_files, below_files, "baseline_MET100_0B");
 
-  TH1D *onz_other, offz_other;
+  TH1D *onz_others, offz_others;
   TH1D *onz_DY, *offz_DY;
 
   //Fill in DY histos with just DY data
