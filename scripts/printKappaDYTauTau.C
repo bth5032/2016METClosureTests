@@ -10,16 +10,17 @@ void printKappaDYTauTau(){
 
   fillFiles(on_files, above_files, below_files, "baseline_MET100_0B");
 
-  TH1D *onz_others, *offz_others;
-  TH1D *onz_DY, *offz_DY;
-
   //Fill in DY histos with just DY data
-  onz_DY->Add((TH1D*) ((TH1D*) on_files[0]->Get("type1MET")));
+  TH1D *onz_DY = (TH1D*) ((TH1D*) on_files[0]->Get("type1MET"))->Clone("onz_DY");
+  TH1D *offz_DY = (TH1D*) ((TH1D*) above_files[0]->Get("type1MET"))->Clone("offz_DY");
   offz_DY->Add((TH1D*) ((TH1D*) below_files[0]->Get("type1MET")));
-  offz_DY->Add((TH1D*) ((TH1D*) above_files[0]->Get("type1MET")));
+
+  TH1D *onz_others = (TH1D*) ((TH1D*) on_files[1]->Get("type1MET"))->Clone("onz_others");
+  TH1D *offz_others = (TH1D*) ((TH1D*) above_files[1]->Get("type1MET"))->Clone("offz_others");
+  offz_others->Add((TH1D*) ((TH1D*) below_files[1]->Get("type1MET")));
 
   //Fill in 'others' histos with all but DY
-  for (int i = 1; i < (int) on_files.size(); i++){
+  for (int i = 2; i < (int) on_files.size(); i++){
     onz_others->Add((TH1D*) ((TH1D*) on_files[i]->Get("type1MET")));
     offz_others->Add((TH1D*) ((TH1D*) below_files[i]->Get("type1MET")));
     offz_others->Add((TH1D*) ((TH1D*) above_files[i]->Get("type1MET")));
