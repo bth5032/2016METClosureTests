@@ -28,19 +28,28 @@ void printKappaDYTauTau(){
 
   cout<<"Num on Z DY 100-150: "<<onz_DY->Integral(101,150)<<endl;
   cout<<"Num off Z DY 100-150: "<<offz_DY->Integral(101,150)<<endl;
+  cout<<"Ratio on Z DY/others 100-150: "<<onz_DY->Integral(101,150)/onz_others->Integral(101,150)<<endl;
   cout<<"Num on Z others 100-150: "<<onz_others->Integral(101,150)<<endl;
   cout<<"Num off Z others 100-150: "<<offz_others->Integral(101,150)<<endl;
+  cout<<"Ratio off Z DY/others 100-150: "<<offz_DY->Integral(101,150)/offz_others->Integral(101,150)<<endl;
 
   cout<<"Num on Z DY 150-250: "<<onz_DY->Integral(151,250)<<endl;
   cout<<"Num off Z DY 150-250: "<<offz_DY->Integral(151,250)<<endl;
+  cout<<"Ratio on Z DY/others 150-250: "<<onz_DY->Integral(151,250)/onz_others->Integral(151,250)<<endl;
   cout<<"Num on Z others 150-250: "<<onz_others->Integral(151,250)<<endl;
   cout<<"Num off Z others 150-250: "<<offz_others->Integral(151,250)<<endl;
+  cout<<"Ratio off Z DY/others 150-250: "<<offz_DY->Integral(151,250)/offz_others->Integral(151,250)<<endl;
 
 
-  cout<<"Num on Z DY 250+: "<<onz_DY->Integral(250,6001)<<endl;
-  cout<<"Num off Z DY 250+: "<<offz_DY->Integral(250,6001)<<endl;
-  cout<<"Num on Z others 250+: "<<onz_others->Integral(250,6001)<<endl;
-  cout<<"Num off Z others 250+: "<<offz_others->Integral(250,6001)<<endl;
+  cout<<"Num on Z DY 250+: "<<onz_DY->Integral(251,6001)<<endl;
+  cout<<"Num off Z DY 250+: "<<offz_DY->Integral(251,6001)<<endl;
+  cout<<"Ratio on Z DY/others 250+: "<<onz_DY->Integral(251,6001)/onz_others->Integral(251,6001)<<endl;
+  cout<<"Num on Z others 250+: "<<onz_others->Integral(251,6001)<<endl;
+  cout<<"Num off Z others 250+: "<<offz_others->Integral(251,6001)<<endl;
+  cout<<"Ratio off Z DY/others 250+: "<<offz_DY->Integral(251,6001)/offz_others->Integral(251,6001)<<endl;
+
+  cout<<"MET Inclusive Ratio on Z DY/on Z others: "<<onz_DY->Integral(0,6001)/onz_others->Integral(0,6001)<<endl;
+  cout<<"MET Inclusive Ratio off Z DY/off Z others: "<<offz_DY->Integral(0,6001)/offz_others->Integral(0,6001)<<endl;
 
 }
 
